@@ -1,5 +1,6 @@
 #include "Log.h"
 
+
 namespace PE
 {
 	
@@ -8,12 +9,14 @@ namespace PE
 
 	void Log::Init()
 	{
+
 		spdlog::set_pattern("%^[%T] %n %v%$");
 		s_core_logger   = spdlog::stdout_color_mt("PE");
 		s_core_logger->set_level( spdlog::level::trace );
 
 		s_client_logger = spdlog::stdout_color_mt("APP");
 		s_client_logger->set_level( spdlog::level::trace );
+
 	}
 
 }

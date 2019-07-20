@@ -27,7 +27,6 @@ namespace PE
 #define PE_CORE_INFO(...)	::PE::Log::getCoreLogger()->info(__VA_ARGS__)
 #define PE_CORE_WARN(...)	::PE::Log::getCoreLogger()->warn(__VA_ARGS__)
 #define PE_CORE_ERROR(...)	::PE::Log::getCoreLogger()->error(__VA_ARGS__)
-//#define PE_CORE_FATAL(...)	::PE::Log::getCoreLogger()->fatal(__VA_ARGS__)
 
 
 // client log macros
@@ -35,4 +34,4 @@ namespace PE
 #define PE_INFO(...)	::PE::Log::getClientLogger()->info(__VA_ARGS__)
 #define PE_WARN(...)	::PE::Log::getClientLogger()->warn(__VA_ARGS__)
 #define PE_ERROR(...)	::PE::Log::getClientLogger()->error(__VA_ARGS__)
-//#define PE_FATAL(...)	::PE::Log::getClientLogger()->fatal(__VA_ARGS__)
+

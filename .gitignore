@@ -1,4 +1,9 @@
 #directories
 .vs/
-bin/
+bin/Debug-x64/
 bin-int/
+Pixel-Engine/vender/SFML-2.5.1/examples/
+Pixel-Engine/vender/SFML-2.5.1/doc/
+Pixel-Engine/vender/SFML-2.5.1/lib/cmake/
+
+#files

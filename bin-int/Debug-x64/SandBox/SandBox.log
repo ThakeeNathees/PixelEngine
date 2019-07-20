@@ -1,3 +1,2 @@
-﻿  Application.cpp
-C:\dev\Pixel-Engine\SandBox\src\Application.cpp(8,1): warning C4326:  return type of 'main' should be 'int' instead of 'void'
+﻿  SandBoxApp.cpp
   SandBox.vcxproj -> C:\dev\Pixel-Engine\bin\Debug-x64\SandBox\SandBox.exe

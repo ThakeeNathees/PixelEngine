@@ -1,6 +1,7 @@
 #pragma once
-#include "Core.h"
 
+#include "Core.h"
+#include "Pixel-Engine/Window.h"
 
 namespace PE
 {
@@ -8,8 +9,7 @@ namespace PE
 	{
 	public:
 		Application();
-		virtual ~Application();
-		
+		virtual ~Application();	
 		void run();
 	};
 

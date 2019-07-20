@@ -1,17 +1,24 @@
 #include <pepch.h>
 
 #include "Application.h"
-#include "Pixel-Engine/Events/KeyEvent.h"
 
+// test
+#include "SFML/Window.hpp"
+#include "SFML/Graphics.hpp"
 
 namespace PE
 {
-	Application::Application() {}
+	Application::Application()
+	{
+		// initialize window
+	}
 	Application::~Application() {}
 
 	void Application::run()
 	{
-
-		while (true);
+		sf::RenderWindow renderWindow(sf::VideoMode(640, 480), "Hello Cruel World");
+		while (true) {
+			//window.update()
+		}
 	}
 }

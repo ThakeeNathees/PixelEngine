@@ -12,15 +12,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pepch.h" />
-    <ClInclude Include="src\Pixel-Engine\Events\Event.h" />
-    <ClInclude Include="src\Pixel-Engine\Events\KeyEvent.h" />
     <ClInclude Include="src\Pixel-Engine\Log.h" />
     <ClInclude Include="src\Pixel-Engine.h" />
     <ClInclude Include="src\Pixel-Engine\Application.h" />
     <ClInclude Include="src\Pixel-Engine\Core.h" />
     <ClInclude Include="src\Pixel-Engine\EntryPoint.h" />
     <ClInclude Include="src\Pixel-Engine\Window.h" />
-    <ClInclude Include="src\Pixel-Engine\platform\windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\pepch.cpp">
@@ -30,7 +27,6 @@
     </ClCompile>
     <ClCompile Include="src\Pixel-Engine\Log.cpp" />
     <ClCompile Include="src\Pixel-Engine\Application.cpp" />
-    <ClCompile Include="src\Pixel-Engine\platform\windows\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DevLog" />

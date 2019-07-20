@@ -1,7 +1,8 @@
-#include "Application.h"
+#include <pepch.h>
 
-#include <stdio.h>
-#include <SFML/Window.hpp>
+#include "Application.h"
+#include "Pixel-Engine/Events/KeyEvent.h"
+
 
 namespace PE
 {
@@ -10,9 +11,7 @@ namespace PE
 
 	void Application::run()
 	{
-		sf::Window win(sf::VideoMode(640, 480), "Hello Cruel World");
 
-		printf("teasdfadfrert        stf");
 		while (true);
 	}
 }

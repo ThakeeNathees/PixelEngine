@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-#include <functional>
 #include "Pixel-Engine/Core.h"
 
 namespace PE
@@ -43,5 +41,5 @@ namespace PE
 		bool m_handled = false;
 	};
 
-
+	
 }

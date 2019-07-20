@@ -6,9 +6,18 @@
 	#else
 		#define PIXEL_ENGINE_API __declspec(dllimport)
 	#endif
-
 #else
 	#error Pixel-Engine only supports Windows!
 #endif 
 
-#define BIT(X)  (1 << x)
+#ifdef PE_ENABLE_ASSERTS
+	#define PE_ASSERT(x, ...) { if(!x){ PE_ERROR("Assertion Failed: {0}", __VA_ARGS__);  __debugbread(); } }
+	#define PE_CORE_ASSERT(x, ...) { if(!x){ PE_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__);  __debugbread(); } }
+
+#else
+	#define PE_ASSERT(x, ...)
+	#define PE_CORE_ASSERT(x, ...)
+#endif
+
+
+#define BIT(x)  (1 << x)

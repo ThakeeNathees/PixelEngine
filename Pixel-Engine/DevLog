@@ -1,0 +1,13 @@
+
+# LOG 1 ########################################################################
+including <windows.h>  redefine min max macro -> which interfear in sfml and cause the below error!
+
+error C2589: '(' : illegal token on right side of '::'
+error C2059: syntax error : '::'
+
+to resolve this (in the pre compile header file):
+#ifdef PE_PLATFORM_WINDOWS
+	#define NOMINMAX  // this will solve the error
+	#include <Windows.h>
+#endif
+###############################################################################

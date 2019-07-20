@@ -11,12 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Pixel-Engine\Log.h" />
     <ClInclude Include="src\Pixel-Engine.h" />
     <ClInclude Include="src\Pixel-Engine\Application.h" />
     <ClInclude Include="src\Pixel-Engine\Core.h" />
     <ClInclude Include="src\Pixel-Engine\EntryPoint.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Pixel-Engine\Log.cpp" />
     <ClCompile Include="src\Pixel-Engine\Application.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -62,6 +64,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>PE_BUILD_DLL;PE_PLATFORM_WINDOWS;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Pixel-Engine\vender\spdlog\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -75,6 +78,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Pixel-Engine\vender\spdlog\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

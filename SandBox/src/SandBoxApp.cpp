@@ -14,7 +14,7 @@ public:
 	}
 };
 
-PE::Application* PE::CreateApplication()
+PE::Application* PE::createApplication()
 {
 	return new SandBox();
 }

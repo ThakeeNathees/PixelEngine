@@ -5,7 +5,7 @@ namespace PE
 	Application::Application() {}
 	Application::~Application() {}
 
-	void Application::Run()
+	void Application::run()
 	{
 		while (true);
 	}

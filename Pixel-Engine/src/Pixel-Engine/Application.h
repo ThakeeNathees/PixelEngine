@@ -9,11 +9,11 @@ namespace PE
 		Application();
 		virtual ~Application();
 		
-		void Run();
+		void run();
 	};
 
 	// To be defined in CLIENT
-	Application* CreateApplication();
+	Application* createApplication();
 }
 
 

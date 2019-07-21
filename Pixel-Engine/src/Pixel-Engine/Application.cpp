@@ -2,17 +2,17 @@
 
 #include "Application.h"
 
-
 namespace PE
 {
-	Application::Application()
-	{
-	}
+	Application::Application() {}
 	Application::~Application() {}
 
 	void Application::run()
 	{
-		while (true) {
-		}
+		// temp code
+		m_window = Window::create();
+		m_window->Init();
+		while (m_window->isOpen()) {
+		}	
 	}
 }

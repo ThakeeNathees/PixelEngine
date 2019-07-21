@@ -13,7 +13,7 @@ namespace PE
 		void run();
 
 	private:
-		std::unique_ptr<Window> m_window;
+		std::shared_ptr<Window> m_window;
 	};
 
 	// To be defined in CLIENT

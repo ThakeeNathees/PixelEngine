@@ -1,7 +1,7 @@
 #pragma once
 
+#include "Window.h"
 #include "Core.h"
-#include "Pixel-Engine/Window.h"
 
 namespace PE
 {
@@ -11,6 +11,9 @@ namespace PE
 		Application();
 		virtual ~Application();	
 		void run();
+
+	private:
+		std::unique_ptr<Window> m_window;
 	};
 
 	// To be defined in CLIENT

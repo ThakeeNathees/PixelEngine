@@ -1,3 +1,0 @@
-[submodule "Pixel-Engine/vender/spdlog"]
-	path = Pixel-Engine/vender/spdlog
-	url = https://github.com/gabime/spdlog

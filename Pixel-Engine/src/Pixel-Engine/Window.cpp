@@ -1,9 +1,7 @@
 #include "pepch.h"
 
-#include "Log.h"
+#include "Window.h"
 
 namespace PE
 {
-	
-
 }

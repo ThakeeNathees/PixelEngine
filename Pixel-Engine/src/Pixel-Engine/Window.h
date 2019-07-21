@@ -1,36 +1,34 @@
 #pragma once
-
-#include "Pixel-Engine/Core.h"
+#include "Core.h"
+#include "Math/math.h"
 
 namespace PE
 {
-	struct WindowProps
-	{
-		//std::string title;
-		unsigned int width, height;
-
-	};
-
-	class PIXEL_ENGINE_API Window
+	class Window
 	{
 	public:
-		//using EventCallbackFunc = std::function<void(Event&)>;
-		
-		virtual ~Window() {}
+		Window();
+		virtual ~Window() = 0;
 
-		virtual void onUpdate() = 0;
+		struct Prop
+		{
+			std::string title;
+			vect2 size;
+			vect2 position;
+		};
 
-		virtual unsigned int getWidth()  const = 0;
-		virtual unsigned int getHeight() const = 0;
+		inline void Init(const Window::Prop& prop = { "Pixel-Engine", vect2(640, 480), vect2(200,200) })
+		{
+			m_prop = prop;
+		}
 
-		// window attributes
-		//virtual void setEventCallback( const EventCallbackFunc& callback ) = 0;
-		virtual void setVSync(bool enable) = 0;
-		virtual bool isVSync() const = 0;
+		virtual vect2 getSize() = 0;
+		virtual vect2 getPosition() = 0;
+		virtual std::string getTitle() = 0;
 
-		//static Window* create(const WindowProps& window_props = WindowProps()); // implement in a platform specific file
+	private:
+		Prop m_prop;
+
+
 	};
-
-
-
 }

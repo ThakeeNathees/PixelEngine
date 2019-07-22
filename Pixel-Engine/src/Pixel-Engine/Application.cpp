@@ -1,8 +1,5 @@
 #include "pepch.h"
-
 #include "Application.h"
-
-#include "Logger.h"
 
 namespace PE
 {
@@ -19,10 +16,12 @@ namespace PE
 		sp->warn("warning you shouldnt be doing that !!!");
 		sp->error("something went wrong");
 		sp->fatal("fatal error");
+		// PE_ASSERT(false, __CLASS__)
 
 		m_window = Window::create();
-		//m_window->Init();
-		while (true) {
+		m_window->Init();
+
+		while (m_window->isOpen()) {
 			
 		}	
 	}

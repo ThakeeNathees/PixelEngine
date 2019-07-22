@@ -4,6 +4,7 @@
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
+
 namespace PE
 {
 	class PELogger : public Logger
@@ -40,5 +41,14 @@ namespace PE
 		return std::make_shared<PELogger>(prop);
 	}
 
+	std::shared_ptr<Logger> Logger::m_assert_logger = Logger::create( { "AssertionError", Level::L_ERROR, true } );
+
+	void Logger::logAssert(const std::string& assert_msg)
+	{
+		m_assert_logger->error(assert_msg);
+	}
+	
+
 
 }
+

@@ -1,5 +1,6 @@
 #pragma once
 #include "Core.h"
+
 #include "Math/math.h"
 
 namespace PE

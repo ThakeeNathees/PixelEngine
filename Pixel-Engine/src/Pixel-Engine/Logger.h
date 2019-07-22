@@ -1,7 +1,5 @@
 #pragma once
-
 #include "Core.h"
-
 
 namespace PE
 {
@@ -28,6 +26,7 @@ namespace PE
 
 		// static field constructor init and distructor
 		static std::shared_ptr<Logger> create(const Prop& prop = {"Pixel-Engine", Level::L_SUCCESS, true});
+		static void logAssert(const std::string& assert_msg);
 		Logger(const Prop& prop);
 		~Logger();
 
@@ -48,6 +47,7 @@ namespace PE
 	protected:
 		Prop m_prop;
 		std::stringstream m_string_stream;
+		static std::shared_ptr<Logger> m_assert_logger;
 	};
 
 	

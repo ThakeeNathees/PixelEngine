@@ -15,6 +15,9 @@
 #include <unordered_map>
 #include <unordered_set>
 
+// other
+#include "Pixel-Engine/Logger.h"
+
 
 
 #ifdef PE_PLATFORM_WINDOWS

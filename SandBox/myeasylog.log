@@ -1,0 +1,4 @@
+2019-07-22 15:01:05,770 INFO [default] My first info log using default logger
+2019-07-22 15:02:23,952 WARNING [default] My first info log using default logger
+2019-07-22 15:04:20,491 WARNING [default] My first info log using default logger
+2019-07-22 15:04:27,972 WARNING [default] My first info log using default logger

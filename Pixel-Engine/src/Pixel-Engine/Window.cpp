@@ -15,10 +15,6 @@ namespace PE
 			:m_prop(prop){}
 		
 
-		/*virtual std::shared_ptr<Window> clone() const override {
-			return std::make_shared<Window>(*this);
-		}*/
-
 		void Init() override
 		{
 			m_window = new sf::RenderWindow(sf::VideoMode(m_prop.size.x, m_prop.size.y), m_prop.title);
@@ -49,9 +45,9 @@ namespace PE
 
 		/*  setters  */
 
-	private:
+	protected:
 		sf::RenderWindow* m_window;
-		Window::Prop m_prop;
+		Prop m_prop;
 
 	};
 	
@@ -59,7 +55,6 @@ namespace PE
 	std::shared_ptr<Window> Window::create(const Window::Prop& prop)
 	{
 		return  std::make_shared<RenderWindow>(prop);
-		
 	}
 
 }

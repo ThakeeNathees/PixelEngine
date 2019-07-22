@@ -51,6 +51,9 @@
     <ClInclude Include="src\Pixel-Engine\Window.h">
       <Filter>Header Files\api</Filter>
     </ClInclude>
+    <ClInclude Include="src\Pixel-Engine\Logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\pepch.cpp">
@@ -70,6 +73,12 @@
     </ClCompile>
     <ClCompile Include="src\Pixel-Engine\Window.cpp">
       <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pixel-Engine\Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vender\easylogging++\easylogging++.cc">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

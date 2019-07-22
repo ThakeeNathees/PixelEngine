@@ -23,7 +23,7 @@ namespace PE
 		virtual std::string getTitle() const = 0;
 		virtual bool isOpen() const = 0;
 
-	private:
+	protected:
 		Prop m_prop;
 	};
 }

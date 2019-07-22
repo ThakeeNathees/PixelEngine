@@ -8,7 +8,6 @@ namespace PE
 	class Window
 	{
 	public:
-		
 		struct Prop
 		{
 			std::string title;
@@ -23,6 +22,9 @@ namespace PE
 		virtual vect2 getPosition() const = 0;
 		virtual std::string getTitle() const = 0;
 		virtual bool isOpen() const = 0;
+
+		// setters
+		virtual void setPosition(const vect2& pos) = 0;
 
 	protected:
 		Prop m_prop;

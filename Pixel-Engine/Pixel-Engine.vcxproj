@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Pixel-Engine\Events\Event.h" />
     <ClInclude Include="src\Pixel-Engine\Logger.h" />
     <ClInclude Include="src\Pixel-Engine\Math\math.h" />
     <ClInclude Include="src\Pixel-Engine\Math\vect2.h" />

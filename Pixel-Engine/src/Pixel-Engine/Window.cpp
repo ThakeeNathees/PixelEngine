@@ -11,6 +11,7 @@ namespace PE
 	class RenderWindow : public Window
 	{
 	public:
+		// constructor init distructor ...
 		RenderWindow() {}
 		RenderWindow(const Window::Prop& prop)
 			:m_prop(prop){}
@@ -28,7 +29,7 @@ namespace PE
 			delete m_window;
 		}
 		
-		/* getters  */
+		// getters 
 		vect2 getSize() const override {
 			PE_ASSERT(m_window != NULL, "initialize window before using it");
 			if (m_window) return vect2( m_window->getSize().x, m_window->getSize().x );
@@ -47,7 +48,11 @@ namespace PE
 			return m_window->isOpen();
 		}
 
-		/*  setters  */
+		// setters 
+		virtual void setPosition(const vect2& pos) override {
+			PE_ASSERT(m_window != NULL, "initialize window before using it");
+			m_window->setPosition(  sf::Vector2i(pos.x, pos.y) );
+		}
 
 	protected:
 		sf::RenderWindow* m_window = nullptr;

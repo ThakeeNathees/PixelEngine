@@ -7,6 +7,6 @@
 namespace PE
 {
 #define PI 3.14159265358979323846
-	inline float to_radians(float degrees) { return (float) degrees * (PI / 180.f); }
-	inline float to_degrees(float raidans) { return (float) raidans * (180.f / PI); }
+	inline double to_radians(float degrees) { return degrees * (PI / 180.0); }
+	inline double to_degrees(float raidans) { return raidans * (180.0 / PI); }
 }

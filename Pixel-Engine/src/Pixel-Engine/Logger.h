@@ -27,7 +27,6 @@ namespace PE
 
 		Logger(const Prop& prop);
 		~Logger();
-		virtual void Init() = 0;
 
 		virtual void log(std::string msg) const =0;
 		virtual void log(Level level, std::string msg) const = 0;

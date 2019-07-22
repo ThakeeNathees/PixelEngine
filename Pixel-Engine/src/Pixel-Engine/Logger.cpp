@@ -9,11 +9,8 @@ namespace PE
 	class PELogger : public Logger
 	{
 	public:
-		PELogger(const Prop& prop):Logger(prop){}
-
-		virtual void Init() override
-		{
-			spdlog::set_pattern("%^[%T] %n:	%v%$");
+		PELogger(const Prop& prop):Logger(prop){
+			spdlog::set_pattern("%^[%T] %n: %v%$");
 			m_logger = spdlog::stdout_color_mt(m_prop.name);
 		}
 
@@ -21,6 +18,7 @@ namespace PE
 
 		}
 		virtual void log(std::string msg) const override {
+			m_logger->warn(msg);
 		}
 
 	protected:

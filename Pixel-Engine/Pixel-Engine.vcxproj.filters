@@ -52,7 +52,7 @@
       <Filter>Header Files\api</Filter>
     </ClInclude>
     <ClInclude Include="src\Pixel-Engine\Logger.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\api</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -75,9 +75,6 @@
       <Filter>Source Files\api</Filter>
     </ClCompile>
     <ClCompile Include="src\Pixel-Engine\Logger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="vender\easylogging++\easylogging++.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

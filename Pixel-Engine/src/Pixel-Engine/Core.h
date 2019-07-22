@@ -19,5 +19,6 @@
 	#define PE_CORE_ASSERT(x, ...)
 #endif
 
+#define __CLASS__ (typeid(*this).name()+6)
 
 #define BIT(x)  (1 << x)

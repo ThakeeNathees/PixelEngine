@@ -1,11 +1,22 @@
 #pragma once
-#include "Core.h"
+
+#include "spdlog/spdlog.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
+
+
+#ifdef PE_ENABLE_ASSERTS
+	#define PE_ASSERT(x, PE_ASSERT_MSG) { if(!x){ ::PE::Logger::logAssert(PE_ASSERT_MSG); __debugbreak(); } }
+#else
+	#define PE_ASSERT(x, ...)
+#endif
+
 
 namespace PE
 {
 
-	class PIXEL_ENGINE_API Logger
+	class Logger
 	{
+
 	public:
 		// enums and structs
 		enum Level

@@ -1,12 +1,11 @@
 #include "pepch.h"
 #include "Logger.h"
 
-#include "spdlog/spdlog.h"
-#include "spdlog/sinks/stdout_color_sinks.h"
-
 
 namespace PE
 {
+
+
 	class PELogger : public Logger
 	{
 	public:

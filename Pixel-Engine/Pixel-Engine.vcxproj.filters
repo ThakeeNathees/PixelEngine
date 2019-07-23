@@ -51,9 +51,6 @@
     <ClInclude Include="src\Pixel-Engine\Window.h">
       <Filter>Header Files\api</Filter>
     </ClInclude>
-    <ClInclude Include="src\Pixel-Engine\Logger.h">
-      <Filter>Header Files\api</Filter>
-    </ClInclude>
     <ClInclude Include="src\Pixel-Engine\Math\vect4.h">
       <Filter>Header Files\api\math</Filter>
     </ClInclude>
@@ -69,6 +66,9 @@
     <ClInclude Include="src\Pixel-Engine\Events\Event.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Logger.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\pepch.cpp">
@@ -80,9 +80,6 @@
     <ClCompile Include="src\Pixel-Engine\Window.cpp">
       <Filter>Source Files\api</Filter>
     </ClCompile>
-    <ClCompile Include="src\Pixel-Engine\Logger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Pixel-Engine\Math\vect4.cpp">
       <Filter>Source Files\api\math</Filter>
     </ClCompile>
@@ -91,6 +88,9 @@
     </ClCompile>
     <ClCompile Include="src\Pixel-Engine\Math\vect3.cpp">
       <Filter>Source Files\api\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Logger.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

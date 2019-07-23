@@ -12,7 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pixel-Engine\Events\Event.h" />
-    <ClInclude Include="src\Pixel-Engine\Logger.h" />
+    <ClInclude Include="src\Logger.h" />
     <ClInclude Include="src\Pixel-Engine\Math\math.h" />
     <ClInclude Include="src\Pixel-Engine\Math\vect2.h" />
     <ClInclude Include="src\Pixel-Engine\Math\vect3.h" />
@@ -25,7 +25,7 @@
     <ClInclude Include="src\Pixel-Engine\Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Pixel-Engine\Logger.cpp">
+    <ClCompile Include="src\Logger.cpp">
     </ClCompile>
     <ClCompile Include="src\Pixel-Engine\Math\vect2.cpp" />
     <ClCompile Include="src\Pixel-Engine\Math\vect3.cpp" />

@@ -16,8 +16,14 @@ namespace PE
 
 	class Logger
 	{
-
 	public:
+		static void Init();
+
+	private:
+		static std::shared_ptr < spdlog::logger > s_logger;
+
+		//old
+	public
 		// enums and structs
 		enum Level
 		{

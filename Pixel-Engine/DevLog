@@ -11,3 +11,10 @@ to resolve this (in the pre compile header file):
 	#include <Windows.h>
 #endif
 ###############################################################################
+
+
+# TODO: ###################
+
+implement math library with different type support
+
+###########################

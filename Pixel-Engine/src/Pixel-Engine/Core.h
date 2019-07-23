@@ -13,3 +13,4 @@
 
 
 #define __CLASS__ (typeid(*this).name()+6)
+#define BIT(X) 1 << X

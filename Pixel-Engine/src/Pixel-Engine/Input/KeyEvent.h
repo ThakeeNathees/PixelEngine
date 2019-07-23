@@ -1,17 +1,17 @@
 #pragma once
 
-#include "Pixel-Engine/Core.h"
+#include "../Core.h"
 #include "Event.h"
-#include "Input.h"
 
 namespace PE
 {
 	class KeyEvent : public Event
 	{
-		inline KeyEvent(EventType type, Input key = KEY_NONE) : Event(type), m_key(key) {}
+	public:
+		inline KeyEvent(EventType type, bool is_pressed, Input key = KEY_UNKNOWN) : Event(type, is_pressed), m_key(key) {}
 
 		// getters
-		inline Input getKey() const { return m_key; }
+		inline Input getKey() const override { return m_key; }
 		
 	private:
 		Input m_key;

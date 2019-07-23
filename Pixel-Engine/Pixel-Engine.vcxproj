@@ -11,11 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Pixel-Engine\Input\Input.h" />
     <ClInclude Include="src\Pixel-Engine\Input\KeyEvent.h" />
     <ClInclude Include="src\Pixel-Engine\Input.h" />
     <ClInclude Include="src\PE-SFML.h" />
     <ClInclude Include="src\Pixel-Engine\Input\Event.h" />
     <ClInclude Include="src\Logger.h" />
+    <ClInclude Include="src\Pixel-Engine\Input\MouseEvent.h" />
+    <ClInclude Include="src\Pixel-Engine\Input\WindowEvent.h" />
     <ClInclude Include="src\Pixel-Engine\Math\math.h" />
     <ClInclude Include="src\Pixel-Engine\Math\vect2.h" />
     <ClInclude Include="src\Pixel-Engine\Math\vect3.h" />
@@ -31,6 +34,7 @@
     <ClCompile Include="src\Pixel-Engine\Input.cpp" />
     <ClCompile Include="src\Logger.cpp">
     </ClCompile>
+    <ClCompile Include="src\Pixel-Engine\Input\Event.cpp" />
     <ClCompile Include="src\Pixel-Engine\Math\vect2.cpp" />
     <ClCompile Include="src\Pixel-Engine\Math\vect3.cpp" />
     <ClCompile Include="src\Pixel-Engine\Math\vect4.cpp" />

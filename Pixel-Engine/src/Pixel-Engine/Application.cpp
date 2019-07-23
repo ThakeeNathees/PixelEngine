@@ -1,6 +1,9 @@
 #include "pepch.h"
 #include "Application.h"
 
+//testing include
+#include "Input/Event.h"
+
 namespace PE
 {
 	Application::Application() {
@@ -12,6 +15,9 @@ namespace PE
 	{
 		m_window = Window::create();
 		m_window->Init();
+
+		Event e(Event::CLOSED, false);
+		e.getKey();
 
 		sf::Clock clock;
 		long last_time = clock.getElapsedTime().asMicroseconds();

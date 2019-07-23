@@ -4,7 +4,7 @@
 #include <iostream> 
 #endif
 
-#include "Pixel-Engine/Core.h"
+#include "../Core.h"
 
 namespace PE
 {

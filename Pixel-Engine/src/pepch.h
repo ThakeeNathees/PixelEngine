@@ -16,6 +16,8 @@
 #include <unordered_set>
 
 // other
+#include <SFML/Window.hpp>
+#include "PE-SFML.h"
 #include "Logger.h"
 
 

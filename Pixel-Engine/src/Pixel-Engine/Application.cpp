@@ -1,7 +1,6 @@
 #include "pepch.h"
 #include "Application.h"
 
-#include <SFML/Window.hpp>
 namespace PE
 {
 	Application::Application() {
@@ -11,9 +10,8 @@ namespace PE
 
 	void Application::run()
 	{
-		PE_FATAL("testing");
 		m_window = Window::create();
-		//m_window->Init();
+		m_window->Init();
 
 		sf::Clock clock;
 		long last_time = clock.getElapsedTime().asMicroseconds();

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Window.h"
 #include "Core.h"
+#include "Window.h"
 
 namespace PE
 {

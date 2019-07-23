@@ -63,11 +63,20 @@
     <ClInclude Include="src\Pixel-Engine\Math\math.h">
       <Filter>Header Files\api\math</Filter>
     </ClInclude>
-    <ClInclude Include="src\Pixel-Engine\Events\Event.h">
+    <ClInclude Include="src\PE-SFML.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Logger.h">
-      <Filter>Header Files\api</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pixel-Engine\Input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pixel-Engine\Input\Event.h">
+      <Filter>Header Files\api\events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pixel-Engine\Input\KeyEvent.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +99,9 @@
       <Filter>Source Files\api\math</Filter>
     </ClCompile>
     <ClCompile Include="src\Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pixel-Engine\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

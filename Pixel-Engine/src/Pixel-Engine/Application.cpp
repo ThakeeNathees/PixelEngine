@@ -11,18 +11,9 @@ namespace PE
 
 	void Application::run()
 	{
-		// temp code
-		//std::shared_ptr<Logger> sp = Logger::create();
-		//sp->setLevel( Logger::Level::L_ERROR );
-		/*sp->success("success");
-		sp->info("an information is here and it this function will change");
-		sp->warn("warning you shouldnt be doing that !!!");
-		sp->error("something went wrong");
-		sp->fatal("fatal error");*/
-		// PE_ASSERT(false, __CLASS__)
-
+		PE_FATAL("testing");
 		m_window = Window::create();
-		m_window->Init();
+		//m_window->Init();
 
 		sf::Clock clock;
 		long last_time = clock.getElapsedTime().asMicroseconds();

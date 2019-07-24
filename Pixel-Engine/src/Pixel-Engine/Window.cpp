@@ -51,6 +51,14 @@ namespace PE
 			return s_window->isOpen();
 		}
 
+		// pollEvent
+		virtual bool pollEvent(Event& event) {
+			static sf::Event sfml_event;
+			bool ret = s_window->pollEvent(sfml_event);
+
+
+		}
+
 		// setters 
 		virtual void setPosition(const vect2& pos) override {
 			PE_ASSERT(s_window != NULL, "initialize window before using it");
@@ -62,7 +70,8 @@ namespace PE
 		friend Input;
 		Prop m_prop;
 
-	}; // RenderWindow
+
+	}; // RenderWindow /////////////////////////////////////////////////////
 	
 
 

@@ -10,7 +10,7 @@ namespace PE
 	public:
 
 		inline WindowEvent(EventType type, vect2 size = vect2(-1.f,-1.f))
-			: Event(type, false)
+			: Event(type), m_size(size)
 		{}
 
 		inline virtual vect2 getSize() const override {
@@ -20,10 +20,8 @@ namespace PE
 		}
 
 	private:
-		vect2 getSizeError() const;
-
-	protected:
 		vect2 m_size;
+		vect2 getSizeError() const;
 
 	};
 

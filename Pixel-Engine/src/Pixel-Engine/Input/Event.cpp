@@ -7,6 +7,19 @@
 
 namespace PE
 {
+
+	bool Event::isPressed() const {
+		PE_ERROR("isPressed() method only be called from KeyEvent and MouseEvents events!");
+		PE_INFO("check the event before calling isPressed()\n"
+			"if ( (event.getType() & PE::Event::KeyEvent) || (event.getType() & PE::Event::MouseEvent) ){ event.isPressed(); }\n"
+			"		--OR--\n"
+			"if (event.getType() == PE::Event::MOUSE_RIGHT ) { event.isPressed(); }"
+			"if (event.getType() == PE::Event::MOUSE_LEFT  ) { event.isPressed(); }"
+		);
+		PE_ERROR_PAUSE();
+		return Input::KEY_UNKNOWN;
+	}
+
 	Input::Key Event::getKey() const {
 		PE_ERROR("getKey() method only be called from KeyEvent events!");
 		PE_INFO("check if event is KeyEvent before calling getKey()\n"
@@ -62,6 +75,5 @@ namespace PE
 		PE_ERROR_PAUSE();
 		return vect2(-1.f, -1.f);
 	}
-
 
 }

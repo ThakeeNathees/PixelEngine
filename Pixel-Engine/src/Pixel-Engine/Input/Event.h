@@ -6,6 +6,11 @@
 
 namespace PE
 {
+	class RenderWindow;
+}
+
+namespace PE
+{
 	class PIXEL_ENGINE_API Event
 	{
 	public:
@@ -21,28 +26,32 @@ namespace PE
 			KeyEvent	= KEY_PRESSED | KEY_RELEASED,
 			MouseEvent	= MOUSE_PRESSED | MOUSE_RELEASED | MOUSE_MOTION,
 		};
-		inline Event(EventType type, bool is_pressed) : m_type(type), m_is_pressed(is_pressed), m_is_handled(false) {}
+
+		inline Event(EventType type) : m_type(type) {}
 
 		// getters
 		inline virtual EventType getType() const { return m_type; }
-		inline virtual bool getHandled() const { return m_is_handled; }
-		inline virtual bool isPressed() const { return m_is_pressed; }
+		inline virtual bool istHandled() const { return m_is_handled; }
 
 		// setters
-		inline virtual void setHandled(bool is_handled) { m_is_handled = is_handled; }
+		inline virtual void setHandled() { m_is_handled = true; }
 
 		// overrides
+		virtual bool isPressed() const;
 		virtual Input::Key getKey() const;
 		virtual Input::Button getButton() const;
 		virtual vect2 getPosition() const;
 		virtual vect2 getSize() const;
 
+
+
+
 	protected:
+		friend RenderWindow;
 		EventType m_type = NONE ;
-		bool m_is_handled;
-		bool m_is_pressed;
+		bool m_is_handled = false;
 		
 
-
+		static void convertEvent(Event& event, void* sfml_event_ptr);
 	};
 }

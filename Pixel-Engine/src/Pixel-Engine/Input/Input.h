@@ -18,7 +18,7 @@ namespace PE
 			Backspace, Tab, PageUp, PageDown, End, Home, Insert, Delete, Add, Subtract, Multiply, Divide,
 			Left, Right, Up, Down,
 			Numpad0, Numpad1, Numpad2, Numpad3, Numpad4, Numpad5, Numpad6, Numpad7, Numpad8, Numpad9, F1, F2,
-			F3, F4, F5, F6, F7, F8, F9, F10, F11, F12, F13, F14, F15, Pause, KeyCount,
+			F3, F4, F5, F6, F7, F8, F9, F10, F11, F12,
 		};
 		enum Button {
 			BUTTON_UNKNOWN =-1, MOUSE_LEFT, MOUSE_RIGHT, MOUSE_MIDDLE,

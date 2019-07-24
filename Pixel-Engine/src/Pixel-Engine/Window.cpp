@@ -22,58 +22,79 @@ namespace PE
 				PE_ERROR_PAUSE();
 			}
 			s_is_window_created = true;
-			m_window = new sf::RenderWindow(sf::VideoMode(m_prop.size.x, m_prop.size.y), m_prop.title);
+			s_window = new sf::RenderWindow(sf::VideoMode(m_prop.size.x, m_prop.size.y), m_prop.title);
 			if ( m_prop.position.x > 0 && m_prop.position.y >0 )
-				m_window->setPosition({ static_cast<int>(m_prop.position.x), static_cast<int>(m_prop.position.y) });
+				s_window->setPosition({ static_cast<int>(m_prop.position.x), static_cast<int>(m_prop.position.y) });
 		}
 
 		~RenderWindow()
 		{
-			delete m_window;
+			delete s_window;
 		}
 		
 		// getters 
 		vect2 getSize() const override {
-			PE_ASSERT(m_window != NULL, "initialize window before using it");
-			if (m_window) return vect2( m_window->getSize().x, m_window->getSize().x );
+			PE_ASSERT(s_window != NULL, "initialize window before using it");
+			if (s_window) return vect2(s_window->getSize().x, s_window->getSize().x );
 		}
 		vect2 getPosition() const override {
-			PE_ASSERT(m_window != NULL, "initialize window before using it");
-			if (m_window) return vect2( m_window->getPosition().x, m_window->getPosition().y );
+			PE_ASSERT(s_window != NULL, "initialize window before using it");
+			if (s_window) return vect2(s_window->getPosition().x, s_window->getPosition().y );
 		}
 		std::string getTitle() const override {
-			PE_ASSERT(m_window != NULL, "initialize window before using it");
+			PE_ASSERT(s_window != NULL, "initialize window before using it");
 			return m_prop.title;
 		}
 
 		bool isOpen() const override {
-			PE_ASSERT( m_window != NULL , "initialize window before using it");
-			return m_window->isOpen();
+			PE_ASSERT(s_window != NULL , "initialize window before using it");
+			return s_window->isOpen();
 		}
 
 		// setters 
 		virtual void setPosition(const vect2& pos) override {
-			PE_ASSERT(m_window != NULL, "initialize window before using it");
-			m_window->setPosition(  sf::Vector2i(pos.x, pos.y) );
+			PE_ASSERT(s_window != NULL, "initialize window before using it");
+			s_window->setPosition(  sf::Vector2i(pos.x, pos.y) );
 		}
 
 	protected:
-		sf::RenderWindow* m_window = nullptr;
+		static sf::RenderWindow* s_window;
 		friend Input;
 		Prop m_prop;
 
 	}; // RenderWindow
 	
 
+
+	// RenderWindow implimentations
+	sf::RenderWindow* RenderWindow::s_window = nullptr;
 	bool Window::s_is_window_created = false;
 
 	std::shared_ptr<Window> Window::create(const Window::Prop& prop)
 	{
-		auto render_window =  std::make_shared<RenderWindow>(prop);
-		// TODO: set the window as Input's static winow.
-		return render_window;
+		return std::make_shared<RenderWindow>(prop);
 	}
 
+	// Input's implimentations
+	vect2 Input::getMousePosition(bool relative_to_window)
+	{
+		if (relative_to_window) {
+			auto position = sf::Mouse::getPosition(*(RenderWindow::s_window));
+			return vect2(position.x, position.y);
+		}
+		auto position = sf::Mouse::getPosition();
+		return vect2(position.x, position.y);	
+	}
+
+
+	void Input::setMousePosition(vect2 position, bool relative_to_window)
+	{
+		if (relative_to_window)
+			sf::Mouse::setPosition( sf::Vector2i(position.x, position.y), *(RenderWindow::s_window) );
+		sf::Mouse::setPosition( sf::Vector2i(position.x, position.y));
+		
+		
+	}
 }
 
 

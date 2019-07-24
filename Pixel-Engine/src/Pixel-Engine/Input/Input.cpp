@@ -18,6 +18,6 @@ namespace PE
 		
 	}
 
-	//vect2 Input::getMousePosition()
+	
 
 }

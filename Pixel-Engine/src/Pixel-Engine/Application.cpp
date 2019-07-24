@@ -16,9 +16,6 @@ namespace PE
 	{
 		m_window->Init();
 
-		Event e(Event::CLOSED, false);
-		e.getKey();
-
 		sf::Clock clock;
 		long last_time = clock.getElapsedTime().asMicroseconds();
 		double dt=0;

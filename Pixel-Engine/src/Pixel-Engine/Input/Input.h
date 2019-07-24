@@ -27,8 +27,10 @@ namespace PE
 
 		static bool isKeyPressed(Key key);
 		static bool isButtonPressed( Button button );
-		static vect2 getMousePosition(); // relative to window position
-		static vect2 setMousePosition(); // relative to window position
+		static vect2 getMousePosition(bool relative_to_window = true);					// defined in Window.cpp
+		static void setMousePosition(vect2 position, bool relative_to_window = true);	// defined in Window.cpp
+
+
 
 
 	};

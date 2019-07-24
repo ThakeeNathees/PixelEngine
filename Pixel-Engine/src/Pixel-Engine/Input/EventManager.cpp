@@ -35,6 +35,34 @@ namespace PE {
 			else key = Input::KEY_UNKNOWN;
 			event = ::PE::KeyEvent(Event::KEY_PRESSED, true, key);
 			break;
+		case sf::Event::KeyReleased:
+			Input::Key key;
+			if (sf_event.key.code <= sf::Keyboard::F12)
+				key = static_cast<Input::Key>(sf_event.key.code);
+			else key = Input::KEY_UNKNOWN;
+			event = ::PE::KeyEvent(Event::KEY_RELEASED, false, key);
+			break;
+
+		case sf::Event::MouseButtonPressed:
+			Input::Button button;
+			if (sf_event.mouseButton.button <= sf::Mouse::Middle)
+				button = static_cast<Input::Button>(sf_event.mouseButton.button);
+			else button = Input::BUTTON_UNKNOWN;
+			event = ::PE::MouseEvent(Event::MOUSE_PRESSED, true, button);
+			break;
+
+		case sf::Event::MouseButtonReleased:
+			Input::Button button;
+			if (sf_event.mouseButton.button <= sf::Mouse::Middle)
+				button = static_cast<Input::Button>(sf_event.mouseButton.button);
+			else button = Input::BUTTON_UNKNOWN;
+			event = ::PE::MouseEvent(Event::MOUSE_RELEASED, false, button);
+			break;
+		
+		case sf::Event::MouseWheelMoved:
+			event = ::PE::MouseEvent(Event::MOUSE_WHEEL, false);
+
+			// implement getDelta()
 
 			// TODO: implement reset of this
 

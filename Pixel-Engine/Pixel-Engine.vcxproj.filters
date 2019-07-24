@@ -69,9 +69,6 @@
     <ClInclude Include="src\Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Pixel-Engine\Input.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Pixel-Engine\Input\Event.h">
       <Filter>Header Files\api\input</Filter>
     </ClInclude>
@@ -86,6 +83,9 @@
     </ClInclude>
     <ClInclude Include="src\Pixel-Engine\Input\WindowEvent.h">
       <Filter>Header Files\api\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pixel-Engine\Input\EventManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="src\Pixel-Engine\Input\Event.cpp">
       <Filter>Source Files\api\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pixel-Engine\Input\EventManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 #include "Event.h"
 
 #include "WindowEvent.h"
-
+#include "MouseEvent.h"
 
 
 namespace PE
@@ -46,13 +46,12 @@ namespace PE
 	}
 	
 	vect2 Event::getPosition() const {
-		PE_ERROR("getPosition() method only be called from Mouse events!");
-		PE_INFO("check if event is MouseEvent before calling getButton()\n"
-			"if ( event.getType() & PE::Event::MouseEvent ){ event.getButton(); }\n"
+		PE_ERROR("getPosition() method only be called from MOUSE_MOTION events!");
+		PE_INFO("check if event is MOUSE_MOTION before calling getButton()\n"
+			"if ( event.getType() == PE::Event::MOUSE_MOTION ){ event.getButton(); }\n"
 			"		--OR--\n"
-			"if (event.getType() == PE::Event::MOUSE_PRESSED ) { event.getButton(); }\n"
-			"if (event.getType() == PE::Event::MOUSE_RELEASED ) { event.getButton(); }\n"
-			"if (event.getType() == PE::Event::MOUSE_MOTION ) { event.getButton(); }"
+			"use PE::Input::getMousePosition() method to get the mouse position\n"
+			
 		);
 		PE_ERROR_PAUSE();
 		return vect2(.0f,.0f);
@@ -76,4 +75,16 @@ namespace PE
 		return vect2(-1.f, -1.f);
 	}
 
+	vect2 MouseEvent::getPositionError() const
+	{
+		PE_ERROR("getPosition() method only be called from MOUSE_MOTION events!");
+		PE_INFO("check if event is MOUSE_MOTION before calling getButton()\n"
+			"if ( event.getType() == PE::Event::MOUSE_MOTION ){ event.getButton(); }\n"
+			"		--OR--\n"
+			"use PE::Input::getMousePosition() method to get the mouse position\n"
+
+		);
+		PE_ERROR_PAUSE();
+		return vect2(.0f, .0f);
+	}
 }

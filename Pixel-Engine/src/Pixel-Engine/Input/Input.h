@@ -31,7 +31,5 @@ namespace PE
 		static void setMousePosition(vect2 position, bool relative_to_window = true);	// defined in Window.cpp
 
 
-
-
 	};
 }

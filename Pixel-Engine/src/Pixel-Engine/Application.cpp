@@ -7,13 +7,13 @@
 namespace PE
 {
 	Application::Application() {
+		m_window = Window::create();
 		Logger::Init();
 	}
 	Application::~Application() {}
 
 	void Application::run()
 	{
-		m_window = Window::create();
 		m_window->Init();
 
 		Event e(Event::CLOSED, false);

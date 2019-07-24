@@ -8,13 +8,13 @@ namespace PE
 	class KeyEvent : public Event
 	{
 	public:
-		inline KeyEvent(EventType type, bool is_pressed, Input key = KEY_UNKNOWN) : Event(type, is_pressed), m_key(key) {}
+		inline KeyEvent(EventType type, bool is_pressed, Input::Key key = Input::KEY_UNKNOWN) : Event(type, is_pressed), m_key(key) {}
 
 		// getters
-		inline Input getKey() const override { return m_key; }
+		inline Input::Key getKey() const override { return m_key; }
 		
 	private:
-		Input m_key;
+		Input::Key m_key;
 	};
 
 }

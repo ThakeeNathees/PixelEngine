@@ -3,6 +3,7 @@
 #include "Core.h"
 #include "Window.h"
 
+
 namespace PE
 {
 	class PIXEL_ENGINE_API Application

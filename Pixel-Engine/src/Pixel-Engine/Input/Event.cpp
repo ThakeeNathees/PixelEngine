@@ -1,32 +1,67 @@
 #include "pepch.h"
 #include "Event.h"
 
+#include "WindowEvent.h"
+
 
 
 namespace PE
 {
-	Input Event::getKey() const {
+	Input::Key Event::getKey() const {
 		PE_ERROR("getKey() method only be called from KeyEvent events!");
 		PE_INFO("check if event is KeyEvent before calling getKey()\n"
-			"if ( event.getType() & PE::Event::KeyEvent ){ event.getKey(); }\n"
-			"		--OR--\n"
-			"if (event.getType() == PE::Event::KEY_PRESSED ) { event.getKey(); }\n"   
-			"if (event.getType() == PE::Event::KEY_RELEASED ) { event.getKey(); }"   
-			"" );
+				"if ( event.getType() & PE::Event::KeyEvent ){ event.getKey(); }\n"
+				"		--OR--\n"
+				"if (event.getType() == PE::Event::KEY_PRESSED ) { event.getKey(); }\n"   
+				"if (event.getType() == PE::Event::KEY_RELEASED ) { event.getKey(); }"   
+				);
 		PE_ERROR_PAUSE();
-		return KEY_UNKNOWN;
+		return Input::KEY_UNKNOWN;
 	}
 	
-	Input Event::getButton() const {
-		PE_ERROR("getButton() method only be called from Mouse events! ", "check event.getType() == PE::Event::MouseEvent");
-		return KEY_UNKNOWN;
+	Input::Button Event::getButton() const {
+		PE_ERROR("getButton() method only be called from Mouse events!");
+		PE_INFO("check if event is MouseEvent before calling getButton()\n"
+				"if ( event.getType() & PE::Event::MouseEvent ){ event.getButton(); }\n"
+				"		--OR--\n"
+				"if (event.getType() == PE::Event::MOUSE_PRESSED ) { event.getButton(); }\n"
+				"if (event.getType() == PE::Event::MOUSE_RELEASED ) { event.getButton(); }\n"
+				"if (event.getType() == PE::Event::MOUSE_MOTION ) { event.getButton(); }"
+				);
+		PE_ERROR_PAUSE();
+		return Input::BUTTON_UNKNOWN;
 	}
 	
 	vect2 Event::getPosition() const {
 		PE_ERROR("getPosition() method only be called from Mouse events!");
+		PE_INFO("check if event is MouseEvent before calling getButton()\n"
+			"if ( event.getType() & PE::Event::MouseEvent ){ event.getButton(); }\n"
+			"		--OR--\n"
+			"if (event.getType() == PE::Event::MOUSE_PRESSED ) { event.getButton(); }\n"
+			"if (event.getType() == PE::Event::MOUSE_RELEASED ) { event.getButton(); }\n"
+			"if (event.getType() == PE::Event::MOUSE_MOTION ) { event.getButton(); }"
+		);
+		PE_ERROR_PAUSE();
 		return vect2(.0f,.0f);
 	}
 
+	vect2 Event::getSize() const {
+		PE_ERROR("getSize() method only be called from RESIZED events!");
+		PE_INFO("check if event is RESIZED before calling getSize()\n"
+			"if ( event.getType() == PE::Event::RESIZED ){ event.getSize(); }\n"
+		);
+		PE_ERROR_PAUSE();
+		return vect2(-1.f,-1.f);
+	}
+
+	vect2 WindowEvent::getSizeError() const {
+		PE_ERROR("getSize() method only be called from RESIZED events!");
+		PE_INFO("check if event is RESIZED before calling getSize()\n"
+			"if ( event.getType() == PE::Event::RESIZED ){ event.getSize(); }\n"
+		);
+		PE_ERROR_PAUSE();
+		return vect2(-1.f, -1.f);
+	}
 
 
 }

@@ -116,6 +116,9 @@
     <ClCompile Include="src\Pixel-Engine\Input\Event.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Pixel-Engine\Input\Input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="DevLog" />

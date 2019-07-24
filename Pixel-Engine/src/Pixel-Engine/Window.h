@@ -1,11 +1,15 @@
 #pragma once
 #include "Core.h"
-
 #include "Math/math.h"
+
+namespace PE {
+	class Application;
+}
+
 
 namespace PE
 {
-	class Window
+	class PIXEL_ENGINE_API Window
 	{
 	public:
 		struct Prop
@@ -14,7 +18,6 @@ namespace PE
 			vect2 size;
 			vect2 position;
 		};
-		static std::shared_ptr<Window> create(const Window::Prop& prop = { "Pixel-Engine", vect2(640, 480), vect2(-1,-1) });
 		virtual void Init() = 0;
 		
 		// getters
@@ -28,5 +31,9 @@ namespace PE
 
 	protected:
 		Prop m_prop;
+
+	private:
+		friend Application;
+		static std::shared_ptr<Window> create(const Window::Prop& prop = { "Pixel-Engine", vect2(640, 480), vect2(-1,-1) });
 	};
 }

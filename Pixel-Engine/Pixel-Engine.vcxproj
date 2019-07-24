@@ -35,6 +35,7 @@
     <ClCompile Include="src\Logger.cpp">
     </ClCompile>
     <ClCompile Include="src\Pixel-Engine\Input\Event.cpp" />
+    <ClCompile Include="src\Pixel-Engine\Input\Input.cpp" />
     <ClCompile Include="src\Pixel-Engine\Math\vect2.cpp" />
     <ClCompile Include="src\Pixel-Engine\Math\vect3.cpp" />
     <ClCompile Include="src\Pixel-Engine\Math\vect4.cpp" />

@@ -31,7 +31,6 @@
     <ClInclude Include="src\Pixel-Engine\Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Pixel-Engine\Input.cpp" />
     <ClCompile Include="src\Logger.cpp">
     </ClCompile>
     <ClCompile Include="src\Pixel-Engine\Input\Event.cpp" />

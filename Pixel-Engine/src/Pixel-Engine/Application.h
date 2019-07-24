@@ -13,6 +13,8 @@ namespace PE
 		virtual ~Application();	
 		void run();
 
+		inline std::shared_ptr<Window> getWindow() const { return m_window; }
+
 	private:
 		std::shared_ptr<Window> m_window;
 		double m_frame_rate = 30.0;

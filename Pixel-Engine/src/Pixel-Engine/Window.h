@@ -1,9 +1,13 @@
 #pragma once
+
 #include "Core.h"
 #include "Math/math.h"
+#include "Input/Event.h"
+
 
 namespace PE {
 	class Application;
+	class Input;
 }
 
 
@@ -31,6 +35,7 @@ namespace PE
 
 	protected:
 		Prop m_prop;
+		static bool s_is_window_created;
 
 	private:
 		friend Application;

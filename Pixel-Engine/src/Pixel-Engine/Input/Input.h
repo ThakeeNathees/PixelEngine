@@ -1,7 +1,8 @@
 #pragma once
 
-#include "./Pixel-Engine/Core.h"
-#include "./Pixel-Engine/Math/math.h"
+#include "..//Core.h"
+#include "../Math/math.h"
+
 
 namespace PE
 {
@@ -22,6 +23,7 @@ namespace PE
 		enum Button {
 			BUTTON_UNKNOWN =-1, MOUSE_LEFT, MOUSE_RIGHT, MOUSE_MIDDLE,
 		};
+
 
 		static bool isKeyPressed(Key key);
 		static bool isButtonPressed( Button button );

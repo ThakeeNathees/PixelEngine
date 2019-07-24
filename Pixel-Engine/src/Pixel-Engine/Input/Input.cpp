@@ -3,9 +3,6 @@
 
 
 
-
-
-
 namespace PE
 {
 
@@ -18,6 +15,7 @@ namespace PE
 	{
 		if (button == BUTTON_UNKNOWN) return false;
 		return sf::Mouse::isButtonPressed(static_cast<sf::Mouse::Button>(button));
+		
 	}
 
 	//vect2 Input::getMousePosition()

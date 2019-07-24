@@ -19,17 +19,17 @@
     <Filter Include="Source Files\api">
       <UniqueIdentifier>{341a01af-6cae-4ccc-9681-ffec84af484c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\api\events">
-      <UniqueIdentifier>{b61b802c-b7e6-48d0-ac41-9c8c89a9ebb1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\api\events">
-      <UniqueIdentifier>{4ee1bbc2-140f-4856-97b4-3f698388d160}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\api\math">
       <UniqueIdentifier>{164d294a-0aca-4e8a-9b6d-087bd89aa2e5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\api\math">
       <UniqueIdentifier>{7120fb25-20e0-439b-9011-dfe3832569d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\api\input">
+      <UniqueIdentifier>{b61b802c-b7e6-48d0-ac41-9c8c89a9ebb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\api\input">
+      <UniqueIdentifier>{4ee1bbc2-140f-4856-97b4-3f698388d160}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -73,19 +73,19 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Pixel-Engine\Input\Event.h">
-      <Filter>Header Files\api\events</Filter>
+      <Filter>Header Files\api\input</Filter>
     </ClInclude>
     <ClInclude Include="src\Pixel-Engine\Input\KeyEvent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Pixel-Engine\Input\MouseEvent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\api\input</Filter>
     </ClInclude>
     <ClInclude Include="src\Pixel-Engine\Input\Input.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\api\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pixel-Engine\Input\MouseEvent.h">
+      <Filter>Header Files\api\input</Filter>
     </ClInclude>
     <ClInclude Include="src\Pixel-Engine\Input\WindowEvent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\api\input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -110,14 +110,11 @@
     <ClCompile Include="src\Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Pixel-Engine\Input.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Pixel-Engine\Input\Input.cpp">
+      <Filter>Source Files\api\input</Filter>
     </ClCompile>
     <ClCompile Include="src\Pixel-Engine\Input\Event.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Pixel-Engine\Input\Input.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\api\input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

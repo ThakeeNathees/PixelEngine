@@ -17,6 +17,7 @@
 
 // other
 #include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 #include "PE-SFML.h"
 #include "Logger.h"
 

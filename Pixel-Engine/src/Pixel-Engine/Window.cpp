@@ -1,7 +1,4 @@
 #include "pepch.h"
-
-
-#include <SFML/Graphics.hpp>
 #include "Window.h"
 
 namespace PE
@@ -19,6 +16,12 @@ namespace PE
 
 		void Init() override
 		{
+			PE_ASSERT(!s_is_window_created, "can't initialize window twice");
+			if (s_is_window_created) {
+				PE_ERROR("can't initialize window twice : remove extra Application::getWindow()->Init();");
+				PE_ERROR_PAUSE();
+			}
+			s_is_window_created = true;
 			m_window = new sf::RenderWindow(sf::VideoMode(m_prop.size.x, m_prop.size.y), m_prop.title);
 			if ( m_prop.position.x > 0 && m_prop.position.y >0 )
 				m_window->setPosition({ static_cast<int>(m_prop.position.x), static_cast<int>(m_prop.position.y) });
@@ -56,14 +59,19 @@ namespace PE
 
 	protected:
 		sf::RenderWindow* m_window = nullptr;
+		friend Input;
 		Prop m_prop;
 
-	};
+	}; // RenderWindow
 	
-	
+
+	bool Window::s_is_window_created = false;
+
 	std::shared_ptr<Window> Window::create(const Window::Prop& prop)
 	{
-		return  std::make_shared<RenderWindow>(prop);
+		auto render_window =  std::make_shared<RenderWindow>(prop);
+		// TODO: set the window as Input's static winow.
+		return render_window;
 	}
 
 }

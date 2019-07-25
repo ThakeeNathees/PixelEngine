@@ -9,19 +9,19 @@ namespace PE
 	{
 	public:
 
-		inline WindowEvent(EventType type, vect2 size = vect2(-1.f,-1.f))
+		inline WindowEvent(EventType type, vec2 size = vec2(-1.f,-1.f))
 			: Event(type), m_size(size)
 		{}
 
-		inline virtual vect2 getSize() const override {
+		inline virtual vec2 getSize() const override {
 			if (m_type == RESIZED)
 				return m_size;
 			return getSizeError();
 		}
 
 	private:
-		vect2 m_size;
-		vect2 getSizeError() const;
+		vec2 m_size;
+		vec2 getSizeError() const;
 
 	};
 

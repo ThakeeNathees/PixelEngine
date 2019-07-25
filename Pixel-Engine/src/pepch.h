@@ -16,9 +16,10 @@
 #include <unordered_set>
 
 // other
+#include <glm/glm.hpp>
+using namespace glm;
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include "PE-SFML.h"
 #include "Logger.h"
 
 

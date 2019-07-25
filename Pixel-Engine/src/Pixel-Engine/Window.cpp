@@ -33,13 +33,13 @@ namespace PE
 		}
 		
 		// getters 
-		vect2 getSize() const override {
+		vec2 getSize() const override {
 			PE_ASSERT(s_window != NULL, "initialize window before using it");
-			if (s_window) return vect2(s_window->getSize().x, s_window->getSize().x );
+			if (s_window) return vec2(s_window->getSize().x, s_window->getSize().x );
 		}
-		vect2 getPosition() const override {
+		vec2 getPosition() const override {
 			PE_ASSERT(s_window != NULL, "initialize window before using it");
-			if (s_window) return vect2(s_window->getPosition().x, s_window->getPosition().y );
+			if (s_window) return vec2(s_window->getPosition().x, s_window->getPosition().y );
 		}
 		std::string getTitle() const override {
 			PE_ASSERT(s_window != NULL, "initialize window before using it");
@@ -56,11 +56,11 @@ namespace PE
 			static sf::Event sfml_event;
 			bool ret = s_window->pollEvent(sfml_event);
 
-
+			return ret;
 		}
 
 		// setters 
-		virtual void setPosition(const vect2& pos) override {
+		virtual void setPosition(const vec2& pos) override {
 			PE_ASSERT(s_window != NULL, "initialize window before using it");
 			s_window->setPosition(  sf::Vector2i(pos.x, pos.y) );
 		}
@@ -85,18 +85,18 @@ namespace PE
 	}
 
 	// Input's implimentations
-	vect2 Input::getMousePosition(bool relative_to_window)
+	vec2 Input::getMousePosition(bool relative_to_window)
 	{
 		if (relative_to_window) {
 			auto position = sf::Mouse::getPosition(*(RenderWindow::s_window));
-			return vect2(position.x, position.y);
+			return vec2(position.x, position.y);
 		}
 		auto position = sf::Mouse::getPosition();
-		return vect2(position.x, position.y);	
+		return vec2(position.x, position.y);	
 	}
 
 
-	void Input::setMousePosition(vect2 position, bool relative_to_window)
+	void Input::setMousePosition(vec2 position, bool relative_to_window)
 	{
 		if (relative_to_window)
 			sf::Mouse::setPosition( sf::Vector2i(position.x, position.y), *(RenderWindow::s_window) );

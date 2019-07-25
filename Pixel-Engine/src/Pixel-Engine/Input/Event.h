@@ -40,8 +40,8 @@ namespace PE
 		virtual bool isPressed() const;
 		virtual Input::Key getKey() const;
 		virtual Input::Button getButton() const;
-		virtual vect2 getPosition() const;
-		virtual vect2 getSize() const;
+		virtual vec2 getPosition() const;
+		virtual vec2 getSize() const;
 
 
 

@@ -14,15 +14,10 @@
     <ClInclude Include="src\Pixel-Engine\Input\EventManager.h" />
     <ClInclude Include="src\Pixel-Engine\Input\Input.h" />
     <ClInclude Include="src\Pixel-Engine\Input\KeyEvent.h" />
-    <ClInclude Include="src\PE-SFML.h" />
     <ClInclude Include="src\Pixel-Engine\Input\Event.h" />
     <ClInclude Include="src\Logger.h" />
     <ClInclude Include="src\Pixel-Engine\Input\MouseEvent.h" />
     <ClInclude Include="src\Pixel-Engine\Input\WindowEvent.h" />
-    <ClInclude Include="src\Pixel-Engine\Math\math.h" />
-    <ClInclude Include="src\Pixel-Engine\Math\vect2.h" />
-    <ClInclude Include="src\Pixel-Engine\Math\vect3.h" />
-    <ClInclude Include="src\Pixel-Engine\Math\vect4.h" />
     <ClInclude Include="src\pepch.h" />
     <ClInclude Include="src\Pixel-Engine\Pixel-Engine.h" />
     <ClInclude Include="src\Pixel-Engine\Application.h" />
@@ -36,9 +31,6 @@
     <ClCompile Include="src\Pixel-Engine\Input\Event.cpp" />
     <ClCompile Include="src\Pixel-Engine\Input\EventManager.cpp" />
     <ClCompile Include="src\Pixel-Engine\Input\Input.cpp" />
-    <ClCompile Include="src\Pixel-Engine\Math\vect2.cpp" />
-    <ClCompile Include="src\Pixel-Engine\Math\vect3.cpp" />
-    <ClCompile Include="src\Pixel-Engine\Math\vect4.cpp" />
     <ClCompile Include="src\pepch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pepch.h</PrecompiledHeaderFile>
@@ -97,7 +89,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>PE_ENABLE_ASSERTS;PE_BUILD_DLL;PE_PLATFORM_WINDOWS;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)vender\spdlog\include;$(ProjectDir)src;$(ProjectDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vender\;$(ProjectDir)vender\spdlog\include;$(ProjectDir)src;$(ProjectDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pepch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -118,7 +110,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)vender\spdlog\include;$(ProjectDir)src;$(ProjectDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vender\;$(ProjectDir)vender\spdlog\include;$(ProjectDir)src;$(ProjectDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PE_BUILD_DLL;PE_PLATFORM_WINDOWS;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pepch.h</PrecompiledHeaderFile>

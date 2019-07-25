@@ -1,7 +1,8 @@
 #pragma once
 
-#ifdef PE_PLATFORM_WINDOWS
 
+
+#ifdef PE_PLATFORM_WINDOWS
 
 extern PE::Application* PE::createApplication();
 

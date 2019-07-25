@@ -19,20 +19,20 @@ namespace PE
 		struct Prop
 		{
 			std::string title;
-			vect2 size;
-			vect2 position;
+			vec2 size;
+			vec2 position;
 		};
 		virtual void Init() = 0;
 		
 		// getters
-		virtual vect2 getSize() const = 0;
-		virtual vect2 getPosition() const = 0;
+		virtual vec2 getSize() const = 0;
+		virtual vec2 getPosition() const = 0;
 		virtual std::string getTitle() const = 0;
 		virtual bool isOpen() const = 0;
 		virtual bool pollEvent(Event& event) = 0;
 
 		// setters
-		virtual void setPosition(const vect2& pos) = 0;
+		virtual void setPosition(const vec2& pos) = 0;
 
 	protected:
 		Prop m_prop;
@@ -40,6 +40,6 @@ namespace PE
 
 	private:
 		friend Application;
-		static std::shared_ptr<Window> create(const Window::Prop& prop = { "Pixel-Engine", vect2(640, 480), vect2(-1,-1) });
+		static std::shared_ptr<Window> create(const Window::Prop& prop = { "Pixel-Engine", vec2(640, 480), vec2(-1,-1) });
 	};
 }

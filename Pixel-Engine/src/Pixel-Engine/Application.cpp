@@ -23,9 +23,11 @@ namespace PE
 		while (m_window->isOpen()) {
 			dt += clock.restart().asMicroseconds() / 1000000.0;
 
+
 			if (dt >= 1 / m_frame_rate) {
 				
-				
+				unsigned int x = 2;
+				float y = 1.1;
 				// process(dt); input(d	t); ...
 				dt -= (1 / m_frame_rate);
 			}

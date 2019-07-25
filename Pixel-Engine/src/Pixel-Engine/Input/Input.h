@@ -4,6 +4,7 @@
 #include "../Math/math.h"
 
 
+
 namespace PE
 {
 	class PIXEL_ENGINE_API Input
@@ -27,8 +28,8 @@ namespace PE
 
 		static bool isKeyPressed(Key key);
 		static bool isButtonPressed( Button button );
-		static vect2 getMousePosition(bool relative_to_window = true);					// defined in Window.cpp
-		static void setMousePosition(vect2 position, bool relative_to_window = true);	// defined in Window.cpp
+		static vec2 getMousePosition(bool relative_to_window = true);					// defined in Window.cpp
+		static void setMousePosition(vec2 position, bool relative_to_window = true);	// defined in Window.cpp
 
 
 	};

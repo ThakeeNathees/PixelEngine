@@ -1,15 +1,14 @@
 #pragma once
 
 #include "../Core.h"
-#include "../Math/math.h"
 #include "Input.h"
 
-namespace PE
+namespace pe
 {
 	class RenderWindow;
 }
 
-namespace PE
+namespace pe
 {
 	class PIXEL_ENGINE_API Event
 	{

@@ -1,17 +1,16 @@
 #pragma once
 
 #include "Core.h"
-#include "Math/math.h"
 #include "Input/Event.h"
 
 
-namespace PE {
+namespace pe {
 	class Application;
 	class Input;
 }
 
 
-namespace PE
+namespace pe
 {
 	class PIXEL_ENGINE_API Window
 	{

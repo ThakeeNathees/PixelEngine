@@ -4,7 +4,7 @@
 //testing include
 #include "Input/Event.h"
 
-namespace PE
+namespace pe
 {
 	Application::Application() {
 		m_window = Window::create();
@@ -25,7 +25,7 @@ namespace PE
 			std::unique_ptr<Event>event(new Event());
 			if (m_window->pollEvent(event)) {
 				std::cout << event->toString() << std::endl;
-				if (event->getType() == Event::KEY_PRESSED) PE_WARN(event->getKey());
+				if (event->getType() == Event::MOUSE_WHEEL) PE_WARN(event->getDelta());
 			}
 
 			dt += clock.restart().asMicroseconds() / 1000000.0;

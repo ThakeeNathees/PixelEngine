@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Pixel-Engine\utils\File.h" />
     <ClInclude Include="src\Pixel-Engine\Input\EventManager.h" />
     <ClInclude Include="src\Pixel-Engine\Input\Input.h" />
     <ClInclude Include="src\Pixel-Engine\Input\KeyEvent.h" />
@@ -26,6 +27,7 @@
     <ClInclude Include="src\Pixel-Engine\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Pixel-Engine\utils\File.cpp" />
     <ClCompile Include="src\Logger.cpp">
     </ClCompile>
     <ClCompile Include="src\Pixel-Engine\Input\Event.cpp" />

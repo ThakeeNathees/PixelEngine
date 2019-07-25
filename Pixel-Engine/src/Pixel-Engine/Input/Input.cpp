@@ -3,7 +3,7 @@
 
 
 
-namespace PE
+namespace pe
 {
 
 	bool Input::isKeyPressed(Key key)

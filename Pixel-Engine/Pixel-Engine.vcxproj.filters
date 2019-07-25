@@ -72,6 +72,9 @@
     <ClInclude Include="src\Pixel-Engine\Input\EventManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Pixel-Engine\utils\File.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\pepch.cpp">
@@ -93,6 +96,9 @@
       <Filter>Source Files\api\input</Filter>
     </ClCompile>
     <ClCompile Include="src\Pixel-Engine\Input\EventManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pixel-Engine\utils\File.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

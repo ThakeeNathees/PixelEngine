@@ -1,11 +1,10 @@
 #pragma once
 
 #include "..//Core.h"
-#include "../Math/math.h"
 
 
 
-namespace PE
+namespace pe
 {
 	class PIXEL_ENGINE_API Input
 	{

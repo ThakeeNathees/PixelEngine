@@ -3,7 +3,7 @@
 #include "../Core.h"
 #include "Event.h"
 
-namespace PE
+namespace pe
 {
 
 	class MouseEvent : public Event

@@ -1,6 +1,6 @@
 #include <Pixel-Engine.h>
 
-class SandBox : public PE::Application
+class SandBox : public pe::Application
 {
 public:
 	SandBox()
@@ -12,7 +12,7 @@ public:
 	}
 };
 
-PE::Application* PE::createApplication()
+pe::Application* pe::createApplication()
 {
 	return new SandBox();
 }

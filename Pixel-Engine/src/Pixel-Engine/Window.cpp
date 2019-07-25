@@ -52,10 +52,11 @@ namespace PE
 		}
 
 		// pollEvent
-		virtual bool pollEvent(Event& event) {
+		virtual bool pollEvent(std::unique_ptr<Event>& event) {
 			static sf::Event sfml_event;
 			bool ret = s_window->pollEvent(sfml_event);
-
+			Event::convertEvent(event, &sfml_event);
+			if (event->getType() == Event::NONE) ret = false;
 			return ret;
 		}
 

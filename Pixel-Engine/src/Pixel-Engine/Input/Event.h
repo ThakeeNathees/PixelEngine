@@ -27,11 +27,12 @@ namespace PE
 			MouseEvent	= MOUSE_PRESSED | MOUSE_RELEASED | MOUSE_MOTION,
 		};
 
-		inline Event(EventType type) : m_type(type) {}
+		inline Event(EventType type = Event::NONE) : m_type(type) {}
 
 		// getters
 		inline virtual EventType getType() const { return m_type; }
 		inline virtual bool istHandled() const { return m_is_handled; }
+		virtual std::string toString();
 
 		// setters
 		inline virtual void setHandled() { m_is_handled = true; }
@@ -42,6 +43,7 @@ namespace PE
 		virtual Input::Button getButton() const;
 		virtual vec2 getPosition() const;
 		virtual vec2 getSize() const;
+		virtual float getDelta() const;
 
 
 
@@ -52,6 +54,6 @@ namespace PE
 		bool m_is_handled = false;
 		
 
-		static void convertEvent(Event& event, void* sfml_event_ptr);
+		static void convertEvent(std::unique_ptr<Event>& event, void* sfml_event_ptr);
 	};
 }

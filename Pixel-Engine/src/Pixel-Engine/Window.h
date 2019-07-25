@@ -29,7 +29,7 @@ namespace PE
 		virtual vec2 getPosition() const = 0;
 		virtual std::string getTitle() const = 0;
 		virtual bool isOpen() const = 0;
-		virtual bool pollEvent(Event& event) = 0;
+		virtual bool pollEvent(std::unique_ptr<Event>& event) = 0;
 
 		// setters
 		virtual void setPosition(const vec2& pos) = 0;

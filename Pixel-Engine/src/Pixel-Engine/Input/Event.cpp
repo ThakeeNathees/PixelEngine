@@ -7,6 +7,26 @@
 
 namespace PE
 {
+	std::string Event::toString()
+	{
+		switch (m_type) {
+		case Event::CLOSED: return "Event::CLOSED"; break;
+		case Event::RESIZED: return "Event::RESIZED"; break;
+		case Event::LOST_FOCUS: return "Event::LOST_FOCUS"; break;
+		case Event::GAINED_FOCUSED: return "Event::GAINED_FOCUSED"; break;
+		case Event::MOUSE_ENTERED: return "Event::MOUSE_ENTERED"; break;
+		case Event::MOUSE_LEFT: return "Event::MOUSE_LEFT"; break;
+		case Event::KEY_PRESSED: return "Event::KEY_PRESSED"; break;
+		case Event::KEY_RELEASED: return "Event::KEY_RELEASED"; break;
+		case Event::MOUSE_RELEASED: return "Event::MOUSE_RELEASED"; break;
+		case Event::MOUSE_WHEEL: return "Event::MOUSE_WHEEL"; break;
+		case Event::MOUSE_MOTION: return "Event::MOUSE_MOTION"; break;
+		case Event::NONE:
+		default:
+			return "Event::NONE"; break;
+
+		}
+	}
 
 	bool Event::isPressed() const {
 		PE_ERROR("isPressed() method only be called from KeyEvent and MouseEvents events!");
@@ -58,7 +78,7 @@ namespace PE
 	}
 
 	vec2 Event::getSize() const {
-		PE_ERROR("getSize() method only be called from RESIZED events!");
+		PE_ERROR("getSize() method only be called from RESIZED event!");
 		PE_INFO("check if event is RESIZED before calling getSize()\n"
 			"if ( event.getType() == PE::Event::RESIZED ){ event.getSize(); }\n"
 		);
@@ -66,8 +86,27 @@ namespace PE
 		return vec2(-1.f,-1.f);
 	}
 
+	float Event::getDelta() const {
+		PE_ERROR("getDelta() method only be called from MOUSE_WHEEL event!");
+		PE_INFO("check if event is MOUSE_WHEEL before calling getDelta()\n"
+			"if ( event.getType() == PE::Event::MOUSE_WHEEL ){ event.getSize(); }\n"
+		);
+		PE_ERROR_PAUSE();
+		return .0f;
+	}
+
+	float MouseEvent::getDeltaError() const {
+		PE_ERROR("getDelta() method only be called from MOUSE_WHEEL event!");
+		PE_INFO("check if event is MOUSE_WHEEL before calling getDelta()\n"
+			"if ( event.getType() == PE::Event::MOUSE_WHEEL ){ event.getSize(); }\n"
+		);
+		PE_ERROR_PAUSE();
+		return .0f;
+	}
+
+
 	vec2 WindowEvent::getSizeError() const {
-		PE_ERROR("getSize() method only be called from RESIZED events!");
+		PE_ERROR("getSize() method only be called from RESIZED event!");
 		PE_INFO("check if event is RESIZED before calling getSize()\n"
 			"if ( event.getType() == PE::Event::RESIZED ){ event.getSize(); }\n"
 		);

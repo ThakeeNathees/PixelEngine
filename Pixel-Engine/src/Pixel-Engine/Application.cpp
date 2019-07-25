@@ -21,6 +21,13 @@ namespace PE
 		double dt=0;
 
 		while (m_window->isOpen()) {
+
+			std::unique_ptr<Event>event(new Event());
+			if (m_window->pollEvent(event)) {
+				std::cout << event->toString() << std::endl;
+				if (event->getType() == Event::KEY_PRESSED) PE_WARN(event->getKey());
+			}
+
 			dt += clock.restart().asMicroseconds() / 1000000.0;
 
 

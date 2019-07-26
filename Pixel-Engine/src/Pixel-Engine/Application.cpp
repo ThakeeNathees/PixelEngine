@@ -4,6 +4,7 @@
 
 //testing include
 #include "utils/File.h"
+#include "utils/util_func.h"
 
 namespace pe
 {
@@ -17,9 +18,16 @@ namespace pe
 	{
 		// test code
 		File file;
-		int error = File::mkDir("res/folder");
 		file.open(".");
-		std::cout << file.toString() << std::endl;
+		
+		//std::cout << file.toString() << std::endl;
+		std::stringstream ss;
+		File::getFileTree(ss);
+		std::cout << ss.str() << std::endl;
+		//File::test();
+		int error;
+		//std::cout << error << std::endl;
+		
 			
 
 		// initialize

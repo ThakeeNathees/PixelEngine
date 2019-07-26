@@ -24,6 +24,7 @@
     <ClInclude Include="src\Pixel-Engine\Application.h" />
     <ClInclude Include="src\Pixel-Engine\Core.h" />
     <ClInclude Include="src\Pixel-Engine\EntryPoint.h" />
+    <ClInclude Include="src\Pixel-Engine\utils\util_func.h" />
     <ClInclude Include="src\Pixel-Engine\Window.h" />
   </ItemGroup>
   <ItemGroup>
@@ -39,6 +40,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Pixel-Engine\Application.cpp" />
+    <ClCompile Include="src\Pixel-Engine\utils\util_func.cpp" />
     <ClCompile Include="src\Pixel-Engine\Window.cpp" />
   </ItemGroup>
   <ItemGroup>

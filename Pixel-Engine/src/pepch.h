@@ -25,7 +25,6 @@ using namespace glm;
 #include "Logger.h"
 
 
-
 #ifdef PE_PLATFORM_WINDOWS
 	#define NOMINMAX
 	#include <Windows.h>

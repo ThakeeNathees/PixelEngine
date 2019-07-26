@@ -32,6 +32,7 @@ namespace pe
 
 		// setters
 		virtual void setPosition(const vec2& pos) = 0;
+		virtual void close() = 0;
 
 	protected:
 		Prop m_prop;

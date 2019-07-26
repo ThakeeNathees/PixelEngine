@@ -19,7 +19,6 @@ namespace pe
 			PE_ASSERT(!s_is_window_created, "can't initialize window twice");
 			if (s_is_window_created) {
 				PE_ERROR("can't initialize window twice : remove extra Application::getWindow()->Init();");
-				PE_ERROR_PAUSE();
 			}
 			s_is_window_created = true;
 			s_window = new sf::RenderWindow(sf::VideoMode(m_prop.size.x, m_prop.size.y), m_prop.title);
@@ -64,6 +63,11 @@ namespace pe
 		virtual void setPosition(const vec2& pos) override {
 			PE_ASSERT(s_window != NULL, "initialize window before using it");
 			s_window->setPosition(  sf::Vector2i(pos.x, pos.y) );
+		}
+		virtual void close()
+		{
+			PE_ASSERT(s_window != NULL, "initialize window before using it");
+			s_window->close();
 		}
 
 	protected:

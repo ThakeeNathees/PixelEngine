@@ -20,25 +20,29 @@ namespace pe
 		long last_time = clock.getElapsedTime().asMicroseconds();
 		double dt=0;
 
+		// file util test
+		std::ifstream file;
+		file.open("test.test");
+		if (file.fail()) PE_ERROR("cant open file");
+		std::string line;
+		while (std::getline(file, line)) {
+			std::cout << line << std::endl;
+		}
+
 		while (m_window->isOpen()) {
 
+			// event testing
 			std::unique_ptr<Event>event(new Event());
 			if (m_window->pollEvent(event)) {
-				std::cout << event->toString() << std::endl;
-				if (event->getType() == Event::MOUSE_WHEEL) PE_WARN(event->getDelta());
+				if (event->getType() == Event::MOUSE_WHEEL);
 			}
 
 			dt += clock.restart().asMicroseconds() / 1000000.0;
-
-
 			if (dt >= 1 / m_frame_rate) {
 				
-				unsigned int x = 2;
-				float y = 1.1;
 				// process(dt); input(d	t); ...
 				dt -= (1 / m_frame_rate);
 			}
-
 			double interpolation = dt / (1 / m_frame_rate);
 			// render(interpolation);
 

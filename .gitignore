@@ -9,3 +9,4 @@ Pixel-Engine/vender/SFML-2.5.1/lib/cmake/
 Sfml-Test/
 
 #files
+*.test

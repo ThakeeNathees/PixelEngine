@@ -91,7 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>PE_ENABLE_ASSERTS;PE_BUILD_DLL;PE_PLATFORM_WINDOWS;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)vender\;$(ProjectDir)vender\spdlog\include;$(ProjectDir)src;$(ProjectDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vender\tinyxml2;$(SolutionDir)vender\;$(ProjectDir)vender\spdlog\include;$(ProjectDir)src;$(ProjectDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pepch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -112,7 +112,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vender\;$(ProjectDir)vender\spdlog\include;$(ProjectDir)src;$(ProjectDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vender\tinyxml2;$(SolutionDir)vender\;$(ProjectDir)vender\spdlog\include;$(ProjectDir)src;$(ProjectDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PE_BUILD_DLL;PE_PLATFORM_WINDOWS;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pepch.h</PrecompiledHeaderFile>

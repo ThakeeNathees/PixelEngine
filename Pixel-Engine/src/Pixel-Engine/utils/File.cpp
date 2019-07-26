@@ -12,28 +12,56 @@ namespace pe
 
 	int File::mkDir(const std::string& path, bool make_sub_dir)
 	{
-		if (File::isDirectory(path)) return FILE_ALREADY_EXISTS;
+		if (File::isDirectory(path)) {
+			PE_WARN("can't make file, file already exist : ./{0}", path);
+			return FILE_ALREADY_EXISTS;
+		}
 		int error=-1;
 		if (!make_sub_dir) {
 			error = _mkdir(path.c_str());
+			if (!error) PE_SUCCESS("folder created: {0}", path);
 		} else {
 			std::vector<std::string> vect_split;
 			str_split(vect_split, path, "/");
 			std::string sub_path = "";
 			for (auto sub_file : vect_split) {
 				error = _mkdir( ( (sub_path+=(sub_file+"/")) ).c_str() );
+				if (!error) PE_SUCCESS("folder created: {0}", sub_path);
 			}
 		}
 		if (!error) return FILE_SUCCESS;
+		PE_WARN("can't make file, try : mkDir(\"./{0}\", true)",path);
 		return FILE_FAILED;
 
 	}
 
-	int File::rmDir(const std::string& path)
+	int File::rmDir(const std::string& path, bool del_sub_dir)
 	{
 		int error;
-		error = _rmdir(path.c_str());
+		if (!del_sub_dir) {
+			error = _rmdir(path.c_str());
+			if (!error) PE_RED("folder deleted: {0}",path);
+			if (error && File::isDirectory(path)) {
+				PE_WARN("can't delete file with sub folder, use : File::rmDir(\"./{0}\", true)",path);
+				return FILE_NOT_EMPTY;
+			}
+			/// recursive delete
+		} else {
+			File file; file.open(path);
+			for (auto f : file.getFiles()) {
+				if (!File::isDirectory(f)) {
+					error = remove(f.c_str());
+					if (!error) PE_RED("file   deleted: {0}",f);
+				}
+				else {
+					error = File::rmDir(f, true);
+				}
+			}
+			error = _rmdir(path.c_str());
+			if (!error) PE_RED("folder deleted: {0}",path);
+		}
 		if (!error) return FILE_SUCCESS;
+		PE_RED("deletion was failed! ./{0}", path);
 		return FILE_FAILED;
 	}
 

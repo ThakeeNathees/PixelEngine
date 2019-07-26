@@ -21,11 +21,13 @@ namespace pe
 		file.open(".");
 		
 		//std::cout << file.toString() << std::endl;
-		std::stringstream ss;
-		File::getFileTree(ss);
-		std::cout << ss.str() << std::endl;
 		//File::test();
 		int error;
+		File::mkDir("tree_test/folder1");
+		File::mkDir("tree_test/folder1",true);
+		File::mkDir("tree_test");
+		File::rmDir("tree_test",true);
+		
 		//std::cout << error << std::endl;
 		
 			

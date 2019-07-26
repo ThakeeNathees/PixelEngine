@@ -11,6 +11,9 @@
 #define PE_ERROR(...)	::pe::Logger::getLogger()->error(__VA_ARGS__);
 #define PE_FATAL(...)	::pe::Logger::getLogger()->critical(__VA_ARGS__);PE_ERROR_PAUSE();
 
+#define PE_GREEN(...)	::pe::Logger::getLogger()->info(__VA_ARGS__)
+#define PE_RED(...)	::pe::Logger::getLogger()->error(__VA_ARGS__);
+
 #ifdef PE_ENABLE_ASSERTS
 	#define PE_ASSERT(x, ...) { if(!x){ ::pe::Logger::getLogger()->error(__VA_ARGS__); __debugbreak(); } }
 #else

@@ -7,7 +7,8 @@ namespace pe
 	bool File::isDirectory(const std::string& path)
 	{
 		struct stat buffer;
-		return (stat((path +"/").c_str(), &buffer) == 0);
+		stat((path + "/").c_str(), &buffer);
+		return S_ISDIR(buffer.st_mode);
 	}
 
 	int File::mkDir(const std::string& path, bool make_sub_dir)

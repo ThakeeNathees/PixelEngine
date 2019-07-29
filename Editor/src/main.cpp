@@ -41,29 +41,45 @@ void showDockSpace()
 }
 
 
+long long whash(std::string str)
+{
+	long long ret=0;
+
+	int i = 0;
+	for (char c : str) {
+		ret += c << (8*i++);
+	}
+
+	return ret;
+}
 
 
+void showTree(std::string path) {
+	
+	long long id = whash( SimpleDir::get_file_name(path) );
+	static long long selected_id = -1;
 
-void showTree(std::string path, int& id) {
-	static int selected_id = -1;
 	if (SimpleDir::isDirectory(path)) {
 		if ( ImGui::TreeNode((path == ".") ? "files": SimpleDir::get_file_name(path).c_str() )) {
 			SimpleDir dir;
 			dir.open(path);
 			for (std::string p : dir.getFiles()) {
-				showTree(p, id);
+				showTree(p);
 			}
 			ImGui::TreePop();
 		}
 	}
 	else
 	{
-		ImGuiTreeNodeFlags node_flags;
+		ImGuiTreeNodeFlags node_flags=0;
 		if (selected_id==id) node_flags |= ImGuiTreeNodeFlags_Selected;
 		node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+
+		ImGui::PushStyleColor(0, {255,0,0,255});
 		ImGui::TreeNodeEx((void*)(intptr_t)(id), node_flags, SimpleDir::get_file_name(path).c_str());
+		ImGui::PopStyleColor();
 		if (ImGui::IsItemClicked()) selected_id = id;
-		id++;
+		
 	}
 
 }
@@ -73,7 +89,7 @@ void showTestWindow(std::string path)
 	ImGui::Begin("file tree");
 	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 	int id = 0;
-	showTree(path,id);
+	showTree(path);
 	
 	ImGui::End();
 }
@@ -82,7 +98,6 @@ void showTestWindow(std::string path)
 
 int main()
 {
-
 	// creating window and init
 	unsigned int desktop_width = sf::VideoMode::getDesktopMode().width;
 	unsigned int desktop_height = sf::VideoMode::getDesktopMode().height;
@@ -106,7 +121,7 @@ int main()
 
 		showDockSpace();
 		ImGui::ShowTestWindow();
-		showTestWindow(".");
+		showTestWindow("c:/");
 
 
 		window.clear();

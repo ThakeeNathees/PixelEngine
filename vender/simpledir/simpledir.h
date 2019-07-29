@@ -1243,7 +1243,7 @@ class SimpleDir
 		}
 
 		inline static  std::string get_file_name(const std::string& file_path) {
-			int slash_pos = 0;
+			int slash_pos = -1;
 			for (int i = file_path.length() - 2; i >= 0; i--) {
 				if (file_path[i] == '/') {
 					slash_pos = i;

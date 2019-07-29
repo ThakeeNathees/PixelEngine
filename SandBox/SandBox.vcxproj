@@ -57,7 +57,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>PE_PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)vender\dirent;$(SolutionDir)vender;$(SolutionDir)Pixel-Engine\src\Pixel-Engine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\Pixel-Engine\Pixel-Engine\vender\SFML-2.5.1\include;$(SolutionDir)vender\dirent;$(SolutionDir)vender;$(SolutionDir)Pixel-Engine\src\Pixel-Engine</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -80,7 +80,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>PE_PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)vender\dirent;$(SolutionDir)vender;$(SolutionDir)Pixel-Engine\src\Pixel-Engine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\Pixel-Engine\Pixel-Engine\vender\SFML-2.5.1\include;$(SolutionDir)vender\dirent;$(SolutionDir)vender;$(SolutionDir)Pixel-Engine\src\Pixel-Engine</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

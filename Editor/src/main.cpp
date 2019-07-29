@@ -1,5 +1,8 @@
 #include "pch.h"
 
+#include <stdio.h>
+#include "simpledir.h"
+
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
@@ -9,120 +12,108 @@
 #include "TextEditor.h"
 
 
+void showDockSpace()
+{
+	static bool opt_fullscreen_persistant = true;
+	bool opt_fullscreen = opt_fullscreen_persistant;
+	static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+
+	ImGuiViewport* viewport = ImGui::GetMainViewport();
+	ImGui::SetNextWindowPos(viewport->Pos);
+	ImGui::SetNextWindowSize(viewport->Size);
+	ImGui::SetNextWindowViewport(viewport->ID);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+	window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+	window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+	bool p_open = false;
+	ImGui::Begin("DockSpace Demo", &p_open, window_flags);
+	ImGui::PopStyleVar(3);
+
+	ImGuiIO& io = ImGui::GetIO();
+	ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+	ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+	ImGui::End();
+
+}
+
+
+
+
+
+void showTree(std::string path, int& id) {
+	static int selected_id = -1;
+	if (SimpleDir::isDirectory(path)) {
+		if ( ImGui::TreeNode((path == ".") ? "files": SimpleDir::get_file_name(path).c_str() )) {
+			SimpleDir dir;
+			dir.open(path);
+			for (std::string p : dir.getFiles()) {
+				showTree(p, id);
+			}
+			ImGui::TreePop();
+		}
+	}
+	else
+	{
+		ImGuiTreeNodeFlags node_flags;
+		if (selected_id==id) node_flags |= ImGuiTreeNodeFlags_Selected;
+		node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+		ImGui::TreeNodeEx((void*)(intptr_t)(id), node_flags, SimpleDir::get_file_name(path).c_str());
+		if (ImGui::IsItemClicked()) selected_id = id;
+		id++;
+	}
+
+}
+
+void showTestWindow(std::string path)
+{
+	ImGui::Begin("file tree");
+	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+	int id = 0;
+	showTree(path,id);
+	
+	ImGui::End();
+}
+
+
 
 int main()
 {
 
-	TextEditor editor;
-	auto lang = TextEditor::LanguageDefinition::CPlusPlus();
-	editor.SetLanguageDefinition(lang);
-
-	static const char* fileToEdit = "test.cpp";
-	{
-		std::ifstream t(fileToEdit);
-		if (t.good())
-		{
-			std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
-			editor.SetText(str);
-		}
-	}
-
-	sf::RenderWindow window(sf::VideoMode(640, 480), "ImGui + SFML = <3");
+	// creating window and init
+	unsigned int desktop_width = sf::VideoMode::getDesktopMode().width;
+	unsigned int desktop_height = sf::VideoMode::getDesktopMode().height;
+	sf::RenderWindow window(sf::VideoMode(desktop_width, desktop_height), "Pixel-Engine" );
+	window.setPosition({0,0});
 	window.setFramerateLimit(60);
 	ImGui::SFML::Init(window);
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-	// main loop
-	sf::Clock deltaClock;
+	sf::Event event;
+	sf::Clock clock;
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	while (window.isOpen()) {
-		sf::Event event;
+
 		while (window.pollEvent(event)) {
 			ImGui::SFML::ProcessEvent(event);
-
-			if (event.type == sf::Event::Closed) {
-				window.close();
-			}
+			if (event.type == sf::Event::Closed) window.close();
 		}
+		ImGui::SFML::Update(window, clock.restart());
 
-		ImGui::SFML::Update(window, deltaClock.restart());
-
+		showDockSpace();
 		ImGui::ShowTestWindow();
-
-		auto cpos = editor.GetCursorPosition();
-		ImGui::Begin("Text Editor Demo", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
-		ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
-		if (ImGui::BeginMenuBar())
-		{
-			if (ImGui::BeginMenu("File"))
-			{
-				if (ImGui::MenuItem("Save"))
-				{
-					auto textToSave = editor.GetText();
-					/// save text....
-				}
-				if (ImGui::MenuItem("Quit", "Alt-F4"))
-					return 0;
-				ImGui::EndMenu();
-			}
-			if (ImGui::BeginMenu("Edit"))
-			{
-				bool ro = editor.IsReadOnly();
-				if (ImGui::MenuItem("Read-only mode", nullptr, &ro))
-					editor.SetReadOnly(ro);
-				ImGui::Separator();
-
-				if (ImGui::MenuItem("Undo", "ALT-Backspace", nullptr, !ro && editor.CanUndo()))
-					editor.Undo();
-				if (ImGui::MenuItem("Redo", "Ctrl-Y", nullptr, !ro && editor.CanRedo()))
-					editor.Redo();
-
-				ImGui::Separator();
-
-				if (ImGui::MenuItem("Copy", "Ctrl-C", nullptr, editor.HasSelection()))
-					editor.Copy();
-				if (ImGui::MenuItem("Cut", "Ctrl-X", nullptr, !ro && editor.HasSelection()))
-					editor.Cut();
-				if (ImGui::MenuItem("Delete", "Del", nullptr, !ro && editor.HasSelection()))
-					editor.Delete();
-				if (ImGui::MenuItem("Paste", "Ctrl-V", nullptr, !ro && ImGui::GetClipboardText() != nullptr))
-					editor.Paste();
-
-				ImGui::Separator();
-
-				if (ImGui::MenuItem("Select all", nullptr, nullptr))
-					editor.SetSelection(TextEditor::Coordinates(), TextEditor::Coordinates(editor.GetTotalLines(), 0));
-
-				ImGui::EndMenu();
-			}
-
-			if (ImGui::BeginMenu("View"))
-			{
-				if (ImGui::MenuItem("Dark palette"))
-					editor.SetPalette(TextEditor::GetDarkPalette());
-				if (ImGui::MenuItem("Light palette"))
-					editor.SetPalette(TextEditor::GetLightPalette());
-				if (ImGui::MenuItem("Retro blue palette"))
-					editor.SetPalette(TextEditor::GetRetroBluePalette());
-				ImGui::EndMenu();
-			}
-			ImGui::EndMenuBar();
-		}
-
-		ImGui::Text("%6d/%-6d %6d lines  | %s | %s | %s | %s", cpos.mLine + 1, cpos.mColumn + 1, editor.GetTotalLines(),
-			editor.IsOverwrite() ? "Ovr" : "Ins",
-			editor.CanUndo() ? "*" : " ",
-			editor.GetLanguageDefinition().mName.c_str(), fileToEdit);
-
-		editor.Render("TextEditor");
-		ImGui::End();
-
+		showTestWindow(".");
 
 
 		window.clear();
 		ImGui::SFML::Render(window);
 		window.display();
+
 	}
-
 	ImGui::SFML::Shutdown();
-
 	return 0;
 }

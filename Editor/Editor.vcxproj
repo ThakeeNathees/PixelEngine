@@ -85,7 +85,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)vender\ImGuiColorTextEdit;$(ProjectDir)vender\ImSf;$(ProjectDir)vender\ImGui;$(ProjectDir)src;$(SolutionDir)Pixel-Engine\src\api;$(SolutionDir)vender\glm;$(SolutionDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vender\simpledir;$(ProjectDir)vender\ImGuiColorTextEdit;$(ProjectDir)vender\ImSf;$(ProjectDir)vender\ImGui;$(ProjectDir)src;$(SolutionDir)Pixel-Engine\src\api;$(SolutionDir)vender\glm;$(SolutionDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PreprocessorDefinitions>PE_PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -115,7 +115,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)vender\ImGuiColorTextEdit;$(ProjectDir)vender\ImSf;$(ProjectDir)vender\ImGui;$(ProjectDir)src;$(SolutionDir)Pixel-Engine\src\api;$(SolutionDir)vender\glm;$(SolutionDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vender\simpledir;$(ProjectDir)vender\ImGuiColorTextEdit;$(ProjectDir)vender\ImSf;$(ProjectDir)vender\ImGui;$(ProjectDir)src;$(SolutionDir)Pixel-Engine\src\api;$(SolutionDir)vender\glm;$(SolutionDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PreprocessorDefinitions>PE_PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -147,6 +147,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\demo.cpp" />
     <ClCompile Include="src\imgui\imgui-SFML.cpp" />
     <ClCompile Include="src\imgui\imgui.cpp" />
     <ClCompile Include="src\imgui\imgui_demo.cpp" />

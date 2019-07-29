@@ -85,7 +85,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)vender\ImSf;$(ProjectDir)vender\ImGui;$(ProjectDir)src;$(SolutionDir)Pixel-Engine\src\api;$(SolutionDir)vender\glm;$(SolutionDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)vender\ImGuiColorTextEdit;$(ProjectDir)vender\ImSf;$(ProjectDir)vender\ImGui;$(ProjectDir)src;$(SolutionDir)Pixel-Engine\src\api;$(SolutionDir)vender\glm;$(SolutionDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PreprocessorDefinitions>PE_PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -115,7 +115,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)vender\ImSf;$(ProjectDir)vender\ImGui;$(ProjectDir)src;$(SolutionDir)Pixel-Engine\src\api;$(SolutionDir)vender\glm;$(SolutionDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)vender\ImGuiColorTextEdit;$(ProjectDir)vender\ImSf;$(ProjectDir)vender\ImGui;$(ProjectDir)src;$(SolutionDir)Pixel-Engine\src\api;$(SolutionDir)vender\glm;$(SolutionDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PreprocessorDefinitions>PE_PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -152,6 +152,7 @@
     <ClCompile Include="src\imgui\imgui_demo.cpp" />
     <ClCompile Include="src\imgui\imgui_draw.cpp" />
     <ClCompile Include="src\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\imgui\TextEditor.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

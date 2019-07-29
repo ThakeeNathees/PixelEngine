@@ -1,11 +1,12 @@
 #include "pch.h"
 
+#include "imgui.h"
+#include "imgui-SFML.h"
+
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
 
-#include "imgui.h"
-#include "imgui-SFML.h"
 #include "TextEditor.h"
 
 
@@ -17,6 +18,12 @@ int main()
 	auto lang = TextEditor::LanguageDefinition::CPlusPlus();
 	editor.SetLanguageDefinition(lang);
 
+	// error markers
+	TextEditor::ErrorMarkers markers;
+	markers.insert(std::make_pair<int, std::string>(6, "Example error here:\nInclude file not found: \"TextEditor.h\""));
+	markers.insert(std::make_pair<int, std::string>(41, "Another example error"));
+	editor.SetErrorMarkers(markers);
+
 	static const char* fileToEdit = "test.cpp";
 	{
 		std::ifstream t(fileToEdit);
@@ -26,7 +33,6 @@ int main()
 			editor.SetText(str);
 		}
 	}
-
 	sf::RenderWindow window(sf::VideoMode(640, 480), "ImGui + SFML = <3");
 	window.setFramerateLimit(60);
 	ImGui::SFML::Init(window);

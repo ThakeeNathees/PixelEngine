@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sfml-Test", "Sfml-Test\Sfml-Test.vcxproj", "{A3A5233A-B7D8-4AE8-8E16-D742220AE126}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SandBox", "SandBox\SandBox.vcxproj", "{14E34869-8516-4D97-897A-430371E59F29}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Editor\Editor.vcxproj", "{B943E5F9-E0E4-4629-BE5B-939ED6F25CDC}"
@@ -19,14 +17,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A3A5233A-B7D8-4AE8-8E16-D742220AE126}.Debug|x64.ActiveCfg = Debug|x64
-		{A3A5233A-B7D8-4AE8-8E16-D742220AE126}.Debug|x64.Build.0 = Debug|x64
-		{A3A5233A-B7D8-4AE8-8E16-D742220AE126}.Debug|x86.ActiveCfg = Debug|Win32
-		{A3A5233A-B7D8-4AE8-8E16-D742220AE126}.Debug|x86.Build.0 = Debug|Win32
-		{A3A5233A-B7D8-4AE8-8E16-D742220AE126}.Release|x64.ActiveCfg = Release|x64
-		{A3A5233A-B7D8-4AE8-8E16-D742220AE126}.Release|x64.Build.0 = Release|x64
-		{A3A5233A-B7D8-4AE8-8E16-D742220AE126}.Release|x86.ActiveCfg = Release|Win32
-		{A3A5233A-B7D8-4AE8-8E16-D742220AE126}.Release|x86.Build.0 = Release|Win32
 		{14E34869-8516-4D97-897A-430371E59F29}.Debug|x64.ActiveCfg = Debug|x64
 		{14E34869-8516-4D97-897A-430371E59F29}.Debug|x64.Build.0 = Debug|x64
 		{14E34869-8516-4D97-897A-430371E59F29}.Debug|x86.ActiveCfg = Debug|Win32

@@ -13,18 +13,8 @@
 
 #include "windows/windows.h"
 
-inline void rend(TextEditor& editor) {
-	ImGui::Begin("testing", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
-	ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
-	editor.Render("text editor");
-	ImGui::End();
-}
-
 int main()
 {
-	TextEditor editor;
-	editor.SetText("some text");
-
 	// creating window and init
 	unsigned int desktop_width = sf::VideoMode::getDesktopMode().width;
 	unsigned int desktop_height = sf::VideoMode::getDesktopMode().height;
@@ -49,9 +39,6 @@ int main()
 		show_dock_space();
 		ImGui::ShowTestWindow();
 		file_tree_window(".");
-
-		// editor demo
-		//rend(editor);
 		EditorMap::renderEditors();
 		
 

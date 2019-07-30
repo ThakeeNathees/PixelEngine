@@ -1,9 +1,15 @@
 #include "pch.h"
 
+#include <SFML/Window.hpp> // for keyboard shortcut : TODO: make indipendent of sfml here
 #include "editor_map.h"
 
+// initialize member fields
 std::map<std::string, EditorMap::Editor*> EditorMap::s_editor_map;
 std::string EditorMap::s_last_selected_file = "";
+
+// forward declaration
+void render_menubar(EditorMap::Editor* editor_struct);
+void keyboard_shortcut(EditorMap::Editor* editor_struct);
 
 // TODO: move these function to utils or any other file
 int read_file(std::string& out, const std::string& path) {
@@ -64,7 +70,9 @@ void EditorMap::renderEditors()
 		}
 		ImGui::Begin(pair.second->file_name.c_str(), &(pair.second->p_open), ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
 		ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
+		render_menubar(pair.second);
 		pair.second->editor.Render("text editor");
+		keyboard_shortcut(pair.second); // call this after editor.render -> globals::Texteditor::is_focus assigned above
 		ImGui::End();
 	}
 
@@ -75,4 +83,97 @@ void EditorMap::renderEditors()
 		if (Globals::FileTree::selected_file_path == p) {
 		}
 	}
+}
+
+///////////////// functions
+void save(std::string text_to_save, const char* file_path)
+{
+	std::ofstream save_file;
+	save_file.open(file_path);
+	save_file << text_to_save;
+	save_file.close();
+}
+
+void keyboard_shortcut(EditorMap::Editor* editor_struct)
+{
+	TextEditor& editor = editor_struct->editor;
+	ImGuiIO& io = ImGui::GetIO();
+	auto shift = io.KeyShift;
+	auto ctrl = io.ConfigMacOSXBehaviors ? io.KeySuper : io.KeyCtrl;
+	auto alt = io.ConfigMacOSXBehaviors ? io.KeyCtrl : io.KeyAlt;
+
+	if ( Globals::TextEditor::is_currently_rendering_window_focus ) {
+		if (!editor.IsReadOnly() && ctrl && !shift && !alt && sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+			save(editor.GetText(), editor_struct->file_path.c_str());
+		}
+	}
+
+}
+
+void render_menubar(EditorMap::Editor* editor_struct)
+{
+	TextEditor& editor = editor_struct->editor;
+	auto cpos = editor.GetCursorPosition();
+	if (ImGui::BeginMenuBar())
+	{
+		if (ImGui::BeginMenu("File"))
+		{
+			if (ImGui::MenuItem("Save", "Ctrl-S"))
+			{
+				auto text_to_save = editor.GetText();
+				save(text_to_save, editor_struct->file_path.c_str());
+
+			}
+			if (ImGui::MenuItem("Quit"))
+				editor_struct->p_open = false;
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Edit"))
+		{
+			bool ro = editor.IsReadOnly();
+			if (ImGui::MenuItem("Read-only mode", nullptr, &ro))
+				editor.SetReadOnly(ro);
+			ImGui::Separator();
+
+			if (ImGui::MenuItem("Undo", "ALT-Backspace", nullptr, !ro && editor.CanUndo()))
+				editor.Undo();
+			if (ImGui::MenuItem("Redo", "Ctrl-Y", nullptr, !ro && editor.CanRedo()))
+				editor.Redo();
+
+			ImGui::Separator();
+
+			if (ImGui::MenuItem("Copy", "Ctrl-C", nullptr, editor.HasSelection()))
+				editor.Copy();
+			if (ImGui::MenuItem("Cut", "Ctrl-X", nullptr, !ro && editor.HasSelection()))
+				editor.Cut();
+			if (ImGui::MenuItem("Delete", "Del", nullptr, !ro && editor.HasSelection()))
+				editor.Delete();
+			if (ImGui::MenuItem("Paste", "Ctrl-V", nullptr, !ro && ImGui::GetClipboardText() != nullptr))
+				editor.Paste();
+
+			ImGui::Separator();
+
+			if (ImGui::MenuItem("Select all", nullptr, nullptr))
+				editor.SetSelection(TextEditor::Coordinates(), TextEditor::Coordinates(editor.GetTotalLines(), 0));
+
+			ImGui::EndMenu();
+		}
+
+		if (ImGui::BeginMenu("View"))
+		{
+			if (ImGui::MenuItem("Dark palette"))
+				editor.SetPalette(TextEditor::GetDarkPalette());
+			if (ImGui::MenuItem("Light palette"))
+				editor.SetPalette(TextEditor::GetLightPalette());
+			if (ImGui::MenuItem("Retro blue palette"))
+				editor.SetPalette(TextEditor::GetRetroBluePalette());
+			ImGui::EndMenu();
+		}
+		ImGui::EndMenuBar();
+	}
+
+	ImGui::Text("%6d/%-6d %6d lines  | %s | %s | %s | %s", cpos.mLine + 1, cpos.mColumn + 1, editor.GetTotalLines(),
+		editor.IsOverwrite() ? "Ovr" : "Ins",
+		editor.CanUndo() ? "*" : " ",
+		editor.GetLanguageDefinition().mName.c_str(), editor_struct->file_name.c_str() );
 }

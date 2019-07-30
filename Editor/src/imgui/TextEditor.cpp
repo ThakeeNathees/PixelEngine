@@ -1,4 +1,6 @@
 #include "pch.h"
+#include "../globals.h"
+
 #include <algorithm>
 #include <chrono>
 #include <string>
@@ -702,6 +704,8 @@ void TextEditor::HandleKeyboardInputs()
 	auto shift = io.KeyShift;
 	auto ctrl = io.ConfigMacOSXBehaviors ? io.KeySuper : io.KeyCtrl;
 	auto alt = io.ConfigMacOSXBehaviors ? io.KeyCtrl : io.KeyAlt;
+
+	Globals::TextEditor::is_currently_rendering_window_focus = ImGui::IsWindowFocused();
 
 	if (ImGui::IsWindowFocused())
 	{

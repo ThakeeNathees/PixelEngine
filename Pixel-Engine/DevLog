@@ -12,6 +12,11 @@ to resolve this (in the pre compile header file):
 #endif
 ###############################################################################
 
+# LOG 2 ########################################################################
+in Editor project
+to get if current rendering text editor window in focus
+used globals class in TextEditor.cpp file
+###############################################################################
 
 # TODO: ###################
 

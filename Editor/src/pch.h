@@ -5,6 +5,7 @@ using namespace glm;
 
 #include <memory>
 #include <iostream>
+#include <stdio.h>
 #include <functional>
 #include <fstream>
 

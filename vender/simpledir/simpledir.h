@@ -1184,6 +1184,17 @@ inline std::vector<std::string>& str_split(std::vector<std::string>& vector, std
 		return vector;
 }
 
+inline long long simple_hash(std::string str)
+{
+	long long ret = 0;
+
+	int i = 0;
+	for (char c : str) {
+		ret += c << (8 * i++);
+	}
+
+	return ret;
+}
 
 
 
@@ -1199,6 +1210,24 @@ class SimpleDir
 			struct stat buffer;
 			stat(path.c_str(), &buffer);
 			return S_ISDIR(buffer.st_mode);
+		}
+		
+		inline static bool isEndsWith(std::string path,std::string ending){
+			for (int i = ending.length(), j=path.length(); i >= 0; i--, j--) {
+				if (path[j] != ending[i]) return false;
+			}
+			return true;
+		}
+
+		inline static std::string endsWith(std::string path) {
+			int dot_pos = 0;
+			for (int i = path.length() - 1; i >= 0; i--) {
+				if (path[i] == '.') {
+					dot_pos = i;
+					break;
+				}
+			}
+			return path.substr( dot_pos );
 		}
 
 		/* to create a directory */
@@ -1250,51 +1279,48 @@ class SimpleDir
 					break;
 				}
 			}
-			return std::string(file_path.substr(slash_pos + 1, file_path.length() - 1 - slash_pos));
+			return std::string(file_path.substr(slash_pos + 1));
 		}
 
 		// member functions
-		inline int open(const std::string& path = "./"){
+		inline int open(const std::string& path = "./") {
 			(path[path.size() - 1] != '/') ? m_path = path + "/" : m_path = path; // update m_path
-		dir = opendir(m_path.c_str());
-		if (dir != NULL) {
-			updateFiles();
-			return FILE_SUCCESS;
-		}
-		else return FILE_FAILED;
+			dir = opendir(m_path.c_str());
+			if (dir != NULL) {
+				updateFiles();
+				return FILE_SUCCESS;
+			}
+			else return FILE_FAILED;
 		}
 		
-		inline std::vector<std::string> getFiles(bool full_path = true) const{
+		inline std::vector<std::string>& getFiles(bool full_path = true){
 			if (full_path)
 				return m_files;
-			std::vector<std::string> file_names;
-			for (std::string file_path : m_files) {
-				file_names.push_back( SimpleDir::get_file_name(file_path) );
-			}
-			return file_names;
+			return m_file_names;
 		}
-
 
 		
 	private:
-		inline void updateFiles(){
+		inline void updateFiles() {
 			m_files.clear();
-		while (ent = readdir(dir))
-		{
-			std::string name = ent->d_name;
-			if (name != "." && name != "..") {
+			m_file_names.clear();
+			while (ent = readdir(dir))
+			{
+				std::string name = ent->d_name;
+				if (name != "." && name != "..") {
+					m_file_names.push_back( name );
+					if (isDirectory(name))
+						m_files.push_back(m_path + name + "/");
+					else m_files.push_back(m_path + name);
+				}
 
-			if (isDirectory(name))
-				m_files.push_back( m_path + name + "/" );
-			else m_files.push_back( m_path + name );
+
 			}
-			 
-			
-		}
 		}
 		std::string m_path;
 		DIR* dir;
 		struct dirent* ent;
 		std::vector<std::string> m_files;
+		std::vector<std::string> m_file_names;
 
 };

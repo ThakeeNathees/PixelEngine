@@ -1,12 +1,12 @@
 #pragma once
 
-#include <memory>
 
 class Globals
 {
 public:
 	struct FileTree {
 		static std::string selected_file_path;
+		static bool is_clicked_now; // set true by file tree false by EditorMap
 	};
 
 private:

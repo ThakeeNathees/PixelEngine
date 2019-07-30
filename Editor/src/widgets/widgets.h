@@ -60,6 +60,7 @@ inline void show_file_tree(std::string path) {
 		//ImGui::PopStyleColor();
 		if (ImGui::IsItemClicked()) {
 			selected_id = id;
+			Globals::FileTree::is_clicked_now = true;
 			Globals::FileTree::selected_file_path = path;
 		}
 

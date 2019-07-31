@@ -4,6 +4,8 @@
 #include "TextEditor.h"
 #include "globals.h"
 
+
+// std::map<path_string, Editor*>
 class EditorMap
 {
 public:

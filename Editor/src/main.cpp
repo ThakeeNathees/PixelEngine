@@ -36,11 +36,12 @@ int main()
 		}
 		ImGui::SFML::Update(window, clock.restart());
 
+		// layout
 		show_dock_space();
 		ImGui::ShowTestWindow();
 		file_tree_window(".");
 		EditorMap::renderEditors();
-		
+		Console::renderConsole();
 
 		window.clear();
 		ImGui::SFML::Render(window);

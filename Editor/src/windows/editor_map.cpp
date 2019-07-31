@@ -38,8 +38,8 @@ void EditorMap::addEditor(const std::string& path) {
 		editor_struct->language = TextEditor::LanguageDefinition::C();
 	else if (SimpleDir::isEndsWith(path, ".lua"))
 		editor_struct->language = TextEditor::LanguageDefinition::Lua();
-	
 	editor_struct->editor.SetLanguageDefinition(editor_struct->language);
+
 	editor_struct->editor.SetPalette(TextEditor::GetDarkPalette());
 	std::string editor_string;
 	int error = read_file(editor_string, path);
@@ -167,6 +167,23 @@ void render_menubar(EditorMap::Editor* editor_struct)
 				editor.SetPalette(TextEditor::GetLightPalette());
 			if (ImGui::MenuItem("Retro blue palette"))
 				editor.SetPalette(TextEditor::GetRetroBluePalette());
+			
+			ImGui::Separator();
+			if (ImGui::MenuItem("AngelScript"))
+				editor.SetLanguageDefinition(TextEditor::LanguageDefinition::AngelScript());
+			if (ImGui::MenuItem("C"))
+				editor.SetLanguageDefinition( TextEditor::LanguageDefinition::C() );
+			if (ImGui::MenuItem("C++"))
+				editor.SetLanguageDefinition( TextEditor::LanguageDefinition::CPlusPlus() );
+			if (ImGui::MenuItem("GLSL"))
+				editor.SetLanguageDefinition( TextEditor::LanguageDefinition::GLSL() );
+			if (ImGui::MenuItem("HLSL"))
+				editor.SetLanguageDefinition( TextEditor::LanguageDefinition::HLSL() );
+			if (ImGui::MenuItem("Lua"))
+				editor.SetLanguageDefinition( TextEditor::LanguageDefinition::Lua() );
+			if (ImGui::MenuItem("SQL"))
+				editor.SetLanguageDefinition( TextEditor::LanguageDefinition::SQL() );
+			// TODO: add plan text here
 			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();

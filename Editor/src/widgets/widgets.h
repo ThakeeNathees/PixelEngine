@@ -6,6 +6,8 @@
 
 #include "..//globals.h"
 
+
+
 inline void show_dock_space()
 {
 	static bool opt_fullscreen_persistant = true;

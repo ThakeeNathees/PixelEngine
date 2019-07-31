@@ -1,7 +1,10 @@
 #include "pch.h"
 #include "console.h"
 
+#define ARR_SIZE(_ARR) (int)(sizeof(_ARR)/sizeof(*_ARR))
 
+// function implimentation
+// TODO: change exec function as engine's 
 int exec(std::string& result, const char* cmd) { // if success return 0;
 	char buffer[128];
 	result = "";
@@ -20,18 +23,21 @@ int exec(std::string& result, const char* cmd) { // if success return 0;
 	return 0;
 }
 
+
+// member field
 bool Console::s_p_open = true;
 bool Console::s_scroll_to_bottom = true;
 std::vector<Console::LogMsg> Console::s_logs;
 char Console::s_input_buff[256];
-
 
 void Console::addLog(LogMsg log) {
 	s_scroll_to_bottom = true;
 	s_logs.push_back(log);
 }
 
+	
 
+int text_edit_callback(ImGuiInputTextCallbackData* data) { return 1; } // for text box
 void Console::renderConsole()
 {
 	if (s_p_open) {
@@ -72,6 +78,17 @@ void Console::renderConsole()
 
 		ImGui::EndChild();
 		ImGui::Separator();
+		bool reclaim_focus = false;
+		if (ImGui::InputText("Input", s_input_buff, ARR_SIZE(s_input_buff), ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory, &text_edit_callback))
+		{
+			std::string result = "";
+			int error = exec(result, s_input_buff);
+			if (!error) addLog({ _INFO, result });
+			else addLog({ _ERROR, "[error] some error occured executing the command" });
+			strcpy_s(s_input_buff, "");
+			reclaim_focus = true;
+		}
+		if (reclaim_focus) ImGui::SetKeyboardFocusHere(-1); // Auto focus previous widget
 
 		ImGui::End();
 	}

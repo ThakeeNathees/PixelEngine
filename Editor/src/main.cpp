@@ -13,6 +13,8 @@
 
 #include "windows/windows.h"
 
+#define print(x) std::cout << x << std::endl;
+
 int main()
 {
 	// creating window and init
@@ -33,6 +35,9 @@ int main()
 		while (window.pollEvent(event)) {
 			ImGui::SFML::ProcessEvent(event);
 			if (event.type == sf::Event::Closed) window.close();
+			// event handle
+			if (event.type == sf::Event::KeyPressed)
+				if (event.key.code == 0) Console::addLog({Console::_WARNING, "[warning] you shouldn't be doing that"});
 		}
 		ImGui::SFML::Update(window, clock.restart());
 

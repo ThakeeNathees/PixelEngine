@@ -1,7 +1,6 @@
 #pragma once
 
-// functions
-int exec(std::string& result, const char* cmd);
+
 
 class Console
 {

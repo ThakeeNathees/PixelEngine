@@ -1,3 +1,9 @@
+## PROGRESS #################################
+
+next -> add render view window to editor
+
+#############################################
+
 
 # LOG 1 ########################################################################
 including <windows.h>  redefine min max macro -> which interfear in sfml and cause the below error!

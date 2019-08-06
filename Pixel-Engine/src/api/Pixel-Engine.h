@@ -4,7 +4,7 @@
 #include <glm.hpp>
 using namespace glm;
 
-#include "Game.h"
+#include "Application.h"
 
 /*************************************/
 

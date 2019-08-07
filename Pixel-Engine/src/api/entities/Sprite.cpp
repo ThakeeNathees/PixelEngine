@@ -10,5 +10,14 @@ namespace pe
 		return success;
 	}
 
+	void Sprite::setFrameIndex(int index) {
+		/* TODO:
+		      check if rect applied on texture or sprite (rotated and tranformed)
+			  and apply rect with index, and m_frames
+		*/
+		   
+	}
+
+	
 	
 }

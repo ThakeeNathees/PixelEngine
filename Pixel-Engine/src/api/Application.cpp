@@ -19,6 +19,7 @@ namespace pe
 			sf::Event event;
 			while (m_window->pollEvent(event)) {}
 
+
 			m_window->clear({50, 75, 100, 255});
 			m_window->draw(sp);
 			m_window->display();

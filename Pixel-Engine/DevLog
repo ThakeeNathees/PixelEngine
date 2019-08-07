@@ -44,6 +44,11 @@ void Image(const sf::RenderTexture& texture, const sf::Color& tintColor, const s
 }
 ################################################################################
 
+# LOG 2 ########################################################################
+to resolve sfml joystick axis error :
+disable HID-compliant vendor-defined devices (the second one in my pc) in the devices manager
+################################################################################
+
 # TODO: ###################
 
 

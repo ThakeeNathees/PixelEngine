@@ -8,3 +8,6 @@ vender/SFML-2.5.1/doc/
 vender/SFML-2.5.1/lib/cmake/
 Sfml-Test/
 Editor/images/
+
+#files
+*.png

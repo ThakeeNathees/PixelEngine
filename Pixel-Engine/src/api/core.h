@@ -11,5 +11,8 @@
 #endif 
 
 
+#include <iostream>
+#define print(x) std::cout << x << std::endl;
+
 #define __CLASS__ (typeid(*this).name()+6)
 #define BIT(X) (1 << X)

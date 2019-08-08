@@ -49,6 +49,7 @@ int main()
 		FileTree::renderFileTree(".");
 		EditorMap::renderEditors();
 		Console::renderConsole();
+		RenderWindow::renderRenderWindow();
 
 		window.clear();
 		ImGui::SFML::Render(window);

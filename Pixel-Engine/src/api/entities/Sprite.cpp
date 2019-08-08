@@ -3,6 +3,13 @@
 
 namespace pe
 {
+
+	int Sprite::s_id = 0;
+
+	Sprite::Sprite() : m_frame_index(0) {
+		s_id++;
+	}
+
 	bool Sprite::loadTexture(const char* path)
 	{
 		bool success = m_texture.loadFromFile(path);

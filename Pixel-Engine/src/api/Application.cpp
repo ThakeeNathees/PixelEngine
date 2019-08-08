@@ -14,7 +14,9 @@ namespace pe
 	void Application::update()
 	{
 		Sprite sp;
-		sp.loadTexture("res/icon.png");
+		sp.loadTexture("res/sheet.png");
+		sp.setFrames(12, 8);
+		sp.setFrameIndex(0);
 		while (m_window->isOpen()) {
 			sf::Event event;
 			while (m_window->pollEvent(event)) {}

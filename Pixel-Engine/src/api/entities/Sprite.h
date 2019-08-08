@@ -12,16 +12,18 @@ namespace pe {
 		//void setTexture(const sf::Texture& texture); in sfml
 
 		// setters
-		void setFrames(glm::vec2 frame);
+		inline void setFrames(int x, int y, int offset_x = 0, int offset_y = 0) {
+			m_frames.x = x; m_frames.y = y; m_frames.z = offset_x; m_frames.w = offset_y;
+		}
 		void setFrameIndex(int index);
 
 		// getters
-		glm::vec2 getFrames() const { return m_frames; }
+		inline glm::ivec4 getFrames() const { return m_frames; }
 
 	private:
 		sf::Texture m_texture;
 		bool visible = true;
-		glm::vec2 m_frames;
+		glm::ivec4 m_frames = glm::ivec4(1, 1, 0, 0);
 		int m_frame_index;
 	};
 

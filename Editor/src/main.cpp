@@ -17,7 +17,7 @@
 
 int main()
 {
-	// creating window and init
+	// creating window and initi and other inits //////////////////////
 	unsigned int desktop_width = sf::VideoMode::getDesktopMode().width;
 	unsigned int desktop_height = sf::VideoMode::getDesktopMode().height;
 	sf::RenderWindow window(sf::VideoMode(desktop_width, desktop_height), "Pixel-Engine" );
@@ -26,6 +26,8 @@ int main()
 	ImGui::SFML::Init(window);
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
+	////////////////////////////////////////////////////////////////
 
 	sf::Event event;
 	sf::Clock clock;
@@ -44,7 +46,7 @@ int main()
 		// layout
 		show_dock_space();
 		ImGui::ShowTestWindow();
-		file_tree_window(".");
+		FileTree::renderFileTree(".");
 		EditorMap::renderEditors();
 		Console::renderConsole();
 

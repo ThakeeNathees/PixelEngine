@@ -162,6 +162,7 @@
     </ClCompile>
     <ClCompile Include="src\windows\console.cpp" />
     <ClCompile Include="src\windows\editor_map.cpp" />
+    <ClCompile Include="src\windows\file_tree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\globals.h" />
@@ -169,6 +170,7 @@
     <ClInclude Include="src\widgets\widgets.h" />
     <ClInclude Include="src\windows\console.h" />
     <ClInclude Include="src\windows\editor_map.h" />
+    <ClInclude Include="src\windows\file_tree.h" />
     <ClInclude Include="src\windows\windows.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

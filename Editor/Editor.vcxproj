@@ -147,7 +147,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\demo.cpp" />
     <ClCompile Include="src\globals.cpp" />
     <ClCompile Include="src\imgui\imgui-SFML.cpp" />
     <ClCompile Include="src\imgui\imgui.cpp" />
@@ -176,6 +175,7 @@
     <ClInclude Include="src\windows\editor_map.h" />
     <ClInclude Include="src\windows\file_tree.h" />
     <ClInclude Include="src\windows\image_viwer.h" />
+    <ClInclude Include="src\windows\property_window\proprty_editor.h" />
     <ClInclude Include="src\windows\render_window.h" />
     <ClInclude Include="src\windows\windows.h" />
   </ItemGroup>

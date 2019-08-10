@@ -12,15 +12,11 @@
 #include "TextEditor.h"
 
 #include "windows/windows.h"
-#include "utils/string_util.h"
 
 #define print(x) std::cout << x << std::endl;
 
 int main()
 {
-	print( utils::isPathImage("asdf.png")
-	)
-	//__debugbreak();
 	// creating window and initi and other inits //////////////////////
 	unsigned int desktop_width = sf::VideoMode::getDesktopMode().width;
 	unsigned int desktop_height = sf::VideoMode::getDesktopMode().height;
@@ -42,13 +38,13 @@ int main()
 		while (window.pollEvent(event)) {
 			ImGui::SFML::ProcessEvent(event);
 			if (event.type == sf::Event::Closed) window.close();
-			// event handle
+			// event handle Test
 			if (event.type == sf::Event::KeyPressed)
 				if (event.key.code == 0) Console::addLog({Console::_WARNING, "[warning] you shouldn't be doing that"});
 		}
 		ImGui::SFML::Update(window, clock.restart());
 
-		// layout
+		// editor rendering
 		show_dock_space();
 		ImGui::ShowTestWindow();
 		FileTree::renderFileTree(".");
@@ -57,6 +53,7 @@ int main()
 		Console::renderConsole();
 		RenderWindow::renderRenderWindow();
 		ImageViwer::renderImageViwer();
+
 
 		window.clear();
 		ImGui::SFML::Render(window);

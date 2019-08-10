@@ -4,10 +4,6 @@
 	
 HIGHT PRIORITY
 	editor: filetree
-		open *.png, *.jpg, ... files as images
-		SimpleDir and utils have isEndsWith(path, format);
-		make editor map only add text file(.txt, .cpp, .hpp, .h, ...) to open 
-		if image file open in an image viewer window
 	assert and log system (spdlog)
 	sprite property editor
 

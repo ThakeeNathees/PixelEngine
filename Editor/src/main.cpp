@@ -12,11 +12,15 @@
 #include "TextEditor.h"
 
 #include "windows/windows.h"
+#include "utils/string_util.h"
 
 #define print(x) std::cout << x << std::endl;
 
 int main()
 {
+	print( utils::isPathImage("asdf.png")
+	)
+	//__debugbreak();
 	// creating window and initi and other inits //////////////////////
 	unsigned int desktop_width = sf::VideoMode::getDesktopMode().width;
 	unsigned int desktop_height = sf::VideoMode::getDesktopMode().height;
@@ -48,9 +52,11 @@ int main()
 		show_dock_space();
 		ImGui::ShowTestWindow();
 		FileTree::renderFileTree(".");
+		WindowManager::windowSignalFromFileTree();
 		EditorMap::renderEditors();
 		Console::renderConsole();
 		RenderWindow::renderRenderWindow();
+		ImageViwer::renderImageViwer();
 
 		window.clear();
 		ImGui::SFML::Render(window);

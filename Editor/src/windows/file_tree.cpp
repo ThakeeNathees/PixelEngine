@@ -50,9 +50,6 @@ void FileTree::fileTreeRecurtion(std::string path) {
 			selected_id = id;
 			Globals::FileTree::is_clicked_now = true;
 			Globals::FileTree::selected_file_path = path;
-			if (utils::isEndsWith(path, ".png")) {
-				Console::addLog({Console::LogLevel::_SUCCESS, "its a png file"});
-			}
 		}
 
 	}

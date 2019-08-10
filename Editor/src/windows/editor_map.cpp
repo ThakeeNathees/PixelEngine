@@ -31,6 +31,9 @@ bool is_contain(const std::map<std::string, T>& umap, std::string str ) {
 
 // TODO: if two( or more) file have same name, different path -> set main.cpp 0, main.cpp 1 as file_name
 void EditorMap::addEditor(const std::string& path) {
+	if (is_contain(s_editor_map, s_last_selected_file))
+		return;
+
 	Editor* editor_struct = new Editor();
 	editor_struct->file_path = path;
 	editor_struct->file_name = SimpleDir::get_file_name(path);
@@ -52,15 +55,6 @@ void EditorMap::addEditor(const std::string& path) {
 
 void EditorMap::renderEditors()
 {
-	// adding new editor to map
-	if ( Globals::FileTree::is_clicked_now ) {
-		Globals::FileTree::is_clicked_now = false;
-		s_last_selected_file = Globals::FileTree::selected_file_path;
-		if (!is_contain(s_editor_map, s_last_selected_file)) {
-			EditorMap::addEditor(s_last_selected_file);
-		}
-	}
-
 	// rendering and removing closed
 	std::vector<std::string> delete_list;
 	for (auto pair : s_editor_map) {

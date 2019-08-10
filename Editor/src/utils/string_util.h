@@ -1,14 +1,20 @@
+#pragma once
 
 namespace utils
 {
+	struct FileFormats
+	{
+		static const char* TEXT[];
+		static const char* IMAGE[];
+		static const char* BINARY[];
+		//static const char* SCENE[0];
+		//static const char* ANIM[0];
 
-	inline bool isEndsWith(const std::string& fullString, const std::string& ending) {
-		if (fullString.length() >= ending.length()) {
-			return (0 == fullString.compare(fullString.length() - ending.length(), ending.length(), ending));
-		}
-		else {
-			return false;
-		}
-	}
+	};
+	
+
+	bool isEndsWith( const std::string& fullString, const std::string& ending );
+	bool isPathImage( const std::string& file_path );
+
 
 }

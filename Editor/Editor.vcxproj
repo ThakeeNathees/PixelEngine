@@ -168,6 +168,7 @@
   <ItemGroup>
     <ClInclude Include="src\globals.h" />
     <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\utils\string_util.h" />
     <ClInclude Include="src\widgets\widgets.h" />
     <ClInclude Include="src\windows\console.h" />
     <ClInclude Include="src\windows\editor_map.h" />

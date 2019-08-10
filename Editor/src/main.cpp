@@ -27,11 +27,12 @@ int main()
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
+	FileTree::init();
+	RenderWindow::init();
 	////////////////////////////////////////////////////////////////
 
 	sf::Event event;
 	sf::Clock clock;
-	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	while (window.isOpen()) {
 
 		while (window.pollEvent(event)) {

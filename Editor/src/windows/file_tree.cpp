@@ -4,6 +4,13 @@
 #include "simpledir.h"
 #include "..//globals.h"
 
+
+
+void FileTree::init()
+{
+	
+}
+
 void FileTree::renderFileTree(const char* path)
 {
 	ImGui::Begin("file tree");
@@ -33,7 +40,8 @@ void FileTree::fileTreeRecurtion(std::string path) {
 		ImGuiTreeNodeFlags node_flags = 0;
 		if (selected_id == id) node_flags |= ImGuiTreeNodeFlags_Selected;
 		node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
-
+		
+		//ImGui::Image(little icon before file maybe); ImGui::SameLine();
 		//ImGui::PushStyleColor(0, { 255,0,0,255 });
 		//if ( SimpleDir::isEndsWith(path, ".cpp") || SimpleDir::isEndsWith(path, ".h"))
 		ImGui::TreeNodeEx((void*)(intptr_t)(id), node_flags, SimpleDir::get_file_name(path).c_str());
@@ -42,6 +50,9 @@ void FileTree::fileTreeRecurtion(std::string path) {
 			selected_id = id;
 			Globals::FileTree::is_clicked_now = true;
 			Globals::FileTree::selected_file_path = path;
+			if (utils::isEndsWith(path, ".png")) {
+				Console::addLog({Console::LogLevel::_SUCCESS, "its a png file"});
+			}
 		}
 
 	}

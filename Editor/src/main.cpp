@@ -29,6 +29,13 @@ int main()
 
 	FileTree::init();
 	RenderWindow::init();
+	PropertyEditor::init();
+
+	// test
+	pe::Sprite sprite;
+	sprite.loadTexture("res/sheet.png");
+	RenderWindow::test_sprite = &sprite;
+	PropertyEditor::s_sprite = &sprite;
 	////////////////////////////////////////////////////////////////
 
 	sf::Event event;
@@ -53,6 +60,7 @@ int main()
 		Console::renderConsole();
 		RenderWindow::renderRenderWindow();
 		ImageViwer::renderImageViwer();
+		PropertyEditor::renderPropertyEditor();
 
 
 		window.clear();

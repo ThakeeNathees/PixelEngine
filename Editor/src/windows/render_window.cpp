@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "render_window.h"
 
+//TEST : remove
+pe::Sprite* RenderWindow::test_sprite;
 
 sf::RenderTexture* RenderWindow::render_texture = new sf::RenderTexture();
 
@@ -23,10 +25,10 @@ void RenderWindow::renderRenderWindow()
 	}
 
 	// draw / render things
-	sf::Texture t;
-	t.loadFromFile("res//logo.png");
-	sf::Sprite s; s.setTexture(t);
-	render_texture->draw(s);
+	  //sf::Texture t;
+	  //t.loadFromFile("res//logo.png");
+	  //sf::Sprite s; s.setTexture(t);
+	render_texture->draw(*test_sprite);
 
 
 	ImGui::Image(*render_texture);

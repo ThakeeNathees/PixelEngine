@@ -8,6 +8,7 @@
 #include "file_tree.h"
 #include "render_window.h"
 #include "image_viwer.h"
+#include "property_window/proprty_editor.h"
 
 
 // adding new editor to map

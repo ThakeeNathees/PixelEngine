@@ -142,7 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pixe-Engine\Pixe-Engine.vcxproj">
+    <ProjectReference Include="..\Pixel-Engine\Pixel-Engine.vcxproj">
       <Project>{1fc4c090-26d4-412b-bc86-52f11d6f9325}</Project>
     </ProjectReference>
   </ItemGroup>
@@ -164,6 +164,7 @@
     <ClCompile Include="src\windows\editor_map.cpp" />
     <ClCompile Include="src\windows\file_tree.cpp" />
     <ClCompile Include="src\windows\image_viwer.cpp" />
+    <ClCompile Include="src\windows\property_window\property_editor.cpp" />
     <ClCompile Include="src\windows\render_window.cpp" />
   </ItemGroup>
   <ItemGroup>

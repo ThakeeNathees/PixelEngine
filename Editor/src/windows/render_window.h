@@ -7,8 +7,12 @@ class RenderWindow
 public:
 	static void init();
 	static void renderRenderWindow();
+	inline static glm::vec2 getMousePos() { return s_mouse_pos; }
+
+
 	//TEST
 	static pe::Sprite* test_sprite;
 private:
-	static sf::RenderTexture* render_texture;
+	static sf::RenderTexture* s_render_texture;
+	static glm::vec2 s_mouse_pos;
 };

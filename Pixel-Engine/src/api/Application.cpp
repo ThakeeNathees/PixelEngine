@@ -2,6 +2,7 @@
 #include "Application.h"
 
 #include "entities/Sprite.h"
+#include "entities/Object.h"
 
 // testing
 #include "..//utils/XmlFile.h"
@@ -16,17 +17,16 @@ namespace pe
 
 	void Application::update()
 	{
-		/*Sprite sp;
-		sp.loadTexture("res/sheet.png");
-		sp.setFrames(12, 8);
-		sp.setFrameIndex(0);*/
+		Object o;
+		Sprite sp; sp.loadTexture("res/icon.png");
+		o.setSprite(sp);
+		o.setPosition(100, 100);
 		while (m_window->isOpen()) {
 			sf::Event event;
 			while (m_window->pollEvent(event)) {}
 
-
 			m_window->clear({50, 75, 100, 255});
-			//m_window->draw(sp);
+			m_window->draw(o.getSprite());
 			m_window->display();
 		}
 	}

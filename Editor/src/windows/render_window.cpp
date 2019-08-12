@@ -4,15 +4,17 @@
 //TEST : remove
 pe::Sprite* RenderWindow::test_sprite;
 
-sf::RenderTexture* RenderWindow::render_texture = new sf::RenderTexture();
+sf::RenderTexture* RenderWindow::s_render_texture = new sf::RenderTexture();
+glm::vec2 RenderWindow::s_mouse_pos = glm::vec2(0,0);
 
 void RenderWindow::init() {
-	render_texture->create(640, 480);
+	s_render_texture->create(640, 480);
 }
+
 
 void RenderWindow::renderRenderWindow()
 {
-	render_texture->clear({ 50,50,50,255 });
+	s_render_texture->clear({ 50,50,50,255 });
 	ImGui::Begin("render window");
 
 	// size change callback
@@ -20,17 +22,16 @@ void RenderWindow::renderRenderWindow()
 	ImVec2 _size_new = ImGui::GetWindowSize();
 	if ( ((_size_old.x != _size_new.x) || (_size_old.y != _size_new.y)) && !sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
 		unsigned int _w = ImGui::GetWindowSize().x - 15, _h = ImGui::GetWindowSize().y - 35;
-		render_texture->create(_w, _h);
+		s_render_texture->create(_w, _h);
 		_size_old = _size_new;
 	}
+	s_mouse_pos.x = ImGui::GetMousePos().x - ImGui::GetWindowPos().x;
+	s_mouse_pos.y = ImGui::GetMousePos().y - ImGui::GetWindowPos().y;
 
 	// draw / render things
-	  //sf::Texture t;
-	  //t.loadFromFile("res//logo.png");
-	  //sf::Sprite s; s.setTexture(t);
-	render_texture->draw(*test_sprite);
+	s_render_texture->draw(*test_sprite);
 
 
-	ImGui::Image(*render_texture);
+	ImGui::Image(*s_render_texture);
 	ImGui::End();
 }

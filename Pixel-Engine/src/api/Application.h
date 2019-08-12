@@ -1,5 +1,7 @@
+#pragma once
 #include "core.h"
 
+#include "Scene.h"
 
 namespace pe {
 
@@ -9,8 +11,14 @@ namespace pe {
 		Application();
 		~Application();
 
+		void addScene( std::string scene_name, Scene* scene);
+		void setCurrentScene(std::string scene_name); // assert here
+
 		void update();
 
+	private:
 		sf::RenderWindow* m_window;
+		std::map<std::string, Scene*> m_scenes;
+		Scene* m_current_scene;
 	};
 }

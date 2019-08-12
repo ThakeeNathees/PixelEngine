@@ -101,6 +101,7 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
     <ClInclude Include="src\api\entities\Entity.h" />
     <ClInclude Include="src\api\entities\Object.h" />
     <ClInclude Include="src\api\entities\Sprite.h" />
+    <ClInclude Include="src\api\Scene.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\api\Application.h" />
     <ClInclude Include="src\api\core.h" />
@@ -111,6 +112,7 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
     <ClCompile Include="src\api\entities\Object.cpp" />
     <ClCompile Include="src\api\entities\Sprite.cpp" />
     <ClCompile Include="src\api\Application.cpp" />
+    <ClCompile Include="src\api\Scene.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch.h</PrecompiledHeaderFile>

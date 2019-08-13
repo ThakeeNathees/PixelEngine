@@ -7,7 +7,8 @@
 #include <memory>
 #include <iostream>
 #include <functional>
-#include <algorithm>
+#include <assert.h>
 
+#include <algorithm>
 #include <string>
 #include <vector>

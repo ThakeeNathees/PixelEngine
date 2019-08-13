@@ -9,19 +9,27 @@ namespace pe
 	class PIXEL_ENGINE_API Scene
 	{
 	public:
+		Scene(const char* name);
 		~Scene();
 
 		//setters
 		void addObject(Object* object);
 		void sortObjectsZIndex();
+		void loadBackgroundTexture( std::string path );
+		inline void setBgVisible(bool visible) { m_bg_visible = visible; }
 
 		//getters
+		inline const char* getName() { return m_name; }
 		inline std::vector<Object*>& getObjects() { return m_objects; }
-		inline sf::Texture& getBackground() { return m_background; }
+		inline sf::Sprite& getBackground() { return m_background; }
+		inline bool getBgVisible() const { return m_bg_visible; }
 
 	private:
+		const char* m_name;
 		static bool sortCompare(Object* obj1, Object* obj2);
 		std::vector<Object*> m_objects;
-		sf::Texture m_background; // TODO: create [/]getter []setter and []default place holder texture
+		bool m_bg_visible = false;
+		sf::Sprite m_background;
+		sf::Texture m_bg_texture;
 	};
 }

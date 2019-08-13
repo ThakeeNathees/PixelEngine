@@ -9,14 +9,11 @@ namespace pe {
 	{
 	public:
 		Sprite();
-		bool loadTexture(const char* path);
+		bool loadTexture(const char* path, bool reset_rect = true);
 		//void setTexture(const sf::Texture& texture); in sfml
 
 		// setters
-		inline void setFrames(int x, int y, int offset_x = 0, int offset_y = 0) { // add assert here
-			m_frames.x = x; m_frames.y = y; m_frames.z = offset_x; m_frames.w = offset_y;
-			setFrameIndex(m_frame_index);
-		}
+		void setFrames(int x, int y, int offset_x = 0, int offset_y = 0);
 		void setFrameIndex(int index);
 
 		// getters

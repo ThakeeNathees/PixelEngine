@@ -11,8 +11,8 @@ namespace pe {
 		Application();
 		~Application();
 
-		void addScene( std::string scene_name, Scene* scene);
-		void setCurrentScene(std::string scene_name); // assert here
+		void addScene( Scene* scene);
+		void setCurrentScene(std::string scene_name);
 
 		void update();
 

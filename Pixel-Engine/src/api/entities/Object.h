@@ -12,8 +12,9 @@ namespace pe
 		~Object();
 
 		// virtual functions
-		virtual void init() =0;
-		virtual void process(double dt) =0;
+		inline virtual void init() {};
+		inline virtual void process(double dt) {};
+		inline virtual bool input(sf::Event& event) { return false; } // return if event handled ?
 
 		// setters
 		void setPosition( glm::vec2 position );

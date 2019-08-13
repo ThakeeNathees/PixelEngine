@@ -20,11 +20,12 @@ namespace pe
 		}
 	}
 
-	void Application::addScene(std::string scene_name, Scene* scene) {
-		m_scenes[scene_name] = scene;
+	void Application::addScene( Scene* scene) {
+		m_scenes[scene->getName()] = scene;
 	}
-	void Application::setCurrentScene(std::string scene_name) { 
-		m_current_scene = m_scenes[scene_name];  // assert here
+	void Application::setCurrentScene(std::string scene_name) {
+		assert( m_scenes.find(scene_name) != m_scenes.end() && "invalid scene name to set" );
+		m_current_scene = m_scenes[scene_name];
 		for (auto obj : m_current_scene->getObjects()) {
 			obj->init();
 		}
@@ -37,8 +38,13 @@ namespace pe
 		double dt = 0;
 
 		while (m_window->isOpen()) {
+			
 			sf::Event event;
-			while (m_window->pollEvent(event)) {}
+			while (m_window->pollEvent(event)) {
+				for (Object* object : m_current_scene->getObjects()) {
+					if (object->input(event)) break;
+				}
+			}
 
 			dt += clock.restart().asMicroseconds() / 1000000.0;
 			if (dt >= 1 / m_frame_rate) {
@@ -50,6 +56,8 @@ namespace pe
 			double interpolation = dt / (1 / m_frame_rate);
 
 			m_window->clear(m_background_color);                     // TODO: ..., scene background, ...
+			if ( m_current_scene->getBgVisible() )
+				m_window->draw( m_current_scene->getBackground() );
 			for (Object* object : m_current_scene->getObjects()) { 
 				m_window->draw(*object->getSprite());
 			}

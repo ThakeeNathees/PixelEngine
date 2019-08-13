@@ -10,22 +10,30 @@ namespace pe
 		m_id = ++s_sprite_count;
 	}
 
-	bool Sprite::loadTexture(const char* path)
+	// setters
+	bool Sprite::loadTexture(const char* path, bool reset_rect)
 	{
 		bool success = m_texture.loadFromFile(path);
-		setTexture(m_texture);
+		setTexture(m_texture, reset_rect);
 		return success;
 	}
 
 	void Sprite::setFrameIndex(int index) {
+		assert( (index >=0) &&  (index < getFrameCount()) && "invalid sprite frame index" );
 		int width  = getTexture()->getSize().x / m_frames.x;
 		int height = getTexture()->getSize().y / m_frames.y;
 		int left = (index % (m_frames.x))* width;
 		int top  = (index / (m_frames.x))* height;
 
 		sf::IntRect rect( left + m_frames.z, top + m_frames.w, width, height );
-		setTextureRect(rect);
-		   
+		setTextureRect(rect); 
+	}
+
+	// getters
+	void Sprite::setFrames(int x, int y, int offset_x, int offset_y) {
+		assert(x > 0 && y > 0);
+		m_frames.x = x; m_frames.y = y; m_frames.z = offset_x; m_frames.w = offset_y;
+		setFrameIndex(m_frame_index);
 	}
 
 	

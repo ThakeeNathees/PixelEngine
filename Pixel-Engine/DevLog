@@ -3,7 +3,8 @@
 ## TODO ########################################################################
 	
 HIGHT PRIORITY
-	assert and log system (spdlog)
+	create background entity for scene
+	log system (spdlog)
 
 LOW PRIORITY
 	area entity

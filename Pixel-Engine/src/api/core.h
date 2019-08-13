@@ -11,8 +11,10 @@
 #endif 
 
 
+// for debug
 #include <iostream>
 #define print(x) std::cout << x << std::endl;
 
+#define PE_ASSERT(x) if(!x) __debugbreak()
+
 #define __CLASS__ (typeid(*this).name()+6)
-#define BIT(X) (1 << X)

@@ -22,9 +22,11 @@ namespace pe {
 		// getters
 		inline glm::ivec4 getFrames() const { return m_frames; }
 		inline int getFrameCount() const { return m_frames.x * m_frames.y; }
+		inline int getId() const { return m_id; }
 
 	private:
-		static int s_id;
+		static int s_sprite_count;
+		int m_id;
 		sf::Texture m_texture;
 		bool visible = true;
 		glm::ivec4 m_frames = glm::ivec4(1, 1, 0, 0);

@@ -6,22 +6,35 @@
 #include "Pixel-Engine.h"
 
 
-class O : public pe::Object{};
+class O : public pe::Object{
+	
+	void init() override {
+
+	}
+
+	void process(double dt) override {
+		
+	}
+
+};
 
 int main()
 {
 
-	pe::Object* o = new pe::Object();
+	O* o = new O();
 	pe::Sprite* sp = new pe::Sprite(); sp->loadTexture("res/icon.png");
 	o->setSprite(sp); o->setPosition(100, 100);
 
 	O* oo = new O();
-	pe::Sprite* ss = new pe::Sprite(); ss->loadTexture("res/sheet.png");
-	oo->setSprite(ss); oo->setPosition(200,200);
+	pe::Sprite* ss = new pe::Sprite(); ss->loadTexture("res/icon.png");
+	ss->setColor(sf::Color(255, 0, 100, 255));
+	oo->setSprite(ss); oo->setPosition(110,110);
+	//oo->setZIndex(0);
 	
 	pe::Scene* scene = new pe::Scene();
 	scene->addObject(o);
 	scene->addObject(oo);
+	scene->sortObjectsZIndex();
 
 	pe::Application app;
 	app.addScene( "scene1", scene);

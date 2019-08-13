@@ -6,8 +6,9 @@ bin-int/
 vender/SFML-2.5.1/examples/
 vender/SFML-2.5.1/doc/
 vender/SFML-2.5.1/lib/cmake/
-Sfml-Test/
-Editor/images/
+
+Editor/res/
+SandBox/res/
 
 #files
 *.png

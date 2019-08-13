@@ -4,10 +4,10 @@
 namespace pe
 {
 
-	int Sprite::s_id = 0;
+	int Sprite::s_sprite_count = 0;
 
 	Sprite::Sprite() : m_frame_index(0) {
-		s_id++;
+		m_id = ++s_sprite_count;
 	}
 
 	bool Sprite::loadTexture(const char* path)

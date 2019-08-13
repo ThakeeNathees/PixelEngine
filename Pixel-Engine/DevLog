@@ -3,11 +3,11 @@
 ## TODO ########################################################################
 	
 HIGHT PRIORITY
-	priority queue
 	assert and log system (spdlog)
-	sprite property editor
 
 LOW PRIORITY
+	area entity
+	sprite property editor
 	editor: filetree
 	xml serialize entity and window property
 	animation entity (verry low priority)

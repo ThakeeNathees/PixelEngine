@@ -14,7 +14,7 @@ void RenderWindow::init() {
 
 void RenderWindow::renderRenderWindow()
 {
-	s_render_texture->clear({ 50,50,50,255 });
+	s_render_texture->clear({ 80,80,80,255 });
 	ImGui::Begin("render window");
 
 	// size change callback

@@ -3,17 +3,20 @@
 ## TODO ########################################################################
 	
 HIGHT PRIORITY
-	create background entity for scene
-	log system (spdlog)
+	area entity
+	impliment debug mode for application to draw ...
+	create place holders and place holder class and clean res folder
+	keyboard key convert
+	magical number store xml
+	create globle assets and global objects for presistance between scene
 
 LOW PRIORITY
-	area entity
+	log system (spdlog)
 	sprite property editor
 	editor: filetree
 	xml serialize entity and window property
 	animation entity (verry low priority)
 	editor: renderwindow
-		render order of sprites
 		mouse capture
 		currently selected sprite(square area) -> moveable sprites 
 

@@ -2,6 +2,7 @@
 #include "core.h"
 
 #include "entities/Object.h"
+#include "entities/Background.h"
 
 
 namespace pe
@@ -15,21 +16,19 @@ namespace pe
 		//setters
 		void addObject(Object* object);
 		void sortObjectsZIndex();
-		void loadBackgroundTexture( std::string path );
-		inline void setBgVisible(bool visible) { m_bg_visible = visible; }
+		void setBackground( Background* background);
 
 		//getters
 		inline const char* getName() { return m_name; }
 		inline std::vector<Object*>& getObjects() { return m_objects; }
-		inline sf::Sprite& getBackground() { return m_background; }
-		inline bool getBgVisible() const { return m_bg_visible; }
+		inline Background* getBackground() { return m_background; }
+		void setSceneWindowSize(glm::ivec2 window_size);
 
 	private:
 		const char* m_name;
 		static bool sortCompare(Object* obj1, Object* obj2);
 		std::vector<Object*> m_objects;
-		bool m_bg_visible = false;
-		sf::Sprite m_background;
-		sf::Texture m_bg_texture;
+		glm::ivec2 m_window_size = glm::ivec2(-1, -1);
+		Background* m_background = nullptr; // deleted by global game assets
 	};
 }

@@ -22,13 +22,15 @@ namespace pe
 	void Scene::sortObjectsZIndex() {
 		std::sort(m_objects.begin(), m_objects.end(), Scene::sortCompare);
 	}
-	void Scene::loadBackgroundTexture( std::string path ) {
-		m_bg_texture.loadFromFile(path);
-		m_bg_texture.setRepeated(true);
-		m_background.setTextureRect(sf::IntRect(0, 0, 700,700));
-		m_background.setTexture(m_bg_texture );
+	void Scene::setBackground(Background* background) {
+		m_background = background;
+		m_background->setVisible(true);
+		m_background->setBgWindowSize(m_window_size);
+	}
 
-		setBgVisible(true);
+	void Scene::setSceneWindowSize(glm::ivec2 window_size) {
+		m_window_size = window_size;
+		if (m_background != nullptr) m_background->setBgWindowSize(m_window_size);
 	}
 
 	// getters

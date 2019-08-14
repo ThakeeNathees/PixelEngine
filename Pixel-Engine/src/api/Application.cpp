@@ -22,6 +22,7 @@ namespace pe
 
 	void Application::addScene( Scene* scene) {
 		m_scenes[scene->getName()] = scene;
+		scene->setSceneWindowSize({ m_window->getSize().x, m_window->getSize().y });
 	}
 	void Application::setCurrentScene(std::string scene_name) {
 		assert( m_scenes.find(scene_name) != m_scenes.end() && "invalid scene name to set" );
@@ -56,8 +57,8 @@ namespace pe
 			double interpolation = dt / (1 / m_frame_rate);
 
 			m_window->clear(m_background_color);                     // TODO: ..., scene background, ...
-			if ( m_current_scene->getBgVisible() )
-				m_window->draw( m_current_scene->getBackground() );
+			if ( m_current_scene->getBackground()->getVisible() )
+				m_window->draw( m_current_scene->getBackground()->getBgSprite() );
 			for (Object* object : m_current_scene->getObjects()) { 
 				m_window->draw(*object->getSprite());
 			}

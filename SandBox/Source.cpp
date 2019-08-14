@@ -36,6 +36,10 @@ int main()
 	pe::Sprite* sp = new pe::Sprite(); sp->loadTexture("res/icon.png");
 	o->setSprite(sp); o->setPosition(100, 100);
 
+	pe::Background* bg = new pe::Background();
+	bg->loadTexture("res/bg.jpg");
+	bg->setRepeatd(true);
+
 	//auto oo = new O();
 	//pe::Sprite* ss = new pe::Sprite(); ss->loadTexture("res/bg.jpg");
 	//ss->setColor(sf::Color(255, 0, 100, 255));
@@ -45,7 +49,8 @@ int main()
 	scene->addObject(o);
 	//scene->addObject(oo);
 	scene->sortObjectsZIndex();
-	scene->loadBackgroundTexture("res/bg.jpg");
+	scene->setBackground(bg);
+	//scene->loadBackgroundTexture("res/bg.jpg");
 
 	pe::Application app;
 	app.addScene( scene );

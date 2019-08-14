@@ -8,7 +8,13 @@
 
 class O : public pe::Object{
 	
-	void init() override {}
+	void init() override {
+		pe::Area* area = new pe::Area();
+		auto rect = new sf::RectangleShape( sf::Vector2f(100,100) );
+		rect->setFillColor( sf::Color(50, 75, 100, 255) );
+		area->setShape( rect );
+		setArea( area );
+	}
 
 	bool input(sf::Event& event) override {
 		if (event.type == sf::Event::EventType::KeyPressed) {
@@ -23,8 +29,18 @@ class O : public pe::Object{
 		return false;
 	}
 
-	void process(double dt) override {
-		
+	void process(double dt) override {}
+	void draw(sf::RenderWindow* window) {
+		auto s = sf::RectangleShape(sf::Vector2f(100,100));
+		s.setPosition(20,20);
+		//s.setOrigin(10,10);
+
+		auto pos = sf::Mouse::getPosition(*window);
+		print( pos.x << " " << pos.y );
+
+		//print( s.getPoint(2).x << " " << s.getPoint(2).y  );
+		//s.setRotation(45);
+		window->draw( *(getArea()->getShape()) );
 	}
 
 };
@@ -37,20 +53,13 @@ int main()
 	o->setSprite(sp); o->setPosition(100, 100);
 
 	pe::Background* bg = new pe::Background();
-	bg->loadTexture("res/bg.jpg");
-	bg->setRepeatd(true);
-
-	//auto oo = new O();
-	//pe::Sprite* ss = new pe::Sprite(); ss->loadTexture("res/bg.jpg");
-	//ss->setColor(sf::Color(255, 0, 100, 255));
-	//oo->setSprite(ss); oo->setPosition(110,110);
+	//bg->loadTexture("res/bg.jpg");bg->setRepeatd(true);
 	
 	pe::Scene* scene = new pe::Scene("scene1");
 	scene->addObject(o);
-	//scene->addObject(oo);
 	scene->sortObjectsZIndex();
 	scene->setBackground(bg);
-	//scene->loadBackgroundTexture("res/bg.jpg");
+	
 
 	pe::Application app;
 	app.addScene( scene );

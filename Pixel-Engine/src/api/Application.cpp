@@ -46,7 +46,7 @@ namespace pe
 					if (object->input(event)) break;
 				}
 			}
-
+			// process
 			dt += clock.restart().asMicroseconds() / 1000000.0;
 			if (dt >= 1 / m_frame_rate) {
 				for (Object* object : m_current_scene->getObjects()) {
@@ -56,11 +56,12 @@ namespace pe
 			}
 			double interpolation = dt / (1 / m_frame_rate);
 
+			// draw
 			m_window->clear(m_background_color);                     // TODO: ..., scene background, ...
-			if ( m_current_scene->getBackground()->getVisible() )
+			if (m_current_scene->getBackground() != nullptr && m_current_scene->getBackground()->getVisible() )
 				m_window->draw( m_current_scene->getBackground()->getBgSprite() );
-			for (Object* object : m_current_scene->getObjects()) { 
-				m_window->draw(*object->getSprite());
+			for (Object* object : m_current_scene->getObjects()) {
+				object->draw(m_window);
 			}
 			m_window->display();
 		}

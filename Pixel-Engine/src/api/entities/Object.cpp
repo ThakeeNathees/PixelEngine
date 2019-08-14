@@ -26,10 +26,12 @@ namespace pe
 		m_sprite = sprite;
 		m_sprite->setPosition(m_position.x, m_position.y);
 	}
-
 	void Object::setZIndex(int z_index) {
 		m_z_index = z_index;
 		// TODO: signal call Scene.sortObjectZIndex() 
+	}
+	void Object::setArea(Area* area) {
+		m_area = area;
 	}
 
 }

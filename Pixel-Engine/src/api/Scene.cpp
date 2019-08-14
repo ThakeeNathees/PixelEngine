@@ -17,6 +17,7 @@ namespace pe
 	// setters
 	void Scene::addObject(Object* object) {
 		m_objects.push_back(object);
+		object->setScene(this);
 		sortObjectsZIndex();
 	}
 	void Scene::sortObjectsZIndex() {

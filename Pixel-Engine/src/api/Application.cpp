@@ -29,6 +29,7 @@ namespace pe
 		m_current_scene = m_scenes[scene_name];
 		for (auto obj : m_current_scene->getObjects()) {
 			obj->init();
+			obj->m_applicaton = this;
 		}
 	}
 

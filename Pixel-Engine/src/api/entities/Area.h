@@ -29,7 +29,9 @@ namespace pe
 
 
 		// getter
-		bool contains( glm::fvec2 point );
+		bool isContains( int x, int y );
+		inline bool isContains(glm::ivec2 point) { return isContains(point.x, point.y); }
+		inline bool isContains(sf::Vector2i point) { return isContains(point.x, point.y); }
 		inline sf::Shape* getShape() { return m_shape; }
 		inline ShapeType getShapeType() { return m_shape_type; }
 

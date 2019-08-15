@@ -14,10 +14,7 @@ class O : public pe::Object{
 		rect->setFillColor( sf::Color(255, 75, 100, 60) );
 		area->setShape( rect );
 		setArea( area );
-
-		pe::Sprite* sp = new pe::Sprite(); sp->loadTexture("res/icon.png");
-		setSprite(sp);
-
+		setScale(2, 1);
 		setPosition(200, 100);
 	}
 
@@ -34,7 +31,12 @@ class O : public pe::Object{
 		return false;
 	}
 
-	void process(double dt) override {}
+	void process(double dt) override {
+		auto app = getApplication();
+		auto pos = sf::Mouse::getPosition( *app->getWindow() );
+		
+		print(  ( (getArea()->isContains(pos) )?"inside":"outside" )  );
+	}
 	
 
 };
@@ -46,8 +48,8 @@ int main()
 	o->setOrigin(32,32);
 
 
-	//pe::Sprite* sp = new pe::Sprite(); sp->loadTexture("res/icon.png");
-	//(*o).setSprite(sp);
+	pe::Sprite* sp = new pe::Sprite(); sp->loadTexture("res/icon.png");
+	(*o).setSprite(sp);
 
 	pe::Background* bg = new pe::Background();
 	//bg->loadTexture("res/bg.jpg");bg->setRepeatd(true);

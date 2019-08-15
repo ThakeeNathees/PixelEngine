@@ -16,9 +16,27 @@ namespace pe
 	}
 
 	// getters
-	bool Area::contains(glm::fvec2 point) {
+	bool Area::isContains(int x, int y) {
 
-		return false; // TODO: calculate scale rotation position ... 
+		switch (m_shape_type) {
+		case ShapeType::RECTANGLE:
+		{ // TODO: apply rotation
+			sf::Vector2f point_top_left;
+			sf::Vector2f point_bottom_right;
+			point_top_left.x = m_shape->getPoint(0).x * m_shape->getScale().x;
+			point_top_left.y = m_shape->getPoint(0).y * m_shape->getScale().y;
+			point_bottom_right.x = m_shape->getPoint(2).x * m_shape->getScale().x;
+			point_bottom_right.y = m_shape->getPoint(2).y * m_shape->getScale().y;
+
+			point_top_left += m_shape->getPosition() - m_shape->getOrigin();
+			point_bottom_right += m_shape->getPosition() - m_shape->getOrigin();
+			return point_top_left.x <= x && x <= point_bottom_right.x &&
+				point_top_left.y <= y && y <= point_bottom_right.y;
+		}
+		default:
+			return false; // TODO: calculate scale rotation position ... 
+		}
+
 	}
 
 	// setters

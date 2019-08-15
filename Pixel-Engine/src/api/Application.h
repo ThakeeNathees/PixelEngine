@@ -11,10 +11,12 @@ namespace pe {
 		Application();
 		~Application();
 
+		void update();
+		
 		void addScene( Scene* scene);
 		void setCurrentScene(std::string scene_name);
 
-		void update();
+		inline sf::RenderWindow* getWindow() const { return m_window; }
 
 	private:
 		double m_frame_rate = 30.0;

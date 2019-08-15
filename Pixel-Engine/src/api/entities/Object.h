@@ -42,11 +42,12 @@ namespace pe
 		void setArea( Area* area );
 
 		// getters
+		inline Application* getApplication() const { return m_applicaton; }
+		inline Scene* getScene() const  { return m_scene; }
+		inline Area* getArea() const { return m_area; }
 		inline Sprite* getSprite() const { return m_sprite; }
 		inline int getZIndex() const { return m_z_index; }
 		inline int getId() const { return m_id; }
-		inline Scene* getScene() { return m_scene; }
-		inline Area* getArea() { return m_area; }
 
 	private:
 		friend class Scene;
@@ -59,6 +60,7 @@ namespace pe
 		int m_z_index = 0; // small val render first
 		int m_id;
 		Scene* m_scene = nullptr;
+		Application* m_applicaton = nullptr;
 		Sprite* m_sprite = nullptr;
 		Area* m_area = nullptr;
 	};

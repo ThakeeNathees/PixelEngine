@@ -1,6 +1,7 @@
 #pragma once
 #include "..//core.h"
 
+#include "..//..//utils/math_utils.h"
 
 namespace pe
 {

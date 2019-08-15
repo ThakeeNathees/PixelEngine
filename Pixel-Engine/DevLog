@@ -3,6 +3,10 @@
 ## TODO ########################################################################
 	
 HIGHT PRIORITY
+
+	if a polygon concave -> it dosent even render : create a function to check it's convex
+	sf::circluerShape point count < 3 , other point count < 3 assert
+
 	objects debug draw , place holders, area initial default w, h
 	object's setScene, getNextScene, ... for that obj need Application*
 	area entity

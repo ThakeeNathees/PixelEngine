@@ -4,6 +4,7 @@
 #include "entities/Sprite.h"
 #include "entities/Object.h"
 
+#include "..//utils/math_utils.h"
 // testing
 #include "..//utils/XmlFile.h"
 
@@ -36,7 +37,7 @@ namespace pe
 	void Application::update()
 	{
 		sf::Clock clock;
-		long last_time = clock.getElapsedTime().asMicroseconds();
+		sf::Int64 last_time =  clock.getElapsedTime().asMicroseconds();
 		double dt = 0;
 
 		while (m_window->isOpen()) {
@@ -62,7 +63,6 @@ namespace pe
 			if (m_current_scene->getBackground() != nullptr && m_current_scene->getBackground()->getVisible() )
 				m_window->draw( m_current_scene->getBackground()->getBgSprite() );
 			for (Object* object : m_current_scene->getObjects()) {
-				//object->draw(m_window);
 				m_window->draw(*object);
 			}
 			m_window->display();

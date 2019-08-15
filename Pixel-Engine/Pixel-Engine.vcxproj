@@ -108,6 +108,7 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
     <ClInclude Include="src\api\Application.h" />
     <ClInclude Include="src\api\core.h" />
     <ClInclude Include="src\api\Pixel-Engine.h" />
+    <ClInclude Include="src\utils\math_utils.h" />
     <ClInclude Include="src\utils\XmlFile.h" />
   </ItemGroup>
   <ItemGroup>

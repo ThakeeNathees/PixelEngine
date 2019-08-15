@@ -3,6 +3,7 @@
 
 namespace pe
 {
+
 	Scene::Scene(const char* name) : m_name(name) {}
 
 	Scene::~Scene() {

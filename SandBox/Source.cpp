@@ -14,6 +14,11 @@ class O : public pe::Object{
 		rect->setFillColor( sf::Color(255, 75, 100, 60) );
 		area->setShape( rect );
 		setArea( area );
+
+		pe::Sprite* sp = new pe::Sprite(); sp->loadTexture("res/icon.png");
+		setSprite(sp);
+
+		setPosition(200, 100);
 	}
 
 	bool input(sf::Event& event) override {
@@ -38,30 +43,24 @@ int main()
 {
 
 	O* o = new O();
-	O* oo = new O();
 	o->setOrigin(32,32);
-	o->setPosition(100,100);
 
 
-	pe::Sprite* sp = new pe::Sprite(); sp->loadTexture("res/icon.png");
-	pe::Sprite* spp = new pe::Sprite(); spp->loadTexture("res/sheet.png");
-	(*o).setSprite(sp);
-	oo->setSprite(spp);
+	//pe::Sprite* sp = new pe::Sprite(); sp->loadTexture("res/icon.png");
+	//(*o).setSprite(sp);
 
 	pe::Background* bg = new pe::Background();
 	//bg->loadTexture("res/bg.jpg");bg->setRepeatd(true);
 	
 	pe::Scene* scene = new pe::Scene("scene1");
-	pe::Scene* scene2 = new pe::Scene("scene2");
 	scene->addObject(o);
-	scene2->addObject(oo);
 	scene->sortObjectsZIndex();
 	scene->setBackground(bg);
+	scene->setDebugMode(true);
 	
 
 	pe::Application app;
 	app.addScene( scene );
-	app.addScene( scene2 );
 	app.setCurrentScene("scene1");
 	app.update();
 	return 0;

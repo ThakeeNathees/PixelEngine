@@ -7,7 +7,11 @@
 
 namespace pe
 {
-    class Scene;
+	// forward class declaration
+	extern class Scene;
+	//extern bool Scene::isDebugMode();
+
+
 	class PIXEL_ENGINE_API Object : public sf::Transformable, public sf::Drawable
 	{
 	public:
@@ -18,13 +22,7 @@ namespace pe
 		inline virtual void init() {};
 		inline virtual void process(double dt) {};
 		inline virtual bool input(sf::Event& event) { return false; } // return if event handled ?
-		inline virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const{
-			states.transform *= getTransform(); // apply transform to member drawables
-			target.draw(*getSprite(), states);
-			// debug:
-			if (m_area != nullptr)
-			target.draw( *(m_area->getShape()), states );
-		}
+		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		// setters
 		void setSprite( Sprite* sprite );
@@ -43,11 +41,10 @@ namespace pe
 		inline void setScene(Scene* scene) { m_scene = scene; }
 
 		static int s_object_count;
-		int m_id;
-		Sprite* m_sprite;
-		//glm::vec2 m_position = glm::vec2(0,0);
 		int m_z_index = 0; // small val render first
-		Scene* m_scene;
-		Area* m_area;
+		int m_id;
+		Scene* m_scene = nullptr;
+		Sprite* m_sprite = nullptr;
+		Area* m_area = nullptr;
 	};
 }

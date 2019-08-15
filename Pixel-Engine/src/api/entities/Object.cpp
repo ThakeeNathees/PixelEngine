@@ -14,14 +14,16 @@ namespace pe
 	}
 
 
-	// setters
-	/*void Object::setPosition(glm::vec2 position) {
-		m_position = position;
-		m_sprite->setPosition(position.x, position.y);
+	// virtual function
+	void Object::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+		states.transform *= getTransform(); // apply transform to member drawables
+		target.draw(*getSprite(), states);
+		if (m_scene != nullptr ) {
+			//if (m_area != nullptr) target.draw(*(m_area->getShape()), states);
+		}
 	}
-	void Object::setPosition(float x, float y) {
-		setPosition(glm::vec2(x, y));
-	}*/
+
+	// setters
 	void Object::setSprite(Sprite* sprite) {
 		m_sprite = sprite;
 	}

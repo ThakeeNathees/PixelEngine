@@ -8,7 +8,7 @@ HIGHT PRIORITY
 	area entity
 	impliment debug mode for application to draw ...
 	create place holders and place holder class and clean res folder
-	keyboard key convert
+	keyboard key define in header
 	magical number store xml
 	create globle assets and global objects for presistance between scene
 

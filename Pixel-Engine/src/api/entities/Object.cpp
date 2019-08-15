@@ -15,16 +15,15 @@ namespace pe
 
 
 	// setters
-	void Object::setPosition(glm::vec2 position) {
+	/*void Object::setPosition(glm::vec2 position) {
 		m_position = position;
 		m_sprite->setPosition(position.x, position.y);
 	}
 	void Object::setPosition(float x, float y) {
 		setPosition(glm::vec2(x, y));
-	}
+	}*/
 	void Object::setSprite(Sprite* sprite) {
 		m_sprite = sprite;
-		m_sprite->setPosition(m_position.x, m_position.y);
 	}
 	void Object::setZIndex(int z_index) {
 		m_z_index = z_index;

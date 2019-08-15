@@ -8,6 +8,7 @@ namespace pe
 	}
 	// getters
 	bool Area::contains(glm::fvec2 point) {
+
 		return false; // TODO: calculate scale rotation position ... 
 	}
 

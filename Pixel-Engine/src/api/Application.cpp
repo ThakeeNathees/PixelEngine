@@ -61,7 +61,8 @@ namespace pe
 			if (m_current_scene->getBackground() != nullptr && m_current_scene->getBackground()->getVisible() )
 				m_window->draw( m_current_scene->getBackground()->getBgSprite() );
 			for (Object* object : m_current_scene->getObjects()) {
-				object->draw(m_window);
+				//object->draw(m_window);
+				m_window->draw(*object);
 			}
 			m_window->display();
 		}

@@ -5,7 +5,7 @@
 namespace pe
 {
 	// TODO: signals
-	class PIXEL_ENGINE_API Area
+	class PIXEL_ENGINE_API Area : public sf::Transformable
 	{
 	public:
 		~Area();

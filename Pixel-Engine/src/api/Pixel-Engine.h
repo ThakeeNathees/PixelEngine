@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "Application.h"
 #include "Scene.h"
 

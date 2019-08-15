@@ -3,6 +3,8 @@
 ## TODO ########################################################################
 	
 HIGHT PRIORITY
+	objects debug draw , place holders, area initial default w, h
+	object's setScene, getNextScene, ... for that obj need Application*
 	area entity
 	impliment debug mode for application to draw ...
 	create place holders and place holder class and clean res folder

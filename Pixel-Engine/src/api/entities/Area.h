@@ -29,6 +29,9 @@ namespace pe
 		void scale(float x, float y);
 		inline void scale(sf::Vector2f vect) { scale(vect.x, vect.y); }
 		inline void scale(glm::fvec2 vect) { scale(vect.x, vect.y); }
+		void setOrigin(float x, float y);
+		inline void setOrigin(const glm::fvec2& position) { setOrigin(position.x, position.y); }
+		inline void setOrigin(const sf::Vector2f& position) { setOrigin(position.x, position.y); }
 
 		void setShape( sf::Shape* shape );
 		

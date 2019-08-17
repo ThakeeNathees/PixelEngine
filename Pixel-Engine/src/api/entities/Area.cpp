@@ -36,6 +36,12 @@ namespace pe
 		sf::Shape::setScale(x, y);
 		if (m_shape) m_shape->setScale(getScale());
 	}
+	void Area::setOrigin(float x, float y) {
+		sf::Shape::setOrigin(x, y);
+		if (m_shape) m_shape->setOrigin( x, y );
+	}
+
+
 	void Area::move(float x, float y) {
 		setPosition(getPosition() + sf::Vector2f(x, y));
 	}

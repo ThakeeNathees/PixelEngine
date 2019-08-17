@@ -31,21 +31,25 @@ namespace pe
 
 		// setters
 		void setPosition(float x, float y);
-		inline void setPosition(glm::fvec2 position) { setPosition(position.x, position.y); }
-		inline void setPosition(const sf::Vector2f position) { setPosition(position.x, position.y); }
+		inline void setPosition(const glm::fvec2& position) { setPosition(position.x, position.y); }
+		inline void setPosition(const sf::Vector2f& position) { setPosition(position.x, position.y); }
 		void setRotation(float angle);
 		void setScale(float x, float y);
 		inline void setScale(float scale) { setScale(scale, scale); }
-		inline void setScale(glm::fvec2 scale) { setScale(scale.x, scale.y); }
-		inline void setScale(const sf::Vector2f scale) { setScale(scale.x, scale.y); }
+		inline void setScale(const glm::fvec2& scale) { setScale(scale.x, scale.y); }
+		inline void setScale(const sf::Vector2f& scale) { setScale(scale.x, scale.y); }
+		void setOrigin(float x, float y);
+		inline void setOrigin(const glm::fvec2& position) { setOrigin(position.x, position.y); }
+		inline void setOrigin(const sf::Vector2f& position) { setOrigin(position.x, position.y); }
 
 		void move(float x, float y);
-		inline void move(sf::Vector2f vect) { move( vect.x, vect.y ); }
-		inline void move(glm::fvec2 vect) { move(vect.x, vect.y); }
+		inline void move(const sf::Vector2f& vect) { move( vect.x, vect.y ); }
+		inline void move(const glm::fvec2& vect) { move(vect.x, vect.y); }
 		void rotate(float angle);
 		void scale(float x, float y);
-		inline void scale(sf::Vector2f vect) { scale(vect.x, vect.y); }
-		inline void scale(glm::fvec2 vect) { scale(vect.x, vect.y); }
+		inline void scale(float x) { scale( x, x); }
+		inline void scale(const sf::Vector2f& vect) { scale(vect.x, vect.y); }
+		inline void scale(const glm::fvec2& vect) { scale(vect.x, vect.y); }
 
 		void setSprite( Sprite* sprite );
 		void setZIndex(int z_index);
@@ -77,10 +81,13 @@ namespace pe
 		static int s_object_count;
 		int m_z_index = 0; // small val render first
 		int m_id;
-		bool m_visible = true;
-		Scene* m_scene = nullptr;
-		Application* m_applicaton = nullptr;
-		Sprite* m_sprite = nullptr;
-		Area* m_area = nullptr;
+		bool m_visible				= true;
+		Scene* m_scene				= nullptr;
+		Application* m_applicaton	= nullptr;
+		Sprite* m_sprite			= nullptr;
+		Area* m_area				= nullptr;
+
+		// for debug printing
+		sf::CircleShape* m_dbg_origin  = nullptr;
 	};
 }

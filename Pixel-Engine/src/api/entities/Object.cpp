@@ -8,9 +8,12 @@ namespace pe
 
 	Object::Object() {
 		m_id = ++s_object_count;
+		m_dbg_origin = new sf::CircleShape(5);
+		m_dbg_origin->setFillColor( sf::Color(150, 75, 150, 200) );
 	}
 	Object::~Object() {
-		delete m_sprite;
+		if (m_sprite)		delete m_sprite;
+		if (m_dbg_origin)	delete m_dbg_origin;
 	}
 	
 
@@ -20,11 +23,15 @@ namespace pe
 		drawDebug(target);
 	}
 	void Object::draw(sf::RenderTarget& target) const {
-		 if ( m_sprite != nullptr ) target.draw( *m_sprite );
+		if (hasSprite()) target.draw(getSprite());
 	}
 	void Object::drawDebug(sf::RenderTarget& target) const {
 		if (m_scene != nullptr && m_scene->isDebugMode() ) {
 			if (m_area != nullptr) target.draw(  m_area->getShape()  );
+			if (m_dbg_origin) {
+				m_dbg_origin->setPosition( getPosition() );
+				target.draw( *m_dbg_origin );
+			}
 		}
 	}
 
@@ -43,6 +50,11 @@ namespace pe
 		sf::Transformable::setScale(x, y);
 		if (m_sprite) m_sprite->setScale(getScale());
 		if (m_area) m_area->setScale(getScale());
+	}
+	void Object::setOrigin(float x, float y) {
+		sf::Transformable::setOrigin(x, y);
+		if (m_sprite) m_sprite->setOrigin( x, y );
+		if (m_area) m_area->setOrigin( x, y );
 	}
 
 	void Object::move(float x, float y) {
@@ -68,7 +80,7 @@ namespace pe
 	void Object::setArea(Area* area) { // if area == nullptr -> area set as sprite rect.
 		if (area == nullptr && m_sprite != nullptr ) {
 			if (m_area) delete m_area;
-			auto rect = m_sprite->getTextureRect();
+			auto rect = m_sprite->getLocalBounds();
 			sf::RectangleShape* shape = new sf::RectangleShape( sf::Vector2f(rect.width, rect.height) );
 			auto area = new Area();
 			area->setShape( shape );

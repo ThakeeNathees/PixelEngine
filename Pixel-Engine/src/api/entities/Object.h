@@ -34,6 +34,7 @@ namespace pe
 		inline void setPosition(const sf::Vector2f position) { setPosition(position.x, position.y); }
 		void setRotation(float angle);
 		void setScale(float x, float y);
+		inline void setScale(float scale) { setScale(scale, scale); }
 		inline void setScale(glm::fvec2 scale) { setScale(scale.x, scale.y); }
 		inline void setScale(const sf::Vector2f scale) { setScale(scale.x, scale.y); }
 
@@ -48,7 +49,7 @@ namespace pe
 
 		void setSprite( Sprite* sprite );
 		void setZIndex(int z_index);
-		void setArea( Area* area );
+		void setArea( Area* area = nullptr );
 
 		// getters
 		inline Application* getApplication() const { return m_applicaton; }

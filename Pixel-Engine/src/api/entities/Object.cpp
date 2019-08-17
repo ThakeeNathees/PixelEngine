@@ -66,11 +66,21 @@ namespace pe
 		m_sprite->setRotation(getRotation());
 		m_sprite->setScale(getScale());
 	}
-	void Object::setArea(Area* area) {
-		m_area = area;
-		m_area->setPosition( getPosition() );
-		m_area->setRotation( getRotation() );
-		m_area->setScale( getScale() );
+	void Object::setArea(Area* area) { // if area == nullptr -> area set as sprite rect.
+		if (area == nullptr && m_sprite != nullptr ) {
+			if (m_area) delete m_area;
+			auto rect = m_sprite->getLocalBounds();
+			sf::RectangleShape* shape = new sf::RectangleShape( sf::Vector2f(rect.width, rect.height) );
+			auto area = new Area();
+			area->setShape( shape );
+			setArea( area );
+		}
+		else {
+			m_area = area;
+			m_area->setPosition(getPosition());
+			m_area->setRotation(getRotation());
+			m_area->setScale(getScale());
+		}
 	}
 
 }

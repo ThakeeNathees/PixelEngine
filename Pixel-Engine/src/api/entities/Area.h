@@ -42,6 +42,7 @@ namespace pe
 
 	private:
 		sf::Shape* m_shape;
+		sf::Color m_fill_color = sf::Color(50, 75, 100, 100);
 
 	};
 

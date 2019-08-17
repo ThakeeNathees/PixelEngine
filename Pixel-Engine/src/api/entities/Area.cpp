@@ -15,9 +15,11 @@ namespace pe
 
 	// getters
 	std::size_t Area::getPointCount() const {
+		assert( m_shape != nullptr );
 		return m_shape->getPointCount();
 	}
 	sf::Vector2f Area::getPoint(std::size_t index) const {
+		assert( m_shape != nullptr );
 		return m_shape->getPoint(index);
 	}
 
@@ -49,6 +51,7 @@ namespace pe
 		m_shape->setPosition(getPosition());
 		m_shape->setRotation(getRotation());
 		m_shape->setScale(getScale());
+		m_shape->setFillColor(m_fill_color);
 	}
 
 

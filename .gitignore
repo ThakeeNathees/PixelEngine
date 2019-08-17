@@ -7,8 +7,5 @@ vender/SFML-2.5.1/examples/
 vender/SFML-2.5.1/doc/
 vender/SFML-2.5.1/lib/cmake/
 
-Editor/res/
-SandBox/res/
-
 #files
-*.png
+

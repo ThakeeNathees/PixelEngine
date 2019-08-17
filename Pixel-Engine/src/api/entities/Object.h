@@ -37,6 +37,15 @@ namespace pe
 		inline void setScale(glm::fvec2 scale) { setScale(scale.x, scale.y); }
 		inline void setScale(const sf::Vector2f scale) { setScale(scale.x, scale.y); }
 
+		void move(float x, float y);
+		inline void move(sf::Vector2f vect) { move( vect.x, vect.y ); }
+		inline void move(glm::fvec2 vect) { move(vect.x, vect.y); }
+		void rotate(float angle);
+		void scale(float x, float y);
+		inline void scale(sf::Vector2f vect) { scale(vect.x, vect.y); }
+		inline void scale(glm::fvec2 vect) { scale(vect.x, vect.y); }
+		
+
 		void setSprite( Sprite* sprite );
 		void setZIndex(int z_index);
 		void setArea( Area* area );
@@ -54,7 +63,6 @@ namespace pe
 		friend class Application;
 
 		inline void setScene(Scene* scene) { m_scene = scene; }
-		static void applyTransform( sf::Transformable* to, sf::Transformable* from );
 
 		static int s_object_count;
 		int m_z_index = 0; // small val render first

@@ -13,14 +13,7 @@ namespace pe
 	Object::~Object() {
 		delete m_sprite;
 	}
-	// TODO: move applyTransform this one and the one inside the area to util
-	void Object::applyTransform(sf::Transformable* to, sf::Transformable* from) {
-		if (to && from) {
-			to->setPosition( from->getPosition() );
-			to->setRotation( from->getRotation() );
-			to->setScale( from->getScale() );
-		}
-	}
+	
 
 	// virtual function
 	void Object::draw(sf::RenderTarget& target, sf::RenderStates states) const {
@@ -53,17 +46,31 @@ namespace pe
 		if (m_area) m_area->setScale(getScale());
 	}
 
+	void Object::move(float x, float y) {
+		setPosition( getPosition() + sf::Vector2f(x, y) );
+	}
+	void Object::rotate(float angle) {
+		setRotation( getRotation() + angle );
+	}
+	void Object::scale(float x, float y) {
+		setScale(  getScale().x * x, getScale().y * y  );
+	}
+
 	void Object::setZIndex(int z_index) {
 		m_z_index = z_index;
 		// TODO: signal call Scene.sortObjectZIndex() 
 	}
 	void Object::setSprite(Sprite* sprite) {
 		m_sprite = sprite;
-		applyTransform(m_sprite, this);
+		m_sprite->setPosition(getPosition());
+		m_sprite->setRotation(getRotation());
+		m_sprite->setScale(getScale());
 	}
 	void Object::setArea(Area* area) {
 		m_area = area;
-		applyTransform(m_area, this);
+		m_area->setPosition( getPosition() );
+		m_area->setRotation( getRotation() );
+		m_area->setScale( getScale() );
 	}
 
 }

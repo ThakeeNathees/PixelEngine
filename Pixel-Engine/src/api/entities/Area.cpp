@@ -7,71 +7,48 @@ namespace pe
 		delete m_shape;
 	}
 
-	void Area::applyTransform(sf::Transformable* to, sf::Transformable* from) {
-		if (to && from) {
-			to->setPosition(from->getPosition());
-			to->setRotation(from->getRotation());
-			to->setScale(from->getScale());
-		}
-	}
-
 	// getters
 	bool Area::isContains(int x, int y) {
+		return false; // TODO:
+	}
 
-		switch (m_shape_type) {
-		case ShapeType::RECTANGLE:
-		{ // TODO: apply rotation
-			sf::Vector2f p1; // point top left
-			sf::Vector2f p2; // point bottom right
-			p1.x = m_shape->getPoint(0).x * m_shape->getScale().x;
-			p1.y = m_shape->getPoint(0).y * m_shape->getScale().y;
 
-			p1 = rotatePoint<sf::Vector2f>(p1, m_shape->getRotation());
-			p2 = rotatePoint<sf::Vector2f>(p2, m_shape->getRotation());
-
-			p2.x = m_shape->getPoint(2).x * m_shape->getScale().x;
-			p2.y = m_shape->getPoint(2).y * m_shape->getScale().y;
-
-			p1 += m_shape->getPosition() - m_shape->getOrigin();
-			p2 += m_shape->getPosition() - m_shape->getOrigin();
-			return p1.x <= x && x <= p2.x &&
-				p1.y <= y && y <= p2.y;
-		}
-		default:
-			return false; // TODO: calculate scale rotation position ... 
-		}
-
+	// getters
+	std::size_t Area::getPointCount() const {
+		return m_shape->getPointCount();
+	}
+	sf::Vector2f Area::getPoint(std::size_t index) const {
+		return m_shape->getPoint(index);
 	}
 
 	// setters
 	void Area::setPosition(float x, float y) {
-		sf::Transformable::setPosition(x, y);
+		sf::Shape::setPosition(x, y);
 		if (m_shape) m_shape->setPosition(getPosition());
 	}
 	void Area::setRotation(float angle) {
-		sf::Transformable::setRotation(angle);
+		sf::Shape::setRotation(angle);
 		if (m_shape) m_shape->setRotation(getRotation());
 	}
 	void Area::setScale(float x, float y) {
-		sf::Transformable::setScale(x, y);
+		sf::Shape::setScale(x, y);
 		if (m_shape) m_shape->setScale(getScale());
 	}
-
-
-	void Area::setShape(sf::RectangleShape* shape) {
-		m_shape = shape;
-		applyTransform(m_shape, this);
-		m_shape_type = ShapeType::RECTANGLE;
+	void Area::move(float x, float y) {
+		setPosition(getPosition() + sf::Vector2f(x, y));
 	}
-	void Area::setShape(sf::CircleShape* shape) {
-		m_shape = shape;
-		applyTransform(m_shape, this);
-		m_shape_type = ShapeType::CIRCLE;
+	void Area::rotate(float angle) {
+		setRotation(getRotation() + angle);
 	}
-	void Area::setShape(sf::ConvexShape* shape) {
+	void Area::scale(float x, float y) {
+		setScale(getScale().x * x, getScale().y * y);
+	}
+
+	void Area::setShape(sf::Shape* shape) {
 		m_shape = shape;
-		applyTransform(m_shape, this);
-		m_shape_type = ShapeType::CONVEX_POLYGON;
+		m_shape->setPosition(getPosition());
+		m_shape->setRotation(getRotation());
+		m_shape->setScale(getScale());
 	}
 
 

@@ -9,16 +9,6 @@
 class O : public pe::Object{
 	
 	void init() override {
-		pe::Area* area = new pe::Area();
-		auto rect = new sf::RectangleShape( sf::Vector2f(64,64) );
-		rect->setFillColor( sf::Color(255, 75, 100, 60) );
-		area->setShape( rect );
-		setArea( area );
-		setScale(2, 1);
-		setPosition(200, 100);
-		setRotation(45);
-
-		
 	}
 
 	bool input(sf::Event& event) override {
@@ -28,13 +18,16 @@ class O : public pe::Object{
 				return true;
 			};
 			if (event.key.code == 3) {
-				setScale(  getScale().x + .01 ,1 );
+				//move(10,0);
 			};
 		}
 		return false;
 	}
 
 	void process(double dt) override {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
+			//move( 100 * dt, 0 );
+		}
 		auto app = getApplication();
 		auto pos = sf::Mouse::getPosition( *app->getWindow() );
 		
@@ -42,12 +35,14 @@ class O : public pe::Object{
 	}
 
 	void draw(sf::RenderTarget& target) const override {
-		target.draw(*getSprite());
-		sf::CircleShape s(100, 2);
-		s.setFillColor({ 100, 30, 80, 200 });
+		sf::CircleShape s(100);
+
+		s.setPosition(200,200);
+		
+		auto pos = sf::Mouse::getPosition(*getApplication()->getWindow());
+		print( pe::isContainPoint( s, {pos.x, pos.y}  ) );
 		target.draw( s );
 	}
-	
 
 };
 
@@ -55,11 +50,21 @@ int main()
 {
 
 	O* o = new O();
-	o->setOrigin(32,32);
-
+	o->setOrigin(32, 32);
+	o->setPosition(100,100);
+	//o->setScale( .5,.5 );
 
 	pe::Sprite* sp = new pe::Sprite(); sp->loadTexture("res/icon.png");
 	(*o).setSprite(sp);
+
+	pe::Area* area = new pe::Area();
+	auto rect = new sf::RectangleShape(sf::Vector2f(64, 64));
+	rect->setFillColor(sf::Color(255, 10, 100, 200));
+	area->setShape(rect);
+	o->setArea(area);
+
+	o->rotate( 45 );
+
 
 	pe::Background* bg = new pe::Background();
 	//bg->loadTexture("res/bg.jpg");bg->setRepeatd(true);
@@ -68,7 +73,7 @@ int main()
 	scene->addObject(o);
 	scene->sortObjectsZIndex();
 	scene->setBackground(bg);
-	//scene->setDebugMode(true);
+	scene->setDebugMode(true);
 	
 
 	pe::Application app;

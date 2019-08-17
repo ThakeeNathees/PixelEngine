@@ -16,6 +16,7 @@ namespace pe
 	{
 	public:
 		Object();
+		Object(const Object& other) = delete;
 		~Object();
 
 		// virtual functions
@@ -45,19 +46,27 @@ namespace pe
 		void scale(float x, float y);
 		inline void scale(sf::Vector2f vect) { scale(vect.x, vect.y); }
 		inline void scale(glm::fvec2 vect) { scale(vect.x, vect.y); }
-		
 
 		void setSprite( Sprite* sprite );
 		void setZIndex(int z_index);
 		void setArea( Area* area = nullptr );
 
+		inline void setVisible(bool visible) { m_visible = visible; }
+
 		// getters
-		inline Application* getApplication() const { return m_applicaton; }
-		inline Scene* getScene() const  { return m_scene; }
-		inline Area* getArea() const { return m_area; }
-		inline Sprite* getSprite() const { return m_sprite; }
-		inline int getZIndex() const { return m_z_index; }
-		inline int getId() const { return m_id; }
+		inline Application& getApplication() const	{ assert( m_applicaton != nullptr); return *m_applicaton; }
+		inline Scene& getScene() const				{ assert( m_scene != nullptr);		return *m_scene; }
+		inline Area& getArea() const				{ assert( m_area != nullptr);		return *m_area; }
+		inline Sprite& getSprite() const			{ assert( m_sprite != nullptr);		return *m_sprite; }
+		inline int getZIndex() const				{ return m_z_index; }
+		inline int getId() const					{ return m_id; }
+		
+		inline bool hasApplication() const { return m_applicaton != nullptr; }
+		inline bool hasScene() const { return m_scene != nullptr; }
+		inline bool hasArea() const { return m_area != nullptr; }
+		inline bool hasSprite() const { return m_sprite != nullptr; }
+
+		inline bool getVisible() const { return m_visible; }
 
 	private:
 		friend class Scene;
@@ -68,6 +77,7 @@ namespace pe
 		static int s_object_count;
 		int m_z_index = 0; // small val render first
 		int m_id;
+		bool m_visible = true;
 		Scene* m_scene = nullptr;
 		Application* m_applicaton = nullptr;
 		Sprite* m_sprite = nullptr;

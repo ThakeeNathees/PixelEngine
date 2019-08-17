@@ -16,7 +16,7 @@ namespace pe
 
 	template<typename T=glm::fvec2>
 	T rotatePoint( float x, float y, float angle_degree ) {
-		float angle = angle_degree * PI / 180.0;
+		float angle = angle_degree * PI / 180.0f;
 		T rotated;
 		rotated.x = x * glm::cos(angle) - y * glm::sin( angle );
 		rotated.y = y * glm::cos(angle) + x * glm::sin(angle);

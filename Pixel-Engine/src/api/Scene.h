@@ -11,6 +11,7 @@ namespace pe
 	{
 	public:
 		Scene(const char* name);
+		Scene(const Scene& other) = delete;
 		~Scene();
 
 		//setters
@@ -18,14 +19,16 @@ namespace pe
 		void sortObjectsZIndex();
 		void setBackground( Background* background);
 		inline void setDebugMode(bool is_debug_mode) { m_is_debug_mode = is_debug_mode; }
+		void setSceneWindowSize(glm::ivec2 window_size);
 
 
 		//getters
 		inline const char* getName() { return m_name; }
 		inline std::vector<Object*>& getObjects() { return m_objects; }
-		inline Background* getBackground() { return m_background; }
-		void setSceneWindowSize(glm::ivec2 window_size);
+		inline Background& getBackground() { return *m_background; }
+		
 		inline bool isDebugMode() { return m_is_debug_mode; }
+		inline bool hasBackground() const { return m_background != nullptr; }
 
 	private:
 		bool m_is_debug_mode = false;

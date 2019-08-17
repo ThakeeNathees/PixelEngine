@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Area.h"
 
+#include "..//..//utils/math_utils.h"
+
 namespace pe
 {
 	Area::~Area() {
@@ -9,11 +11,9 @@ namespace pe
 
 	// getters
 	bool Area::isContains(int x, int y) {
-		return false; // TODO:
+		return isContainPoint(*m_shape,  glm::fvec2(x, y) );
 	}
 
-
-	// getters
 	std::size_t Area::getPointCount() const {
 		assert( m_shape != nullptr );
 		return m_shape->getPointCount();

@@ -1,6 +1,6 @@
 #pragma once
 #include "..//core.h"
-#include "pch.h"
+//#include "pch.h"
 
 
 namespace pe

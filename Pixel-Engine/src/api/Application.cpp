@@ -5,8 +5,8 @@
 #include "entities/Object.h"
 
 #include "..//utils/math_utils.h"
-// testing
-#include "..//utils/XmlFile.h"
+
+//#include "..//utils/XmlFile.h"
 
 namespace pe
 {
@@ -60,10 +60,11 @@ namespace pe
 
 			// draw
 			m_window->clear(m_background_color);                     // TODO: ..., scene background, ...
-			if (m_current_scene->getBackground() != nullptr && m_current_scene->getBackground()->getVisible() )
-				m_window->draw( m_current_scene->getBackground()->getBgSprite() );
+			if (m_current_scene->hasBackground())
+				m_window->draw(  m_current_scene->getBackground() );
+
 			for (Object* object : m_current_scene->getObjects()) {
-				m_window->draw(*object);
+				 if (object->getVisible()) m_window->draw(*object);
 			}
 			m_window->display();
 		}

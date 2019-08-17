@@ -1,6 +1,5 @@
 #include "pch.h"
-//#include "Object.h"
-#include "..//Scene.h" // for referencing m_scene
+#include "..//Scene.h" // for referencing scene of the object; scene has objects included
 
 namespace pe
 {
@@ -21,11 +20,11 @@ namespace pe
 		drawDebug(target);
 	}
 	void Object::draw(sf::RenderTarget& target) const {
-		target.draw(*getSprite());
+		 if ( m_sprite != nullptr ) target.draw( *m_sprite );
 	}
 	void Object::drawDebug(sf::RenderTarget& target) const {
 		if (m_scene != nullptr && m_scene->isDebugMode() ) {
-			if (m_area != nullptr) target.draw(*(m_area->getShape()));
+			if (m_area != nullptr) target.draw(  m_area->getShape()  );
 		}
 	}
 
@@ -69,7 +68,7 @@ namespace pe
 	void Object::setArea(Area* area) { // if area == nullptr -> area set as sprite rect.
 		if (area == nullptr && m_sprite != nullptr ) {
 			if (m_area) delete m_area;
-			auto rect = m_sprite->getLocalBounds();
+			auto rect = m_sprite->getTextureRect();
 			sf::RectangleShape* shape = new sf::RectangleShape( sf::Vector2f(rect.width, rect.height) );
 			auto area = new Area();
 			area->setShape( shape );

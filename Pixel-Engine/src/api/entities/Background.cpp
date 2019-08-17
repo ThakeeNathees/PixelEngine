@@ -6,10 +6,17 @@ namespace pe
 	Background::Background() {}
 	Background::~Background() {}
 
-	void Background::loadTexture(std::string path) {
-		m_texture.loadFromFile(path);
+
+	void Background::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+		if ( m_has_image && m_visible) target.draw( m_background );
+	}
+
+	bool Background::loadTexture(std::string path) {
+		bool success = m_texture.loadFromFile(path);
+		if (!success) return false;
 		m_background.setTexture(m_texture);
-		setVisible(true);
+		m_has_image = true;
+		return true;
 	}
 
 	void Background::setRepeatd(bool repeated) {

@@ -29,11 +29,12 @@ namespace pe
 		assert( m_scenes.find(scene_name) != m_scenes.end() && "invalid scene name to set" );
 		m_current_scene = m_scenes[scene_name];
 		for (auto obj : m_current_scene->getObjects()) {
-			obj->init();
 			obj->m_applicaton = this;
+			obj->init();
 		}
 	}
-
+	
+	/// main loop
 	void Application::update()
 	{
 		sf::Clock clock;
@@ -54,12 +55,15 @@ namespace pe
 				for (Object* object : m_current_scene->getObjects()) {
 					object->process(dt);
 				}
+				for (Signal* signal : m_current_scene->m_signals) {
+					for (Object* object : signal->getRecievers()) object->recieveSignal(*signal);
+				} m_current_scene->m_signals.clear();
 				dt -= (1 / m_frame_rate);
 			}
 			double interpolation = dt / (1 / m_frame_rate);
 
 			// draw
-			m_window->clear(m_background_color);                     // TODO: ..., scene background, ...
+			m_window->clear(m_background_color);
 			if (m_current_scene->hasBackground())
 				m_window->draw(  m_current_scene->getBackground() );
 

@@ -3,12 +3,14 @@
 
 namespace pe
 {
-
+	// static initialization
 	int Object::s_object_count = 0;
+	sf::RenderTarget* Object::s_render_target = nullptr;
+	sf::Color Object::m_default_color = sf::Color(50, 75, 100, 255);
 
 	Object::Object() {
 		m_id = ++s_object_count;
-		m_dbg_origin = new sf::CircleShape(5);
+		m_dbg_origin = new sf::CircleShape(3);
 		m_dbg_origin->setFillColor( sf::Color(150, 75, 150, 200) );
 	}
 	Object::~Object() {
@@ -19,11 +21,13 @@ namespace pe
 
 	// virtual function
 	void Object::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-		draw(target);
+		s_render_target = &target; // TODO: multiple viwe case
+		draw();
 		drawDebug(target);
+		s_render_target = nullptr;
 	}
-	void Object::draw(sf::RenderTarget& target) const {
-		if (hasSprite()) target.draw(getSprite());
+	void Object::draw() const {
+		drawSelf();
 	}
 	void Object::drawDebug(sf::RenderTarget& target) const {
 		if (m_scene != nullptr && m_scene->isDebugMode() ) {
@@ -33,6 +37,46 @@ namespace pe
 				target.draw( *m_dbg_origin );
 			}
 		}
+	}
+	void Object::draw(const sf::Drawable& drawable) const {
+		assert( s_render_target != nullptr && "draw(const sf::Drawable&) can only be call from draw() method" );
+		s_render_target->draw(drawable);
+
+	}
+
+	void Object::drawSelf() const {
+		assert( s_render_target != nullptr && "drawself() can only be call from draw() method" );
+		if (hasSprite()) s_render_target->draw(getSprite());
+	}
+
+	void Object::drawRectangle(float x, float y, float width, float height, sf::Color color) const { // TODO: outline only, outline thickness ...
+		assert( s_render_target != nullptr && "drawRectangle() can only be call from draw() method" );
+		sf::RectangleShape shape(sf::Vector2f( width, height ));
+		shape.setPosition(x, y);
+		shape.setFillColor(color);
+		s_render_target->draw( shape );
+	}
+
+	void Object::drawLine(float x1, float y1, float x2, float y2, float thickness, sf::Color color) const {
+		assert( s_render_target != nullptr && "drawLIne() can only be call from draw() method" );
+		// TODO:
+	}
+	void Object::drawCircle(float x, float y, float r, sf::Color color) const {
+		assert( s_render_target != nullptr && "drawCircle() can only be call from draw() method" );
+		sf::CircleShape circle(r);
+		circle.setPosition( x-r, y-r );
+		circle.setFillColor( color );
+		s_render_target->draw( circle );
+	}
+	sf::RenderTarget& Object::getRenderTarget() const {
+		assert( s_render_target != nullptr && "getRenderTarget() can only be call from draw() method" );
+		return *s_render_target;
+	}
+
+	void Object::emitSignal(Signal& signal) {
+		signal.m_sender = this;
+		assert(  m_scene != nullptr );
+		m_scene->addSignals(&signal);
 	}
 
 	// setters

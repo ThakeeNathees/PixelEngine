@@ -8,6 +8,7 @@
 #include "entities/Object.h"
 #include "entities/Background.h"
 #include "entities/Area.h"
+#include "entities/Signal.h"
 
 /*************************************/
 

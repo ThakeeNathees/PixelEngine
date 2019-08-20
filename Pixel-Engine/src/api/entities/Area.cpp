@@ -11,15 +11,15 @@ namespace pe
 
 	// getters
 	bool Area::isContains(int x, int y) {
-		return isContainPoint(*m_shape,  glm::fvec2(x, y) );
+		return isContainPoint(*m_shape, glm::fvec2(x, y));
 	}
 
 	std::size_t Area::getPointCount() const {
-		assert( m_shape != nullptr );
+		assert(m_shape != nullptr);
 		return m_shape->getPointCount();
 	}
 	sf::Vector2f Area::getPoint(std::size_t index) const {
-		assert( m_shape != nullptr );
+		assert(m_shape != nullptr);
 		return m_shape->getPoint(index);
 	}
 
@@ -38,7 +38,7 @@ namespace pe
 	}
 	void Area::setOrigin(float x, float y) {
 		sf::Shape::setOrigin(x, y);
-		if (m_shape) m_shape->setOrigin( x, y );
+		if (m_shape) m_shape->setOrigin(x, y);
 	}
 
 
@@ -54,6 +54,8 @@ namespace pe
 
 	void Area::setShape(sf::Shape* shape) {
 		m_shape = shape;
+		m_centroid = getCentroid(shape);
+		m_is_convex = isShapeConvex(*shape);
 		m_shape->setPosition(getPosition());
 		m_shape->setRotation(getRotation());
 		m_shape->setScale(getScale());

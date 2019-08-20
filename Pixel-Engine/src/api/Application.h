@@ -15,8 +15,9 @@ namespace pe {
 		void update();
 
 		// setters
-		void addScene( Scene* scene);
+		void addScene(Scene* scene);
 		void setCurrentScene(std::string scene_name);
+		inline void setEventHandled() { m_event_handled = true; }
 
 		// getters
 		inline sf::RenderWindow& getWindow() const { assert(m_window != nullptr); return *m_window; }
@@ -31,5 +32,6 @@ namespace pe {
 		sf::RenderWindow* m_window = nullptr;
 		std::map<std::string, Scene*> m_scenes;
 		Scene* m_current_scene = nullptr;
+		bool m_event_handled = false;
 	};
 }

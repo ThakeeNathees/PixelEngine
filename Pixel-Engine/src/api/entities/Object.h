@@ -5,6 +5,7 @@
 #include "Sprite.h"
 #include "Area.h"
 #include "Signal.h"
+#include "Animation.h"
 
 
 namespace pe
@@ -36,13 +37,13 @@ namespace pe
 		// draw methods
 		sf::RenderTarget& getRenderTarget() const;
 		void drawSelf() const;
-		void drawRectangle(float x, float y, float width, float height, sf::Color color = m_default_color) const;
+		void drawRectangle(float x, float y, float width, float height, sf::Color color = m_default_color, bool outline = false, int outline_thickness = 2) const;
 
 		template <typename T_position = glm::fvec2, typename T_dimension = glm::fvec2>
-		void drawRectangle(const T_position & position, const T_dimension & dimension, sf::Color color = m_default_color) const { drawRectangle(position.x, position.y, dimension.x, dimension.y, color); }
+		void drawRectangle(const T_position & position, const T_dimension & dimension, sf::Color color = m_default_color, bool outline = false, int outline_thickness = 2) const { drawRectangle(position.x, position.y, dimension.x, dimension.y, color, outline, outline_thickness); }
 		template <typename T = glm::fvec4>
-		void drawRectangle(const T & rect, sf::Color color = m_default_color) const { drawRectangle(rect.x, rect.y, rect.z, rect.w, color); }
-		inline void drawRectangle(const sf::FloatRect& rect, sf::Color color = m_default_color) const { drawRectangle(rect.top, rect.left, rect.width, rect.height, color); }
+		void drawRectangle(const T & rect, sf::Color color = m_default_color, bool outline = false, int outline_thickness = 2) const { drawRectangle(rect.x, rect.y, rect.z, rect.w, color, outline, outline_thickness); }
+		inline void drawRectangle(const sf::FloatRect& rect, sf::Color color = m_default_color, bool outline = false, int outline_thickness = 2) const { drawRectangle(rect.top, rect.left, rect.width, rect.height, color, outline, outline_thickness); }
 		inline void drawRectangle(const sf::RectangleShape& shape) { draw(shape); }
 
 
@@ -52,10 +53,9 @@ namespace pe
 			drawLine(point1.x, point1.y, point2.x, point2.y, thickness, color);
 		}
 
-
-		void drawCircle(float x, float y, float r, sf::Color color = m_default_color) const;
+		void drawCircle(float x, float y, float r, sf::Color color = m_default_color, bool outline = false, int outline_thickness = 2) const;
 		template < typename T = glm::fvec2 >
-		inline void drawCircle(const T & position, float r, sf::Color color = m_default_color) const { drawCircle(position.x, position.y, r, color); }
+		inline void drawCircle(const T & position, float r, sf::Color color = m_default_color, bool outline = false, int outline_thickness = 2) const { drawCircle(position.x, position.y, r, color, outline, outline_thickness); }
 
 
 		void emitSignal(Signal& signal);
@@ -88,9 +88,11 @@ namespace pe
 		void setSprite(Sprite* sprite);
 		void setZIndex(int z_index);
 		void setArea(Area* area = nullptr);
+		void setAnimation(Animation* anim);
 
 		inline void setVisible(bool visible) { m_visible = visible; }
 		inline void setName(const std::string& name) { m_name = name; }
+
 
 		// getters
 		inline Application& getApplication() const { assert(m_applicaton != nullptr); return *m_applicaton; }
@@ -108,6 +110,10 @@ namespace pe
 		inline bool getVisible() const { return m_visible; }
 		inline const std::string& getName() const { return m_name; }
 
+		Animation& getAnimation(const std::string& anim_name);
+
+		//Animation& getAnimation(const std::string& anim_name);
+
 	private:
 		inline void setScene(Scene* scene) { m_scene = scene; }
 		friend class Scene;
@@ -123,6 +129,7 @@ namespace pe
 		Application* m_applicaton = nullptr;
 		Sprite* m_sprite = nullptr;
 		Area* m_area = nullptr;
+		std::map<std::string, Animation*> m_animations;
 
 		// for debug printing
 		static sf::Color m_default_color;

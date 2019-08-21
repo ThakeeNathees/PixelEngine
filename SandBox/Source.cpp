@@ -20,9 +20,10 @@ int main()
 	
 	//scene->setBackground(bg);
 	scene->sortObjectsZIndex();
-	scene->setDebugMode(true);
 	
 	pe::Application app;
+	app.setDebugMode(true);
+
 	app.addScene( scene );
 	app.setCurrentScene("scene1");
 	app.update();

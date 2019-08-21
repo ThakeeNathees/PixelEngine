@@ -18,7 +18,6 @@ namespace pe
 		void addObject(Object* object);
 		void sortObjectsZIndex();
 		void setBackground( Background* background);
-		inline void setDebugMode(bool is_debug_mode) { m_is_debug_mode = is_debug_mode; }
 		void setSceneWindowSize(glm::ivec2 window_size);
 		inline void addSignals(Signal* signal) { m_signals.push_back(signal); }
 
@@ -30,12 +29,10 @@ namespace pe
 		Object& getObject(const std::string& name);
 		bool hasObject(const std::string& name);
 		
-		inline bool isDebugMode() { return m_is_debug_mode; }
 		inline bool hasBackground() const { return m_background != nullptr; }
 
 	private:
 		friend class Application;
-		bool m_is_debug_mode = false;
 		std::string m_name;
 		static bool sortCompare(Object* obj1, Object* obj2);
 		std::vector<Object*> m_objects;

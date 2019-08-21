@@ -5,7 +5,6 @@
 
 namespace pe
 {
-	// TODO: signals
 	class PIXEL_ENGINE_API Area : public sf::Shape
 	{
 	public:

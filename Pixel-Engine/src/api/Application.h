@@ -18,10 +18,12 @@ namespace pe {
 		void addScene(Scene* scene);
 		void setCurrentScene(std::string scene_name);
 		inline void setEventHandled() { m_event_handled = true; }
+		inline void setDebugMode(bool is_debug_mode) { m_is_debug_mode = is_debug_mode; }
 
 		// getters
 		inline sf::RenderWindow& getWindow() const { assert(m_window != nullptr); return *m_window; }
 		inline Scene& getCurrentScene() const { assert(m_current_scene != nullptr); return *m_current_scene; }
+		inline bool isDebugMode() { return m_is_debug_mode; }
 
 		inline bool hasWindow() const { return m_window != nullptr; }
 		inline bool hasScene() const { return m_current_scene != nullptr; }
@@ -33,5 +35,6 @@ namespace pe {
 		std::map<std::string, Scene*> m_scenes;
 		Scene* m_current_scene = nullptr;
 		bool m_event_handled = false;
+		bool m_is_debug_mode = false;
 	};
 }

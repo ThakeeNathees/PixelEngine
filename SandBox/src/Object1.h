@@ -25,12 +25,11 @@ public:
 		signal->addReciever(this);
 		emitSignal(*signal);
 
-		getScene().setDebugMode(false);
+		getApplication().setDebugMode(false);
 	}
 
 	inline void draw() const override {
 		drawSelf();
-		//print( getArea().getCentre().x <<  " " << getArea().getCentre().y  );
 	}
 
 	inline void recieveSignal(pe::Signal& signal) override {

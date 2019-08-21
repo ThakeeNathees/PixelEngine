@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "..//Scene.h" // for referencing scene of the object; scene has objects included
+#include "../Application.h" // for referencing scene of the object; scene has objects included
 
 namespace pe
 {
@@ -30,7 +30,7 @@ namespace pe
 		drawSelf();
 	}
 	void Object::drawDebug(sf::RenderTarget& target) const {
-		if (m_scene != nullptr && m_scene->isDebugMode()) {
+		if (m_applicaton != nullptr && m_applicaton->isDebugMode()) {
 			if (m_area != nullptr) {
 				target.draw(m_area->getShape());
 				drawCircle(m_area->getCentre(), 3, sf::Color(0, 255, 0, 255));
@@ -53,11 +53,18 @@ namespace pe
 		if (hasSprite()) s_render_target->draw(getSprite());
 	}
 
-	void Object::drawRectangle(float x, float y, float width, float height, sf::Color color) const { // TODO: outline only, outline thickness ...
+	void Object::drawRectangle(float x, float y, float width, float height, sf::Color color, bool outline, int outline_thickness) const {
 		assert(s_render_target != nullptr && "drawRectangle() can only be call from draw() method");
 		sf::RectangleShape shape(sf::Vector2f(width, height));
 		shape.setPosition(x, y);
-		shape.setFillColor(color);
+		if (outline) {
+			shape.setOutlineThickness(outline_thickness);
+			shape.setFillColor( sf::Color(0,0,0,0) );
+			shape.setOutlineColor(color);
+		}
+		else {
+			shape.setFillColor(color);
+		}
 		s_render_target->draw(shape);
 	}
 
@@ -65,11 +72,18 @@ namespace pe
 		assert(s_render_target != nullptr && "drawLIne() can only be call from draw() method");
 		// TODO:
 	}
-	void Object::drawCircle(float x, float y, float r, sf::Color color) const {
+	void Object::drawCircle(float x, float y, float r, sf::Color color, bool outline, int outline_thickness) const {
 		assert(s_render_target != nullptr && "drawCircle() can only be call from draw() method");
 		sf::CircleShape circle(r);
 		circle.setPosition(x - r, y - r);
-		circle.setFillColor(color);
+		if (outline) {
+			circle.setOutlineThickness(outline_thickness);
+			circle.setFillColor( sf::Color(0,0,0,0) );
+			circle.setOutlineColor(color);
+		}
+		else {
+			circle.setFillColor(color);
+		}
 		s_render_target->draw(circle);
 	}
 	sf::RenderTarget& Object::getRenderTarget() const {
@@ -81,6 +95,11 @@ namespace pe
 		signal.m_sender = this;
 		assert(m_scene != nullptr);
 		m_scene->addSignals(&signal);
+	}
+	
+	Animation& Object::getAnimation(const std::string& anim_name) {
+		assert( m_animations.find(anim_name) != m_animations.end() && "invalid animation name to get" );
+		return *(m_animations[anim_name]);
 	}
 
 	// setters
@@ -117,7 +136,7 @@ namespace pe
 
 	void Object::setZIndex(int z_index) {
 		m_z_index = z_index;
-		// TODO: signal call Scene.sortObjectZIndex() 
+		if ( m_scene!= nullptr ) getScene().sortObjectsZIndex();
 	}
 	void Object::setSprite(Sprite* sprite) {
 		m_sprite = sprite;
@@ -140,6 +159,11 @@ namespace pe
 			m_area->setRotation(getRotation());
 			m_area->setScale(getScale());
 		}
+	}
+
+	void Object::setAnimation(Animation* anim) {
+		m_animations[ anim->getName() ] = anim;
+		anim->setObject(this);
 	}
 
 }

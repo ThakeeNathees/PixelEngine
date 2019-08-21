@@ -33,6 +33,5 @@ namespace pe
 		bool m_visible = true;
 		bool m_is_repeated = false;
 		glm::ivec2 m_window_size = glm::ivec2(-1, -1); // TODO: add horizoltal velocity
-
 	};
 }

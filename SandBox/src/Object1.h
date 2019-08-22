@@ -21,10 +21,9 @@ public:
 		setScale(.15, .15);
 		setPosition(100, 100);
 
-		pe::Signal* signal = new pe::Signal("test");
-		signal->addReciever(this);
-		emitSignal(*signal);
-
+		pe::Timer* timer = new pe::Timer("test timer",3);
+		timer->setSignalReciever(this);
+		addTimer(timer);
 		getApplication().setDebugMode(false);
 	}
 
@@ -33,7 +32,7 @@ public:
 	}
 
 	inline void recieveSignal(pe::Signal& signal) override {
-		//print( signal.getName() );
+		print( signal.getName() );
 	}
 
 	inline void input(sf::Event& event) override {

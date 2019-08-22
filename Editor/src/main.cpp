@@ -15,6 +15,9 @@
 
 #define print(x) std::cout << x << std::endl;
 
+// TODO: add working dir
+std::string working_dir = "C:/dev/Pixel-Engine/Editor/";
+
 int main()
 {
 	// creating window and initi and other inits //////////////////////
@@ -33,7 +36,7 @@ int main()
 
 	// test
 	pe::Sprite sprite;
-	sprite.loadTexture("res/sheet.png");
+	sprite.loadTexture( working_dir + std::string("res/sheet.png") );
 	RenderWindow::test_sprite = &sprite;
 	PropertyEditor::s_sprite = &sprite;
 	////////////////////////////////////////////////////////////////
@@ -54,7 +57,7 @@ int main()
 		// editor rendering
 		show_dock_space();
 		ImGui::ShowTestWindow();
-		FileTree::renderFileTree(".");
+		FileTree::renderFileTree(working_dir.c_str());
 		WindowManager::windowSignalFromFileTree();
 		EditorMap::renderEditors();
 		Console::renderConsole();

@@ -168,6 +168,7 @@
     <ClCompile Include="src\windows\render_window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="src\globals.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\utils\string_util.h" />
@@ -179,6 +180,13 @@
     <ClInclude Include="src\windows\property_window\proprty_editor.h" />
     <ClInclude Include="src\windows\render_window.h" />
     <ClInclude Include="src\windows\windows.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\icon_256x256.ico" />
+    <Image Include="res\icon_original.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Editor.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

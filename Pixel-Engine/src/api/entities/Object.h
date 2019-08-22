@@ -6,6 +6,7 @@
 #include "Area.h"
 #include "Signal.h"
 #include "Animation.h"
+#include "Timer.h"
 
 
 namespace pe
@@ -57,7 +58,6 @@ namespace pe
 		template < typename T = glm::fvec2 >
 		inline void drawCircle(const T & position, float r, sf::Color color = m_default_color, bool outline = false, int outline_thickness = 2) const { drawCircle(position.x, position.y, r, color, outline, outline_thickness); }
 
-
 		void emitSignal(Signal& signal);
 
 		// setters
@@ -89,6 +89,7 @@ namespace pe
 		void setZIndex(int z_index);
 		void setArea(Area* area = nullptr);
 		void setAnimation(Animation* anim);
+		void addTimer(Timer* timer);
 
 		inline void setVisible(bool visible) { m_visible = visible; }
 		inline void setName(const std::string& name) { m_name = name; }
@@ -99,9 +100,11 @@ namespace pe
 		inline Scene& getScene() const { assert(m_scene != nullptr);		return *m_scene; }
 		inline Area& getArea() const { assert(m_area != nullptr);		return *m_area; }
 		inline Sprite& getSprite() const { assert(m_sprite != nullptr);		return *m_sprite; }
+		inline std::vector<Timer*>& getTimers() { return m_timers; }
+		Animation& getAnimation(const std::string& anim_name);
+		
 		inline int getZIndex() const { return m_z_index; }
 		inline int getId() const { return m_id; }
-
 		inline bool hasApplication() const { return m_applicaton != nullptr; }
 		inline bool hasScene() const { return m_scene != nullptr; }
 		inline bool hasArea() const { return m_area != nullptr; }
@@ -110,9 +113,6 @@ namespace pe
 		inline bool getVisible() const { return m_visible; }
 		inline const std::string& getName() const { return m_name; }
 
-		Animation& getAnimation(const std::string& anim_name);
-
-		//Animation& getAnimation(const std::string& anim_name);
 
 	private:
 		inline void setScene(Scene* scene) { m_scene = scene; }
@@ -129,6 +129,7 @@ namespace pe
 		Application* m_applicaton = nullptr;
 		Sprite* m_sprite = nullptr;
 		Area* m_area = nullptr;
+		std::vector<Timer*> m_timers;
 		std::map<std::string, Animation*> m_animations;
 
 		// for debug printing

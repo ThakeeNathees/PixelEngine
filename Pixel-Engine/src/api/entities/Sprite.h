@@ -10,7 +10,7 @@ namespace pe {
 	public:
 		Sprite();
 		Sprite(const Sprite& other) = delete;
-		bool loadTexture(const char* path, bool reset_rect = true);
+		bool loadTexture(const std::string& path, bool reset_rect = true);
 
 		// setters
 		void setFrames(int x, int y, int offset_x = 0, int offset_y = 0);

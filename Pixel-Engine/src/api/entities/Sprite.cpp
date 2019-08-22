@@ -11,9 +11,9 @@ namespace pe
 	}
 
 	// setters
-	bool Sprite::loadTexture(const char* path, bool reset_rect)
+	bool Sprite::loadTexture(const std::string& path, bool reset_rect)
 	{
-		bool success = m_texture.loadFromFile(path);
+		bool success = m_texture.loadFromFile(path.c_str());
 		setTexture(m_texture, reset_rect);
 		return success;
 	}

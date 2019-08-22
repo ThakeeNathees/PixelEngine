@@ -35,6 +35,11 @@ namespace pe
 		if (m_background != nullptr) m_background->setBgWindowSize(m_window_size);
 	}
 
+	void Scene::addTimer(Timer* timer) {
+		m_timers.push_back(timer);
+		timer->m_scene = this;
+	}
+
 	// getters
 	Object& Scene::getObject(const std::string& name) {
 		for ( Object* object : m_objects ) {

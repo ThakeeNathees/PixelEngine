@@ -22,8 +22,26 @@ namespace pe
 		inline Object& getSender() const { assert( m_sender != nullptr );  return *m_sender; }
 		inline const std::string& getName() const { return m_name; }
 
+		union Data;
+		inline Data getData() { return m_data; }
+
+		union Data {
+		public:
+			inline Data() {};
+			char data_char;
+			int data_int;
+			short data_short;
+			long data_long;
+			float data_float;
+			double data_double;
+
+			glm::fvec2 data_glmfvec2;
+			sf::Vector2f data_sfvec2f;
+			
+		};
 
 	private:
+		Data m_data;
 		friend class Object; // for access m_sender;
 		std::string m_name;
 		Object* m_sender = nullptr;

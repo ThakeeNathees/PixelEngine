@@ -16,11 +16,11 @@ namespace pe
 
 		//setters
 		void addObject(Object* object);
+		inline void addSignal(Signal* signal) { m_signals.push_back(signal); }
+		void addTimer(Timer* timer);
 		void sortObjectsZIndex();
 		void setBackground( Background* background);
 		void setSceneWindowSize(glm::ivec2 window_size);
-		inline void addSignals(Signal* signal) { m_signals.push_back(signal); }
-
 
 		//getters
 		inline const std::string& getName() const { return m_name; }
@@ -37,6 +37,7 @@ namespace pe
 		static bool sortCompare(Object* obj1, Object* obj2);
 		std::vector<Object*> m_objects;
 		std::vector<Signal*> m_signals;
+		std::vector<Timer*> m_timers;
 		glm::ivec2 m_window_size = glm::ivec2(-1, -1);
 		Background* m_background = nullptr; // deleted by global assets
 	};

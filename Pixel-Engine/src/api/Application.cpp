@@ -58,6 +58,11 @@ namespace pe
 					dt += clock.getElapsedTime().asMicroseconds() / 1000000.0;
 					object->process(dt);
 				}
+
+				for (Timer* timer : m_current_scene->m_timers) {
+					timer->update();
+				}
+
 				for (Signal* signal : m_current_scene->m_signals) {
 					for (Object* object : signal->getRecievers()) object->recieveSignal(*signal);
 				} m_current_scene->m_signals.clear();

@@ -9,7 +9,9 @@
 #include "entities/Background.h"
 #include "entities/Area.h"
 #include "entities/Signal.h"
+#include "entities/Timer.h"
 #include "entities/Animation.h"
+
 
 /*************************************/
 

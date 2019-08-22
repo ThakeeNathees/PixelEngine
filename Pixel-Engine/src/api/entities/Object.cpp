@@ -94,7 +94,7 @@ namespace pe
 	void Object::emitSignal(Signal& signal) {
 		signal.m_sender = this;
 		assert(m_scene != nullptr);
-		m_scene->addSignals(&signal);
+		m_scene->addSignal(&signal);
 	}
 	
 	Animation& Object::getAnimation(const std::string& anim_name) {
@@ -164,6 +164,12 @@ namespace pe
 	void Object::setAnimation(Animation* anim) {
 		m_animations[ anim->getName() ] = anim;
 		anim->setObject(this);
+	}
+	
+	void Object::addTimer(Timer* timer) {
+		m_timers.push_back(timer);
+		if (m_scene != nullptr) m_scene->addTimer(timer);
+		
 	}
 
 }

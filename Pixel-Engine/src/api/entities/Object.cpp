@@ -102,6 +102,10 @@ namespace pe
 		return *(m_animations[anim_name]);
 	}
 
+	bool Object::hasAnimation(const std::string& anim_name) {
+		return m_animations.find(anim_name) != m_animations.end();
+	}
+
 	// setters
 	void Object::setPosition(float x, float y) {
 		sf::Transformable::setPosition(x, y);
@@ -161,15 +165,20 @@ namespace pe
 		}
 	}
 
-	void Object::setAnimation(Animation* anim) {
+	void Object::addAnimation(Animation* anim) {
+		if ( hasAnimation(anim->getName()) ){ /* TODO: (memory leak) add old anim to delete queue at global assets */ }
 		m_animations[ anim->getName() ] = anim;
 		anim->setObject(this);
+		// timer added to scene after calling init() in Application
 	}
 	
 	void Object::addTimer(Timer* timer) {
 		m_timers.push_back(timer);
-		if (m_scene != nullptr) m_scene->addTimer(timer);
-		
+		// timer added to scene after calling init() in Application
+	}
+
+	void Object::clear() {
+		m_timers.clear();
 	}
 
 }

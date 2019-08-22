@@ -43,6 +43,7 @@ namespace pe
 	private:
 		Data m_data;
 		friend class Object; // for access m_sender;
+		friend class Timer;
 		std::string m_name;
 		Object* m_sender = nullptr;
 		std::vector<Object*> m_recievers;

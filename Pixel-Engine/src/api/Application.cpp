@@ -28,9 +28,12 @@ namespace pe
 	void Application::setCurrentScene(std::string scene_name) {
 		assert(m_scenes.find(scene_name) != m_scenes.end() && "invalid scene name to set");
 		m_current_scene = m_scenes[scene_name];
+		m_current_scene->clear();
 		for (auto obj : m_current_scene->getObjects()) {
 			obj->m_applicaton = this;
 			obj->init();
+			// adding timers
+			for (Timer* timer : obj->m_timers) m_current_scene->addTimer(timer);
 		}
 	}
 

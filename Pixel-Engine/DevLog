@@ -15,6 +15,7 @@ HIGHT PRIORITY
 
 LOW PRIORITY
 	pe::Event
+	global assets for holding Animations sprites bg ... and delete on time and also global objects
 	signal
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))  -> if( pe::isKeyPressed(pe::Key::A) )
 	log system (spdlog)

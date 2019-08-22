@@ -15,6 +15,12 @@ namespace pe
 		return obj1->getZIndex() < obj2->getZIndex();
 	}
 
+	void Scene::clear()
+	{
+		m_timers.clear();
+		m_signals.clear();
+	}
+
 	// setters
 	void Scene::addObject(Object* object) {
 		m_objects.push_back(object);

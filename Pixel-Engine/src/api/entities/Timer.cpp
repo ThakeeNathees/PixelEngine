@@ -8,12 +8,12 @@ namespace pe
 		: m_signal(Signal("timeout"))
 	{}
 
-	Timer::Timer(const std::string& name, float time)
-		: m_signal(Signal("timeout")), m_name(name), m_time(time)
+	Timer::Timer(const std::string& name, float time, bool loop)
+		: m_signal(Signal("timeout")), m_name(name), m_time(time), m_loop(loop)
 	{}
 
 	void Timer::start(float time) {
-		m_time = time;
+		if (time != -1) m_time = time;
 		m_clock.restart();
 	}
 
@@ -27,6 +27,7 @@ namespace pe
 
 	void Timer::update() {
 		if (getRemainingTime() < 0 && !m_signal_emitted) {
+			if (m_loop) m_signal.m_recievers.clear();
 			if (m_signal_reciever != nullptr) m_signal.addReciever(m_signal_reciever);
 			if (m_scene != nullptr) m_scene->addSignal(&m_signal);
 

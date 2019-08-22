@@ -22,6 +22,8 @@ namespace pe
 		void setBackground( Background* background);
 		void setSceneWindowSize(glm::ivec2 window_size);
 
+		void clear(); // clear signals and Timers
+
 		//getters
 		inline const std::string& getName() const { return m_name; }
 		inline std::vector<Object*>& getObjects() { return m_objects; }

@@ -88,12 +88,13 @@ namespace pe
 		void setSprite(Sprite* sprite);
 		void setZIndex(int z_index);
 		void setArea(Area* area = nullptr);
-		void setAnimation(Animation* anim);
+		void addAnimation(Animation* anim);
 		void addTimer(Timer* timer);
 
 		inline void setVisible(bool visible) { m_visible = visible; }
 		inline void setName(const std::string& name) { m_name = name; }
 
+		void clear(); // clear timers, ...
 
 		// getters
 		inline Application& getApplication() const { assert(m_applicaton != nullptr); return *m_applicaton; }
@@ -102,6 +103,7 @@ namespace pe
 		inline Sprite& getSprite() const { assert(m_sprite != nullptr);		return *m_sprite; }
 		inline std::vector<Timer*>& getTimers() { return m_timers; }
 		Animation& getAnimation(const std::string& anim_name);
+		inline std::map<std::string, Animation*>& getAnimations() { return m_animations; }
 		
 		inline int getZIndex() const { return m_z_index; }
 		inline int getId() const { return m_id; }
@@ -109,6 +111,7 @@ namespace pe
 		inline bool hasScene() const { return m_scene != nullptr; }
 		inline bool hasArea() const { return m_area != nullptr; }
 		inline bool hasSprite() const { return m_sprite != nullptr; }
+		bool hasAnimation(const std::string& anim_name);
 
 		inline bool getVisible() const { return m_visible; }
 		inline const std::string& getName() const { return m_name; }

@@ -148,7 +148,7 @@ namespace pe
 		m_sprite->setRotation(getRotation());
 		m_sprite->setScale(getScale());
 	}
-	void Object::setArea(Area* area) { // if area == nullptr -> area set as sprite rect.
+	void Object::setArea(Area* area) { // if area == nullptr => area set as sprite rect.
 		if (area == nullptr && m_sprite != nullptr) {
 			if (m_area) delete m_area;
 			auto rect = m_sprite->getLocalBounds();

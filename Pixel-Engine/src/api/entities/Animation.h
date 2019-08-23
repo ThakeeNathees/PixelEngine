@@ -67,7 +67,9 @@ namespace pe
 	class PIXEL_ENGINE_API Animation
 	{
 	public:
-		inline Animation(std::string name, float time_length = 1) : m_name(name)  {}
+		inline Animation(std::string name, float time_length = 1) 
+			: m_name(name) , m_anim_end_signal( Signal("anim_end") )
+		{}
 
 		void play(bool resume=false);
 		void stop();
@@ -86,7 +88,10 @@ namespace pe
 		inline bool getReverse() const { return m_reverse; }
 		inline std::string getName() const { return m_name; }
 		inline float getTimeLength() const { return m_time_length; }
+		inline Signal& getAnimEndSignal() { return m_anim_end_signal; }
 		
+	private:
+		void emitSignal();
 
 	private:  // TODO: add anim_end signal, add auto time length
 		friend class Application;
@@ -95,8 +100,10 @@ namespace pe
 		bool m_reverse	 = false;
 		bool m_relative  = true; // relative position, rotation, scale or absolute ...
 		Object* m_object = nullptr;
+		Signal m_anim_end_signal; // TODO: emit this signal
 
 		bool m_playing = false;
+		bool m_done_anim = false;
 		
 		sf::Clock m_clock;
 		float m_time_length;

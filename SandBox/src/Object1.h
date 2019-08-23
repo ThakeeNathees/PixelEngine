@@ -14,12 +14,12 @@ public:
 		print("Object1 created");
 		getApplication().setDebugMode(false);
 		pe::Sprite* sp = new pe::Sprite();
-		sp->loadTexture("res/logo.png");
-		sp->setFrames(2, 2);
+		sp->loadTexture("res/sheet.png");
+		sp->setFrames(12, 8);
 		setSprite(sp);
 		setArea();
 		//setOrigin( getSprite().getLocalBounds().width/2, getSprite().getLocalBounds().height);
-		setScale(.15, .15);
+		//setScale(.15, .15);
 		setPosition(100, 100);
 
 		//pe::Timer* timer = new pe::Timer("test timer",1, true);
@@ -27,14 +27,16 @@ public:
 		//addTimer(timer);
 
 		pe::Animation* anim = new pe::Animation("anim");
-		anim->setTimeLength(4);
-		anim->setLoop(true);
+		anim->setTimeLength(.4);
+		anim->setLoop(false);
+		anim->getReverse(true);
 		pe::SpriteFrameTrack* spf = new pe::SpriteFrameTrack();
 		spf->addKey({ 0, 0 });
-		spf->addKey({ 1, 1 });
-		spf->addKey({ 2, 2 });
-		spf->addKey({ 3, 3 });
+		spf->addKey({ .1, 1 });
+		spf->addKey({ .2, 2 });
+		spf->addKey({ .3, 1 });
 		anim->setSpriteFrameTrack(spf);
+		anim->getAnimEndSignal().addReciever(this);
 		addAnimation(anim);
 
 	}

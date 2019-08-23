@@ -1,6 +1,6 @@
 
 #include "pch.h"
-#include "Object.h"
+#include "../Scene.h"
 
 
 namespace pe
@@ -21,12 +21,28 @@ namespace pe
 	}
 	
 
+	void Animation::emitSignal() {
+		if (m_object != nullptr) {
+			m_object->emitSignal(m_anim_end_signal);
+		}
+	}
+
 	void Animation::play(bool resume) {
+		if (m_done_anim && !m_loop) return;
 		if (!resume) {
+
 			auto time = m_clock.getElapsedTime().asSeconds();
-			if (m_time_length < time && !m_loop ) { stop(); }
-			if (!m_playing) { m_clock.restart(); m_playing = true; }
-			m_time_pointer = time - ( glm::floor(time/m_time_length)*m_time_length );
+			if (!m_playing) { time = m_clock.restart().asSeconds(); m_playing = true; }
+
+			if (m_time_length < time ) { 
+				time = m_clock.restart().asSeconds();
+				if (!m_loop) {
+					emitSignal();
+					stop();
+					return;
+				}
+			}
+			m_time_pointer = (!m_reverse)? time : m_time_length - time ;
 			if (m_object != nullptr) {
 				if (m_object->hasSprite()) {
 					int frame = m_sprite_frame_track->getData(m_time_pointer).sprite_frame;
@@ -41,5 +57,6 @@ namespace pe
 
 	void Animation::stop() {
 		m_playing = false;
+		m_done_anim = true;
 	}
 }

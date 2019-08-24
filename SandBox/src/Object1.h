@@ -18,7 +18,8 @@ public:
 		sp->setFrames(12, 8);
 		setSprite(sp);
 		setArea();
-		//setOrigin( getSprite().getLocalBounds().width/2, getSprite().getLocalBounds().height);
+		setOrigin( getSprite().getLocalBounds().width/2, getSprite().getLocalBounds().height);
+		//getApplication().setDebugMode(true);
 		//setScale(.15, .15);
 		setPosition(100, 100);
 
@@ -27,17 +28,47 @@ public:
 		//addTimer(timer);
 
 		pe::Animation* anim = new pe::Animation("anim");
-		anim->setTimeLength(.4);
-		anim->setLoop(false);
-		anim->getReverse(true);
+		anim->setTimeLength(3);
+		anim->getAnimEndSignal().addReciever(this);
+		//anim->setLoop(false);
+		//anim->setReverse(true);
 		pe::SpriteFrameTrack* spf = new pe::SpriteFrameTrack();
 		spf->addKey({ 0, 0 });
 		spf->addKey({ .1, 1 });
 		spf->addKey({ .2, 2 });
 		spf->addKey({ .3, 1 });
-		anim->setSpriteFrameTrack(spf);
-		anim->getAnimEndSignal().addReciever(this);
+		//anim->setSpriteFrameTrack(spf);
+
+		//anim->setRelative(false);
+		//setPosition(0,0);
+
+		pe::PositionTrack* pt = new pe::PositionTrack();
+		pe::Track::Data d;
+		d.position = glm::fvec2(0,0);
+		pt->addKey({ 0, d });
+		d.position = glm::fvec2(100, 100);
+		pt->addKey({ 3, d });
+		anim->setPositionTrack(pt);
+
+		pe::RotationTrack* rt = new pe::RotationTrack();
+		d.rotation = 0;
+		rt->addKey({0,d});
+		d.rotation = 90;
+		//rt->addKey({2.9,d});
+		//d.rotation = 0;
+		rt->addKey({3,d});
+		anim->setRotationTrack(rt);
+
+		pe::ScaleTrack* st = new pe::ScaleTrack();
+		d.scale = glm::fvec2(1,1);
+		st->addKey({0,d});
+		d.scale = glm::fvec2(2,3);
+		st->addKey({3,d});
+		anim->setScaleTrack(st);
+
+
 		addAnimation(anim);
+
 
 	}
 
@@ -56,19 +87,6 @@ public:
 	inline void process(double dt) override {
 		
 		getAnimation("anim").play();
-		
-		/*
-		time += dt;
-		if (0 < time && time < delay) {
-			sf::Vector2f pos;
-			pos.x = time / delay * pos0.x + (1 - time / delay) * pos1.x;
-			pos.y = time / delay * pos0.y + (1 - time / delay) * pos1.y;
-			setPosition(pos);
-		}
-
-		auto pos = sf::Mouse::getPosition(getApplication().getWindow());
-		*/
-
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 			rotate(2);

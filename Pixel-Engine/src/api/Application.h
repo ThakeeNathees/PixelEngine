@@ -19,6 +19,7 @@ namespace pe {
 		void setCurrentScene(std::string scene_name);
 		inline void setEventHandled() { m_event_handled = true; }
 		inline void setDebugMode(bool is_debug_mode) { m_is_debug_mode = is_debug_mode; }
+		inline void setBgColor(const sf::Color& color) { m_background_color = color; }
 
 		// getters
 		inline sf::RenderWindow& getWindow() const { assert(m_window != nullptr); return *m_window; }

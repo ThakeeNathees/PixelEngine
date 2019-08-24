@@ -117,16 +117,16 @@ namespace pe
 		m_time_pointer = (!m_reverse)? time : m_time_length - time ;
 		if (m_object != nullptr) {
 
-			if (m_rotation_track != nullptr) {
-				auto data = m_rotation_track->getData(m_time_pointer);
-				if (data.first) {
-					m_object->setRotation( data.second.rotation + m_begin_rotation );
-				}
-			}
 			if (m_sprite_frame_track != nullptr) {
 				if (m_object->hasSprite()) {
 					auto data = m_sprite_frame_track->getData(m_time_pointer);
 					if (data.first) m_object->getSprite().setFrameIndex(data.second.sprite_frame);
+				}
+			}
+			if (m_rotation_track != nullptr) {
+				auto data = m_rotation_track->getData(m_time_pointer);
+				if (data.first) {
+					m_object->setRotation( data.second.rotation + m_begin_rotation );
 				}
 			}
 			if (m_position_track != nullptr) {

@@ -69,8 +69,6 @@ namespace pe
 		void setScale(float scale_x, float scale_y);
 		template <typename T = glm::fvec2>
 		void setScale(const T & scale) { setScale(scale.x, scale.y); }
-		inline void setScale(float scale) { setScale(scale, scale); }
-		inline void setScale(double scale) { setScale(scale, scale); }
 		void setOrigin(float x, float y);
 		template <typename T = glm::fvec2>
 		inline void setOrigin(const T & position) { setOrigin(position.x, position.y); }

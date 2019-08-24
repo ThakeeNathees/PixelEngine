@@ -4,7 +4,7 @@
 #include "entities/Sprite.h"
 #include "entities/Object.h"
 
-#include "..//utils/math_utils.h"
+#include "utils/math_utils.h"
 
 //#include "..//utils/XmlFile.h"
 

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Area.h"
 
-#include "..//..//utils/math_utils.h"
+#include "..//utils/math_utils.h"
 
 namespace pe
 {
@@ -10,7 +10,7 @@ namespace pe
 	}
 
 	// getters
-	bool Area::isContains(int x, int y) {
+	bool Area::isContains(float x, float y) {
 		return isContainPoint(*m_shape, glm::fvec2(x, y));
 	}
 
@@ -53,6 +53,7 @@ namespace pe
 	}
 
 	void Area::setShape(sf::Shape* shape) {
+		assert(pe::isShapeConvex(*shape) && "shape of an area has to be convex");
 		m_shape = shape;
 		m_centroid = getCentroid(shape);
 		m_is_convex = isShapeConvex(*shape);

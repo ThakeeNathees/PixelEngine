@@ -19,6 +19,7 @@ namespace pe
 	}
 
 	void Sprite::setFrameIndex(int index) {
+		m_frame_index = index;
 		assert( (index >=0) &&  (index < getFrameCount()) && "invalid sprite frame index" );
 		int width  = getTexture()->getSize().x / m_frames.x;
 		int height = getTexture()->getSize().y / m_frames.y;

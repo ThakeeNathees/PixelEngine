@@ -19,6 +19,7 @@ namespace pe {
 		// getters
 		inline glm::ivec4 getFrames() const { return m_frames; }
 		inline int getFrameCount() const { return m_frames.x * m_frames.y; }
+		inline int getCurrentFrame() const { return m_frame_index; }
 		inline int getId() const { return m_id; }
 		
 

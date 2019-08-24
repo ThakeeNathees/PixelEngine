@@ -111,8 +111,9 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
     <ClInclude Include="src\api\Application.h" />
     <ClInclude Include="src\api\core.h" />
     <ClInclude Include="src\api\Pixel-Engine.h" />
-    <ClInclude Include="src\utils\math_utils.h" />
-    <ClInclude Include="src\utils\XmlFile.h" />
+    <ClInclude Include="src\api\utils\math_utils.h" />
+    <ClInclude Include="src\api\utils\io_utils.h" />
+    <ClInclude Include="src\api\utils\XmlFile.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\api\entities\Animation.cpp" />
@@ -129,7 +130,7 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\utils\XmlFile.cpp" />
+    <ClCompile Include="src\api\utils\XmlFile.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

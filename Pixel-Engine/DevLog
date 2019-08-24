@@ -3,27 +3,23 @@
 ## TODO ########################################################################
 	
 HIGHT PRIORITY
-	
-	object hasTimer("name"); getTimer("name");
-	consider getTimer, getSomething => returns pointer
-	
-	objects debug draw , place holders, area initial default w, h
-	object's setScene, getNextScene, ... for that obj need Application*
-	create place holders and place holder class and clean res folder
+	time map
+	camera
 	keyboard key define in header
 	magical number store xml
 	create globle assets and global objects for presistance between scene
 
 LOW PRIORITY
+	nexeScene(), previousScene() => scene stack
+	consider getTimer, getSomething => returns pointer
 	pe::Event
 	global assets for holding Animations sprites bg ... and delete on time and also global objects
-	signal
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))  -> if( pe::isKeyPressed(pe::Key::A) )
+	object hasTimer("name"); getTimer("name");
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))  -> if( pe::isKeyPressed('A') )
 	log system (spdlog)
 	sprite property editor
 	editor: filetree
-	xml serialize entity and window property
-	animation entity (verry low priority)
+	xml serialize
 	editor: renderwindow
 		mouse capture
 		currently selected sprite(square area) -> moveable sprites 

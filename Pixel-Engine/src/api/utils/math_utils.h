@@ -1,5 +1,5 @@
 #pragma once
-#include "..//api/core.h"
+#include "../core.h"
 
 
 #define PI 3.141592654
@@ -105,5 +105,23 @@ namespace pe
 		}
 		return true;
 	}
+
+	// return if any point of shape2 is inside shape1 ?
+	inline bool isShape2InShape1(const sf::Shape& shape1, const sf::Shape& shape2) {
+		for (int i = 0; i < shape2.getPointCount(); i++) {
+			auto shape2_point = applyTransform( shape2.getPoint(i), shape2 );
+			if (isContainPoint(shape1, shape2_point)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	inline bool isColliding(const sf::Shape& shape1, const sf::Shape& shape2) {
+		bool shpae2_in_shape1 = isShape2InShape1(shape1, shape2);
+		bool shpae1_in_shape2 = isShape2InShape1(shape2, shape1);
+		return shpae2_in_shape1 || shpae1_in_shape2;
+	}
+
+	// TODO: interpolate vector template function
 
 }

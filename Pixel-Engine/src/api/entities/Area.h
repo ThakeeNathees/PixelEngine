@@ -1,7 +1,7 @@
 #pragma once
 #include "..//core.h"
 
-#include "..//..//utils/math_utils.h"
+#include "..//utils/math_utils.h"
 
 namespace pe
 {
@@ -45,9 +45,9 @@ namespace pe
 			return applyTransform<sf::Vector2f, sf::Vector2f>(m_centroid, *this);
 		}
 
-		bool isContains(int x, int y);
-		inline bool isContains(glm::ivec2 point) { return isContains(point.x, point.y); }
-		inline bool isContains(sf::Vector2i point) { return isContains(point.x, point.y); }
+		bool isContains(float x, float y);
+		inline bool isContains(glm::fvec2 point) { return isContains(point.x, point.y); }
+		inline bool isContains(sf::Vector2f point) { return isContains(point.x, point.y); }
 		// TODO: bool isIntersect( const Area& another_area );
 
 		inline sf::Shape& getShape() const { assert(m_shape != nullptr); return *m_shape; }

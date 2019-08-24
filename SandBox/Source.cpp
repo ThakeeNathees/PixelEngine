@@ -5,7 +5,8 @@
 
 #include "Pixel-Engine.h"
 
-#include "src/Object1.h"
+#include "src/Player.h"
+#include "src/Npc.h"
 
 int main()
 {
@@ -13,12 +14,15 @@ int main()
 
 
 	pe::Scene* scene = new pe::Scene("scene1");
-	Object1* obj = new Object1();
 
 	// add objects
-	scene->addObject( obj );
+	auto player = new Player; 
+	player->setName("Player");
+	scene->addObject( player );
+
+	scene->addObject( new Npc );
 	
-	//scene->setBackground(bg);
+	
 	scene->sortObjectsZIndex();
 	
 	pe::Application app;

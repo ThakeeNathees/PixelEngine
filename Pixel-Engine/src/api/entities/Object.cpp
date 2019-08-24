@@ -97,6 +97,13 @@ namespace pe
 		m_scene->addSignal(&signal);
 	}
 	
+	Timer& Object::getTimer(const std::string& timer_name) {
+		for (Timer* timer : m_timers) {
+			if (timer->getName() == timer_name) return *timer;
+		}
+		assert( false && "invalid timer name to get" );
+	}
+
 	Animation& Object::getAnimation(const std::string& anim_name) {
 		assert( m_animations.find(anim_name) != m_animations.end() && "invalid animation name to get" );
 		return *(m_animations[anim_name]);
@@ -104,6 +111,13 @@ namespace pe
 
 	bool Object::hasAnimation(const std::string& anim_name) {
 		return m_animations.find(anim_name) != m_animations.end();
+	}
+
+	bool Object::hasTimer(const std::string& timer_name) {
+		for (Timer* timer : m_timers) {
+			if (timer->getName() == timer_name) return true;
+		}
+		return false;
 	}
 
 	// setters
@@ -174,6 +188,7 @@ namespace pe
 	
 	void Object::addTimer(Timer* timer) {
 		m_timers.push_back(timer);
+		timer->m_signal.addReciever(this);
 		// timer added to scene after calling init() in Application
 	}
 

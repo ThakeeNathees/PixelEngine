@@ -32,7 +32,6 @@ namespace pe
 		for (auto obj : m_current_scene->getObjects()) {
 			obj->m_applicaton = this;
 			obj->init();
-			// adding timers
 			for (Timer* timer : obj->m_timers) m_current_scene->addTimer(timer);
 		}
 	}
@@ -67,7 +66,9 @@ namespace pe
 				}
 
 				for (Signal* signal : m_current_scene->m_signals) {
-					for (Object* object : signal->getRecievers()) object->recieveSignal(*signal);
+					for (Object* object : signal->getRecievers()) {
+						if (object != nullptr) object->recieveSignal(*signal);
+					}
 				} m_current_scene->m_signals.clear();
 				dt -= (1 / m_frame_rate);
 			}

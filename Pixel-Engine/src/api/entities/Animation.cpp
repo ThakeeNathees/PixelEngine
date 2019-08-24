@@ -58,7 +58,7 @@ namespace pe
 				return _ret;
 			}
 		}
-		_ret.second.sprite_frame = m_keys[m_keys.size() - 1].data.rotation;
+		_ret.second.rotation = m_keys[m_keys.size() - 1].data.rotation;
 		return _ret;
 	}
 
@@ -93,13 +93,17 @@ namespace pe
 	}
 
 	void Animation::play() {
-		if (m_done_anim && !m_loop) return;
+		if (m_done_anim) return;
 
 		auto time = m_clock.getElapsedTime().asSeconds();
 		if (!m_playing) {
 			time = 0; m_clock.restart();
 			m_playing = true;
-			if (m_object) m_begin_position =  pe::convertVect<glm::fvec2, sf::Vector2f>(m_object->getPosition());
+			if (m_object) {
+				m_begin_position	= pe::convertVect<glm::fvec2, sf::Vector2f>(m_object->getPosition());
+				m_begin_scale		= pe::convertVect<glm::fvec2, sf::Vector2f>(m_object->getScale());
+				m_begin_rotation	= m_object->getRotation();
+			}
 		}
 
 		if (m_time_length < time ) { 

@@ -20,7 +20,7 @@ public:
 		setArea();
 		setOrigin( getSprite().getLocalBounds().width/2, getSprite().getLocalBounds().height);
 		//getApplication().setDebugMode(true);
-		//setScale(.15, .15);
+		setScale(2.f);
 		setPosition(100, 100);
 
 		//pe::Timer* timer = new pe::Timer("test timer",1, true);
@@ -30,7 +30,7 @@ public:
 		pe::Animation* anim = new pe::Animation("anim");
 		anim->setTimeLength(3);
 		anim->getAnimEndSignal().addReciever(this);
-		//anim->setLoop(false);
+		anim->setLoop(false);
 		//anim->setReverse(true);
 		pe::SpriteFrameTrack* spf = new pe::SpriteFrameTrack();
 		spf->addKey({ 0, 0 });
@@ -50,12 +50,11 @@ public:
 		pt->addKey({ 3, d });
 		anim->setPositionTrack(pt);
 
+		setRotation(90);
 		pe::RotationTrack* rt = new pe::RotationTrack();
 		d.rotation = 0;
 		rt->addKey({0,d});
 		d.rotation = 90;
-		//rt->addKey({2.9,d});
-		//d.rotation = 0;
 		rt->addKey({3,d});
 		anim->setRotationTrack(rt);
 
@@ -69,6 +68,10 @@ public:
 
 		addAnimation(anim);
 
+		pe::Timer* t = new pe::Timer("new timer",2, true);
+		addTimer(t);
+		//t->setSignalReciever(this);
+		getTimer("new timer").start();
 
 	}
 
@@ -87,6 +90,7 @@ public:
 	inline void process(double dt) override {
 		
 		getAnimation("anim").play();
+
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 			rotate(2);

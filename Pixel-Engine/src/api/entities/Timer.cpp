@@ -13,26 +13,30 @@ namespace pe
 	{}
 
 	void Timer::start(float time) {
+		m_running = true;
 		if (time != -1) m_time = time;
 		m_clock.restart();
-	}
-
-	void Timer::setSignalReciever(Object* obj) {
-		m_signal_reciever = obj;
 	}
 
 	double Timer::getRemainingTime() const {
 		return m_time - m_clock.getElapsedTime().asSeconds();		
 	}
 
-	void Timer::update() {
-		if (getRemainingTime() < 0 && !m_signal_emitted) {
-			if (m_loop) m_signal.m_recievers.clear();
-			if (m_signal_reciever != nullptr) m_signal.addReciever(m_signal_reciever);
-			if (m_scene != nullptr) m_scene->addSignal(&m_signal);
+	void Timer::stop() {
+		m_running = false;
+	}
 
-			if (m_loop) m_clock.restart();
-			else m_signal_emitted = true;
+	void Timer::update() {
+		if (m_running) {
+			if (getRemainingTime() < 0 && !m_signal_emitted) {
+				if (m_scene != nullptr) m_scene->addSignal(&m_signal);
+
+				if (m_loop) m_clock.restart();
+				else {
+					m_signal_emitted = true;
+					m_running = false;
+				}
+			}
 		}
 	}
 }

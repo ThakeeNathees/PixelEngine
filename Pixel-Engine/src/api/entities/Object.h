@@ -102,8 +102,9 @@ namespace pe
 		inline Area& getArea() const { assert(m_area != nullptr);		return *m_area; }
 		inline Sprite& getSprite() const { assert(m_sprite != nullptr);		return *m_sprite; }
 		inline std::vector<Timer*>& getTimers() { return m_timers; }
-		Animation& getAnimation(const std::string& anim_name);
+		Timer& getTimer(const std::string& timer_name);
 		inline std::map<std::string, Animation*>& getAnimations() { return m_animations; }
+		Animation& getAnimation(const std::string& anim_name);
 		
 		inline int getZIndex() const { return m_z_index; }
 		inline int getId() const { return m_id; }
@@ -112,6 +113,7 @@ namespace pe
 		inline bool hasArea() const { return m_area != nullptr; }
 		inline bool hasSprite() const { return m_sprite != nullptr; }
 		bool hasAnimation(const std::string& anim_name);
+		bool hasTimer(const std::string& timer_name);
 
 		inline bool getVisible() const { return m_visible; }
 		inline const std::string& getName() const { return m_name; }

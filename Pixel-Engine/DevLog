@@ -4,8 +4,9 @@
 	
 HIGHT PRIORITY
 	
-	timer and animation
-
+	object hasTimer("name"); getTimer("name");
+	consider getTimer, getSomething => returns pointer
+	
 	objects debug draw , place holders, area initial default w, h
 	object's setScene, getNextScene, ... for that obj need Application*
 	create place holders and place holder class and clean res folder

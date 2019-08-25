@@ -16,22 +16,20 @@ class Npc : public pe::Object
 		setScale(.15, .15);
 
 
-		pe::Area* area = new pe::Area;
-		sf::CircleShape* shape = new sf::CircleShape(225, 6);
-		area->setShape(shape);
-		setArea(area);
+		//pe::Area* area = new pe::Area;
+		//sf::CircleShape* shape = new sf::CircleShape(225, 6);
+		//area->setShape(shape);
+		setArea();
 	}
 
 	void process(double dt) override {
 		setZIndex(getPosition().y);
-		//pe::Area& a1 = getScene().getObject("Player").getArea();
-		//auto x = pe::isColliding(a1, getArea());
-		//print(x);
-		auto mouse = sf::Mouse::getPosition(getApplication().getWindow());
-		glm::fvec2 pos;
-		pos.x = glm::floor(mouse.x / 32) * 32;
-		pos.y = glm::floor(mouse.y / 32) * 32; // grid position
 
-		setPosition(pos);
+		auto& a = getScene().getObject("Player").getArea();
+		print( getArea().isIntersecting(a) );
+
+		auto mouse = sf::Mouse::getPosition(getApplication().getWindow());
+
+		setPosition(mouse);
 	}
 };

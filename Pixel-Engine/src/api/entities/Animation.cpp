@@ -86,6 +86,9 @@ namespace pe
 
 
 	////////////////////////////////////////////////////////////////////////////////////
+
+	int Animation::s_anim_count = 0;
+
 	void Animation::emitSignal() {
 		if (m_object != nullptr) {
 			m_object->emitSignal(m_anim_end_signal);

@@ -1,6 +1,9 @@
 #pragma once
 #include "../core.h"
 
+
+// TODO: up_key, down_key, numpad, delete, control, shift and other
+
 namespace pe
 {
 	bool isKeyPressed(char key) {

@@ -9,13 +9,16 @@ namespace pe
 	sf::Color Object::m_default_color = sf::Color(50, 75, 100, 255);
 
 	Object::Object() {
-		m_id = ++s_object_count;
+		m_id = s_object_count++;
+		m_name = std::string( "Object_", m_id );
 		m_dbg_origin = new sf::CircleShape(3);
 		m_dbg_origin->setFillColor(sf::Color(150, 75, 150, 200));
 	}
 	Object::~Object() {
-		if (m_sprite)		delete m_sprite;
+		//if (m_sprite)		delete m_sprite; // delete by Assets
 		if (m_dbg_origin)	delete m_dbg_origin;
+		if (m_area) delete m_area;
+		for (Timer* timer : m_timers) delete timer;
 	}
 
 
@@ -162,7 +165,7 @@ namespace pe
 		m_sprite->setRotation(getRotation());
 		m_sprite->setScale(getScale());
 	}
-	void Object::setArea(Area* area) { // if area == nullptr => area set as sprite rect.
+	void Object::setArea(Area* area) { // if area == nullptr => area set as sprite rect. old area not deleted -> memory leak
 		if (area == nullptr && m_sprite != nullptr) {
 			if (m_area) delete m_area;
 			auto rect = m_sprite->getLocalBounds();
@@ -180,7 +183,6 @@ namespace pe
 	}
 
 	void Object::addAnimation(Animation* anim) {
-		if ( hasAnimation(anim->getName()) ){ /* TODO: (memory leak) add old anim to delete queue at global assets */ }
 		m_animations[ anim->getName() ] = anim;
 		anim->setObject(this);
 		// timer added to scene after calling init() in Application

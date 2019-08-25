@@ -69,7 +69,8 @@ namespace pe
 					for (Object* object : signal->getRecievers()) {
 						if (object != nullptr) object->recieveSignal(*signal);
 					}
-				} m_current_scene->m_signals.clear();
+				}
+				m_current_scene->m_signals.clear();
 				dt -= (1 / m_frame_rate);
 			}
 			clock.restart();

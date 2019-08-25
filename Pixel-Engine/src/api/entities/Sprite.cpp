@@ -6,10 +6,6 @@ namespace pe
 
 	int Sprite::s_sprite_count = 0;
 
-	Sprite::Sprite() : m_frame_index(0) {
-		m_id = ++s_sprite_count;
-	}
-
 	// setters
 	bool Sprite::loadTexture(const std::string& path, bool reset_rect)
 	{

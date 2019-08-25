@@ -8,9 +8,15 @@ namespace pe
 	class PIXEL_ENGINE_API Area : public sf::Shape
 	{
 	public:
-		inline Area() {}
+		inline Area() {
+			m_id = s_area_count++;
+			m_name = std::string( "Area_", m_id );
+		}
+		inline Area(const std::string& name): m_name(name) {
+			m_id = s_area_count++;
+		}
 		Area(const Area& other) = delete;
-		~Area();
+		~Area(); // deleted by object;
 
 		// setter
 		void setPosition(float x, float y);
@@ -20,7 +26,6 @@ namespace pe
 		void setScale(float x, float y);
 		template <typename T = glm::fvec2>
 		inline void setScale(const T & scale) { setScale(scale.x, scale.y); }
-
 
 		void move(float x, float y);
 		template <typename T = glm::fvec2>
@@ -33,10 +38,12 @@ namespace pe
 		template <typename T = glm::fvec2>
 		void setOrigin(const T & position) { setOrigin(position.x, position.y); }
 
+		inline void setName(const std::string& name) { m_name = name; }
 		void setShape(sf::Shape* shape);
 
 
 		// getter
+		const std::string& getName() const { return m_name; }
 		std::size_t getPointCount() const override;
 		sf::Vector2f getPoint(std::size_t index) const override;
 
@@ -48,12 +55,15 @@ namespace pe
 		bool isContains(float x, float y);
 		inline bool isContains(glm::fvec2 point) { return isContains(point.x, point.y); }
 		inline bool isContains(sf::Vector2f point) { return isContains(point.x, point.y); }
-		// TODO: bool isIntersect( const Area& another_area );
+		inline bool isIntersecting(const Area& other) { return ::pe::isIntersecting( getShape(), other.getShape() ); }
 
 		inline sf::Shape& getShape() const { assert(m_shape != nullptr); return *m_shape; }
 		inline bool hasShape() const { return m_shape != nullptr; }
 
 	private:
+		std::string m_name;
+		static int s_area_count;
+		int m_id;
 		sf::Vector2f m_centroid;
 		bool m_is_convex = false;
 		sf::Shape* m_shape = nullptr;

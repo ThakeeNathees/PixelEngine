@@ -10,8 +10,14 @@ namespace pe
 	class PIXEL_ENGINE_API Signal
 	{
 	public:
-		inline Signal(std::string name) : m_name(name) {}
-		inline Signal() : m_name("UNKNOWN") {}
+		inline Signal() {
+			m_id = s_signal_count++;
+			m_name = std::string( "Signal_", m_id );
+		}
+		inline Signal(std::string name) : m_name(name) {
+			m_id = s_signal_count++;
+		}
+		// noone delets new signal now
 
 		// setters
 		inline void addReciever( Object* reciever) { m_recievers.push_back(reciever); }
@@ -41,10 +47,12 @@ namespace pe
 		};
 
 	private:
+		std::string m_name;
+		static int s_signal_count; // = 0; in Scene.cpp
+		int m_id;
 		Data m_data;
 		friend class Object; // for access m_sender;
 		friend class Timer;
-		std::string m_name;
 		Object* m_sender = nullptr;
 		std::vector<Object*> m_recievers;
 	};

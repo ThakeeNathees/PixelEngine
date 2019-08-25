@@ -116,7 +116,7 @@ namespace pe
 		}
 		return false;
 	}
-	inline bool isColliding(const sf::Shape& shape1, const sf::Shape& shape2) {
+	inline bool isIntersecting(const sf::Shape& shape1, const sf::Shape& shape2) {
 		bool shpae2_in_shape1 = isShape2InShape1(shape1, shape2);
 		bool shpae1_in_shape2 = isShape2InShape1(shape2, shape1);
 		return shpae2_in_shape1 || shpae1_in_shape2;

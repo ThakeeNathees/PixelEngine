@@ -16,11 +16,13 @@ int main()
 	pe::Scene* scene = new pe::Scene("scene1");
 
 	// add objects
-	auto player = new Player; 
+	pe::Object* player = new Player;
 	player->setName("Player");
 	scene->addObject( player );
 
-	scene->addObject( new Npc );
+	pe::Object* npc = new Npc;
+	npc->setName("Npc");
+	scene->addObject( npc );
 	
 	
 	scene->sortObjectsZIndex();

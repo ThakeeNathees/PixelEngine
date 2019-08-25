@@ -18,6 +18,8 @@ public:
 		setArea();
 		setScale(2,2);
 
+		npc = &getScene().getObject("Npc");
+
 		pe::Animation* walk_down_anim = new pe::Animation("walk_down"); walk_down_anim->setTimeLength(.4);
 		pe::Animation* walk_left_anim = new pe::Animation("walk_left"); walk_left_anim->setTimeLength(.4);
 		pe::Animation* walk_right_anim = new pe::Animation("walk_right"); walk_right_anim->setTimeLength(.4);
@@ -69,25 +71,27 @@ public:
 		if (pe::isKeyPressed('W')) {
 			getAnimation("walk_up").play();
 			move(0,-2);
+			if (getArea().isIntersecting(npc->getArea())) move(0,2);
 		}
 		else if (pe::isKeyPressed('A')) {
 			getAnimation("walk_left").play();
 			move(-2, 0);
+			if (getArea().isIntersecting(npc->getArea())) move(2,0);
 		}
 		else if (pe::isKeyPressed('D')) {
 			getAnimation("walk_right").play();
 			move(2, 0);
+			if (getArea().isIntersecting(npc->getArea())) move(-2,0);
 		}
 		else if (pe::isKeyPressed('S')) {
 			getAnimation("walk_down").play();
 			move(0, 2);
+			if (getArea().isIntersecting(npc->getArea())) move(0,-2);
 		}
 		// todo stop any animation
 
 	}
 
 private:
-	
-	
-
+	pe::Object* npc;
 };

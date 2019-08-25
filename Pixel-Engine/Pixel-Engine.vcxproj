@@ -98,6 +98,7 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\api\Assets.h" />
     <ClInclude Include="src\api\entities\Animation.h" />
     <ClInclude Include="src\api\entities\Area.h" />
     <ClInclude Include="src\api\entities\Background.h" />
@@ -116,6 +117,7 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
     <ClInclude Include="src\api\utils\XmlFile.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\api\Assets.cpp" />
     <ClCompile Include="src\api\entities\Animation.cpp" />
     <ClCompile Include="src\api\entities\Area.cpp" />
     <ClCompile Include="src\api\entities\Background.cpp" />

@@ -67,13 +67,23 @@ namespace pe
 	class PIXEL_ENGINE_API Animation
 	{
 	public:
+
+		inline Animation()
+		{
+			m_id = s_anim_count++;
+			m_name = std::string("Animation_", m_id );		
+		}
 		inline Animation(std::string name, float time_length = 1) 
-			: m_name(name) , m_anim_end_signal( Signal("anim_end") )
-		{}
+			: m_name(name)
+		{
+			m_id = s_anim_count++;
+		}
 
 		inline ~Animation() {
 			if (m_sprite_frame_track) delete m_sprite_frame_track;
 			if (m_position_track) delete m_position_track;
+			if (m_rotation_track) delete m_rotation_track;
+			if (m_scale_track) delete m_scale_track;
 		}
 
 		void play();
@@ -102,18 +112,22 @@ namespace pe
 
 	private:  // TODO: add auto time length
 		friend class Application;
+
 		std::string m_name;
+		static int s_anim_count;
+		int m_id;
+
 		bool m_loop		 = true;
 		bool m_reverse	 = false;
 		Object* m_object = nullptr;
-		Signal m_anim_end_signal; // TODO: emit this signal
+		Signal m_anim_end_signal = Signal("anim_end");
 
 		bool m_playing = false;
 		bool m_done_anim = false;
 		
 		sf::Clock m_clock;
 		float m_time_length;
-		float m_time_pointer=0; // points where the anim is now => pause anim, resume
+		float m_time_pointer=0; // points where the anim is now
 
 		glm::fvec2 m_begin_position = glm::fvec2(0,0);
 		glm::fvec2 m_begin_scale = glm::fvec2(1,1);

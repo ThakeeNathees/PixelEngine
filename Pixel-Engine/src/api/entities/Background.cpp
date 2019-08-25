@@ -3,9 +3,7 @@
 
 namespace pe
 {
-	Background::Background() {}
-	Background::~Background() {}
-
+	int Background::s_bg_count = 0;
 
 	void Background::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 		if ( m_has_image && m_visible) target.draw( m_background );

@@ -3,6 +3,7 @@
 
 namespace pe
 {
+	int Signal::s_signal_count = 0;
 
 	Scene::Scene(std::string name) : m_name(name) {}
 

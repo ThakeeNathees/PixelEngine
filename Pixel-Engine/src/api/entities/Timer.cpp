@@ -3,14 +3,19 @@
 
 namespace pe
 {
-	
+	int Timer::s_timer_count = 0;
+
 	Timer::Timer()
-		: m_signal(Signal("timeout"))
-	{}
+	{
+		m_id = s_timer_count++;
+		m_name = std::string("Timer_", m_id);
+	}
 
 	Timer::Timer(const std::string& name, float time, bool loop)
-		: m_signal(Signal("timeout")), m_name(name), m_time(time), m_loop(loop)
-	{}
+		:m_name(name), m_time(time), m_loop(loop)
+	{
+		m_id = s_timer_count++;
+	}
 
 	void Timer::start(float time) {
 		m_running = true;

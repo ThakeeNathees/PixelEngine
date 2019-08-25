@@ -13,6 +13,7 @@ namespace pe
 	public:
 		Timer();
 		Timer(const std::string& name, float time=0.f, bool loop = false);
+		// delete by Object
 
 		inline void setName(const std::string& name) { m_name = name; }
 		inline void setScene(Scene* scene) { m_scene = scene; }
@@ -33,10 +34,12 @@ namespace pe
 		friend class Scene;
 		friend class Object;
 		std::string m_name;
+		static int s_timer_count;
+		int m_id;
 		float m_time = 1.f; // default 1s
 		bool m_loop = false;
 		sf::Clock m_clock;
-		Signal m_signal;
+		Signal m_signal = Signal("timeout");
 		Scene* m_scene = nullptr;
 
 		bool m_running = false;

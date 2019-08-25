@@ -5,6 +5,8 @@
 
 namespace pe
 {
+	int Area::s_area_count = 0;
+
 	Area::~Area() {
 		delete m_shape;
 	}

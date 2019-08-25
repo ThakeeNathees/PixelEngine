@@ -8,6 +8,8 @@
 #include "Animation.h"
 #include "Timer.h"
 
+#include "..//Assets.h"
+
 
 namespace pe
 {
@@ -28,9 +30,9 @@ namespace pe
 		inline virtual void process(double dt) {};
 		inline virtual void input(sf::Event& event) {} // return if event handled ?
 		inline virtual void recieveSignal(Signal& signal) {}
-		virtual void draw() const;
-	private:
+		virtual void drawCall() const;
 		void draw(const sf::Drawable& drawable) const;
+	private:
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 		void drawDebug(sf::RenderTarget& target)const;
 	public:
@@ -94,7 +96,7 @@ namespace pe
 
 		void clear(); // clear timers, ...
 
-		// getters
+		// getters  todo getPosition<glm::fvec2>()
 		inline Application& getApplication() const { assert(m_applicaton != nullptr); return *m_applicaton; }
 		inline Scene& getScene() const { assert(m_scene != nullptr);		return *m_scene; }
 		inline Area& getArea() const { assert(m_area != nullptr);		return *m_area; }

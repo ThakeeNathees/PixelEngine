@@ -12,7 +12,7 @@ namespace pe
 	public:
 		inline Signal() {
 			m_id = s_signal_count++;
-			m_name = std::string( "Signal_", m_id );
+			m_name = std::string( "Signal_").append(std::to_string(m_id));
 		}
 		inline Signal(std::string name) : m_name(name) {
 			m_id = s_signal_count++;

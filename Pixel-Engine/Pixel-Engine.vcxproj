@@ -126,6 +126,7 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
     <ClCompile Include="src\api\Application.cpp" />
     <ClCompile Include="src\api\entities\Timer.cpp" />
     <ClCompile Include="src\api\Scene.cpp" />
+    <ClCompile Include="src\api\utils\tinyxml2.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch.h</PrecompiledHeaderFile>

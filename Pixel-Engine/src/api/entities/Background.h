@@ -8,7 +8,7 @@ namespace pe
 	public:
 		inline Background() {
 			m_id = s_bg_count++;
-			m_name = std::string( "background_", m_id );
+			m_name = std::string( "background_").append(std::to_string(m_id));
 		}
 		inline Background(const std::string& name) : m_name(name) {
 			m_id = s_bg_count++;

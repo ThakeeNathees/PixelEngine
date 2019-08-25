@@ -4,6 +4,7 @@
 //utils
 #include "utils/io_utils.h"
 
+#include "utils/XmlFile.h"
 #include "Application.h"
 #include "Scene.h"
 

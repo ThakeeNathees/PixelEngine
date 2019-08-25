@@ -9,8 +9,10 @@ namespace pe
 	// setters
 	bool Sprite::loadTexture(const std::string& path, bool reset_rect)
 	{
-		bool success = m_texture.loadFromFile(path.c_str());
-		setTexture(m_texture, reset_rect);
+		if (m_texture != nullptr) delete m_texture;
+		m_texture = new sf::Texture();
+		bool success = m_texture->loadFromFile(path.c_str());
+		setTexture(*m_texture, reset_rect);
 		return success;
 	}
 

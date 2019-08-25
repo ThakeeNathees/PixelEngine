@@ -71,7 +71,7 @@ namespace pe
 		inline Animation()
 		{
 			m_id = s_anim_count++;
-			m_name = std::string("Animation_", m_id );		
+			m_name = std::string("Animation_").append(std::to_string(m_id));
 		}
 		inline Animation(std::string name, float time_length = 1) 
 			: m_name(name)

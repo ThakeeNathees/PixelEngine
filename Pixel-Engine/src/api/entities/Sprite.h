@@ -10,7 +10,7 @@ namespace pe {
 	public:
 		inline Sprite() {
 			m_id = s_sprite_count++;
-			m_name = std::string( "Sprite_", m_id );
+			m_name = std::string( "Sprite_").append(std::to_string(m_id));
 		}
 		inline Sprite(const std::string& name): m_name(name) {
 			m_id = s_sprite_count++;
@@ -36,7 +36,7 @@ namespace pe {
 		std::string m_name;
 		static int s_sprite_count;
 		int m_id;
-		sf::Texture m_texture;
+		sf::Texture* m_texture = nullptr;
 		glm::ivec4 m_frames = glm::ivec4(1, 1, 0, 0);
 		int m_frame_index = 0;
 	};

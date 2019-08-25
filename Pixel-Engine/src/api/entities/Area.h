@@ -10,7 +10,7 @@ namespace pe
 	public:
 		inline Area() {
 			m_id = s_area_count++;
-			m_name = std::string( "Area_", m_id );
+			m_name = std::string( "Area_").append( std::to_string(m_id));
 		}
 		inline Area(const std::string& name): m_name(name) {
 			m_id = s_area_count++;

@@ -53,7 +53,9 @@ public:
 		walk_up_track->addKey({ .3,37 });
 		walk_up_anim->setSpriteFrameTrack(walk_up_track);
 
-		addAnimation(walk_down_anim);
+		getApplication().getAssets().addAnimation(walk_down_anim);
+
+		addAnimation( getApplication().getAssets().getAnimation("walk_down") );
 		addAnimation(walk_left_anim);
 		addAnimation(walk_right_anim);
 		addAnimation(walk_up_anim);

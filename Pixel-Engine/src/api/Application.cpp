@@ -10,6 +10,8 @@
 
 namespace pe
 {
+	Assets Application::s_assets;
+
 	Application::Application()
 	{
 		m_window = new sf::RenderWindow(sf::VideoMode(640, 480), "pixel-engine");

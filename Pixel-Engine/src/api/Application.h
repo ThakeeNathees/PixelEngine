@@ -2,6 +2,7 @@
 #include "core.h"
 
 #include "Scene.h"
+#include "Assets.h"
 
 namespace pe {
 
@@ -25,11 +26,13 @@ namespace pe {
 		inline sf::RenderWindow& getWindow() const { assert(m_window != nullptr); return *m_window; }
 		inline Scene& getCurrentScene() const { assert(m_current_scene != nullptr); return *m_current_scene; }
 		inline bool isDebugMode() { return m_is_debug_mode; }
+		inline Assets& getAssets() const { return s_assets; }
 
 		inline bool hasWindow() const { return m_window != nullptr; }
 		inline bool hasScene() const { return m_current_scene != nullptr; }
 
 	private:
+		static Assets s_assets;
 		double m_frame_rate = 30.0;
 		sf::Color m_background_color = sf::Color(80, 80, 80, 255);
 		sf::RenderWindow* m_window = nullptr;

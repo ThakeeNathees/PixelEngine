@@ -8,13 +8,12 @@
 #include "src/Player.h"
 #include "src/Npc.h"
 
+
+
 int main()
 {
-
-
-
 	pe::Scene* scene = new pe::Scene("scene1");
-
+	pe::XmlFile f;
 	// add objects
 	pe::Object* player = new Player;
 	player->setName("Player");
@@ -28,7 +27,7 @@ int main()
 	scene->sortObjectsZIndex();
 	
 	pe::Application app;
-	app.setDebugMode(true);
+	//app.setDebugMode(true);
 
 	app.addScene( scene );
 	app.setCurrentScene("scene1");

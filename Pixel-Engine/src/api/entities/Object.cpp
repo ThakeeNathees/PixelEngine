@@ -10,14 +10,14 @@ namespace pe
 
 	Object::Object() {
 		m_id = s_object_count++;
-		m_name = std::string( "Object_", m_id );
+		m_name = std::string( "Object_").append(std::to_string(m_id));
 		m_dbg_origin = new sf::CircleShape(3);
 		m_dbg_origin->setFillColor(sf::Color(150, 75, 150, 200));
 	}
 	Object::~Object() {
 		//if (m_sprite)		delete m_sprite; // delete by Assets
+		//if (m_area) delete m_area;
 		if (m_dbg_origin)	delete m_dbg_origin;
-		if (m_area) delete m_area;
 		for (Timer* timer : m_timers) delete timer;
 	}
 
@@ -25,11 +25,11 @@ namespace pe
 	// virtual function
 	void Object::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 		s_render_target = &target; // TODO: multiple viwe case
-		draw();
+		drawCall();
 		drawDebug(target);
 		s_render_target = nullptr;
 	}
-	void Object::draw() const {
+	void Object::drawCall() const {
 		drawSelf();
 	}
 	void Object::drawDebug(sf::RenderTarget& target) const {

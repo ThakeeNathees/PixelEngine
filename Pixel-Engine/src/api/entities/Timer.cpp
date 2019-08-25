@@ -8,7 +8,7 @@ namespace pe
 	Timer::Timer()
 	{
 		m_id = s_timer_count++;
-		m_name = std::string("Timer_", m_id);
+		m_name = std::string("Timer_").append(std::to_string(m_id));
 	}
 
 	Timer::Timer(const std::string& name, float time, bool loop)

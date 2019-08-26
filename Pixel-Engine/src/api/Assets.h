@@ -6,12 +6,15 @@
 #include "entities/Animation.h"
 #include "entities/Area.h"
 
+#include "utils/AssetsFile.h"
+
 
 namespace pe
 {
 	class PIXEL_ENGINE_API Assets
 	{
 	public:
+		Assets();
 		~Assets();
 
 		// setters

@@ -30,10 +30,12 @@ namespace pe {
 		inline int getFrameCount() const { return m_frames.x * m_frames.y; }
 		inline int getCurrentFrame() const { return m_frame_index; }
 		inline int getId() const { return m_id; }
+		inline const std::string& getTexturePath() const { return m_texture_path; }
 		
 
 	private:
 		std::string m_name;
+		std::string m_texture_path = "";
 		static int s_sprite_count;
 		int m_id;
 		sf::Texture* m_texture = nullptr;

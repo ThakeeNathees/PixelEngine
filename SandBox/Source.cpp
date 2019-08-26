@@ -10,10 +10,11 @@
 
 
 
+
 int main()
 {
+
 	pe::Scene* scene = new pe::Scene("scene1");
-	pe::XmlFile f;
 	// add objects
 	pe::Object* player = new Player;
 	player->setName("Player");
@@ -22,15 +23,12 @@ int main()
 	pe::Object* npc = new Npc;
 	npc->setName("Npc");
 	scene->addObject( npc );
-	
-	
 	scene->sortObjectsZIndex();
 	
 	pe::Application app;
 	//app.setDebugMode(true);
-
 	app.addScene( scene );
-	app.setCurrentScene("scene1");
+	app.setCurrentScene(scene->getName());
 	app.update();
 	return 0;
 }

@@ -42,13 +42,13 @@
     <ClCompile Include="src\api\entities\Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\api\utils\XmlFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\api\Assets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\api\utils\tinyxml2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\api\utils\AssetsFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -95,13 +95,13 @@
     <ClInclude Include="src\api\utils\math_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\api\utils\XmlFile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\api\utils\io_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\api\Assets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\utils\AssetsFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

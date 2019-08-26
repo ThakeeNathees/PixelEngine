@@ -1,0 +1,13 @@
+<assets>
+    <textures/>
+    <sprites>
+        <sprite name="Sprite_0">
+            <texture_path></texture_path>
+            <frames x="1" y="1" offset_x="0" offset_y="0"/>
+            <frame index="0"/>
+        </sprite>
+    </sprites>
+    <backgrounds/>
+    <animations/>
+    <areas/>
+</assets>

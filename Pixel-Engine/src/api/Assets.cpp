@@ -4,6 +4,10 @@
 namespace pe
 {
 
+	Assets::Assets() {
+		
+	}
+
 	Assets::~Assets() { // TODO: add remove(any asset) functions
 		for (auto tex : m_textures)
 			delete tex.second;

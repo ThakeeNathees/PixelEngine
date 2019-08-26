@@ -2,6 +2,7 @@
 
 #include "..//core.h"
 
+#include "..//misc/Texture.h"
 
 namespace pe {
 
@@ -17,9 +18,9 @@ namespace pe {
 		}
 
 		Sprite(const Sprite& other) = delete;
-		bool loadTexture(const std::string& path, bool reset_rect = true);
 
 		// setters
+		void setTexture( Texture* texture, bool resetRect = false);
 		inline void setName(const std::string& name) { m_name = name; }
 		void setFrames(int x, int y, int offset_x = 0, int offset_y = 0);
 		void setFrameIndex(int index);
@@ -30,15 +31,19 @@ namespace pe {
 		inline int getFrameCount() const { return m_frames.x * m_frames.y; }
 		inline int getCurrentFrame() const { return m_frame_index; }
 		inline int getId() const { return m_id; }
-		inline const std::string& getTexturePath() const { return m_texture_path; }
+		inline Texture& getTexture() const { 
+			assert( hasTexture() && "texture is nullptr" );
+			return *m_texture;
+		}
+
+		inline bool hasTexture() const { return m_texture != nullptr; }
 		
 
 	private:
 		std::string m_name;
-		std::string m_texture_path = "";
 		static int s_sprite_count;
 		int m_id;
-		sf::Texture* m_texture = nullptr;
+		Texture* m_texture = nullptr;
 		glm::ivec4 m_frames = glm::ivec4(1, 1, 0, 0);
 		int m_frame_index = 0;
 	};

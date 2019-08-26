@@ -1,8 +1,17 @@
 #include "pch.h"
-#include "../Application.h" // for referencing scene of the object; scene has objects included
+#include "../Application.h"
 
+#include "../utils/AssetsFile.h"
 namespace pe
 {
+	// temp
+	void Object::test(Animation* a, Animation* b, Sprite* c) {
+		AssetsFile f;
+		f.addAnimation(a);
+		f.addAnimation(b);
+		f.addSprite(c);
+		f.getDocument().SaveFile("test.xml");
+	}
 	// static initialization
 	int Object::s_object_count = 0;
 	sf::RenderTarget* Object::s_render_target = nullptr;

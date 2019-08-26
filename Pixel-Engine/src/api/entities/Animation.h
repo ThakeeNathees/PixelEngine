@@ -24,6 +24,9 @@ namespace pe
 			std::sort(m_keys.begin(), m_keys.end(), sortCompare);
 		}
 		virtual std::pair<bool, Data> getData(float time) const = 0; // bool true? has valid data
+
+		inline const std::vector<Key>& getKeys() const { return m_keys; }
+
 	private:
 		friend class SpriteFrameTrack;
 		friend class PositionTrack;
@@ -106,7 +109,39 @@ namespace pe
 		inline std::string getName() const { return m_name; }
 		inline float getTimeLength() const { return m_time_length; }
 		inline Signal& getAnimEndSignal() { return m_anim_end_signal; }
+		inline const int getId() const { return m_id; }
+		inline const Object& getObject() const {
+			assert( hasObject() && "object is nullptr"  );
+			return *m_object;
+		}
+
+		inline const glm::fvec2& getBeginPosition() const { return m_begin_position; }
+		inline const glm::fvec2& getBeginScale() const { return m_begin_scale; }
+		inline const float getBeginRotation() const { return m_begin_rotation; }
+
+		inline bool hasObject() const { return m_object != nullptr; }
+		inline bool hasSpriteFrameTrack() const { return m_sprite_frame_track != nullptr; }
+		inline bool hasPositionTrack() const { return m_position_track != nullptr; }
+		inline bool hasRotationTrack() const { return m_rotation_track != nullptr; }
+		inline bool hasScaleTrack() const { return m_scale_track != nullptr; }
 		
+		inline const SpriteFrameTrack& getSpriteFrameTrack() const { 
+			assert( hasSpriteFrameTrack() && "sprite frame track is nullptr"); 
+			return *m_sprite_frame_track; 
+		}
+		inline const PositionTrack& getPositionTrack() const {
+			assert(hasPositionTrack() && "position track is nullptr");
+			return *m_position_track;
+		}
+		inline const RotationTrack& getRotationTrack() const {
+			assert( hasRotationTrack() && "rotation track is nullptr" );
+			return *m_rotation_track;
+		}
+		inline const ScaleTrack& getScaleTrack() const {
+			assert( hasRotationTrack() && "scale track is nullptr" );
+			return *m_scale_track;
+		}
+
 	private:
 		void emitSignal();
 

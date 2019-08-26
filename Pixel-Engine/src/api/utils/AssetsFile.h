@@ -1,8 +1,10 @@
 #pragma once
 #include "..//core.h"
 
-#include "..//Scene.h"
 #include "tinyxml2.h"
+
+#include "..//Scene.h"
+#include "..//misc/Texture.h"
 
 namespace pe
 {
@@ -13,12 +15,11 @@ namespace pe
 
 		inline tinyxml2::XMLDocument& getDocument() { return m_doc; }
 
-		void addTexture(sf::Texture* texture, const char* path);
+		void addTexture( Texture* texture);
 		void addSprite(Sprite* sprite);
-		//void addBackground(Background* bg);
-		//void addAnimation(Animation* anim);
+		void addBackground(Background* bg);
+		void addAnimation(Animation* anim);
 		//void addArea(Area* area);
-
 
 		
 	private:

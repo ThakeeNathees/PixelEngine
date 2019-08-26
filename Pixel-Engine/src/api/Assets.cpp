@@ -4,9 +4,7 @@
 namespace pe
 {
 
-	Assets::Assets() {
-		
-	}
+	Assets::Assets() {}
 
 	Assets::~Assets() { // TODO: add remove(any asset) functions
 		for (auto tex : m_textures)
@@ -22,9 +20,9 @@ namespace pe
 	}
 
 	// setters
-	void Assets::addTexture(sf::Texture* texture, const std::string& path) {
-		if (hasTexture(path)) return;
-		m_textures[path] = texture;
+	void Assets::addTexture(pe::Texture* texture) {
+		if (hasTexture(texture->getPath())) return;
+		m_textures[texture->getPath()] = texture;
 	}
 	void Assets::addSprite(Sprite* sprite) {
 		if (hasSprite(sprite->getName())) delete m_sprites[sprite->getName()];
@@ -60,7 +58,7 @@ namespace pe
 		return m_areas.find(name) != m_areas.end();
 	}
 
-	sf::Texture* Assets::getTexture(const std::string& path) {
+	pe::Texture* Assets::getTexture(const std::string& path) {
 		assert(hasTexture(path) && "invalid texture path to get!");
 		return m_textures[path];
 

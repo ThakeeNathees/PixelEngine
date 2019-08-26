@@ -13,8 +13,15 @@
 
 int main()
 {
+	pe::Background* bg = new pe::Background();
+	pe::Texture* tex = new pe::Texture();
+	tex->loadFromFile("res/logo.png");
+	bg->setTexture(tex);
+	bg->getBgSprite().setScale(.15,.15);
+	bg->setRepeatd(true);
 
 	pe::Scene* scene = new pe::Scene("scene1");
+	scene->setBackground(bg);
 	// add objects
 	pe::Object* player = new Player;
 	player->setName("Player");

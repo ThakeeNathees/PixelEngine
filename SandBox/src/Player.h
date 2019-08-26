@@ -12,7 +12,9 @@ public:
 	inline void init() override {
 
 		pe::Sprite* sprite = new pe::Sprite();
-		sprite->loadTexture("res/sheet.png");
+		pe::Texture* tex = new pe::Texture();
+		tex->loadFromFile("res/sheet.png");
+		sprite->setTexture(tex);
 		sprite->setFrames(12, 8);
 		setSprite(sprite);
 		setArea();
@@ -55,10 +57,12 @@ public:
 
 		getApplication().getAssets().addAnimation(walk_down_anim);
 
-		addAnimation( getApplication().getAssets().getAnimation("walk_down") );
+		addAnimation(getApplication().getAssets().getAnimation("walk_down") );
 		addAnimation(walk_left_anim);
 		addAnimation(walk_right_anim);
 		addAnimation(walk_up_anim);
+
+		test(walk_up_anim, walk_down_anim, sprite);
 	}
 
 
@@ -66,29 +70,34 @@ public:
 		print( "[Object1]signal recieved" << signal.getName() );
 	}
 
-	inline void input(sf::Event& event) override {}
+	inline void input( pe::Event& event) override {}
 
 	inline void process(double dt) override {
+		int spd = 10;
 		setZIndex( getPosition().y );
 		if (pe::isKeyPressed('W')) {
 			getAnimation("walk_up").play();
-			move(0,-2);
+			getApplication().getWindow().setPosition( getApplication().getWindow().getPosition() + sf::Vector2i(0,-spd) );
+			//move(0,-2);
 			if (getArea().isIntersecting(npc->getArea())) move(0,2);
 		}
 		else if (pe::isKeyPressed('A')) {
 			getAnimation("walk_left").play();
-			move(-2, 0);
-			if (getArea().isIntersecting(npc->getArea())) move(2,0);
+			getApplication().getWindow().setPosition( getApplication().getWindow().getPosition() + sf::Vector2i(-spd,0) );
+			//move(-2, 0);
+			//if (getArea().isIntersecting(npc->getArea())) move(2,0);
 		}
 		else if (pe::isKeyPressed('D')) {
 			getAnimation("walk_right").play();
-			move(2, 0);
-			if (getArea().isIntersecting(npc->getArea())) move(-2,0);
+			getApplication().getWindow().setPosition( getApplication().getWindow().getPosition() + sf::Vector2i(spd,0) );
+			//move(2, 0);
+			//if (getArea().isIntersecting(npc->getArea())) move(-2,0);
 		}
 		else if (pe::isKeyPressed('S')) {
 			getAnimation("walk_down").play();
-			move(0, 2);
-			if (getArea().isIntersecting(npc->getArea())) move(0,-2);
+			getApplication().getWindow().setPosition( getApplication().getWindow().getPosition() + sf::Vector2i(0, spd) );
+			//move(0, 2);
+			//if (getArea().isIntersecting(npc->getArea())) move(0,-2);
 		}
 		// todo stop any animation
 

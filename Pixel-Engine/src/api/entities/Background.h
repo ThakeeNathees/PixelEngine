@@ -1,6 +1,8 @@
 #pragma once
 #include "..//core.h"
 
+#include "..//misc/Texture.h"
+
 namespace pe
 {
 	class PIXEL_ENGINE_API Background : public sf::Drawable
@@ -16,21 +18,30 @@ namespace pe
 		Background(const Background& other) = delete;
 		inline ~Background(){}
 
+		void move(glm::ivec2 vec);
+
 		// setters
 		inline void setName(const std::string& name) { m_name = name; }
-		bool loadTexture(std::string path);
 		inline void setVisible(bool visible) { m_visible = visible; }
 		void setRepeatd(bool repeated);
-		void setBgWindowSize(glm::ivec2 window_size);
+		void setTextureRectSize(glm::ivec2 window_size, glm::ivec2 offset = glm::ivec2(0,0));
+		void setTexture(pe::Texture* texture);
 
 		// getters
+		inline bool hasTexture() const {
+			return m_texture != nullptr;
+		}
 		inline const std::string& getName() const { return m_name; }
-		inline bool getVisible() { return m_visible; }
-		inline sf::Texture& getTexture() { return m_texture; }
+		inline bool getVisible() const { return m_visible; }
+		inline bool getRepeat() const { return m_is_repeated; }
+		inline Texture& getTexture() {
+			assert(hasTexture() && "texture is nullptr");
+			return *m_texture; 
+		}
 		inline sf::Sprite& getBgSprite() { return m_background; }
-		inline bool hasImage() const { return m_has_image; }
-
-
+		inline const glm::ivec2& getTextureRectSize() const { return m_texture_rect_size; }
+		inline const glm::ivec2& getTextureRectOffset() const { return { m_background.getTextureRect().left, m_background.getTextureRect().top }; }
+		inline const int getId() const { return m_id; }
 
 	private:
 		std::string m_name;
@@ -38,11 +49,10 @@ namespace pe
 		int m_id;
 		friend class Application;
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+		Texture* m_texture = nullptr;
 		sf::Sprite m_background;
-		sf::Texture m_texture;
-		bool m_has_image = false; // set true when sprite initialized
 		bool m_visible = true;
 		bool m_is_repeated = false;
-		glm::ivec2 m_window_size = glm::ivec2(-1, -1); // TODO: add horizoltal velocity
+		glm::ivec2 m_texture_rect_size = glm::ivec2(-1, -1); // TODO: add horizoltal velocity
 	};
 }

@@ -34,12 +34,12 @@ namespace pe
 	void Scene::setBackground(Background* background) {
 		m_background = background;
 		m_background->setVisible(true);
-		m_background->setBgWindowSize(m_window_size);
+		m_background->setTextureRectSize(m_window_size);
 	}
 
 	void Scene::setSceneWindowSize(glm::ivec2 window_size) {
 		m_window_size = window_size;
-		if (m_background != nullptr) m_background->setBgWindowSize(m_window_size);
+		if (m_background != nullptr) m_background->setTextureRectSize(m_window_size);
 	}
 
 	void Scene::addTimer(Timer* timer) {

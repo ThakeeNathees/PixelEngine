@@ -104,5 +104,11 @@
     <ClInclude Include="src\api\utils\AssetsFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\api\misc\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\misc\Event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

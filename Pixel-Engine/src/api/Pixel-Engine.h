@@ -16,6 +16,7 @@
 #include "entities/Timer.h"
 #include "entities/Animation.h"
 
+#include "misc/Texture.h"
 
 /*************************************/
 

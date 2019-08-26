@@ -5,6 +5,7 @@
 #include "entities/Object.h"
 
 #include "utils/math_utils.h"
+#include "misc/Event.h"
 
 //#include "..//utils/XmlFile.h"
 
@@ -47,12 +48,11 @@ namespace pe
 
 		while (m_window->isOpen()) {
 
-			sf::Event event;
+			Event event;
 			while (m_window->pollEvent(event)) {
 				for (Object* object : m_current_scene->getObjects()) {
-					m_event_handled = true;
 					object->input(event);
-					if (m_event_handled) { m_event_handled = false; continue; }
+					if (event.isHandled()) continue;
 				}
 			}
 			// process
@@ -80,8 +80,10 @@ namespace pe
 
 			// draw
 			m_window->clear(m_background_color);
-			if (m_current_scene->hasBackground())
-				m_window->draw(m_current_scene->getBackground());
+			if (m_current_scene->hasBackground()){
+				Background& bg = m_current_scene->getBackground();
+				if (bg.getVisible()) m_window->draw( bg );
+			}
 
 			for (Object* object : m_current_scene->getObjects()) {
 				if (object->getVisible()) m_window->draw(*object);

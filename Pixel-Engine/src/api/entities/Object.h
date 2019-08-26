@@ -9,7 +9,8 @@
 #include "Timer.h"
 
 #include "..//Assets.h"
-
+#include "..//misc/Event.h"
+#include "..//misc/Texture.h"
 
 namespace pe
 {
@@ -21,6 +22,8 @@ namespace pe
 	class PIXEL_ENGINE_API Object : public sf::Transformable, public sf::Drawable
 	{
 	public:
+		// temp
+		void test(Animation* anim, Animation* b, Sprite* c);
 		Object();
 		Object(const Object& other) = delete;
 		~Object();
@@ -28,7 +31,7 @@ namespace pe
 		// virtual functions
 		inline virtual void init() {};
 		inline virtual void process(double dt) {};
-		inline virtual void input(sf::Event& event) {} // return if event handled ?
+		inline virtual void input(Event& event) {} // return if event handled ?
 		inline virtual void recieveSignal(Signal& signal) {}
 		virtual void drawCall() const;
 		void draw(const sf::Drawable& drawable) const;

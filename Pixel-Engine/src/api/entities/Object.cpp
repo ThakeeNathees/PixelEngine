@@ -5,8 +5,9 @@
 namespace pe
 {
 	// temp
-	void Object::test(Animation* a, Animation* b, Sprite* c) {
+	void Object::test(Animation* a, Animation* b, Sprite* c, Area* d) {
 		AssetsFile f;
+		f.addArea(d);
 		f.addAnimation(a);
 		f.addAnimation(b);
 		f.addSprite(c);
@@ -45,7 +46,7 @@ namespace pe
 		if (m_applicaton != nullptr && m_applicaton->isDebugMode()) {
 			if (m_area != nullptr) {
 				target.draw(m_area->getShape());
-				drawCircle(m_area->getCentre(), 3, sf::Color(0, 255, 0, 255));
+				drawCircle(m_area->getCentroid(), 3, sf::Color(0, 255, 0, 255));
 			}
 
 			if (m_dbg_origin) {
@@ -175,6 +176,7 @@ namespace pe
 		m_sprite->setScale(getScale());
 	}
 	void Object::setArea(Area* area) { // if area == nullptr => area set as sprite rect. old area not deleted -> memory leak
+		if (area == nullptr && m_sprite == nullptr) return;
 		if (area == nullptr && m_sprite != nullptr) {
 			if (m_area) delete m_area;
 			auto rect = m_sprite->getLocalBounds();
@@ -188,6 +190,7 @@ namespace pe
 			m_area->setPosition(getPosition());
 			m_area->setRotation(getRotation());
 			m_area->setScale(getScale());
+			m_area->setOrigin(getOrigin());
 		}
 	}
 

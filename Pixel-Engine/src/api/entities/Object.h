@@ -23,7 +23,7 @@ namespace pe
 	{
 	public:
 		// temp
-		void test(Animation* anim, Animation* b, Sprite* c);
+		void test(Animation* anim, Animation* b, Sprite* c, Area* d);
 		Object();
 		Object(const Object& other) = delete;
 		~Object();

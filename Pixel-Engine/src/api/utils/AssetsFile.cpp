@@ -10,6 +10,7 @@ namespace pe
 		m_doc.InsertFirstChild(assets);
 
 		auto textures = m_doc.NewElement("textures");
+		auto fonts = m_doc.NewElement("fonts");
 		auto sprites = m_doc.NewElement("sprites");
 		auto backgrounds = m_doc.NewElement("backgrounds");
 		auto animations = m_doc.NewElement("animations");
@@ -17,6 +18,7 @@ namespace pe
 		// fonts, tile map, ...
 
 		assets->InsertEndChild(textures);
+		assets->InsertEndChild(fonts);
 		assets->InsertEndChild(sprites);
 		assets->InsertEndChild(backgrounds);
 		assets->InsertEndChild(animations);
@@ -33,6 +35,13 @@ namespace pe
 		texture_tag->InsertEndChild(prop);
 		prop->SetAttribute("smooth", texture->isSmooth());
 		prop->SetAttribute("repeat", texture->isRepeated());
+	}
+
+	void AssetsFile::addFont(Font* font) {
+		auto fonts = m_doc.FirstChildElement()->FirstChildElement("fonts");
+		auto font_tag = m_doc.NewElement("font");
+		fonts->InsertEndChild(font_tag);
+		font_tag->SetAttribute("path", font->getPath().c_str());
 	}
 
 	void AssetsFile::addSprite(Sprite* sprite) {
@@ -174,7 +183,36 @@ namespace pe
 				key_tag->SetAttribute("frame", key.data.sprite_frame);
 			}
 		}
+	}
 
+	void AssetsFile::addArea(Area* area) {
+		auto areas = m_doc.FirstChildElement()->FirstChildElement("areas");
+		auto area_tag = m_doc.NewElement("area");
+		areas->InsertEndChild(area_tag);
+		area_tag->SetAttribute("name", area->getName().c_str());
+		area_tag->SetAttribute("id", area->getId());
+
+		auto centroid_tag = m_doc.NewElement("centroid");
+		area_tag->InsertEndChild(centroid_tag);
+		centroid_tag->SetAttribute("x",area->getCentroid(true).x);
+		centroid_tag->SetAttribute("y",area->getCentroid(true).y);
+
+		auto is_convex_tag = m_doc.NewElement("is_convex");
+		area_tag->InsertEndChild(is_convex_tag);
+		is_convex_tag->SetAttribute("value", area->isConvex() );
+
+		if (area->hasShape()) {
+			auto shape_tag = m_doc.NewElement("shape");
+			area_tag->InsertEndChild(shape_tag);
+			shape_tag->SetAttribute("point_count", (int)area->getPointCount());
+			for (int i = 0; i < area->getPointCount(); i++) {
+				auto point_tag = m_doc.NewElement("point");
+				shape_tag->InsertEndChild(point_tag);
+				point_tag->SetAttribute("index", i);
+				point_tag->SetAttribute("x", area->getShape().getPoint(i).x);
+				point_tag->SetAttribute("y", area->getShape().getPoint(i).y);
+			}
+		}
 	}
 
 }

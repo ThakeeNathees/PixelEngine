@@ -21,7 +21,7 @@ int main()
 	bg->setRepeatd(true);
 
 	pe::Scene* scene = new pe::Scene("scene1");
-	scene->setBackground(bg);
+	//scene->setBackground(bg);
 	// add objects
 	pe::Object* player = new Player;
 	player->setName("Player");
@@ -33,7 +33,7 @@ int main()
 	scene->sortObjectsZIndex();
 	
 	pe::Application app;
-	//app.setDebugMode(true);
+	app.setDebugMode(true);
 	app.addScene( scene );
 	app.setCurrentScene(scene->getName());
 	app.update();

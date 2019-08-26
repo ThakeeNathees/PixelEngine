@@ -17,8 +17,12 @@ public:
 		sprite->setTexture(tex);
 		sprite->setFrames(12, 8);
 		setSprite(sprite);
+
 		setArea();
+		setPosition(100,100);
 		setScale(2,2);
+
+		setOrigin( getSprite().getTextureRect().width/2, getSprite().getTextureRect().height );
 
 		npc = &getScene().getObject("Npc");
 
@@ -62,7 +66,7 @@ public:
 		addAnimation(walk_right_anim);
 		addAnimation(walk_up_anim);
 
-		test(walk_up_anim, walk_down_anim, sprite);
+		test(walk_up_anim, walk_down_anim, sprite, &getArea());
 	}
 
 
@@ -77,27 +81,27 @@ public:
 		setZIndex( getPosition().y );
 		if (pe::isKeyPressed('W')) {
 			getAnimation("walk_up").play();
-			getApplication().getWindow().setPosition( getApplication().getWindow().getPosition() + sf::Vector2i(0,-spd) );
-			//move(0,-2);
+			//getApplication().getWindow().setPosition( getApplication().getWindow().getPosition() + sf::Vector2i(0,-spd) );
+			move(0,-2);
 			if (getArea().isIntersecting(npc->getArea())) move(0,2);
 		}
 		else if (pe::isKeyPressed('A')) {
 			getAnimation("walk_left").play();
-			getApplication().getWindow().setPosition( getApplication().getWindow().getPosition() + sf::Vector2i(-spd,0) );
-			//move(-2, 0);
-			//if (getArea().isIntersecting(npc->getArea())) move(2,0);
+			//getApplication().getWindow().setPosition( getApplication().getWindow().getPosition() + sf::Vector2i(-spd,0) );
+			move(-2, 0);
+			if (getArea().isIntersecting(npc->getArea())) move(2,0);
 		}
 		else if (pe::isKeyPressed('D')) {
 			getAnimation("walk_right").play();
-			getApplication().getWindow().setPosition( getApplication().getWindow().getPosition() + sf::Vector2i(spd,0) );
-			//move(2, 0);
-			//if (getArea().isIntersecting(npc->getArea())) move(-2,0);
+			//getApplication().getWindow().setPosition( getApplication().getWindow().getPosition() + sf::Vector2i(spd,0) );
+			move(2, 0);
+			if (getArea().isIntersecting(npc->getArea())) move(-2,0);
 		}
 		else if (pe::isKeyPressed('S')) {
 			getAnimation("walk_down").play();
-			getApplication().getWindow().setPosition( getApplication().getWindow().getPosition() + sf::Vector2i(0, spd) );
-			//move(0, 2);
-			//if (getArea().isIntersecting(npc->getArea())) move(0,-2);
+			//getApplication().getWindow().setPosition( getApplication().getWindow().getPosition() + sf::Vector2i(0, spd) );
+			move(0, 2);
+			if (getArea().isIntersecting(npc->getArea())) move(0,-2);
 		}
 		// todo stop any animation
 

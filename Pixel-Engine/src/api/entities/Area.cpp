@@ -57,7 +57,7 @@ namespace pe
 	void Area::setShape(sf::Shape* shape) {
 		assert(pe::isShapeConvex(*shape) && "shape of an area has to be convex");
 		m_shape = shape;
-		m_centroid = getCentroid(shape);
+		m_centroid = ::pe::getCentroid(shape);
 		m_is_convex = isShapeConvex(*shape);
 		m_shape->setPosition(getPosition());
 		m_shape->setRotation(getRotation());

@@ -9,6 +9,8 @@ namespace pe
 	Assets::~Assets() { // TODO: add remove(any asset) functions
 		for (auto tex : m_textures)
 			delete tex.second;
+		for (auto font : m_fonts)
+			delete font.second;
 		for (auto spr : m_sprites)
 			delete spr.second;
 		for (auto bg : m_backgrounds)
@@ -20,9 +22,13 @@ namespace pe
 	}
 
 	// setters
-	void Assets::addTexture(pe::Texture* texture) {
+	void Assets::addTexture(::pe::Texture* texture) {
 		if (hasTexture(texture->getPath())) return;
 		m_textures[texture->getPath()] = texture;
+	}
+	void Assets::addFont(::pe::Font* font) {
+		if (hasFont(font->getPath())) return;
+		m_fonts[font->getPath()] = font;
 	}
 	void Assets::addSprite(Sprite* sprite) {
 		if (hasSprite(sprite->getName())) delete m_sprites[sprite->getName()];
@@ -45,6 +51,9 @@ namespace pe
 	bool Assets::hasTexture(const std::string& path) {
 		return m_textures.find(path) != m_textures.end();
 	}
+	bool Assets::hasFont(const std::string& path) {
+		return m_fonts.find(path) != m_fonts.end();
+	}
 	bool Assets::hasSprite(const std::string& name) {
 		return m_sprites.find(name) != m_sprites.end();
 	}
@@ -58,10 +67,13 @@ namespace pe
 		return m_areas.find(name) != m_areas.end();
 	}
 
-	pe::Texture* Assets::getTexture(const std::string& path) {
+	::pe::Texture* Assets::getTexture(const std::string& path) {
 		assert(hasTexture(path) && "invalid texture path to get!");
 		return m_textures[path];
-
+	}
+	::pe::Font* Assets::getFont(const std::string& path) {
+		assert(hasFont(path) && "invalid font path to get!");
+		return m_fonts[path];
 	}
 	Sprite* Assets::getSprite(const std::string& name) {
 		assert(hasSprite(name) && "invalid sprite name to get!");

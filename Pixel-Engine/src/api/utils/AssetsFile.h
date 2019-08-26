@@ -5,6 +5,7 @@
 
 #include "..//Scene.h"
 #include "..//misc/Texture.h"
+#include "..//misc/Font.h"
 
 namespace pe
 {
@@ -15,11 +16,12 @@ namespace pe
 
 		inline tinyxml2::XMLDocument& getDocument() { return m_doc; }
 
-		void addTexture( Texture* texture);
+		void addTexture(::pe::Texture* texture);
+		void addFont(::pe::Font* font);
 		void addSprite(Sprite* sprite);
 		void addBackground(Background* bg);
 		void addAnimation(Animation* anim);
-		//void addArea(Area* area);
+		void addArea(Area* area);
 
 		
 	private:

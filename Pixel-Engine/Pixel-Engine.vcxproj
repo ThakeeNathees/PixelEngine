@@ -108,6 +108,7 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
     <ClInclude Include="src\api\entities\Sprite.h" />
     <ClInclude Include="src\api\entities\Timer.h" />
     <ClInclude Include="src\api\misc\Event.h" />
+    <ClInclude Include="src\api\misc\Font.h" />
     <ClInclude Include="src\api\misc\Texture.h" />
     <ClInclude Include="src\api\Scene.h" />
     <ClInclude Include="src\pch.h" />

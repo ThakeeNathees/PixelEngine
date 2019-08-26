@@ -47,17 +47,21 @@ namespace pe
 		std::size_t getPointCount() const override;
 		sf::Vector2f getPoint(std::size_t index) const override;
 
-		inline sf::Vector2f getCentre(bool local = false) const {
+		inline sf::Vector2f getCentroid(bool local = false) const {
 			if (local) return m_centroid;
 			return applyTransform<sf::Vector2f, sf::Vector2f>(m_centroid, *this);
 		}
 
 		bool isContains(float x, float y);
+		inline int getId() const { return m_id; }
+		inline bool isConvex() const{ return m_is_convex; }
 		inline bool isContains(glm::fvec2 point) { return isContains(point.x, point.y); }
 		inline bool isContains(sf::Vector2f point) { return isContains(point.x, point.y); }
 		inline bool isIntersecting(const Area& other) { return ::pe::isIntersecting( getShape(), other.getShape() ); }
 
-		inline sf::Shape& getShape() const { assert(m_shape != nullptr); return *m_shape; }
+		inline bool hasShape() { return m_shape != nullptr; }
+
+		inline sf::Shape& getShape() const { assert( hasShape() && "shape is nullptr" ); return *m_shape; }
 		inline bool hasShape() const { return m_shape != nullptr; }
 
 	private:
@@ -67,7 +71,7 @@ namespace pe
 		sf::Vector2f m_centroid;
 		bool m_is_convex = false;
 		sf::Shape* m_shape = nullptr;
-		sf::Color m_fill_color = sf::Color(50, 75, 100, 100);
+		sf::Color m_fill_color = sf::Color(50, 75, 100, 100); // for debug
 	};
 
 

@@ -7,6 +7,7 @@
 #include "entities/Area.h"
 
 #include "misc/Texture.h"
+#include "misc/Font.h"
 
 #include "utils/AssetsFile.h"
 
@@ -20,7 +21,8 @@ namespace pe
 		~Assets();
 
 		// setters
-		void addTexture(pe::Texture* texture);
+		void addTexture(::pe::Texture* texture);
+		void addFont(::pe::Font* font);
 		void addSprite(Sprite* sprite);
 		void addBackground(Background* background);
 		void addAnimation(Animation* animation);
@@ -30,19 +32,22 @@ namespace pe
 
 		// getters
 		bool hasTexture(const std::string& path);
+		bool hasFont(const std::string& path);
 		bool hasSprite(const std::string& name);
 		bool hasBackground(const std::string& name);
 		bool hasAnimation(const std::string& name);
 		bool hasArea(const std::string& area);
 
-		pe::Texture* getTexture(const std::string& path);
+		::pe::Texture* getTexture(const std::string& path);
+		::pe::Font* getFont(const std::string& path);
 		Sprite* getSprite(const std::string& name);
 		Background* getBackground(const std::string& name);
 		Animation* getAnimation(const std::string& name);
 		Area* getArea( const std::string& area );
 
 	private:
-		std::map<std::string, pe::Texture*> m_textures;
+		std::map<std::string, ::pe::Texture*> m_textures;
+		std::map<std::string, ::pe::Font*> m_fonts;
 		std::map<std::string, Sprite*> m_sprites;
 		std::map<std::string, Background*>m_backgrounds;
 		std::map<std::string, Animation*>m_animations;

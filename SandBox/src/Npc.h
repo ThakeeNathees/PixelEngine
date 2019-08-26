@@ -11,23 +11,13 @@ class Npc : public pe::Object
 public:
 	void init() override {
 
-		pe::Background* bg = new pe::Background();
-		pe::Texture* tex = new pe::Texture();
-		tex->loadFromFile("res/logo.png");
-		bg->setTexture(tex);
-		bg->getBgSprite().setScale(.15, .15);
-		bg->setRepeatd(true);
-
-		getScene().setBackground(bg);
-
-
 		pe::Sprite* sprite = new pe::Sprite();
 		pe::Texture* texr = new pe::Texture();
 		texr->loadFromFile("res/logo.png");
-		//sprite->setTexture(texr);
+		sprite->setTexture(texr);
 		setSprite(sprite);
 		setScale(.15, .15);
-		
+
 		
 		font.loadFromFile("res/Indie_Flower/IndieFlower-Regular.ttf");
 		text.setFont(font);
@@ -35,6 +25,7 @@ public:
 		text.setCharacterSize(24);
 		text.setFillColor(sf::Color(0,0,0,255));
 
+		setOrigin(getSprite().getTextureRect().width / 2, getSprite().getTextureRect().height);
 		setArea();
 	}
 

@@ -12,7 +12,7 @@ namespace pe
 			delete object;
 		}
 	}
-	bool Scene::sortCompare(Object* obj1, Object* obj2) {
+	bool Scene::sortCompare(pe::Drawable* obj1, pe::Drawable* obj2) {
 		return obj1->getZIndex() < obj2->getZIndex();
 	}
 
@@ -25,11 +25,12 @@ namespace pe
 	// setters
 	void Scene::addObject(Object* object) {
 		m_objects.push_back(object);
+		m_drawables.push_back(object);
 		object->setScene(this);
-		sortObjectsZIndex();
+		sortZIndex();
 	}
-	void Scene::sortObjectsZIndex() {
-		std::sort(m_objects.begin(), m_objects.end(), Scene::sortCompare);
+	void Scene::sortZIndex() {
+		std::sort(m_drawables.begin(), m_drawables.end(), Scene::sortCompare);
 	}
 	void Scene::setBackground(Background* background) {
 		m_background = background;

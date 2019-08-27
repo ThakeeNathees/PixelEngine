@@ -3,10 +3,11 @@
 #include "..//core.h"
 
 #include "..//misc/Texture.h"
+#include "Asset.h"
 
 namespace pe {
 
-	class PIXEL_ENGINE_API Sprite : public sf::Sprite
+	class PIXEL_ENGINE_API Sprite : public sf::Sprite, public Asset
 	{
 	public:
 		inline Sprite() {
@@ -21,16 +22,17 @@ namespace pe {
 
 		// setters
 		void setTexture( Texture* texture, bool resetRect = false);
-		inline void setName(const std::string& name) { m_name = name; }
+		inline void setName(const std::string& name) override { m_name = name; }
 		void setFrames(int x, int y, int offset_x = 0, int offset_y = 0);
+		void setFrames(const glm::ivec4& frames);
 		void setFrameIndex(int index);
 
 		// getters
-		inline const std::string& getName() const { return m_name; }
+		inline const std::string& getName() const override { return m_name; }
 		inline glm::ivec4 getFrames() const { return m_frames; }
 		inline int getFrameCount() const { return m_frames.x * m_frames.y; }
 		inline int getCurrentFrame() const { return m_frame_index; }
-		inline int getId() const { return m_id; }
+		inline int getId() const override { return m_id; }
 		inline Texture& getTexture() const { 
 			assert( hasTexture() && "texture is nullptr" );
 			return *m_texture;
@@ -40,6 +42,7 @@ namespace pe {
 		
 
 	private:
+		friend class AssetsReader;
 		std::string m_name;
 		static int s_sprite_count;
 		int m_id;

@@ -31,6 +31,10 @@ namespace pe
 		setFrameIndex(m_frame_index);
 	}
 
+	void Sprite::setFrames(const glm::ivec4& frames) {
+		setFrames(frames.x, frames.y, frames.z, frames.w);
+	}
+
 	
 	
 }

@@ -1,21 +1,21 @@
 #include "pch.h"
-#include "AssetsFile.h"
+#include "AssetsWriter.h"
 
 
 
 namespace pe
 {
-	AssetsFile::AssetsFile() {
+	AssetsWriter::AssetsWriter() {
 		auto assets = m_doc.NewElement("assets");
 		m_doc.InsertFirstChild(assets);
 
-		auto textures = m_doc.NewElement("textures");
-		auto fonts = m_doc.NewElement("fonts");
-		auto sprites = m_doc.NewElement("sprites");
-		auto backgrounds = m_doc.NewElement("backgrounds");
-		auto animations = m_doc.NewElement("animations");
-		auto areas = m_doc.NewElement("areas");
-		// fonts, tile map, ...
+		auto textures		= m_doc.NewElement("textures");
+		auto fonts			= m_doc.NewElement("fonts");
+		auto sprites		= m_doc.NewElement("sprites");
+		auto backgrounds	= m_doc.NewElement("backgrounds");
+		auto animations		= m_doc.NewElement("animations");
+		auto areas			= m_doc.NewElement("areas");
+		// tile map, ...
 
 		assets->InsertEndChild(textures);
 		assets->InsertEndChild(fonts);
@@ -25,26 +25,27 @@ namespace pe
 		assets->InsertEndChild(areas);
 	}
 
-	void AssetsFile::addTexture(Texture* texture) {
+	void AssetsWriter::addTexture(Texture* texture) {
 		auto textures = m_doc.FirstChildElement()->FirstChildElement("textures");
 		auto texture_tag = m_doc.NewElement("texture");
 		textures->InsertEndChild(texture_tag);
-		texture_tag->SetAttribute("path", texture->getPath().c_str());
-
-		auto prop = m_doc.NewElement("properties");
-		texture_tag->InsertEndChild(prop);
-		prop->SetAttribute("smooth", texture->isSmooth());
-		prop->SetAttribute("repeat", texture->isRepeated());
+		texture_tag->SetAttribute("name", texture->getName().c_str());
+		texture_tag->SetAttribute("id", texture->getId());
+		texture_tag->SetAttribute("smooth", texture->isSmooth());
+		texture_tag->SetAttribute("repeat", texture->isRepeated());
+		texture_tag->SetText(texture->getPath().c_str());
 	}
 
-	void AssetsFile::addFont(Font* font) {
+	void AssetsWriter::addFont(Font* font) {
 		auto fonts = m_doc.FirstChildElement()->FirstChildElement("fonts");
 		auto font_tag = m_doc.NewElement("font");
 		fonts->InsertEndChild(font_tag);
-		font_tag->SetAttribute("path", font->getPath().c_str());
+		font_tag->SetAttribute("name", font->getName().c_str());
+		font_tag->SetAttribute("id", font->getId());
+		font_tag->SetText(font->getPath().c_str());
 	}
 
-	void AssetsFile::addSprite(Sprite* sprite) {
+	void AssetsWriter::addSprite(Sprite* sprite) {
 		auto sprites = m_doc.FirstChildElement()->FirstChildElement("sprites");
 		auto sprite_tag = m_doc.NewElement("sprite");
 		sprites->InsertEndChild(sprite_tag);
@@ -55,30 +56,27 @@ namespace pe
 		if (sprite->hasTexture()) {
 			auto texture_tag = m_doc.NewElement("texture");
 			sprite_tag->InsertEndChild(texture_tag);
-			texture_tag->SetAttribute("path", sprite->getTexture().getPath().c_str());
+			texture_tag->SetAttribute("id", sprite->getTexture().getId());
+
+			auto texture_rect_tag = m_doc.NewElement("texture_rect");
+			sprite_tag->InsertEndChild(texture_rect_tag);
+			texture_rect_tag->SetAttribute("left", sprite->getTextureRect().left);
+			texture_rect_tag->SetAttribute("top", sprite->getTextureRect().top);
+			texture_rect_tag->SetAttribute("width", sprite->getTextureRect().width);
+			texture_rect_tag->SetAttribute("height", sprite->getTextureRect().height);
+
+			auto frames_tag = m_doc.NewElement("frames");
+			sprite_tag->InsertEndChild(frames_tag);
+			frames_tag->SetAttribute("x", sprite->getFrames().x);
+			frames_tag->SetAttribute("y", sprite->getFrames().y);
+			frames_tag->SetAttribute("offset_x", sprite->getFrames().z);
+			frames_tag->SetAttribute("offset_y", sprite->getFrames().w);
+			frames_tag->SetAttribute("index", sprite->getCurrentFrame());
 		}
-
-		auto texture_rect_tag = m_doc.NewElement("texture_rect");
-		sprite_tag->InsertEndChild(texture_rect_tag);
-		texture_rect_tag->SetAttribute("left", sprite->getTextureRect().left);
-		texture_rect_tag->SetAttribute("top", sprite->getTextureRect().top);
-		texture_rect_tag->SetAttribute("width", sprite->getTextureRect().width);
-		texture_rect_tag->SetAttribute("height", sprite->getTextureRect().height);
-
-		auto frames_tag = m_doc.NewElement("frames");
-		sprite_tag->InsertEndChild(frames_tag);
-		frames_tag->SetAttribute("x", sprite->getFrames().x);
-		frames_tag->SetAttribute("y", sprite->getFrames().y);
-		frames_tag->SetAttribute("offset_x", sprite->getFrames().z);
-		frames_tag->SetAttribute("offset_y", sprite->getFrames().w);
-
-		auto frame_tag = m_doc.NewElement("frame");
-		sprite_tag->InsertEndChild(frame_tag);
-		frame_tag->SetAttribute("index", sprite->getCurrentFrame());
 	}
 
 
-	void AssetsFile::addBackground(Background* bg) {
+	void AssetsWriter::addBackground(Background* bg) {
 		auto bgs = m_doc.FirstChildElement()->FirstChildElement("backgrounds");
 		auto bg_tag = m_doc.NewElement("background");
 		bgs->InsertEndChild(bg_tag);
@@ -110,7 +108,7 @@ namespace pe
 		tex_rect_tag->SetAttribute("height", bg->getTextureRectSize().y);
 	}
 
-	void AssetsFile::addAnimation(Animation* anim) {
+	void AssetsWriter::addAnimation(Animation* anim) {
 		auto anims = m_doc.FirstChildElement()->FirstChildElement("animations");
 		auto anim_tag = m_doc.NewElement("animation");
 		anims->InsertEndChild(anim_tag);
@@ -185,7 +183,7 @@ namespace pe
 		}
 	}
 
-	void AssetsFile::addArea(Area* area) {
+	void AssetsWriter::addArea(Area* area) {
 		auto areas = m_doc.FirstChildElement()->FirstChildElement("areas");
 		auto area_tag = m_doc.NewElement("area");
 		areas->InsertEndChild(area_tag);

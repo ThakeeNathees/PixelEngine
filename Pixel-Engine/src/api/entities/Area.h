@@ -2,10 +2,11 @@
 #include "..//core.h"
 
 #include "..//utils/math_utils.h"
+#include "Asset.h"
 
 namespace pe
 {
-	class PIXEL_ENGINE_API Area : public sf::Shape
+	class PIXEL_ENGINE_API Area : public sf::Shape, public Asset
 	{
 	public:
 		inline Area() {
@@ -38,12 +39,12 @@ namespace pe
 		template <typename T = glm::fvec2>
 		void setOrigin(const T & position) { setOrigin(position.x, position.y); }
 
-		inline void setName(const std::string& name) { m_name = name; }
+		inline void setName(const std::string& name) override { m_name = name; }
 		void setShape(sf::Shape* shape);
 
 
 		// getter
-		const std::string& getName() const { return m_name; }
+		const std::string& getName() const override { return m_name; }
 		std::size_t getPointCount() const override;
 		sf::Vector2f getPoint(std::size_t index) const override;
 
@@ -53,7 +54,7 @@ namespace pe
 		}
 
 		bool isContains(float x, float y);
-		inline int getId() const { return m_id; }
+		inline int getId() const override { return m_id; }
 		inline bool isConvex() const{ return m_is_convex; }
 		inline bool isContains(glm::fvec2 point) { return isContains(point.x, point.y); }
 		inline bool isContains(sf::Vector2f point) { return isContains(point.x, point.y); }
@@ -65,6 +66,8 @@ namespace pe
 		inline bool hasShape() const { return m_shape != nullptr; }
 
 	private:
+		friend class AssetsReader;
+
 		std::string m_name;
 		static int s_area_count;
 		int m_id;

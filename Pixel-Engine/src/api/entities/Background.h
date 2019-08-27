@@ -2,10 +2,11 @@
 #include "..//core.h"
 
 #include "..//misc/Texture.h"
+#include "Asset.h"
 
 namespace pe
 {
-	class PIXEL_ENGINE_API Background : public sf::Drawable
+	class PIXEL_ENGINE_API Background : public sf::Drawable, public Asset
 	{
 	public:
 		inline Background() {
@@ -21,7 +22,7 @@ namespace pe
 		void move(glm::ivec2 vec);
 
 		// setters
-		inline void setName(const std::string& name) { m_name = name; }
+		inline void setName(const std::string& name) override { m_name = name; }
 		inline void setVisible(bool visible) { m_visible = visible; }
 		void setRepeatd(bool repeated);
 		void setTextureRectSize(glm::ivec2 window_size, glm::ivec2 offset = glm::ivec2(0,0));
@@ -31,7 +32,7 @@ namespace pe
 		inline bool hasTexture() const {
 			return m_texture != nullptr;
 		}
-		inline const std::string& getName() const { return m_name; }
+		inline const std::string& getName() const override { return m_name; }
 		inline bool getVisible() const { return m_visible; }
 		inline bool getRepeat() const { return m_is_repeated; }
 		inline Texture& getTexture() {
@@ -41,9 +42,11 @@ namespace pe
 		inline sf::Sprite& getBgSprite() { return m_background; }
 		inline const glm::ivec2& getTextureRectSize() const { return m_texture_rect_size; }
 		inline const glm::ivec2& getTextureRectOffset() const { return { m_background.getTextureRect().left, m_background.getTextureRect().top }; }
-		inline const int getId() const { return m_id; }
+		inline int getId() const { return m_id; }
 
 	private:
+		friend class AssetsReader;
+
 		std::string m_name;
 		static int s_bg_count;
 		int m_id;

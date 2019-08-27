@@ -30,7 +30,7 @@ int main()
 	pe::Object* npc = new Npc;
 	npc->setName("Npc");
 	scene->addObject( npc );
-	scene->sortObjectsZIndex();
+	scene->sortZIndex();
 	
 	pe::Application app;
 	app.setDebugMode(true);

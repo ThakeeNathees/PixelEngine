@@ -2,6 +2,7 @@
 #include "..//core.h"
 
 
+#include "Asset.h"
 #include "Sprite.h"
 #include "Area.h"
 #include "Signal.h"
@@ -11,6 +12,7 @@
 #include "..//Assets.h"
 #include "..//misc/Event.h"
 #include "..//misc/Texture.h"
+#include "..//misc/Drawable.h"
 
 namespace pe
 {
@@ -19,11 +21,11 @@ namespace pe
 	class Application;
 
 
-	class PIXEL_ENGINE_API Object : public sf::Transformable, public sf::Drawable
+	class PIXEL_ENGINE_API Object : public sf::Transformable, public pe::Drawable, public Asset
 	{
 	public:
 		// temp
-		void test(Animation* anim, Animation* b, Sprite* c, Area* d);
+		Sprite* test();
 		Object();
 		Object(const Object& other) = delete;
 		~Object();
@@ -95,7 +97,7 @@ namespace pe
 		void addTimer(Timer* timer);
 
 		inline void setVisible(bool visible) { m_visible = visible; }
-		inline void setName(const std::string& name) { m_name = name; }
+		inline void setName(const std::string& name) override { m_name = name; }
 
 		void clear(); // clear timers, ...
 
@@ -110,7 +112,7 @@ namespace pe
 		Animation& getAnimation(const std::string& anim_name);
 		
 		inline int getZIndex() const { return m_z_index; }
-		inline int getId() const { return m_id; }
+		inline int getId() const override { return m_id; }
 		inline bool hasApplication() const { return m_applicaton != nullptr; }
 		inline bool hasScene() const { return m_scene != nullptr; }
 		inline bool hasArea() const { return m_area != nullptr; }
@@ -119,13 +121,15 @@ namespace pe
 		bool hasTimer(const std::string& timer_name);
 
 		inline bool getVisible() const { return m_visible; }
-		inline const std::string& getName() const { return m_name; }
+		inline const std::string& getName() const override { return m_name; }
 
 
 	private:
 		inline void setScene(Scene* scene) { m_scene = scene; }
 		friend class Scene;
 		friend class Application;
+		friend class AssetsReader;
+		
 		static int s_object_count;
 		static sf::RenderTarget* s_render_target; // const methods can edit static field
 

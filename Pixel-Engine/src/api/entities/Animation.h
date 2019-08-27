@@ -1,6 +1,7 @@
 #pragma once
 #include "..//core.h"
 
+#include "Asset.h"
 #include "Timer.h"
 
 namespace pe
@@ -67,7 +68,7 @@ namespace pe
 
 	class Object;
 
-	class PIXEL_ENGINE_API Animation
+	class PIXEL_ENGINE_API Animation : public Asset
 	{
 	public:
 
@@ -102,14 +103,15 @@ namespace pe
 		inline void setPositionTrack(PositionTrack* position_track) { m_position_track = position_track; }
 		inline void setRotationTrack(RotationTrack* rotation_track) { m_rotation_track = rotation_track; }
 		inline void setScaleTrack(ScaleTrack* scale_track) { m_scale_track = scale_track; }
+		inline void setName(const std::string& name) override { m_name = name; }
 
 		// getters
 		inline bool getLoop() const { return m_loop; }
 		inline bool getReverse() const { return m_reverse; }
-		inline std::string getName() const { return m_name; }
+		inline const std::string& getName() const override { return m_name; }
 		inline float getTimeLength() const { return m_time_length; }
 		inline Signal& getAnimEndSignal() { return m_anim_end_signal; }
-		inline const int getId() const { return m_id; }
+		inline int getId() const override { return m_id; }
 		inline const Object& getObject() const {
 			assert( hasObject() && "object is nullptr"  );
 			return *m_object;
@@ -147,6 +149,7 @@ namespace pe
 
 	private:  // TODO: add auto time length
 		friend class Application;
+		friend class AssetsReader; // set id
 
 		std::string m_name;
 		static int s_anim_count;

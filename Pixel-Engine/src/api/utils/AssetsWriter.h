@@ -2,17 +2,16 @@
 #include "..//core.h"
 
 #include "tinyxml2.h"
-
 #include "..//Scene.h"
 #include "..//misc/Texture.h"
 #include "..//misc/Font.h"
 
 namespace pe
 {
-	class  AssetsFile
+	class  AssetsWriter
 	{
 	public:
-		AssetsFile();
+		AssetsWriter();
 
 		inline tinyxml2::XMLDocument& getDocument() { return m_doc; }
 

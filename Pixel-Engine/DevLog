@@ -10,7 +10,8 @@ HIGHT PRIORITY
 	create globle assets and global objects for presistance between scene
 
 LOW PRIORITY
-	Area::setArea() change
+	add object m_process_priority
+	timel map -> application draw a vector of drawable of current scene
 	nexeScene(), previousScene() => scene stack
 	consider getTimer, getSomething => returns pointer
 	pe::Event

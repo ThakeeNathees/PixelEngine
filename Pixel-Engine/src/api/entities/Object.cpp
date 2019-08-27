@@ -1,17 +1,29 @@
 #include "pch.h"
 #include "../Application.h"
 
-#include "../utils/AssetsFile.h"
+#include "../utils/AssetsWriter.h"
+#include "../utils/AssetsReader.h"
+
 namespace pe
 {
-	// temp
-	void Object::test(Animation* a, Animation* b, Sprite* c, Area* d) {
-		AssetsFile f;
-		f.addArea(d);
-		f.addAnimation(a);
-		f.addAnimation(b);
-		f.addSprite(c);
-		f.getDocument().SaveFile("test.xml");
+	Sprite* Object::test() {
+		/*
+		AssetsWriter w;
+		w.addTexture( &o->getSprite().getTexture() );
+		w.addSprite( &o->getSprite());
+		w.getDocument().SaveFile("test.xml");
+		*/
+
+		//__debugbreak();
+
+		AssetsReader r;
+		r.getDocument().LoadFile("test.xml");
+		std::map<int, Sprite*>* sm = new std::map<int, Sprite*>;
+		std::map<int, Texture*> *tm = new std::map<int, Texture*>;
+		r.readTextures(*tm);
+		r.readSprites(*sm, tm);
+		return (*sm)[0];
+		
 	}
 	// static initialization
 	int Object::s_object_count = 0;
@@ -25,8 +37,6 @@ namespace pe
 		m_dbg_origin->setFillColor(sf::Color(150, 75, 150, 200));
 	}
 	Object::~Object() {
-		//if (m_sprite)		delete m_sprite; // delete by Assets
-		//if (m_area) delete m_area;
 		if (m_dbg_origin)	delete m_dbg_origin;
 		for (Timer* timer : m_timers) delete timer;
 	}
@@ -58,7 +68,6 @@ namespace pe
 	void Object::draw(const sf::Drawable& drawable) const {
 		assert(s_render_target != nullptr && "draw(const sf::Drawable&) can only be call from draw() method");
 		s_render_target->draw(drawable);
-
 	}
 
 	void Object::drawSelf() const {
@@ -167,7 +176,7 @@ namespace pe
 
 	void Object::setZIndex(int z_index) {
 		m_z_index = z_index;
-		if ( m_scene!= nullptr ) getScene().sortObjectsZIndex();
+		if ( m_scene!= nullptr ) getScene().sortZIndex();
 	}
 	void Object::setSprite(Sprite* sprite) {
 		m_sprite = sprite;
@@ -176,9 +185,10 @@ namespace pe
 		m_sprite->setScale(getScale());
 	}
 	void Object::setArea(Area* area) { // if area == nullptr => area set as sprite rect. old area not deleted -> memory leak
-		if (area == nullptr && m_sprite == nullptr) return;
-		if (area == nullptr && m_sprite != nullptr) {
-			if (m_area) delete m_area;
+		if (area == nullptr) {
+			assert( m_sprite != nullptr && "without sprite can't call setArea(nullptr)" );
+			assert( m_sprite->getLocalBounds().width > 0 && m_sprite->getLocalBounds().height > 0 && "without sprite.texture can't call setArea(nullptr)"  );
+			
 			auto rect = m_sprite->getLocalBounds();
 			sf::RectangleShape* shape = new sf::RectangleShape(sf::Vector2f(rect.width, rect.height));
 			auto area = new Area();

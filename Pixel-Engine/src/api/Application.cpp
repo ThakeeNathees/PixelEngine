@@ -7,7 +7,6 @@
 #include "utils/math_utils.h"
 #include "misc/Event.h"
 
-//#include "..//utils/XmlFile.h"
 
 namespace pe
 {
@@ -85,8 +84,8 @@ namespace pe
 				if (bg.getVisible()) m_window->draw( bg );
 			}
 
-			for (Object* object : m_current_scene->getObjects()) {
-				if (object->getVisible()) m_window->draw(*object);
+			for (pe::Drawable* drawable : m_current_scene->getDrawables()) {
+				if (drawable->getVisible()) m_window->draw(*drawable);
 			}
 			m_window->display();
 		}

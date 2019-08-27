@@ -48,7 +48,13 @@
     <ClCompile Include="src\api\utils\tinyxml2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\api\utils\AssetsFile.cpp">
+    <ClCompile Include="src\api\utils\AssetsWriter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\api\misc\misc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\api\utils\AssetsReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -69,9 +75,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\api\entities\Object.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\api\entities\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\api\Scene.h">
@@ -101,9 +104,6 @@
     <ClInclude Include="src\api\Assets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\api\utils\AssetsFile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\api\misc\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -111,6 +111,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\api\misc\Font.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\utils\AssetsWriter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\misc\Drawable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\utils\AssetsReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\entities\Asset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

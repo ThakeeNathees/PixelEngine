@@ -66,12 +66,19 @@ public:
 		addAnimation(walk_right_anim);
 		addAnimation(walk_up_anim);
 
-		test(walk_up_anim, walk_down_anim, sprite, &getArea());
+		text.setString("testing");
+		text.setCharacterSize(60);
+		sp = test();
 	}
 
 
 	inline void recieveSignal(pe::Signal& signal) override {
 		print( "[Object1]signal recieved" << signal.getName() );
+	}
+
+	inline void drawCall() const override {
+		drawSelf();
+		draw(*sp);
 	}
 
 	inline void input( pe::Event& event) override {}
@@ -108,5 +115,8 @@ public:
 	}
 
 private:
+	pe::Sprite* sp;
+	sf::Text text;
+	pe::Font* f;
 	pe::Object* npc;
 };

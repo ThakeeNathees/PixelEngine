@@ -18,7 +18,16 @@ public:
 		sprite->setFrames(12, 8);
 		setSprite(sprite);
 
-		setArea();
+		/*
+		pe::Area* area = new pe::Area();
+		sf::ConvexShape* shape = new sf::ConvexShape(4);
+		shape->setPoint(0, {0,0});
+		shape->setPoint(1, {48,0});
+		shape->setPoint(2, {60,60});
+		shape->setPoint(3, {0,48});
+		area->setShape(shape);
+		setArea(area);
+		*/
 		setPosition(100,100);
 		setScale(2,2);
 
@@ -68,7 +77,8 @@ public:
 
 		text.setString("testing");
 		text.setCharacterSize(60);
-		sp = test();
+
+		test( this );
 	}
 
 
@@ -78,7 +88,6 @@ public:
 
 	inline void drawCall() const override {
 		drawSelf();
-		draw(*sp);
 	}
 
 	inline void input( pe::Event& event) override {}
@@ -115,7 +124,6 @@ public:
 	}
 
 private:
-	pe::Sprite* sp;
 	sf::Text text;
 	pe::Font* f;
 	pe::Object* npc;

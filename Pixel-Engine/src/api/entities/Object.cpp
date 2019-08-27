@@ -6,23 +6,24 @@
 
 namespace pe
 {
-	Sprite* Object::test() {
+	void Object::test( Object* o) {
 		/*
 		AssetsWriter w;
-		w.addTexture( &o->getSprite().getTexture() );
-		w.addSprite( &o->getSprite());
+		w.addArea(a);
 		w.getDocument().SaveFile("test.xml");
-		*/
+		//*/
 
 		//__debugbreak();
-
+		//*
 		AssetsReader r;
 		r.getDocument().LoadFile("test.xml");
-		std::map<int, Sprite*>* sm = new std::map<int, Sprite*>;
-		std::map<int, Texture*> *tm = new std::map<int, Texture*>;
-		r.readTextures(*tm);
-		r.readSprites(*sm, tm);
-		return (*sm)[0];
+		std::map<int, Area*>* am = new std::map<int, Area*>;
+		
+		r.readArea(*am);
+		Area* a = (*am)[0];
+		o->setArea( a );
+		//return (*sm)[0];
+		//*/
 		
 	}
 	// static initialization
@@ -54,7 +55,7 @@ namespace pe
 	}
 	void Object::drawDebug(sf::RenderTarget& target) const {
 		if (m_applicaton != nullptr && m_applicaton->isDebugMode()) {
-			if (m_area != nullptr) {
+			if ( hasArea() && m_area->hasShape()) {
 				target.draw(m_area->getShape());
 				drawCircle(m_area->getCentroid(), 3, sf::Color(0, 255, 0, 255));
 			}

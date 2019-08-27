@@ -45,6 +45,9 @@ namespace pe
 
 		// getter
 		const std::string& getName() const override { return m_name; }
+		inline int getId() const override { return m_id; }
+		inline Type getType() const override { return Type::Area; }
+
 		std::size_t getPointCount() const override;
 		sf::Vector2f getPoint(std::size_t index) const override;
 
@@ -54,7 +57,6 @@ namespace pe
 		}
 
 		bool isContains(float x, float y);
-		inline int getId() const override { return m_id; }
 		inline bool isConvex() const{ return m_is_convex; }
 		inline bool isContains(glm::fvec2 point) { return isContains(point.x, point.y); }
 		inline bool isContains(sf::Vector2f point) { return isContains(point.x, point.y); }

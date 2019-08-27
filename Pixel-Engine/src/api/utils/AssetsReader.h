@@ -15,10 +15,10 @@ namespace pe
 
 		void readTextures(std::map<int, Texture*>& texture_map);
 		void readFonts(std::map<int, Font*>& font_map);
+		void readArea(std::map<int, Area*>& area_map);
 		void readSprites(std::map<int, Sprite*>& sprite_map, std::map<int, Texture*> *texture_map = nullptr);
 		//void readBackground(std::map<int, Background*>& bg_map);
 		//void readAnimation(std::map<int, Background*>& anim_map);
-		//void readArea(std::map<int, Area*>& area_map);
 
 	private:
 		tinyxml2::XMLDocument m_doc;

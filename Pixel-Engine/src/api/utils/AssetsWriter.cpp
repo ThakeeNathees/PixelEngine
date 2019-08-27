@@ -45,6 +45,29 @@ namespace pe
 		font_tag->SetText(font->getPath().c_str());
 	}
 
+	void AssetsWriter::addArea(Area* area) {
+		auto areas = m_doc.FirstChildElement()->FirstChildElement("areas");
+		auto area_tag = m_doc.NewElement("area");
+		areas->InsertEndChild(area_tag);
+		area_tag->SetAttribute("name", area->getName().c_str());
+		area_tag->SetAttribute("id", area->getId());
+
+		if (area->hasShape()) {
+			if (area->hasShape()) {
+				auto shape_tag = m_doc.NewElement("shape");
+				area_tag->InsertEndChild(shape_tag);
+				shape_tag->SetAttribute("point_count", (int)area->getPointCount());
+				for (int i = 0; i < area->getPointCount(); i++) {
+					auto point_tag = m_doc.NewElement("point");
+					shape_tag->InsertEndChild(point_tag);
+					point_tag->SetAttribute("index", i);
+					point_tag->SetAttribute("x", area->getShape().getPoint(i).x);
+					point_tag->SetAttribute("y", area->getShape().getPoint(i).y);
+				}
+			}
+		}
+	}
+
 	void AssetsWriter::addSprite(Sprite* sprite) {
 		auto sprites = m_doc.FirstChildElement()->FirstChildElement("sprites");
 		auto sprite_tag = m_doc.NewElement("sprite");
@@ -71,7 +94,7 @@ namespace pe
 			frames_tag->SetAttribute("y", sprite->getFrames().y);
 			frames_tag->SetAttribute("offset_x", sprite->getFrames().z);
 			frames_tag->SetAttribute("offset_y", sprite->getFrames().w);
-			frames_tag->SetAttribute("index", sprite->getCurrentFrame());
+			frames_tag->SetAttribute("index", sprite->getFrameIndex());
 		}
 	}
 
@@ -183,34 +206,6 @@ namespace pe
 		}
 	}
 
-	void AssetsWriter::addArea(Area* area) {
-		auto areas = m_doc.FirstChildElement()->FirstChildElement("areas");
-		auto area_tag = m_doc.NewElement("area");
-		areas->InsertEndChild(area_tag);
-		area_tag->SetAttribute("name", area->getName().c_str());
-		area_tag->SetAttribute("id", area->getId());
-
-		auto centroid_tag = m_doc.NewElement("centroid");
-		area_tag->InsertEndChild(centroid_tag);
-		centroid_tag->SetAttribute("x",area->getCentroid(true).x);
-		centroid_tag->SetAttribute("y",area->getCentroid(true).y);
-
-		auto is_convex_tag = m_doc.NewElement("is_convex");
-		area_tag->InsertEndChild(is_convex_tag);
-		is_convex_tag->SetAttribute("value", area->isConvex() );
-
-		if (area->hasShape()) {
-			auto shape_tag = m_doc.NewElement("shape");
-			area_tag->InsertEndChild(shape_tag);
-			shape_tag->SetAttribute("point_count", (int)area->getPointCount());
-			for (int i = 0; i < area->getPointCount(); i++) {
-				auto point_tag = m_doc.NewElement("point");
-				shape_tag->InsertEndChild(point_tag);
-				point_tag->SetAttribute("index", i);
-				point_tag->SetAttribute("x", area->getShape().getPoint(i).x);
-				point_tag->SetAttribute("y", area->getShape().getPoint(i).y);
-			}
-		}
-	}
+	
 
 }

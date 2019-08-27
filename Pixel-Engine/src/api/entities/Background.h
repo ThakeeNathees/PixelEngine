@@ -29,10 +29,11 @@ namespace pe
 		void setTexture(pe::Texture* texture);
 
 		// getters
-		inline bool hasTexture() const {
-			return m_texture != nullptr;
-		}
 		inline const std::string& getName() const override { return m_name; }
+		inline int getId() const override { return m_id; }
+		inline Type getType() const override { return Type::Backtround; }
+
+		inline bool hasTexture() const { return m_texture != nullptr; }
 		inline bool getVisible() const { return m_visible; }
 		inline bool getRepeat() const { return m_is_repeated; }
 		inline Texture& getTexture() {
@@ -42,7 +43,6 @@ namespace pe
 		inline sf::Sprite& getBgSprite() { return m_background; }
 		inline const glm::ivec2& getTextureRectSize() const { return m_texture_rect_size; }
 		inline const glm::ivec2& getTextureRectOffset() const { return { m_background.getTextureRect().left, m_background.getTextureRect().top }; }
-		inline int getId() const { return m_id; }
 
 	private:
 		friend class AssetsReader;

@@ -106,16 +106,18 @@ namespace pe
 		inline void setName(const std::string& name) override { m_name = name; }
 
 		// getters
-		inline bool getLoop() const { return m_loop; }
-		inline bool getReverse() const { return m_reverse; }
-		inline const std::string& getName() const override { return m_name; }
-		inline float getTimeLength() const { return m_time_length; }
-		inline Signal& getAnimEndSignal() { return m_anim_end_signal; }
-		inline int getId() const override { return m_id; }
 		inline const Object& getObject() const {
 			assert( hasObject() && "object is nullptr"  );
 			return *m_object;
 		}
+		inline const std::string& getName() const override { return m_name; }
+		inline int getId() const override { return m_id; }
+		inline Type getType() const override { return Type::Animation; }
+
+		inline bool getLoop() const { return m_loop; }
+		inline bool getReverse() const { return m_reverse; }
+		inline float getTimeLength() const { return m_time_length; }
+		inline Signal& getAnimEndSignal() { return m_anim_end_signal; }
 
 		inline const glm::fvec2& getBeginPosition() const { return m_begin_position; }
 		inline const glm::fvec2& getBeginScale() const { return m_begin_scale; }
@@ -158,6 +160,7 @@ namespace pe
 		bool m_loop		 = true;
 		bool m_reverse	 = false;
 		Object* m_object = nullptr;
+		int m_object_id = -1; // temp data needed when deserializing
 		Signal m_anim_end_signal = Signal("anim_end");
 
 		bool m_playing = false;

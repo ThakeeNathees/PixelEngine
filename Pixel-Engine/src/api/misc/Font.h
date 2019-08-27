@@ -24,8 +24,9 @@ namespace pe
 		inline void setName(const std::string& name) override { m_name = name; }
 		
 		inline const std::string& getName() const override { return m_name; }
-		inline const std::string& getPath() const { return m_path; }
 		inline int getId() const override { return m_id; }
+		inline Type getType() const override { return Type::Font; }
+		inline const std::string& getPath() const { return m_path; }
 
 	private:
 		friend class AssetsReader;

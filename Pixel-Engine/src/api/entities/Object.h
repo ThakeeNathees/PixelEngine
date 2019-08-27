@@ -25,7 +25,7 @@ namespace pe
 	{
 	public:
 		// temp
-		Sprite* test();
+		void test(Object* o);
 		Object();
 		Object(const Object& other) = delete;
 		~Object();
@@ -101,7 +101,13 @@ namespace pe
 
 		void clear(); // clear timers, ...
 
-		// getters  todo getPosition<glm::fvec2>()
+		// getters  TODO: getPosition<glm::fvec2>()
+		inline const std::string& getName() const override { return m_name; }
+		inline int getId() const override { return m_id; }
+		inline Type getType() const override { return Type::Object; }
+		inline int getZIndex() const { return m_z_index; }
+		inline bool getVisible() const { return m_visible; }
+
 		inline Application& getApplication() const { assert(m_applicaton != nullptr); return *m_applicaton; }
 		inline Scene& getScene() const { assert(m_scene != nullptr);		return *m_scene; }
 		inline Area& getArea() const { assert(m_area != nullptr);		return *m_area; }
@@ -111,8 +117,7 @@ namespace pe
 		inline std::map<std::string, Animation*>& getAnimations() { return m_animations; }
 		Animation& getAnimation(const std::string& anim_name);
 		
-		inline int getZIndex() const { return m_z_index; }
-		inline int getId() const override { return m_id; }
+
 		inline bool hasApplication() const { return m_applicaton != nullptr; }
 		inline bool hasScene() const { return m_scene != nullptr; }
 		inline bool hasArea() const { return m_area != nullptr; }
@@ -120,8 +125,7 @@ namespace pe
 		bool hasAnimation(const std::string& anim_name);
 		bool hasTimer(const std::string& timer_name);
 
-		inline bool getVisible() const { return m_visible; }
-		inline const std::string& getName() const override { return m_name; }
+
 
 
 	private:

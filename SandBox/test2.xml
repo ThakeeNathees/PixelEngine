@@ -48,8 +48,6 @@
     </animations>
     <areas>
         <area name="Area_0" id="0">
-            <centroid x="24" y="24"/>
-            <is_convex value="true"/>
             <shape point_count="4">
                 <point index="0" x="0" y="0"/>
                 <point index="1" x="48" y="0"/>

@@ -151,7 +151,7 @@ namespace pe
 
 	private:  // TODO: add auto time length
 		friend class Application;
-		friend class AssetsReader; // set id
+		friend class AssetsReader;
 
 		std::string m_name;
 		static int s_anim_count;

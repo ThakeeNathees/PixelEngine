@@ -8,7 +8,7 @@ namespace pe
 		for (auto texture_tag = textures->FirstChildElement(); texture_tag != NULL; texture_tag = texture_tag->NextSiblingElement()) {
 			Texture* texture = new Texture();
 			texture->setName(texture_tag->Attribute("name") );
-			texture->m_id = texture_tag->IntAttribute("id");
+			texture->m_id = texture_tag->IntAttribute("id"); // TODO: change this to assert line -> m_id == attr("id")
 			texture->setSmooth(texture_tag->BoolAttribute("smooth") );
 			texture->setRepeated(texture_tag->BoolAttribute("repeat") );
 			std::string  path = texture_tag->GetText();
@@ -65,17 +65,15 @@ namespace pe
 			sprite->m_id = spr_tag->IntAttribute("id");
 			
 			auto tex_tag = spr_tag->FirstChildElement("texture");
-			if (tex_tag) {
-				if (texture_map != nullptr) {
-					int id = tex_tag->IntAttribute("id");
-					assert((*texture_map)[id] != NULL && "can't find texture for the sprite");
-					sprite->setTexture((*texture_map)[id]);
-				}
-				//else if (sprite->m_texture != nullptr) { sprite->m_texture->m_id = tex_tag->IntAttribute("id"); }
+			if (tex_tag && texture_map != nullptr) {
+				int id = tex_tag->IntAttribute("id");
+				assert((*texture_map)[id] != NULL && "can't find texture for the sprite");
+				sprite->setTexture((*texture_map)[id]);
+
 				sf::IntRect rect;
-				rect.left	= spr_tag->FirstChildElement("texture_rect")->IntAttribute("left");
-				rect.top	= spr_tag->FirstChildElement("texture_rect")->IntAttribute("top");
-				rect.width	= spr_tag->FirstChildElement("texture_rect")->IntAttribute("width");
+				rect.left = spr_tag->FirstChildElement("texture_rect")->IntAttribute("left");
+				rect.top = spr_tag->FirstChildElement("texture_rect")->IntAttribute("top");
+				rect.width = spr_tag->FirstChildElement("texture_rect")->IntAttribute("width");
 				rect.height = spr_tag->FirstChildElement("texture_rect")->IntAttribute("height");
 				sprite->setTextureRect(rect);
 
@@ -88,7 +86,6 @@ namespace pe
 				sprite->setFrames(frames);
 				sprite->setFrameIndex(index);
 			}
-
 			sprite_map[sprite->m_id] = sprite;
 		}
 	}
@@ -100,11 +97,11 @@ namespace pe
 			bg->setName(bg_tag->Attribute("name"));
 			bg->m_id = bg_tag->IntAttribute("id");
 
+			bg->setVisible(bg_tag->FirstChildElement("properties")->BoolAttribute("visible"));
 			bg->setMoveSpeed(
 				bg_tag->FirstChildElement("move_speed")->IntAttribute("x"),
 				bg_tag->FirstChildElement("move_speed")->IntAttribute("y")
 			);
-
 			bg->setScale(
 				bg_tag->FirstChildElement("scale")->FloatAttribute("x"),
 				bg_tag->FirstChildElement("scale")->FloatAttribute("y")
@@ -116,7 +113,6 @@ namespace pe
 					int id = tex_tag->IntAttribute("id");
 					assert((*texture_map)[id] != NULL && "can't find texture for the sprite");
 					bg->setTexture((*texture_map)[id]);
-					bg->setVisible(bg_tag->FirstChildElement("properties")->BoolAttribute("visible"));
 					bg->setRepeatd(bg_tag->FirstChildElement("properties")->BoolAttribute("repeat"));
 					bg->setSmooth(bg_tag->FirstChildElement("properties")->BoolAttribute("smooth"));
 				}

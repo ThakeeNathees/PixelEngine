@@ -36,5 +36,6 @@ namespace pe
 		case 'Y': return sf::Keyboard::isKeyPressed(sf::Keyboard::Y);
 		case 'Z': return sf::Keyboard::isKeyPressed(sf::Keyboard::Z);
 		}
+		return false;
 	}
 }

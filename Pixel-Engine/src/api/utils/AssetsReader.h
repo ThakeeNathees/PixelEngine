@@ -17,7 +17,7 @@ namespace pe
 		void readFonts(std::map<int, Font*>& font_map);
 		void readArea(std::map<int, Area*>& area_map);
 		void readSprites(std::map<int, Sprite*>& sprite_map, std::map<int, Texture*> *texture_map = nullptr);
-		//void readBackground(std::map<int, Background*>& bg_map);
+		void readBackground(std::map<int, Background*>& bg_map, std::map<int, Texture*>* texture_map = nullptr);
 		//void readAnimation(std::map<int, Background*>& anim_map);
 
 	private:

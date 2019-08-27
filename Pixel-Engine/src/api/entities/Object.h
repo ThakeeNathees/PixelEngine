@@ -25,7 +25,7 @@ namespace pe
 	{
 	public:
 		// temp
-		void test(Object* o);
+		void test(Object* o, Background* bg, Texture* t);
 		Object();
 		Object(const Object& other) = delete;
 		~Object();

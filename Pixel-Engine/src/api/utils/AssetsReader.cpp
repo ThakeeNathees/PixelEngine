@@ -92,4 +92,36 @@ namespace pe
 			sprite_map[sprite->m_id] = sprite;
 		}
 	}
+
+	void AssetsReader::readBackground(std::map<int, Background*>& bg_map, std::map<int, Texture*>* texture_map) {
+		auto bgs = m_doc.FirstChildElement()->FirstChildElement("backgrounds");
+		for (auto bg_tag = bgs->FirstChildElement(); bg_tag != NULL; bg_tag = bg_tag->NextSiblingElement()) {
+			Background* bg = new Background();
+			bg->setName(bg_tag->Attribute("name"));
+			bg->m_id = bg_tag->IntAttribute("id");
+
+			bg->setMoveSpeed(
+				bg_tag->FirstChildElement("move_speed")->IntAttribute("x"),
+				bg_tag->FirstChildElement("move_speed")->IntAttribute("y")
+			);
+
+			bg->setScale(
+				bg_tag->FirstChildElement("scale")->FloatAttribute("x"),
+				bg_tag->FirstChildElement("scale")->FloatAttribute("y")
+			);
+
+			auto tex_tag = bg_tag->FirstChildElement("texture");
+			if (tex_tag) {
+				if (texture_map != nullptr) {
+					int id = tex_tag->IntAttribute("id");
+					assert((*texture_map)[id] != NULL && "can't find texture for the sprite");
+					bg->setTexture((*texture_map)[id]);
+					bg->setVisible(bg_tag->FirstChildElement("properties")->BoolAttribute("visible"));
+					bg->setRepeatd(bg_tag->FirstChildElement("properties")->BoolAttribute("repeat"));
+					bg->setSmooth(bg_tag->FirstChildElement("properties")->BoolAttribute("smooth"));
+				}
+			}
+			bg_map[bg->m_id] = bg;
+		}
+	}
 }

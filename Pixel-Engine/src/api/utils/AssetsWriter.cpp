@@ -11,18 +11,18 @@ namespace pe
 
 		auto textures		= m_doc.NewElement("textures");
 		auto fonts			= m_doc.NewElement("fonts");
+		auto areas			= m_doc.NewElement("areas");
 		auto sprites		= m_doc.NewElement("sprites");
 		auto backgrounds	= m_doc.NewElement("backgrounds");
 		auto animations		= m_doc.NewElement("animations");
-		auto areas			= m_doc.NewElement("areas");
 		// tile map, ...
 
 		assets->InsertEndChild(textures);
 		assets->InsertEndChild(fonts);
+		assets->InsertEndChild(areas);
 		assets->InsertEndChild(sprites);
 		assets->InsertEndChild(backgrounds);
 		assets->InsertEndChild(animations);
-		assets->InsertEndChild(areas);
 	}
 
 	void AssetsWriter::addTexture(Texture* texture) {
@@ -111,24 +111,23 @@ namespace pe
 		bg_tag->InsertEndChild(prop);
 		prop->SetAttribute("visible", bg->getVisible());
 		prop->SetAttribute("repeat", bg->getRepeat());
+		prop->SetAttribute("smooth", bg->getSmooth());
+
+		auto speed_tag = m_doc.NewElement("move_speed");
+		bg_tag->InsertEndChild(speed_tag);
+		speed_tag->SetAttribute("x", bg->getMoveSpeed().x);
+		speed_tag->SetAttribute("y", bg->getMoveSpeed().y);
+
+		auto scale_tag = m_doc.NewElement("scale");
+		bg_tag->InsertEndChild(scale_tag);
+		scale_tag->SetAttribute("x", bg->getScale().x);
+		scale_tag->SetAttribute("y", bg->getScale().y);
 
 		if (bg->hasTexture()) {
 			auto texture_tag = m_doc.NewElement("texture");
 			bg_tag->InsertEndChild(texture_tag);
-			texture_tag->SetAttribute("path", bg->getTexture().getPath().c_str());
+			texture_tag->SetAttribute("id", bg->getTexture().getId());
 		}
-
-		auto sprite_tag = m_doc.NewElement("bg_sprite");
-		bg_tag->InsertEndChild(sprite_tag);
-		sprite_tag->SetAttribute("scale_x", bg->getBgSprite().getScale().x);
-		sprite_tag->SetAttribute("scale_y", bg->getBgSprite().getScale().y);
-
-		auto tex_rect_tag = m_doc.NewElement("texture_rect");
-		bg_tag->InsertEndChild(tex_rect_tag);
-		tex_rect_tag->SetAttribute("top", bg->getTextureRectOffset().x);
-		tex_rect_tag->SetAttribute("left", bg->getTextureRectOffset().y);
-		tex_rect_tag->SetAttribute("width", bg->getTextureRectSize().x);
-		tex_rect_tag->SetAttribute("height", bg->getTextureRectSize().y);
 	}
 
 	void AssetsWriter::addAnimation(Animation* anim) {

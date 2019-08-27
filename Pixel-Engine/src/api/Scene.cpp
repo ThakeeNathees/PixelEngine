@@ -34,7 +34,6 @@ namespace pe
 	}
 	void Scene::setBackground(Background* background) {
 		m_background = background;
-		m_background->setVisible(true);
 		m_background->setTextureRectSize(m_window_size);
 	}
 

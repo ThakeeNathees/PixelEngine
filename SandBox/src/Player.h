@@ -18,7 +18,7 @@ public:
 		sprite->setFrames(12, 8);
 		setSprite(sprite);
 
-		/*
+		//*
 		pe::Area* area = new pe::Area();
 		sf::ConvexShape* shape = new sf::ConvexShape(4);
 		shape->setPoint(0, {0,0});
@@ -27,7 +27,7 @@ public:
 		shape->setPoint(3, {0,48});
 		area->setShape(shape);
 		setArea(area);
-		*/
+		//*/
 		setPosition(100,100);
 		setScale(2,2);
 
@@ -78,7 +78,17 @@ public:
 		text.setString("testing");
 		text.setCharacterSize(60);
 
-		test( this );
+		pe::Texture* texe = new pe::Texture();
+		texe->loadFromFile("res/logo.png");
+
+		pe::Background* bg = new pe::Background();
+		bg->setTexture(texe);
+		bg->setMoveSpeed({300,0});
+		bg->setRepeatd(true);
+		bg->setScale(.15,.15);
+		getScene().setBackground(bg);
+
+		test( this, bg, texe );
 	}
 
 

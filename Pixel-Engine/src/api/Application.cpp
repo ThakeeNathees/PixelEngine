@@ -72,6 +72,7 @@ namespace pe
 					}
 				}
 				m_current_scene->m_signals.clear();
+				if (m_current_scene->hasBackground()) { m_current_scene->getBackground().move(dt); }
 				dt -= (1 / m_frame_rate);
 			}
 			clock.restart();

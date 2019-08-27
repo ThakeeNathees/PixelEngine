@@ -17,7 +17,7 @@ int main()
 	pe::Texture* tex = new pe::Texture();
 	tex->loadFromFile("res/logo.png");
 	bg->setTexture(tex);
-	bg->getBgSprite().setScale(.15,.15);
+	bg->setScale(.15,.15);
 	bg->setRepeatd(true);
 
 	pe::Scene* scene = new pe::Scene("scene1");

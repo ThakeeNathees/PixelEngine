@@ -6,10 +6,22 @@
 
 namespace pe
 {
-	void Object::test( Object* o) {
+	void Object::test( Object* o, Background* bg, Texture* tex) {
+		std::map<int, Texture*>* tm = new std::map<int, Texture*>;
+		std::map<int, Font*>* fm = new std::map<int, Font*>;
+		std::map<int, Area*>* am = new std::map<int, Area*>;
+		std::map<int, Sprite*>* sm = new std::map<int, Sprite*>;
+		std::map<int, Background*>* bm = new std::map<int, Background*>;
 		/*
+
+
 		AssetsWriter w;
-		w.addArea(a);
+
+		w.addTexture(tex);
+		w.addBackground(bg);
+		w.addArea( &o->getArea() );
+		w.addSprite( &o->getSprite() );
+		
 		w.getDocument().SaveFile("test.xml");
 		//*/
 
@@ -17,11 +29,10 @@ namespace pe
 		//*
 		AssetsReader r;
 		r.getDocument().LoadFile("test.xml");
-		std::map<int, Area*>* am = new std::map<int, Area*>;
-		
-		r.readArea(*am);
-		Area* a = (*am)[0];
-		o->setArea( a );
+		r.readTextures(*tm);
+		r.readBackground(*bm, tm);
+		Background* b = (*bm)[1];
+		o->getScene().setBackground(b);
 		//return (*sm)[0];
 		//*/
 		

@@ -6,7 +6,7 @@
 
 namespace pe
 {
-	bool isKeyPressed(char key) {
+	inline bool isKeyPressed(char key) {
 		switch (key)
 		{
 		case 'A': return sf::Keyboard::isKeyPressed(sf::Keyboard::A);

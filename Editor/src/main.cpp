@@ -36,7 +36,9 @@ int main()
 
 	// test
 	pe::Sprite sprite;
-	sprite.loadTexture( working_dir + std::string("res/sheet.png") );
+	pe::Texture tex;
+	tex.loadFromFile(working_dir + std::string("res/sheet.png"));
+	sprite.setTexture( tex);
 	RenderWindow::test_sprite = &sprite;
 	PropertyEditor::s_sprite = &sprite;
 	////////////////////////////////////////////////////////////////

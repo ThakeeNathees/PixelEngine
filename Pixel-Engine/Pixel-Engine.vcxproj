@@ -58,7 +58,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>PE_BUILD_DLL;PE_PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)vender\tinyxml2;$(SolutionDir)vender\simpledir;$(ProjectDir)src;$(SolutionDir)vender\glm;$(SolutionDir)vender\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)vender\tinyxml2;$(ProjectDir)src;$(SolutionDir)vender\glm;$(SolutionDir)vender\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -81,7 +81,7 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>PE_BUILD_DLL;PE_PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)vender\tinyxml2;$(SolutionDir)vender\simpledir;$(ProjectDir)src;$(SolutionDir)vender\glm;$(SolutionDir)vender\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)vender\tinyxml2;$(ProjectDir)src;$(SolutionDir)vender\glm;$(SolutionDir)vender\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -120,6 +120,7 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
     <ClInclude Include="src\api\utils\math_utils.h" />
     <ClInclude Include="src\api\utils\io_utils.h" />
     <ClInclude Include="src\api\utils\AssetsWriter.h" />
+    <ClInclude Include="vender\tinyxml2\tinyxml2.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\api\Assets.cpp" />
@@ -133,7 +134,6 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
     <ClCompile Include="src\api\misc\misc.cpp" />
     <ClCompile Include="src\api\Scene.cpp" />
     <ClCompile Include="src\api\utils\AssetsReader.cpp" />
-    <ClCompile Include="src\api\utils\tinyxml2.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch.h</PrecompiledHeaderFile>
@@ -141,6 +141,7 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\api\utils\AssetsWriter.cpp" />
+    <ClCompile Include="vender\tinyxml2\tinyxml2.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

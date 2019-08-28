@@ -57,3 +57,66 @@
         </area>
     </areas>
 </assets>
+
+
+///////////////////
+<animation name="walk_down" id="0">
+            <properties time_length="0.40000001" loop="true" reverse="false"/>
+            <object id="0"/>
+            <begin_transform>
+                <position x="0" y="0"/>
+                <rotation angle="0"/>
+                <scale x="1" y="1"/>
+            </begin_transform>
+            <sprite_frame_track>
+                <key time="0" frame="0"/>
+                <key time="0.1" frame="1"/>
+                <key time="0.2" frame="2"/>
+                <key time="0.30000001" frame="1"/>
+            </sprite_frame_track>
+        </animation>
+        <animation name="walk_left" id="1">
+            <properties time_length="0.40000001" loop="true" reverse="false"/>
+            <object id="0"/>
+            <begin_transform>
+                <position x="0" y="0"/>
+                <rotation angle="0"/>
+                <scale x="1" y="1"/>
+            </begin_transform>
+            <sprite_frame_track>
+                <key time="0" frame="12"/>
+                <key time="0.1" frame="13"/>
+                <key time="0.2" frame="14"/>
+                <key time="0.30000001" frame="13"/>
+            </sprite_frame_track>
+        </animation>
+        <animation name="walk_right" id="2">
+            <properties time_length="0.40000001" loop="true" reverse="false"/>
+            <object id="0"/>
+            <begin_transform>
+                <position x="0" y="0"/>
+                <rotation angle="0"/>
+                <scale x="1" y="1"/>
+            </begin_transform>
+            <sprite_frame_track>
+                <key time="0" frame="24"/>
+                <key time="0.1" frame="25"/>
+                <key time="0.2" frame="26"/>
+                <key time="0.30000001" frame="25"/>
+            </sprite_frame_track>
+        </animation>
+        <animation name="walk_up" id="3">
+            <properties time_length="0.40000001" loop="true" reverse="false"/>
+            <object id="0"/>
+            <begin_transform>
+                <position x="0" y="0"/>
+                <rotation angle="0"/>
+                <scale x="1" y="1"/>
+            </begin_transform>
+            <sprite_frame_track>
+                <key time="0" frame="36"/>
+                <key time="0.1" frame="37"/>
+                <key time="0.2" frame="38"/>
+                <key time="0.30000001" frame="37"/>
+            </sprite_frame_track>
+        </animation>

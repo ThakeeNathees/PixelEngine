@@ -22,7 +22,7 @@ namespace pe {
 
 		// setters
 		inline void setName(const std::string& name) override { m_name = name; }
-		void setTexture( Texture* texture, bool resetRect = false);
+		void setTexture( Texture& texture, bool resetRect = false);
 		void setFrames(int x, int y, int offset_x = 0, int offset_y = 0);
 		void setFrames(const glm::ivec4& frames);
 		void setFrameIndex(int index);

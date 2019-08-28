@@ -13,16 +13,18 @@
 
 int main()
 {
-	pe::Background* bg = new pe::Background();
-	pe::Texture* tex = new pe::Texture();
+	pe::Application app;
+
+	pe::Background* bg = app.getAssets().newBackground();
+	pe::Texture* tex = app.getAssets().newTexture();
+
 	tex->loadFromFile("res/logo.png");
 	bg->setTexture(tex);
 	bg->setScale(.15,.15);
 	bg->setRepeatd(true);
 
 	pe::Scene* scene = new pe::Scene("scene1");
-	//scene->setBackground(bg);
-	// add objects
+
 	pe::Object* player = new Player;
 	player->setName("Player");
 	scene->addObject( player );
@@ -32,10 +34,10 @@ int main()
 	scene->addObject( npc );
 	scene->sortZIndex();
 	
-	pe::Application app;
 	app.setDebugMode(true);
 	app.addScene( scene );
 	app.setCurrentScene(scene->getName());
+
 	app.update();
 	return 0;
 }

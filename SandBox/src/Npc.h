@@ -13,10 +13,12 @@ public:
 
 		pe::Sprite* sprite = new pe::Sprite();
 		pe::Texture* texr = new pe::Texture();
-		texr->loadFromFile("res/logo.png");
+		texr->loadFromFile("res/sheet.png");
 		sprite->setTexture(texr);
+		sprite->setFrames(12,8);
 		setSprite(sprite);
-		setScale(.15, .15);
+		setScale(2, 2);
+		setPosition(200,200);
 
 		
 		font.loadFromFile("res/Indie_Flower/IndieFlower-Regular.ttf");
@@ -27,6 +29,7 @@ public:
 
 		setOrigin(getSprite().getTextureRect().width / 2, getSprite().getTextureRect().height);
 		setArea();
+
 	}
 
 	void drawCall() const override {
@@ -37,6 +40,7 @@ public:
 	void process(double dt) override {
 		
 		//getScene().getBackground().move({1,1});
+		//getAnimation("rot").play();
 
 		f = 1 / dt;
 		text.setString(std::to_string(f)+std::string( " fps") );

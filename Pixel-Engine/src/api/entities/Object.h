@@ -24,8 +24,6 @@ namespace pe
 	class PIXEL_ENGINE_API Object : public sf::Transformable, public pe::Drawable, public Asset
 	{
 	public:
-		// temp
-		void test(Object* o, Background* bg, Texture* t);
 		Object();
 		Object(const Object& other) = delete;
 		~Object();

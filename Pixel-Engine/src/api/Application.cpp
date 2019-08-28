@@ -15,7 +15,6 @@ namespace pe
 	Application::Application()
 	{
 		m_window = new sf::RenderWindow(sf::VideoMode(640, 480), "pixel-engine");
-		m_current_scene = nullptr;
 	}
 	Application::~Application() {
 		for (auto scene : m_scenes) {

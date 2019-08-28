@@ -20,6 +20,20 @@ namespace pe
 		Assets();
 		~Assets();
 
+		Texture*	newTexture()							{ Texture* texture = new Texture(); addTexture(texture); return texture; }
+		Font*		newFont()								{ Font* font = new Font(); addFont(font); return font; }
+		Area*		newArea()								{ Area* area = new Area(); addArea(area); return area; }
+		Sprite*		newSprite()								{ Sprite* sprite = new Sprite(); addSprite(sprite); return sprite; }
+		Background* newBackground()							{ Background* bg = new Background(); addBackground(bg); return bg; }
+		Animation*	newAnimation()							{ Animation* anim = new Animation(); addAnimation(anim); return anim; }
+
+		Texture*	newTexture(const std::string& name)		{ Texture* texture = new Texture(name); addTexture(texture); return texture; }
+		Font*		newFont(const std::string& name)		{ Font* font = new Font(name); addFont(font); return font; }
+		Area*		newArea(const std::string& name)		{ Area* area = new Area(name); addArea(area); return area; }
+		Sprite*		newSprite(const std::string& name)		{ Sprite* sprite = new Sprite(name); addSprite(sprite); return sprite; }
+		Background* newBackground(const std::string& name)	{ Background* bg = new Background(name); addBackground(bg); return bg; }
+		Animation*	newAnimation(const std::string& name)	{ Animation* anim = new Animation(name); addAnimation(anim); return anim; }
+
 		// setters
 		void addTexture(Texture* texture);
 		void addFont(Font* font);
@@ -27,7 +41,7 @@ namespace pe
 		void addSprite(Sprite* sprite);
 		void addBackground(Background* background);
 		void addAnimation(Animation* animation);
-		// add text, object, tilemap
+		// add text, object, scene, tilemap
 
 		// TODO: delete queue, fonts
 
@@ -63,6 +77,8 @@ namespace pe
 		Animation* getAnimation(int id);
 
 	private:
+		friend class AssetsReader;
+		friend class AssetsWriter;
 		std::map<int, Texture*> m_textures;
 		std::map<int, Font*> m_fonts;
 		std::map<int, Area*> m_areas;

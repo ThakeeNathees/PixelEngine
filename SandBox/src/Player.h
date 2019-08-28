@@ -82,13 +82,15 @@ public:
 		texe->loadFromFile("res/logo.png");
 
 		pe::Background* bg = new pe::Background();
+		/*
 		bg->setTexture(texe);
 		bg->setMoveSpeed({300,0});
 		bg->setRepeatd(true);
 		bg->setScale(.15,.15);
 		getScene().setBackground(bg);
+		*/
 
-		test( this, bg, texe );
+		//test( this, bg, texe );
 	}
 
 

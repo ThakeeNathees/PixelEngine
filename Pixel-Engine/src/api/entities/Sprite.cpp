@@ -7,9 +7,9 @@ namespace pe
 	int Sprite::s_sprite_count = 0;
 
 	// setters
-	void Sprite::setTexture( Texture* texture, bool resetRect) {
-		m_texture = texture;
-		sf::Sprite::setTexture( *texture, resetRect );
+	void Sprite::setTexture( Texture& texture, bool resetRect) {
+		m_texture = &texture;
+		sf::Sprite::setTexture( texture, resetRect );
 	}
 
 	void Sprite::setFrameIndex(int index) {

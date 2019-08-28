@@ -1,20 +1,25 @@
 #pragma once
 #include "..//core.h"
 
-#include "tinyxml2.h"
 #include "..//Scene.h"
 #include "..//misc/Texture.h"
 #include "..//misc/Font.h"
 
+namespace tinyxml2{ class XMLDocument; }
+
 namespace pe
 {
+	class Assets;
+
 	class  AssetsWriter
 	{
 	public:
 		AssetsWriter();
 
-		inline tinyxml2::XMLDocument& getDocument() { return m_doc; }
+		void save(const char* path);
+		void addAssets( Assets& assets );
 
+	private:		
 		void addTexture( Texture* texture);
 		void addFont( Font* font);
 		void addArea(Area* area);
@@ -22,8 +27,7 @@ namespace pe
 		void addBackground(Background* bg);
 		void addAnimation(Animation* anim);
 		
-	private:
-		tinyxml2::XMLDocument m_doc;
+		tinyxml2::XMLDocument* m_doc;
 		
 	};
 }

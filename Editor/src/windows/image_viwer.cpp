@@ -56,7 +56,7 @@ void ImageViwer::renderImageViwer()
 			s_texture.setSmooth( ! s_texture.isSmooth() );
 		}
 		s_render_texture.create(ImGui::GetWindowSize().x-10, ImGui::GetWindowSize().y-80);
-		s_render_texture.clear(sf::Color(255,255,255,255)); // TODO : color and other magic numbers
+		s_render_texture.clear(sf::Color(80, 80, 80, 255)); // TODO : color and other magic numbers
 		s_render_texture.draw(s_sprite);
 		ImGui::Image(s_render_texture);
 		ImGui::End();

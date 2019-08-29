@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "../globals.h"
+#include "globals.h"
 
 #include <algorithm>
 #include <chrono>

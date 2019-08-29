@@ -85,7 +85,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)vender\simpledir;$(ProjectDir)vender\ImGuiColorTextEdit;$(ProjectDir)vender\ImSf;$(ProjectDir)vender\ImGui;$(ProjectDir)src;$(SolutionDir)Pixel-Engine\src\api;$(SolutionDir)vender\glm;$(SolutionDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)vender\simpledir;$(ProjectDir)vender\ImGuiColorTextEdit;$(ProjectDir)vender\ImSf;$(ProjectDir)vender\ImGui;$(SolutionDir)Pixel-Engine\src\api;$(SolutionDir)vender\glm;$(SolutionDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PreprocessorDefinitions>PE_PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -115,7 +115,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)vender\simpledir;$(ProjectDir)vender\ImGuiColorTextEdit;$(ProjectDir)vender\ImSf;$(ProjectDir)vender\ImGui;$(ProjectDir)src;$(SolutionDir)Pixel-Engine\src\api;$(SolutionDir)vender\glm;$(SolutionDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)vender\simpledir;$(ProjectDir)vender\ImGuiColorTextEdit;$(ProjectDir)vender\ImSf;$(ProjectDir)vender\ImGui;$(SolutionDir)Pixel-Engine\src\api;$(SolutionDir)vender\glm;$(SolutionDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PreprocessorDefinitions>PE_PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -148,12 +148,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\globals.cpp" />
-    <ClCompile Include="src\imgui\imgui-SFML.cpp" />
-    <ClCompile Include="src\imgui\imgui.cpp" />
-    <ClCompile Include="src\imgui\imgui_demo.cpp" />
-    <ClCompile Include="src\imgui\imgui_draw.cpp" />
-    <ClCompile Include="src\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="src\imgui\TextEditor.cpp" />
+    <ClCompile Include="vender\ImSf\imgui-SFML.cpp" />
+    <ClCompile Include="vender\ImGui\imgui.cpp" />
+    <ClCompile Include="vender\ImGui\imgui_demo.cpp" />
+    <ClCompile Include="vender\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="vender\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="vender\ImGui\TextEditor.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -180,10 +180,21 @@
     <ClInclude Include="src\windows\property_window\proprty_editor.h" />
     <ClInclude Include="src\windows\render_window.h" />
     <ClInclude Include="src\windows\windows.h" />
+    <ClInclude Include="vender\ImGuiColorTextEdit\TextEditor.h" />
+    <ClInclude Include="vender\ImGui\imconfig.h" />
+    <ClInclude Include="vender\ImGui\imgui.h" />
+    <ClInclude Include="vender\ImGui\imgui_internal.h" />
+    <ClInclude Include="vender\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="vender\ImGui\imstb_textedit.h" />
+    <ClInclude Include="vender\ImGui\imstb_truetype.h" />
+    <ClInclude Include="vender\ImSf\imconfig-SFML.h" />
+    <ClInclude Include="vender\ImSf\imgui-SFML.h" />
+    <ClInclude Include="vender\ImSf\imgui-SFML_export.h" />
+    <ClInclude Include="vender\simpledir\simpledir.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\icon_256x256.ico" />
-    <Image Include="res\icon_original.ico" />
+    <Image Include="res\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Editor.rc" />

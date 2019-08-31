@@ -10,14 +10,18 @@ namespace pe
 	{
 	public:
 		inline Background() {
-			m_id = s_bg_count++;
-			m_name = std::string( "background_").append(std::to_string(m_id));
+			s_bg_count++;
+			m_id = s_next_id++;
+			m_name = std::string( "bg_").append(std::to_string(m_id));
 		}
 		inline Background(const std::string& name) : m_name(name) {
-			m_id = s_bg_count++;
+			s_bg_count++;
+			m_id = s_next_id++;
 		}
 		Background(const Background& other) = delete;
-		inline ~Background(){}
+		inline ~Background(){
+			s_bg_count--;
+		}
 
 		// deleted functions bg only have scale
 		void setPosition() = delete;
@@ -32,14 +36,14 @@ namespace pe
 		inline void setVisible(bool visible) { m_visible = visible; }
 		void setRepeatd(bool repeated);
 		void setSmooth(bool smooth);
-		void setTexture(pe::Texture* texture);
+		void setTexture(pe::Texture& texture);
 		inline void setMoveSpeed(int x, int y) { setMoveSpeed({x,y}); }
 		inline void setMoveSpeed(glm::ivec2 speed) { m_move_speed = speed; }
 
 		// getters
 		inline const std::string& getName() const override { return m_name; }
 		inline int getId() const override { return m_id; }
-		inline Type getType() const override { return Type::Backtround; }
+		inline Type getType() const override { return Type::Background; }
 
 		inline bool hasTexture() const { return m_texture != nullptr; }
 		inline bool getVisible() const { return m_visible; }
@@ -60,6 +64,7 @@ namespace pe
 
 		std::string m_name;
 		static int s_bg_count;
+		static int s_next_id;
 		int m_id;
 		friend class Application;
 		Texture* m_texture = nullptr;

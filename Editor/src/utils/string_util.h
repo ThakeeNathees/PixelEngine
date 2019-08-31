@@ -15,6 +15,7 @@ namespace utils
 
 	bool isEndsWith( const std::string& fullString, const std::string& ending );
 	bool isPathImage( const std::string& file_path );
+	bool isPathText( const std::string& file_path);
 
 
 }

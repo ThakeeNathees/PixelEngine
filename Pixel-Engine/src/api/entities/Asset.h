@@ -9,7 +9,14 @@ namespace pe
 	public:
 		enum class Type
 		{
-			Texture, Font, Area, Sprite, Backtround, Animation,  Object
+			/*name    id pre-val*/
+			Texture		= 00000, 
+			Font		= 10000, 
+			Area		= 20000, 
+			Sprite		= 30000, 
+			Background	= 40000, 
+			Animation	= 50000,  
+			Object		= 60000
 		};
 
 		virtual int getId() const =0;

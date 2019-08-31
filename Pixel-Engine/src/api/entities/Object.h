@@ -133,6 +133,7 @@ namespace pe
 		friend class AssetsReader;
 		
 		static int s_object_count;
+		static int s_next_id;
 		static sf::RenderTarget* s_render_target; // const methods can edit static field
 
 		std::string m_name;

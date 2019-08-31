@@ -6,57 +6,65 @@
 
 namespace pe
 {
+
 	AssetsReader::AssetsReader(const char* path) {
 		m_doc = new tinyxml2::XMLDocument();
 		m_doc->LoadFile(path);
 	}
 	void AssetsReader::loadFile(const char* path) { m_doc->LoadFile(path); }
 
-	void AssetsReader::readAssets(Assets& assets) {
-		readTextures(assets.m_textures);
-		readFonts(assets.m_fonts);
-		readArea(assets.m_areas);
-		readSprites(assets.m_sprites, &assets.m_textures);
-		readBackground(assets.m_backgrounds, &assets.m_textures);
-		readAnimation(assets.m_animations);
+	void AssetsReader::printDoc() const {
+		m_doc->Print();
 	}
 
-	void AssetsReader::readTextures(std::map<int, Texture*>& texture_map) {
+	void AssetsReader::readAssets(std::map<int, Asset*>& asset_map){
+		readTextures( asset_map );
+		readFonts(asset_map);
+		readArea(asset_map);
+		readSprites(asset_map);
+		readBackground(asset_map);
+		readAnimation(asset_map);
+	}
+
+	void AssetsReader::readTextures(std::map<int, Asset*>& asset_map) {
 		auto textures = m_doc->FirstChildElement()->FirstChildElement("textures");
 		for (auto texture_tag = textures->FirstChildElement(); texture_tag != NULL; texture_tag = texture_tag->NextSiblingElement()) {
 			Texture* texture = new Texture();
 			texture->setName(texture_tag->Attribute("name") );
 			texture->m_id = texture_tag->IntAttribute("id"); // TODO: change this to assert line -> m_id == attr("id")
+			Texture::s_next_id = glm::max(texture->m_id + 1, Texture::s_next_id);
 			texture->setSmooth(texture_tag->BoolAttribute("smooth") );
 			texture->setRepeated(texture_tag->BoolAttribute("repeat") );
 			std::string  path = texture_tag->GetText();
 			if (path != "") {
 				texture->loadFromFile(path);
 			}
-			texture_map[texture->getId()] = texture;
+			asset_map[texture->getId()] = texture;
 		}
 	}
 
-	void AssetsReader::readFonts(std::map<int, Font*>& font_map) {
+	void AssetsReader::readFonts(std::map<int, Asset*>& asset_map) {
 		auto fonts = m_doc->FirstChildElement()->FirstChildElement("fonts");
 		for (auto font_tag = fonts->FirstChildElement(); font_tag != NULL; font_tag = font_tag->NextSiblingElement()) {
 			Font* font = new Font();
 			font->setName(font_tag->Attribute("name"));
 			font->m_id = font_tag->IntAttribute("id");
+			Font::s_next_id = glm::max(font->m_id + 1, Font::s_next_id);
 			std::string path = font_tag->GetText();
 			if (path != "") {
 				font->loadFromFile(path);
 			}
-			font_map[font->m_id] = font;
+			asset_map[font->m_id] = font;
 		}
 	}
 
-	void AssetsReader::readArea(std::map<int, Area*>& area_map) {
+	void AssetsReader::readArea(std::map<int, Asset*>& asset_map) {
 		auto areas = m_doc->FirstChildElement()->FirstChildElement("areas");
 		for (auto area_tag = areas->FirstChildElement(); area_tag != NULL; area_tag = area_tag->NextSiblingElement()) {
 			Area* area = new Area();
 			area->setName(area_tag->Attribute("name"));
 			area->m_id = area_tag->IntAttribute("id");
+			Area::s_next_id = glm::max(area->m_id + 1, Area::s_next_id);
 
 			auto shape_tag = area_tag->FirstChildElement("shape");
 			if (shape_tag) {
@@ -71,11 +79,11 @@ namespace pe
 				}
 				area->setShape(shape);
 			}
-			area_map[area->m_id] = area;
+			asset_map[area->m_id] = area;
 		}
 	}
 
-	void AssetsReader::readSprites(std::map<int, Sprite*>& sprite_map, std::map<int, Texture*>* texture_map) {
+	void AssetsReader::readSprites(std::map<int, Asset*>& asset_map) {
 		auto sprites = m_doc->FirstChildElement()->FirstChildElement("sprites");
 		for (auto spr_tag = sprites->FirstChildElement(); spr_tag!= NULL; spr_tag = spr_tag->NextSiblingElement()) {
 			Sprite* sprite = new Sprite();
@@ -83,10 +91,11 @@ namespace pe
 			sprite->m_id = spr_tag->IntAttribute("id");
 			
 			auto tex_tag = spr_tag->FirstChildElement("texture");
-			if (tex_tag && texture_map != nullptr) {
+			if (tex_tag) {
 				int id = tex_tag->IntAttribute("id");
-				assert((*texture_map)[id] != NULL && "can't find texture for the sprite");
-				sprite->setTexture( *(*texture_map)[id] );
+				Sprite::s_next_id = glm::max(sprite->m_id + 1, Sprite::s_next_id);
+				assert( asset_map[id] != NULL && "can't find texture for the sprite");
+				sprite->setTexture( *dynamic_cast<Texture*>(asset_map[id]) );
 
 				sf::IntRect rect;
 				rect.left = spr_tag->FirstChildElement("texture_rect")->IntAttribute("left");
@@ -104,16 +113,17 @@ namespace pe
 				sprite->setFrames(frames);
 				sprite->setFrameIndex(index);
 			}
-			sprite_map[sprite->m_id] = sprite;
+			asset_map[sprite->m_id] = sprite;
 		}
 	}
 
-	void AssetsReader::readBackground(std::map<int, Background*>& bg_map, std::map<int, Texture*>* texture_map) {
+	void AssetsReader::readBackground(std::map<int, Asset*>& asset_map) {
 		auto bgs = m_doc->FirstChildElement()->FirstChildElement("backgrounds");
 		for (auto bg_tag = bgs->FirstChildElement(); bg_tag != NULL; bg_tag = bg_tag->NextSiblingElement()) {
 			Background* bg = new Background();
 			bg->setName(bg_tag->Attribute("name"));
 			bg->m_id = bg_tag->IntAttribute("id");
+			Background::s_next_id = glm::max(bg->m_id + 1, Background::s_next_id);
 
 			bg->setVisible(bg_tag->FirstChildElement("properties")->BoolAttribute("visible"));
 			bg->setMoveSpeed(
@@ -127,24 +137,23 @@ namespace pe
 
 			auto tex_tag = bg_tag->FirstChildElement("texture");
 			if (tex_tag) {
-				if (texture_map != nullptr) {
-					int id = tex_tag->IntAttribute("id");
-					assert((*texture_map)[id] != NULL && "can't find texture for the sprite");
-					bg->setTexture((*texture_map)[id]);
-					bg->setRepeatd(bg_tag->FirstChildElement("properties")->BoolAttribute("repeat"));
-					bg->setSmooth(bg_tag->FirstChildElement("properties")->BoolAttribute("smooth"));
-				}
+				int id = tex_tag->IntAttribute("id");
+				assert( asset_map[id] != NULL && "can't find texture for the background");
+				bg->setTexture(*dynamic_cast<Texture*>(asset_map[id]));
+				bg->setRepeatd(bg_tag->FirstChildElement("properties")->BoolAttribute("repeat"));
+				bg->setSmooth(bg_tag->FirstChildElement("properties")->BoolAttribute("smooth"));
 			}
-			bg_map[bg->m_id] = bg;
+			asset_map[bg->m_id] = bg;
 		}
 	}
 
-	void AssetsReader::readAnimation(std::map<int, Animation*>& anim_map) {
+	void AssetsReader::readAnimation(std::map<int, Asset*>& asset_map) {
 		auto bgs = m_doc->FirstChildElement()->FirstChildElement("animations");
 		for (auto anim_tag = bgs->FirstChildElement(); anim_tag != NULL; anim_tag = anim_tag->NextSiblingElement()) {
 			Animation* anim = new Animation();
-			anim->m_id = anim_tag->IntAttribute("id");
 			anim->setName( anim_tag->Attribute("name") );
+			anim->m_id = anim_tag->IntAttribute("id");
+			Animation::s_next_id = glm::max(anim->m_id + 1, Animation::s_next_id);
 
 			auto prop_tag = anim_tag->FirstChildElement("properties");
 			anim->setTimeLength( prop_tag->FloatAttribute("time_length") );
@@ -216,9 +225,7 @@ namespace pe
 				}
 				anim->setScaleTrack(scale_track);
 			}
-
-			// TODO:
-			anim_map[anim->m_id] = anim;
+			asset_map[anim->m_id] = anim;
 		}
 	}
 }

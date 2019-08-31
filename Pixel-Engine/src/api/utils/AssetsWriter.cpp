@@ -8,13 +8,20 @@
 namespace pe
 {
 
-	void AssetsWriter::addAssets(Assets& assets) {
-		for (auto asset : assets.m_textures) addTexture(asset.second);
-		for (auto asset : assets.m_fonts) addFont(asset.second);
-		for (auto asset : assets.m_areas) addArea(asset.second);
-		for (auto asset : assets.m_sprites) addSprite(asset.second);
-		for (auto asset : assets.m_backgrounds) addBackground(asset.second);
-		for (auto asset : assets.m_animations) addAnimation(asset.second);
+	void AssetsWriter::addAssets(std::map<int, Asset*>& asset_map) {
+
+		for (auto asset : asset_map) {
+			switch (asset.second->getType())
+			{
+			case Asset::Type::Texture:		addTexture(static_cast<Texture*>(asset.second)); break;
+			case Asset::Type::Font:			addFont(static_cast<Font*>(asset.second)); break;
+			case Asset::Type::Area:			addArea(static_cast<Area*>(asset.second)); break;
+			case Asset::Type::Sprite:		addSprite(static_cast<Sprite*>(asset.second)); break;
+			case Asset::Type::Background:	addBackground(static_cast<Background*>(asset.second)); break;
+			case Asset::Type::Animation:	addAnimation(static_cast<Animation*>(asset.second)); break;
+			default:						break;
+			}
+		}
 	}
 
 	void AssetsWriter::save(const char* path) { m_doc->SaveFile(path); }

@@ -6,9 +6,11 @@
 namespace pe
 {
 	int Area::s_area_count = 0;
+	int Area::s_next_id = static_cast<int>(Asset::Type::Area);
 
 	Area::~Area() {
 		delete m_shape;
+		s_area_count--;
 	}
 
 	// getters

@@ -4,15 +4,15 @@
 
 namespace utils
 {
-	const char* FileFormats::TEXT[6]   = { ".c",".cpp",".h", ".hpp", ".txt", ".ini" };
-	const char* FileFormats::IMAGE[3]  = { ".jpg",".png",".jpeg" };
-	const char* FileFormats::BINARY[1] = { ".cjar" };
+	const char* FileFormats::TEXT[]   = { ".c",".cpp",".h", ".hpp", ".txt", ".ini" };
+	const char* FileFormats::IMAGE[]  = { ".jpg",".png",".jpeg" };
+	const char* FileFormats::BINARY[] = { ".exe" };
 
 
 	// functions
 	bool isEndsWith(const std::string& fullString, const std::string& ending) {
 		if (fullString.length() >= ending.length()) {
-			return (0 == fullString.compare(fullString.length() - ending.length(), ending.length(), ending));
+			return (fullString.compare(fullString.length() - ending.length(), ending.length(), ending) == 0);
 		}
 		else {
 			return false;

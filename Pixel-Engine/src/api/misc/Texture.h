@@ -9,12 +9,16 @@ namespace pe
 	{
 	public:
 		inline Texture() {
-			m_id = s_texture_count++;
-			m_name = std::string("Texture_").append(std::to_string(m_id));
+			s_texture_count++;
+			m_id = s_next_id++;
+			m_name = std::string("tex_").append(std::to_string(m_id));
 		}
 		inline Texture(const std::string& name) : m_name(name) {
-			m_id = s_texture_count++;
+			s_texture_count++;
+			m_id = s_next_id++;
 		}
+		inline ~Texture() { s_texture_count--; }
+
 		inline bool loadFromFile(const std::string& path, const sf::IntRect& area = sf::IntRect()) {
 
 			bool success = sf::Texture::loadFromFile(path, area);
@@ -28,10 +32,13 @@ namespace pe
 		inline Type getType() const override { return Type::Texture; }
 		inline const std::string& getPath() const { return m_path; }
 
+		inline static int getCount() { return s_texture_count; }
+
 
 	private:
 		friend class AssetsReader;
 		static int s_texture_count;
+		static int s_next_id;
 		std::string m_name;
 		int m_id;
 		std::string m_path;

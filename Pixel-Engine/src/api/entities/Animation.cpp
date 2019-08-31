@@ -88,6 +88,7 @@ namespace pe
 	////////////////////////////////////////////////////////////////////////////////////
 
 	int Animation::s_anim_count = 0;
+	int Animation::s_next_id = static_cast<int>(Asset::Type::Animation);
 
 	void Animation::emitSignal() {
 		if (m_object != nullptr) {

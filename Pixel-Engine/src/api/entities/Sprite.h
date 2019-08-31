@@ -11,13 +11,17 @@ namespace pe {
 	{
 	public:
 		inline Sprite() {
-			m_id = s_sprite_count++;
-			m_name = std::string( "Sprite_").append(std::to_string(m_id));
+			s_sprite_count++;
+			m_id = s_next_id++;
+			m_name = std::string( "spr_").append(std::to_string(m_id));
 		}
 		inline Sprite(const std::string& name): m_name(name) {
-			m_id = s_sprite_count++;
+			s_sprite_count++;
+			m_id = s_next_id++;
 		}
-
+		inline ~Sprite() {
+			s_sprite_count--;
+		}
 		Sprite(const Sprite& other) = delete;
 
 		// setters
@@ -46,6 +50,7 @@ namespace pe {
 		friend class AssetsReader;
 		std::string m_name;
 		static int s_sprite_count;
+		static int s_next_id;
 		int m_id;
 		Texture* m_texture = nullptr;
 		glm::ivec4 m_frames = glm::ivec4(1, 1, 0, 0);

@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\globals.cpp" />
+    <ClCompile Include="src\windows\assets_window.cpp" />
     <ClCompile Include="vender\ImSf\imgui-SFML.cpp" />
     <ClCompile Include="vender\ImGui\imgui.cpp" />
     <ClCompile Include="vender\ImGui\imgui_demo.cpp" />
@@ -172,14 +173,14 @@
     <ClInclude Include="src\globals.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\utils\string_util.h" />
-    <ClInclude Include="src\widgets\widgets.h" />
+    <ClInclude Include="src\windows\assets_window.h" />
     <ClInclude Include="src\windows\console.h" />
     <ClInclude Include="src\windows\editor_map.h" />
     <ClInclude Include="src\windows\file_tree.h" />
     <ClInclude Include="src\windows\image_viwer.h" />
     <ClInclude Include="src\windows\property_window\proprty_editor.h" />
     <ClInclude Include="src\windows\render_window.h" />
-    <ClInclude Include="src\windows\windows.h" />
+    <ClInclude Include="src\windows\window_manager.h" />
     <ClInclude Include="vender\ImGuiColorTextEdit\TextEditor.h" />
     <ClInclude Include="vender\ImGui\imconfig.h" />
     <ClInclude Include="vender\ImGui\imgui.h" />
@@ -198,6 +199,10 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Editor.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Editor.aps" />
+    <None Include="imgui.ini" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

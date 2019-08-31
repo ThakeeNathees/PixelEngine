@@ -14,7 +14,7 @@ public:
 		pe::Sprite* sprite = new pe::Sprite();
 		pe::Texture* tex = new pe::Texture();
 		tex->loadFromFile("res/sheet.png");
-		sprite->setTexture(tex);
+		sprite->setTexture(*tex);
 		sprite->setFrames(12, 8);
 		setSprite(sprite);
 
@@ -68,9 +68,9 @@ public:
 		walk_up_track->addKey({ .3,37 });
 		walk_up_anim->setSpriteFrameTrack(walk_up_track);
 
-		getApplication().getAssets().addAnimation(walk_down_anim);
+		pe::Assets::addAsset(walk_down_anim);
 
-		addAnimation(getApplication().getAssets().getAnimation("walk_down") );
+		addAnimation( pe::Assets::getAsset<pe::Animation>("walk_down") );
 		addAnimation(walk_left_anim);
 		addAnimation(walk_right_anim);
 		addAnimation(walk_up_anim);

@@ -47,7 +47,7 @@ void Console::renderConsole()
 	if (s_p_open) {
 		ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
 		ImGui::Begin("Console", &s_p_open, ImGuiWindowFlags_HorizontalScrollbar);
-		
+
 		// scrolling region
 		const float footer_height_to_reserve = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing(); // 1 separator, 1 input text
 		ImGui::BeginChild("ScrollingRegion", ImVec2(0, -footer_height_to_reserve), false, ImGuiWindowFlags_HorizontalScrollbar); // Leave room for 1 separator + 1 InputText

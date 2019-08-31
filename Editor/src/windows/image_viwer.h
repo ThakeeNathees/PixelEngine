@@ -17,8 +17,8 @@ public:
 
 private:
 	static bool s_p_open;
-	static pe::Texture s_texture;
-	static pe::Sprite s_sprite;
+	static sf::Texture s_texture;
+	static sf::Sprite s_sprite;
 	static sf::RenderTexture s_render_texture;
 
 	static bool s_texture_smooth;

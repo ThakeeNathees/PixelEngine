@@ -5,6 +5,7 @@ namespace pe
 {
 
 	int Sprite::s_sprite_count = 0;
+	int Sprite::s_next_id = static_cast<int>( Asset::Type::Sprite );
 
 	// setters
 	void Sprite::setTexture( Texture& texture, bool resetRect) {
@@ -28,7 +29,7 @@ namespace pe
 	void Sprite::setFrames(int x, int y, int offset_x, int offset_y) {
 		assert(x > 0 && y > 0);
 		m_frames.x = x; m_frames.y = y; m_frames.z = offset_x; m_frames.w = offset_y;
-		setFrameIndex(m_frame_index);
+		setFrameIndex(0);
 	}
 
 	void Sprite::setFrames(const glm::ivec4& frames) {

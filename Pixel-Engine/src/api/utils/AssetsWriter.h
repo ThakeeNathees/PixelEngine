@@ -11,13 +11,13 @@ namespace pe
 {
 	class Assets;
 
-	class  AssetsWriter
+	class PIXEL_ENGINE_API AssetsWriter
 	{
 	public:
 		AssetsWriter();
 
 		void save(const char* path);
-		void addAssets( Assets& assets );
+		void addAssets(std::map<int, Asset*>& asset_map);
 
 	private:		
 		void addTexture( Texture* texture);

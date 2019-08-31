@@ -3,16 +3,13 @@
 
 bool ImageViwer::s_p_open = false;
 bool ImageViwer::s_texture_smooth = false;
-pe::Texture ImageViwer::s_texture;
-pe::Sprite ImageViwer::s_sprite;
+sf::Texture ImageViwer::s_texture;
+sf::Sprite ImageViwer::s_sprite;
 sf::RenderTexture ImageViwer::s_render_texture;
 sf::Vector2f ImageViwer::s_mouse_middle_pos;
 sf::Vector2f ImageViwer::s_sprite_init_pos;
 
-void ImageViwer::init()
-{
-	s_texture.setSmooth(false); // TODO: add buttons
-}
+void ImageViwer::init() {}
 
 
 void ImageViwer::setImage(const char* path)
@@ -51,12 +48,21 @@ void ImageViwer::listenEvent(sf::Event& event) {
 void ImageViwer::renderImageViwer()
 {
 	if (s_p_open) {
-		ImGui::Begin("Image-Viwer", &s_p_open); 
-		if (ImGui::Button("smooth")) { // TODO: move this as a menu bar
-			s_texture.setSmooth( ! s_texture.isSmooth() );
+		ImGui::Begin("Image-Viwer", &s_p_open, ImGuiWindowFlags_::ImGuiWindowFlags_MenuBar);
+
+		if (ImGui::BeginMenuBar()){
+			if (ImGui::BeginMenu("Image")) {
+				if (ImGui::MenuItem("smooth")) {
+					s_texture.setSmooth( ! s_texture.isSmooth() );
+				} 
+				ImGui::EndMenu();
+			} 
+			ImGui::EndMenuBar();
 		}
+
+
 		s_render_texture.create(ImGui::GetWindowSize().x-10, ImGui::GetWindowSize().y-80);
-		s_render_texture.clear(sf::Color(80, 80, 80, 255)); // TODO : color and other magic numbers
+		s_render_texture.clear();
 		s_render_texture.draw(s_sprite);
 		ImGui::Image(s_render_texture);
 		ImGui::End();

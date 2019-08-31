@@ -9,12 +9,15 @@ namespace pe
 	{
 	public:
 		inline Font() {
-			m_id = s_font_count++;
-			m_name = std::string("Font_").append(std::to_string(m_id));
+			s_font_count++;
+			m_id = s_next_id++;
+			m_name = std::string("font_").append(std::to_string(m_id));
 		}
 		inline Font(const std::string& name) : m_name(name) {
-			m_id = s_font_count++;
+			s_font_count++;
+			m_id = s_next_id++;
 		}
+		inline ~Font() { s_font_count--; }
 
 		inline bool loadFromFile(const std::string& path) {
 			bool success = sf::Font::loadFromFile(path);
@@ -31,6 +34,7 @@ namespace pe
 	private:
 		friend class AssetsReader;
 		static int s_font_count;
+		static int s_next_id;
 		std::string m_name;
 		int m_id;
 		std::string m_path;

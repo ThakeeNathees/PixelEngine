@@ -14,7 +14,7 @@ public:
 		pe::Sprite* sprite = new pe::Sprite();
 		pe::Texture* texr = new pe::Texture();
 		texr->loadFromFile("res/sheet.png");
-		sprite->setTexture(texr);
+		sprite->setTexture(*texr);
 		sprite->setFrames(12,8);
 		setSprite(sprite);
 		setScale(2, 2);

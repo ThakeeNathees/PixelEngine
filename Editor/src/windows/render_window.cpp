@@ -11,6 +11,9 @@ void RenderWindow::init() {
 	s_render_texture->create(640, 480);
 }
 
+void RenderWindow::listenEvent(sf::Event& event) {
+	
+}
 
 void RenderWindow::renderRenderWindow()
 {

@@ -63,18 +63,15 @@
     <ClCompile Include="vender\ImSf\imgui-SFML.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\windows\assets_window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\widgets\widgets.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\globals.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\windows\windows.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\windows\console.h">
@@ -134,6 +131,12 @@
     <ClInclude Include="vender\ImGui\imstb_textedit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\windows\window_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\windows\assets_window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\icon_256x256.ico">
@@ -147,5 +150,9 @@
     <ResourceCompile Include="Editor.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Editor.aps" />
+    <None Include="imgui.ini" />
   </ItemGroup>
 </Project>

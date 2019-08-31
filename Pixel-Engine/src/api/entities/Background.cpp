@@ -4,13 +4,11 @@
 namespace pe
 {
 	int Background::s_bg_count = 0;
+	int Background::s_next_id = static_cast<int>(Asset::Type::Background);
 
-	//void Background::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-	//	if ( m_texture!= nullptr) target.draw( m_background );
-	//}
 
-	void Background::setTexture( Texture* texture) {
-		m_texture = texture;
+	void Background::setTexture( Texture& texture) {
+		m_texture = &texture;
 		sf::Sprite::setTexture(*m_texture);
 	}
 
@@ -27,7 +25,6 @@ namespace pe
 	}
 
 	void Background::setTextureRectSize(glm::ivec2 window_size, glm::ivec2 offset) {
-		//m_texture_rect_size = window_size;
 		setTextureRect(sf::IntRect(offset.x, offset.y, window_size.x / getScale().x, window_size.y / getScale().y));
 	}
 

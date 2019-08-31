@@ -9,6 +9,8 @@ public:
 	static void renderRenderWindow();
 	inline static glm::vec2 getMousePos() { return s_mouse_pos; }
 
+	static void listenEvent(sf::Event& event);
+
 
 	//TEST
 	static pe::Sprite* test_sprite;

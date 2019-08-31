@@ -5,10 +5,7 @@
 pe::Sprite* PropertyEditor::s_sprite;
 
 
-void PropertyEditor::init()
-{
-
-}
+void PropertyEditor::init() {}
 
 void PropertyEditor::renderPropertyEditor()
 {

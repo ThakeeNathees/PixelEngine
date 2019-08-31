@@ -4,6 +4,8 @@
 //utils
 #include "utils/io_utils.h"
 #include "utils/math_utils.h"
+#include "utils/AssetsReader.h"
+#include "utils/AssetsWriter.h"
 
 #include "Application.h"
 #include "Scene.h"

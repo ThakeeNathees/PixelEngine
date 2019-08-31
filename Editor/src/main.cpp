@@ -14,7 +14,7 @@
 #include "imgui-SFML.h"
 #include "TextEditor.h"
 
-#include "windows/windows.h"
+#include "windows/window_manager.h"
 
 #define print(x) std::cout << x << std::endl;
 
@@ -23,6 +23,7 @@ std::string working_dir = "C:/dev/__test_env/test_pe/";
 
 int main()
 {
+	Globals::s_working_dir = std::string(working_dir);
 	// creating window and initi and other inits //////////////////////
 	unsigned int desktop_width = sf::VideoMode::getDesktopMode().width - 100;
 	unsigned int desktop_height = sf::VideoMode::getDesktopMode().height - 100;
@@ -37,11 +38,15 @@ int main()
 	RenderWindow::init();
 	PropertyEditor::init();
 	ImageViwer::init();
+	AssetsWindow::init();
 
 	// test
-	pe::Sprite sprite;
-	pe::Texture tex;
-	tex.loadFromFile(working_dir + std::string("res/sheet.png"));
+	pe::Assets::newAsset<pe::Texture>();
+	pe::Assets::newAsset<pe::Texture>();
+	
+	pe::Sprite& sprite = *pe::Assets::newAsset<pe::Sprite>();
+	pe::Texture& tex = *pe::Assets::newAsset<pe::Texture>();
+	tex.loadFromFile( Globals::s_working_dir + std::string("res/sheet.png") );
 	sprite.setTexture( tex);
 	RenderWindow::test_sprite = &sprite;
 	PropertyEditor::s_sprite = &sprite;
@@ -57,6 +62,7 @@ int main()
 			if (event.type == sf::Event::Closed) window.close();
 
 			ImageViwer::listenEvent(event);
+			RenderWindow::listenEvent(event);
 			// event handle Test
 			if (event.type == sf::Event::KeyPressed)
 				if (event.key.code == 0) Console::addLog({Console::_WARNING, "[warning] you shouldn't be doing that"});
@@ -64,8 +70,7 @@ int main()
 		ImGui::SFML::Update(window, clock.restart());
 
 		// editor rendering
-		show_dock_space();
-		ImGui::ShowTestWindow();
+		WindowManager::show_dock_space();
 		FileTree::renderFileTree(working_dir.c_str());
 		WindowManager::windowSignalFromFileTree();
 		EditorMap::renderEditors();
@@ -73,7 +78,10 @@ int main()
 		RenderWindow::renderRenderWindow();
 		ImageViwer::renderImageViwer();
 		PropertyEditor::renderPropertyEditor();
+		AssetsWindow::renderAssetsWindow();
 
+
+		ImGui::ShowTestWindow();
 
 		window.clear();
 		ImGui::SFML::Render(window);

@@ -10,11 +10,13 @@ namespace pe
 	{
 	public:
 		inline Area() {
-			m_id = s_area_count++;
-			m_name = std::string( "Area_").append( std::to_string(m_id));
+			s_area_count++;
+			m_id = s_next_id++;
+			m_name = std::string( "area_").append( std::to_string(m_id));
 		}
 		inline Area(const std::string& name): m_name(name) {
-			m_id = s_area_count++;
+			s_area_count++;
+			m_id = s_next_id++;
 		}
 		Area(const Area& other) = delete;
 		~Area(); // deleted by object;
@@ -72,6 +74,7 @@ namespace pe
 
 		std::string m_name;
 		static int s_area_count;
+		static int s_next_id;
 		int m_id;
 		sf::Vector2f m_centroid;
 		bool m_is_convex = false;

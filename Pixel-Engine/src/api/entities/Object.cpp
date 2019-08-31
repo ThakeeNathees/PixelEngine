@@ -9,16 +9,19 @@ namespace pe
 	
 	// static initialization
 	int Object::s_object_count = 0;
+	int Object::s_next_id = static_cast<int>( Asset::Type::Object );
 	sf::RenderTarget* Object::s_render_target = nullptr;
 	sf::Color Object::m_default_color = sf::Color(50, 75, 100, 255);
 
 	Object::Object() {
-		m_id = s_object_count++;
-		m_name = std::string( "Object_").append(std::to_string(m_id));
+		s_object_count++;
+		m_id = s_next_id++;
+		m_name = std::string( "obj_").append(std::to_string(m_id));
 		m_dbg_origin = new sf::CircleShape(3);
 		m_dbg_origin->setFillColor(sf::Color(150, 75, 150, 200));
 	}
 	Object::~Object() {
+		s_object_count--;
 		if (m_dbg_origin)	delete m_dbg_origin;
 		for (Timer* timer : m_timers) delete timer;
 	}

@@ -12,20 +12,22 @@ namespace pe
 {
 	class Assets;
 
-	class AssetsReader
+	class PIXEL_ENGINE_API AssetsReader
 	{
 	public:
 		AssetsReader(const char* path);
 		void loadFile(const char* path);
-		void readAssets( Assets& assets );
+		void readAssets(std::map<int, Asset*>& asset_map);
+		void printDoc() const;
 
 	private:
-		void readTextures(std::map<int, Texture*>& texture_map);
-		void readFonts(std::map<int, Font*>& font_map);
-		void readArea(std::map<int, Area*>& area_map);
-		void readSprites(std::map<int, Sprite*>& sprite_map, std::map<int, Texture*> *texture_map = nullptr);
-		void readBackground(std::map<int, Background*>& bg_map, std::map<int, Texture*>* texture_map = nullptr);
-		void readAnimation(std::map<int, Animation*>& anim_map);
+
+		void readTextures(std::map<int, Asset*>& asset_map);
+		void readFonts(std::map<int, Asset*>& asset_map);
+		void readArea(std::map<int, Asset*>& asset_map);
+		void readSprites(std::map<int, Asset*>& asset_map);
+		void readBackground(std::map<int, Asset*>& asset_map);
+		void readAnimation(std::map<int, Asset*>& asset_map);
 
 		tinyxml2::XMLDocument* m_doc;
 	};

@@ -74,13 +74,15 @@ namespace pe
 
 		inline Animation()
 		{
-			m_id = s_anim_count++;
-			m_name = std::string("Animation_").append(std::to_string(m_id));
+			s_anim_count++;
+			m_id = s_next_id++;
+			m_name = std::string("anim_").append(std::to_string(m_id));
 		}
 		inline Animation(std::string name, float time_length = 1) 
 			: m_name(name)
 		{
-			m_id = s_anim_count++;
+			s_anim_count++;
+			m_id = s_next_id++;
 		}
 
 		inline ~Animation() {
@@ -88,6 +90,7 @@ namespace pe
 			if (m_position_track) delete m_position_track;
 			if (m_rotation_track) delete m_rotation_track;
 			if (m_scale_track) delete m_scale_track;
+			s_anim_count--;
 		}
 
 		void play();
@@ -155,6 +158,7 @@ namespace pe
 
 		std::string m_name;
 		static int s_anim_count;
+		static int s_next_id;
 		int m_id;
 
 		bool m_loop		 = true;

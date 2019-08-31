@@ -15,11 +15,11 @@ int main()
 {
 	pe::Application app;
 
-	pe::Background* bg = app.getAssets().newBackground();
-	pe::Texture* tex = app.getAssets().newTexture();
+	pe::Background* bg = pe::Assets::newAsset<pe::Background>();
+	pe::Texture* tex = pe::Assets::newAsset<pe::Texture>();
 
 	tex->loadFromFile("res/logo.png");
-	bg->setTexture(tex);
+	bg->setTexture(*tex);
 	bg->setScale(.15,.15);
 	bg->setRepeatd(true);
 

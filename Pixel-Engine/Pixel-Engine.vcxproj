@@ -143,6 +143,13 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
     <ClCompile Include="src\api\utils\AssetsWriter.cpp" />
     <ClCompile Include="vender\tinyxml2\tinyxml2.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="DevLog" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon.ico" />
+    <Image Include="logo.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

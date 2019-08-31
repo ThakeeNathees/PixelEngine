@@ -17,7 +17,9 @@ namespace pe
 		AssetsWriter();
 
 		void save(const char* path);
+		void addAssets();
 		void addAssets(std::map<int, Asset*>& asset_map);
+		void addAssets(std::vector<int>& assets_vec);
 
 	private:		
 		void addTexture( Texture* texture);

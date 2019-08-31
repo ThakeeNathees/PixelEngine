@@ -8,11 +8,19 @@
 #include "src/Player.h"
 #include "src/Npc.h"
 
-
+class o : public pe::Object
+{
+public:
+};
 
 
 int main()
 {
+	REGISTER_CLASS( o );
+	pe::Object* obj = pe::Assets::constructObj("o");
+
+	print( obj->getName() );
+
 	pe::Application app;
 
 	pe::Background* bg = pe::Assets::newAsset<pe::Background>();

@@ -129,6 +129,7 @@ namespace pe
 	private:
 		inline void setScene(Scene* scene) { m_scene = scene; }
 		friend class Scene;
+		friend class Assets;
 		friend class Application;
 		friend class AssetsReader;
 		
@@ -136,6 +137,9 @@ namespace pe
 		static int s_next_id;
 		static sf::RenderTarget* s_render_target; // const methods can edit static field
 
+		
+
+		std::string m_class_name; // class name as string
 		std::string m_name;
 		int m_id;
 		int m_z_index = 0; // small val render first

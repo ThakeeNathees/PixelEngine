@@ -9,7 +9,6 @@ namespace pe
 {
 
 	void AssetsWriter::addAssets(std::map<int, Asset*>& asset_map) {
-
 		for (auto asset : asset_map) {
 			switch (asset.second->getType())
 			{
@@ -19,6 +18,24 @@ namespace pe
 			case Asset::Type::Sprite:		addSprite(static_cast<Sprite*>(asset.second)); break;
 			case Asset::Type::Background:	addBackground(static_cast<Background*>(asset.second)); break;
 			case Asset::Type::Animation:	addAnimation(static_cast<Animation*>(asset.second)); break;
+			default:						break;
+			}
+		}
+	}
+	void AssetsWriter::addAssets() {
+		addAssets( pe::Assets::s_assets );
+	}
+	void AssetsWriter::addAssets(std::vector<int>& assets_vec) {
+		for (int id : assets_vec) {
+			auto asset = pe::Assets::s_assets[id];
+			switch ( asset->getType() )
+			{
+			case Asset::Type::Texture:		addTexture(static_cast<Texture*>(asset)); break;
+			case Asset::Type::Font:			addFont(static_cast<Font*>(asset)); break;
+			case Asset::Type::Area:			addArea(static_cast<Area*>(asset)); break;
+			case Asset::Type::Sprite:		addSprite(static_cast<Sprite*>(asset)); break;
+			case Asset::Type::Background:	addBackground(static_cast<Background*>(asset)); break;
+			case Asset::Type::Animation:	addAnimation(static_cast<Animation*>(asset)); break;
 			default:						break;
 			}
 		}

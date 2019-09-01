@@ -64,9 +64,8 @@ namespace pe
 		inline bool isContains(sf::Vector2f point) { return isContains(point.x, point.y); }
 		inline bool isIntersecting(const Area& other) { return ::pe::isIntersecting( getShape(), other.getShape() ); }
 
-		inline bool hasShape() { return m_shape != nullptr; }
 
-		inline sf::Shape& getShape() const { assert( hasShape() && "shape is nullptr" ); return *m_shape; }
+		inline sf::Shape& getShape() const { assert(m_shape); return *m_shape; }
 		inline bool hasShape() const { return m_shape != nullptr; }
 
 	private:

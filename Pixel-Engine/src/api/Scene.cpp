@@ -57,18 +57,11 @@ namespace pe
 	}
 
 	// getters
-	Object& Scene::getObject(const std::string& name) {
+	Object* Scene::getObject(const std::string& name) {
 		for ( Object* object : m_objects ) {
-			if (object->getName() == name) return *object;
+			if (object->getName() == name) return object;
 		}
-		assert( false && "can't get object which the scene doesn't contain");
-	}
-
-	bool Scene::hasObject(const std::string& name) {
-		for (Object* object : m_objects) {
-			if (object->getName() == name) return true;
-		}
-		return false;
+		return nullptr;
 	}
 
 }

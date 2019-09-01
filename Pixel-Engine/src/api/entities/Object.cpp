@@ -39,8 +39,8 @@ namespace pe
 	}
 	void Object::drawDebug(sf::RenderTarget& target) const {
 		if (m_applicaton != nullptr && m_applicaton->isDebugMode()) {
-			if ( hasArea() && m_area->hasShape()) {
-				target.draw(m_area->getShape());
+			if ( m_area && m_area->hasShape() ) {
+				target.draw( (m_area->getShape()));
 				drawCircle(m_area->getCentroid(), 3, sf::Color(0, 255, 0, 255));
 			}
 
@@ -57,7 +57,7 @@ namespace pe
 
 	void Object::drawSelf() const {
 		assert(s_render_target != nullptr && "drawself() can only be call from draw() method");
-		if (hasSprite()) s_render_target->draw(getSprite());
+		if ( m_sprite ) s_render_target->draw(getSprite());
 	}
 
 	void Object::drawRectangle(float x, float y, float width, float height, sf::Color color, bool outline, int outline_thickness) const {

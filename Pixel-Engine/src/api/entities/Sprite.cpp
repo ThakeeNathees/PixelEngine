@@ -16,9 +16,9 @@ namespace pe
 	void Sprite::setFrameIndex(int index) {
 		m_frame_index = index;
 		assert( (index >=0) &&  (index < getFrameCount()) && "invalid sprite frame index" );
-		assert( hasTexture() && "cant set frames without any textures" );
-		int width  = getTexture().getSize().x / m_frames.x;
-		int height = getTexture().getSize().y / m_frames.y;
+		assert( m_texture && "cant set frames without any textures" );
+		int width  = m_texture->getSize().x / m_frames.x;
+		int height = m_texture->getSize().y / m_frames.y;
 		int left = (index % (m_frames.x))* width;
 		int top  = (index / (m_frames.x))* height;
 		sf::IntRect rect( left + m_frames.z, top + m_frames.w, width, height );

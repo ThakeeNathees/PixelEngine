@@ -26,15 +26,9 @@ public:
 	}
 
 	void process(double dt) override {
-		
-		//getScene().getBackground().move({1,1});
-		//getAnimation("rot").play();
-
 		f = 1 / dt;
 		text.setString(std::to_string(f)+std::string( " fps") );
-		//text.setPosition(getPosition() + sf::Vector2f(100,100) );
 		setZIndex(getPosition().y);
-		auto& player = getScene().getObject("player1").getArea();
 		auto mouse = sf::Mouse::getPosition(getApplication().getWindow());
 		setPosition(mouse);
 	}

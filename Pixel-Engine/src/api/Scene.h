@@ -31,13 +31,11 @@ namespace pe
 		inline const std::string& getName() const override { return m_name; }
 		inline std::vector<Object*>& getObjects() { return m_objects; }
 		inline const std::vector<pe::Drawable*> getDrawables() const { return m_drawables; }
-		inline Background& getBackground() { return *m_background; }
-		Object& getObject(const std::string& name);
-		bool hasObject(const std::string& name);
+		inline Background* getBackground() { return m_background; }
+		Object* getObject(const std::string& name);
 		inline int getId() const override { return m_id; }
 		inline Asset::Type getType() const override { return Asset::Type::Scene; }
 		
-		inline bool hasBackground() const { return m_background != nullptr; }
 
 	private:
 		friend class Application;

@@ -109,9 +109,9 @@ namespace pe
 		inline void setName(const std::string& name) override { m_name = name; }
 
 		// getters
-		inline const Object& getObject() const {
-			assert( hasObject() && "object is nullptr"  );
-			return *m_object;
+		inline const Object* getObject() const {
+			//assert( hasObject() && "object is nullptr"  );
+			return m_object;
 		}
 		inline const std::string& getName() const override { return m_name; }
 		inline int getId() const override { return m_id; }
@@ -125,29 +125,11 @@ namespace pe
 		inline const glm::fvec2& getBeginPosition() const { return m_begin_position; }
 		inline const glm::fvec2& getBeginScale() const { return m_begin_scale; }
 		inline const float getBeginRotation() const { return m_begin_rotation; }
-
-		inline bool hasObject() const { return m_object != nullptr; }
-		inline bool hasSpriteFrameTrack() const { return m_sprite_frame_track != nullptr; }
-		inline bool hasPositionTrack() const { return m_position_track != nullptr; }
-		inline bool hasRotationTrack() const { return m_rotation_track != nullptr; }
-		inline bool hasScaleTrack() const { return m_scale_track != nullptr; }
 		
-		inline const SpriteFrameTrack& getSpriteFrameTrack() const { 
-			assert( hasSpriteFrameTrack() && "sprite frame track is nullptr"); 
-			return *m_sprite_frame_track; 
-		}
-		inline const PositionTrack& getPositionTrack() const {
-			assert(hasPositionTrack() && "position track is nullptr");
-			return *m_position_track;
-		}
-		inline const RotationTrack& getRotationTrack() const {
-			assert( hasRotationTrack() && "rotation track is nullptr" );
-			return *m_rotation_track;
-		}
-		inline const ScaleTrack& getScaleTrack() const {
-			assert( hasRotationTrack() && "scale track is nullptr" );
-			return *m_scale_track;
-		}
+		inline const SpriteFrameTrack* getSpriteFrameTrack() const {  return m_sprite_frame_track;  }
+		inline const PositionTrack* getPositionTrack() const { return m_position_track; }
+		inline const RotationTrack* getRotationTrack() const { return m_rotation_track; }
+		inline const ScaleTrack* getScaleTrack() const { return m_scale_track; }
 
 	private:
 		void emitSignal();

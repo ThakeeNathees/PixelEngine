@@ -99,7 +99,7 @@ namespace pe
 					object->process(dt);
 				}
 
-				if (m_current_scene->hasBackground()) { m_current_scene->getBackground().move(dt); }
+				if (m_current_scene->getBackground()) { m_current_scene->getBackground()->move(dt); }
 				dt -= (1 / m_frame_rate);
 			}
 			clock.restart();
@@ -107,9 +107,9 @@ namespace pe
 
 			// draw
 			m_window->clear(m_background_color);
-			if (m_current_scene->hasBackground()){
-				Background& bg = m_current_scene->getBackground();
-				if (bg.getVisible()) m_window->draw( bg );
+			if (m_current_scene->getBackground()){
+				Background* bg = m_current_scene->getBackground();
+				if (bg->getVisible()) m_window->draw( *bg );
 			}
 
 			for (pe::Drawable* drawable : m_current_scene->getDrawables()) {

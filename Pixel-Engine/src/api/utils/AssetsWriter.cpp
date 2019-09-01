@@ -99,17 +99,15 @@ namespace pe
 		area_tag->SetAttribute("id", area->getId());
 
 		if (area->hasShape()) {
-			if (area->hasShape()) {
-				auto shape_tag = m_doc->NewElement("shape");
-				area_tag->InsertEndChild(shape_tag);
-				shape_tag->SetAttribute("point_count", (int)area->getPointCount());
-				for (int i = 0; i < area->getPointCount(); i++) {
-					auto point_tag = m_doc->NewElement("point");
-					shape_tag->InsertEndChild(point_tag);
-					point_tag->SetAttribute("index", i);
-					point_tag->SetAttribute("x", area->getShape().getPoint(i).x);
-					point_tag->SetAttribute("y", area->getShape().getPoint(i).y);
-				}
+			auto shape_tag = m_doc->NewElement("shape");
+			area_tag->InsertEndChild(shape_tag);
+			shape_tag->SetAttribute("point_count", (int)area->getPointCount());
+			for (int i = 0; i < area->getPointCount(); i++) {
+				auto point_tag = m_doc->NewElement("point");
+				shape_tag->InsertEndChild(point_tag);
+				point_tag->SetAttribute("index", i);
+				point_tag->SetAttribute("x", area->getShape().getPoint(i).x);
+				point_tag->SetAttribute("y", area->getShape().getPoint(i).y);
 			}
 		}
 	}
@@ -188,10 +186,10 @@ namespace pe
 		prop->SetAttribute("loop", anim->getLoop());
 		prop->SetAttribute("reverse", anim->getReverse());
 
-		if (anim->hasObject()) {
+		if (anim->getObject()) {
 			auto obj_tag = m_doc->NewElement("object");
 			anim_tag->InsertEndChild(obj_tag);
-			obj_tag->SetAttribute("id", anim->getObject().getId());
+			obj_tag->SetAttribute("id", anim->getObject()->getId());
 		}
 
 		auto begin_transform_tag = m_doc->NewElement("begin_transform");
@@ -208,20 +206,20 @@ namespace pe
 		begin_scale_tag->SetAttribute("x", anim->getBeginScale().x);
 		begin_scale_tag->SetAttribute("y", anim->getBeginScale().y);
 		
-		if (anim->hasSpriteFrameTrack()) {
+		if (anim->getSpriteFrameTrack()) {
 			auto sprite_frame_track_tag = m_doc->NewElement("sprite_frame_track");
 			anim_tag->InsertEndChild(sprite_frame_track_tag);
-			for (auto key : anim->getSpriteFrameTrack().getKeys()) {
+			for (auto key : anim->getSpriteFrameTrack()->getKeys()) {
 				auto key_tag = m_doc->NewElement("key");
 				sprite_frame_track_tag->InsertEndChild(key_tag);
 				key_tag->SetAttribute("time", key.time);
 				key_tag->SetAttribute("frame", key.data.sprite_frame);
 			}
 		}
-		if (anim->hasPositionTrack()) {
+		if (anim->getPositionTrack()) {
 			auto position_track_tag = m_doc->NewElement("position_track");
 			anim_tag->InsertEndChild(position_track_tag);
-			for (auto key : anim->getPositionTrack().getKeys()) {
+			for (auto key : anim->getPositionTrack()->getKeys()) {
 				auto key_tag = m_doc->NewElement("key");
 				position_track_tag->InsertEndChild(key_tag);
 				key_tag->SetAttribute("time", key.time);
@@ -229,20 +227,20 @@ namespace pe
 				key_tag->SetAttribute("y", key.data.position.y);
 			}
 		}
-		if (anim->hasRotationTrack()) {
+		if (anim->getRotationTrack()) {
 			auto rotation_track_tag = m_doc->NewElement("rotation_track");
 			anim_tag->InsertEndChild(rotation_track_tag);
-			for (auto key : anim->getRotationTrack().getKeys()) {
+			for (auto key : anim->getRotationTrack()->getKeys()) {
 				auto key_tag = m_doc->NewElement("key");
 				rotation_track_tag->InsertEndChild(key_tag);
 				key_tag->SetAttribute("time", key.time);
 				key_tag->SetAttribute("angle", key.data.rotation);
 			}
 		}
-		if (anim->hasScaleTrack()) {
+		if (anim->getScaleTrack()) {
 			auto scale_track_tag = m_doc->NewElement("scale_track");
 			anim_tag->InsertEndChild(scale_track_tag);
-			for (auto key : anim->getScaleTrack().getKeys()) {
+			for (auto key : anim->getScaleTrack()->getKeys()) {
 				auto key_tag = m_doc->NewElement("key");
 				scale_track_tag->InsertEndChild(key_tag);
 				key_tag->SetAttribute("time", key.time);
@@ -317,10 +315,10 @@ namespace pe
 		window_size_tag->SetAttribute("width", scene->m_window_size.x);
 		window_size_tag->SetAttribute("height", scene->m_window_size.y);
 
-		if (scene->hasBackground()) {
+		if (scene->getBackground()) {
 			auto bg_tag = m_doc->NewElement("background");
 			scn_tag->InsertEndChild(bg_tag);
-			bg_tag->SetAttribute("id", scene->getBackground().getId() );
+			bg_tag->SetAttribute("id", scene->getBackground()->getId() );
 		}
 
 		auto objs_tag = m_doc->NewElement("objects");

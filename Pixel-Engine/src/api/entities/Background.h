@@ -45,12 +45,14 @@ namespace pe
 		inline int getId() const override { return m_id; }
 		inline Type getType() const override { return Type::Background; }
 
-		inline bool hasTexture() const { return m_texture != nullptr; }
+
 		inline bool getVisible() const { return m_visible; }
 		inline bool getRepeat() const { return m_texture->isRepeated(); }
 		inline bool getSmooth() const { return m_smooth; }
-		inline Texture& getTexture() { assert(hasTexture() && "texture is nullptr"); return *m_texture; }
+		inline Texture& getTexture() { assert(m_texture); return *m_texture; }
 		inline const glm::ivec2& getMoveSpeed() const { return m_move_speed; }
+
+		inline bool hasTexture() const { return m_texture != nullptr; }
 
 
 	private:

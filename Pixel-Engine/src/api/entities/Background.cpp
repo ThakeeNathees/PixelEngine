@@ -13,12 +13,12 @@ namespace pe
 	}
 
 	void Background::setRepeatd(bool repeated) {
-		assert( hasTexture() );
+		assert( m_texture );
 		m_texture->setRepeated(repeated);
 	}
 
 	void Background::setSmooth(bool smooth) {
-		assert( hasTexture() );
+		assert( m_texture );
 		m_smooth = smooth;
 		m_texture->setSmooth(smooth);
 	}

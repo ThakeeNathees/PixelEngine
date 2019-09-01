@@ -117,7 +117,7 @@ namespace pe
 		Timer& getTimer(const std::string& timer_name);
 		inline std::map<std::string, Animation*>& getAnimations() { return m_animations; }
 		Animation& getAnimation(const std::string& anim_name);
-		
+
 
 		inline bool hasApplication() const { return m_applicaton != nullptr; }
 		inline bool hasScene() const { return m_scene != nullptr; }

@@ -10,7 +10,7 @@ class Player : public pe::Object
 {
 public:
 	inline void init() override {
-		if (getScene().hasObject("Npc")) npc = &getScene().getObject("Npc");
+		npc = getScene().getObject("Npc");
 	}
 
 
@@ -30,27 +30,23 @@ public:
 		if (pe::isKeyPressed('W')) {
 			getApplication().setCurrentScene(70001);
 			getAnimation("walk_up").play();
-			//getApplication().getWindow().setPosition( getApplication().getWindow().getPosition() + sf::Vector2i(0,-spd) );
 			move(0,-2);
-			if (getArea().isIntersecting(npc->getArea())) move(0,2);
+			if ( npc && getArea().isIntersecting(npc->getArea())) move(0,2);
 		}
 		else if (pe::isKeyPressed('A')) {
 			getAnimation("walk_left").play();
-			//getApplication().getWindow().setPosition( getApplication().getWindow().getPosition() + sf::Vector2i(-spd,0) );
 			move(-2, 0);
-			if (getArea().isIntersecting(npc->getArea())) move(2,0);
+			if (npc && getArea().isIntersecting(npc->getArea())) move(2,0);
 		}
 		else if (pe::isKeyPressed('D')) {
 			getAnimation("walk_right").play();
-			//getApplication().getWindow().setPosition( getApplication().getWindow().getPosition() + sf::Vector2i(spd,0) );
 			move(2, 0);
-			if (getArea().isIntersecting(npc->getArea())) move(-2,0);
+			if (npc && getArea().isIntersecting(npc->getArea())) move(-2,0);
 		}
 		else if (pe::isKeyPressed('S')) {
 			getAnimation("walk_down").play();
-			//getApplication().getWindow().setPosition( getApplication().getWindow().getPosition() + sf::Vector2i(0, spd) );
 			move(0, 2);
-			if (getArea().isIntersecting(npc->getArea())) move(0,-2);
+			if (npc && getArea().isIntersecting(npc->getArea())) move(0,-2);
 		}
 		// todo stop any animation
 

@@ -38,12 +38,10 @@ namespace pe {
 		inline glm::ivec4 getFrames() const { return m_frames; }
 		inline int getFrameCount() const { return m_frames.x * m_frames.y; }
 		inline int getFrameIndex() const { return m_frame_index; }
-		inline Texture& getTexture() const { 
-			assert( hasTexture() && "texture is nullptr" );
-			return *m_texture;
-		}
+		inline Texture& getTexture() const { assert(m_texture); return *m_texture; }
 
 		inline bool hasTexture() const { return m_texture != nullptr; }
+
 		
 
 	private:

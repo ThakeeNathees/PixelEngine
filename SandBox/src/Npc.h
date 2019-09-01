@@ -11,28 +11,13 @@ class Npc : public pe::Object
 public:
 	void init() override {
 
-		pe::Sprite* sprite = pe::Assets::newAsset<pe::Sprite>();
-		pe::Texture* texr = pe::Assets::newAsset<pe::Texture>();
-		texr->loadFromFile("res/sheet.png");
-		sprite->setTexture(*texr);
-		sprite->setFrames(12,8);
-		setSprite(sprite);
-		setScale(2, 2);
-		setPosition(200,200);
-
-		
 		font.loadFromFile("res/Indie_Flower/IndieFlower-Regular.ttf");
 		text.setFont(font);
 		text.setString("test");
 		text.setCharacterSize(24);
 		text.setFillColor(sf::Color(0,0,0,255));
-
-		setOrigin(getSprite().getTextureRect().width / 2, getSprite().getTextureRect().height);
+		
 		setArea();
-
-		pe::AssetsWriter w;
-		w.addAssets();
-		w.save("test.xml");
 	}
 
 	void drawCall() const override {

@@ -11,6 +11,7 @@ HIGHT PRIORITY
 
 LOW PRIORITY
 	add object m_process_priority
+	remove persistence object from vector
 	timel map -> application draw a vector of drawable of current scene
 	nexeScene(), previousScene() => scene stack
 	consider getTimer, getSomething => returns pointer

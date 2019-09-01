@@ -20,15 +20,19 @@ namespace pe
 		// noone delets new signal now
 
 		// setters
+		union Data;
 		inline void addReciever( Object* reciever) { m_recievers.push_back(reciever); }
 		inline void setName(std::string name) { m_name; }
+		inline void clear() { m_recievers.clear(); }
+
+		inline void setData(const Data& data) { m_data = data; }
+		inline void setData(int data) { m_data.data_int = data; }
 
 		// getters
 		inline std::vector<Object*>& getRecievers() { return m_recievers; }
 		inline Object& getSender() const { assert( m_sender != nullptr );  return *m_sender; }
 		inline const std::string& getName() const { return m_name; }
 
-		union Data;
 		inline Data getData() { return m_data; }
 
 		union Data {
@@ -36,6 +40,7 @@ namespace pe
 			inline Data() {};
 			char data_char;
 			int data_int;
+			int id;
 			short data_short;
 			long data_long;
 			float data_float;

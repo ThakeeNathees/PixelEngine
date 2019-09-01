@@ -16,7 +16,8 @@ namespace pe
 			Sprite		= 30000, 
 			Background	= 40000, 
 			Animation	= 50000,  
-			Object		= 60000
+			Object		= 60000,
+			Scene		= 70000,
 		};
 
 		virtual int getId() const =0;

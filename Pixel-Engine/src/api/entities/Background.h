@@ -47,11 +47,9 @@ namespace pe
 
 		inline bool hasTexture() const { return m_texture != nullptr; }
 		inline bool getVisible() const { return m_visible; }
-		inline bool getRepeat() const { return m_repeated; }
+		inline bool getRepeat() const { return m_texture->isRepeated(); }
 		inline bool getSmooth() const { return m_smooth; }
 		inline Texture& getTexture() { assert(hasTexture() && "texture is nullptr"); return *m_texture; }
-		//inline const glm::ivec2& getTextureRectSize() const { return m_texture_rect_size; }
-		//inline const glm::ivec2& getTextureRectOffset() const { return { getTextureRect().left, getTextureRect().top }; }
 		inline const glm::ivec2& getMoveSpeed() const { return m_move_speed; }
 
 
@@ -69,9 +67,7 @@ namespace pe
 		friend class Application;
 		Texture* m_texture = nullptr;
 		bool m_visible = true;
-		bool m_repeated = false;
 		bool m_smooth = false;
 		glm::ivec2 m_move_speed = glm::ivec2(0,0);
-		//glm::ivec2 m_texture_rect_size = glm::ivec2(-1, -1);
 	};
 }

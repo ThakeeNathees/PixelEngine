@@ -17,6 +17,7 @@ namespace pe
 		case Asset::Type::Background:	addBackground(static_cast<Background*>(asset)); break;
 		case Asset::Type::Animation:	addAnimation(static_cast<Animation*>(asset)); break;
 		case Asset::Type::Object:		addObject(static_cast<Object*>(asset)); break;
+		case Asset::Type::Scene:		addScene(static_cast<Scene*>(asset)); break;
 		default:						break;
 		}
 	}
@@ -57,6 +58,7 @@ namespace pe
 		auto backgrounds	= m_doc->NewElement("backgrounds");
 		auto animations		= m_doc->NewElement("animations");
 		auto objects		= m_doc->NewElement("objects");
+		auto scenes			= m_doc->NewElement("scenes");
 		// tile map, ...
 
 		assets->InsertEndChild(textures);
@@ -66,6 +68,7 @@ namespace pe
 		assets->InsertEndChild(backgrounds);
 		assets->InsertEndChild(animations);
 		assets->InsertEndChild(objects);
+		assets->InsertEndChild(scenes);
 	}
 
 	void AssetsWriter::addTexture(Texture* texture) {
@@ -153,7 +156,6 @@ namespace pe
 		auto prop = m_doc->NewElement("properties");
 		bg_tag->InsertEndChild(prop);
 		prop->SetAttribute("visible", bg->getVisible());
-		prop->SetAttribute("repeat", bg->getRepeat());
 		prop->SetAttribute("smooth", bg->getSmooth());
 
 		auto speed_tag = m_doc->NewElement("move_speed");
@@ -261,8 +263,9 @@ namespace pe
 
 		auto prop = m_doc->NewElement("properties");
 		obj_tag->InsertEndChild(prop);
-		prop->SetAttribute("visible", obj->getVisible());
 		prop->SetAttribute("z_index", obj->getZIndex());
+		prop->SetAttribute("visible", obj->getVisible());
+		prop->SetAttribute("persistence", obj->getPersistence());
 
 		auto transform_tag = m_doc->NewElement("transform");
 		obj_tag->InsertEndChild(transform_tag);
@@ -299,6 +302,33 @@ namespace pe
 			auto anim_tag = m_doc->NewElement("animation");
 			anims_tag->InsertEndChild(anim_tag);
 			anim_tag->SetAttribute("id", anim.second->getId());
+		}
+	}
+
+	void AssetsWriter::addScene(Scene* scene) {
+		auto scenes = m_doc->FirstChildElement()->FirstChildElement("scenes");
+		auto scn_tag = m_doc->NewElement("scene");
+		scenes->InsertEndChild(scn_tag);
+		scn_tag->SetAttribute("name", scene->getName().c_str());
+		scn_tag->SetAttribute("id", scene->getId());
+
+		auto window_size_tag = m_doc->NewElement("window_size");
+		scn_tag->InsertEndChild(window_size_tag);
+		window_size_tag->SetAttribute("width", scene->m_window_size.x);
+		window_size_tag->SetAttribute("height", scene->m_window_size.y);
+
+		if (scene->hasBackground()) {
+			auto bg_tag = m_doc->NewElement("background");
+			scn_tag->InsertEndChild(bg_tag);
+			bg_tag->SetAttribute("id", scene->getBackground().getId() );
+		}
+
+		auto objs_tag = m_doc->NewElement("objects");
+		scn_tag->InsertEndChild(objs_tag);
+		for (Object* obj : scene->m_objects) {
+			auto obj_tag = m_doc->NewElement("object");
+			objs_tag->InsertEndChild(obj_tag);
+			obj_tag->SetAttribute("id",obj->getId());
 		}
 	}
 }

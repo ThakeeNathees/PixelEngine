@@ -14,7 +14,6 @@ namespace pe
 
 	void Background::setRepeatd(bool repeated) {
 		assert( hasTexture() );
-		m_repeated = repeated;
 		m_texture->setRepeated(repeated);
 	}
 
@@ -24,8 +23,8 @@ namespace pe
 		m_texture->setSmooth(smooth);
 	}
 
-	void Background::setTextureRectSize(glm::ivec2 window_size, glm::ivec2 offset) {
-		setTextureRect(sf::IntRect(offset.x, offset.y, window_size.x / getScale().x, window_size.y / getScale().y));
+	void Background::setTextureRectSize(glm::ivec2 size, glm::ivec2 offset) {
+		setTextureRect(sf::IntRect(offset.x, offset.y, size.x / getScale().x, size.y / getScale().y));
 	}
 
 	void Background::move(double dt) {

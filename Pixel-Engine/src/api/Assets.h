@@ -51,8 +51,6 @@ namespace pe
 			s_object_registry[class_name] = &construct<T>;
 		}
 		static Object* constructObj(const std::string& class_name);
-		/*
-		*/
 
 		// setters
 		static void addAsset(Asset* asset);

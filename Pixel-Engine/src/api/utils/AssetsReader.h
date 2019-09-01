@@ -1,7 +1,7 @@
 #pragma once
 #include "..//core.h"
 
-#include "..//Scene.h"
+#include "..//Application.h"
 #include "..//misc/Texture.h"
 #include "..//misc/Font.h"
 
@@ -17,8 +17,8 @@ namespace pe
 	public:
 		AssetsReader(const char* path);
 		void loadFile(const char* path);
-		void readAssets();
-		void readAssets(std::map<int, Asset*>& asset_map);
+		void readAssets(Application* app=nullptr);
+		void readAssets(std::map<int, Asset*>& asset_map, Application* app = nullptr);
 		void printDoc() const;
 
 	private:
@@ -29,6 +29,8 @@ namespace pe
 		void readSprites(std::map<int, Asset*>& asset_map);
 		void readBackground(std::map<int, Asset*>& asset_map);
 		void readAnimation(std::map<int, Asset*>& asset_map);
+		void readObject(std::map<int, Asset*>& asset_map, Application* app = nullptr);
+		void readScene(std::map<int, Asset*>& asset_map, Application* app=nullptr);
 
 		tinyxml2::XMLDocument* m_doc;
 	};

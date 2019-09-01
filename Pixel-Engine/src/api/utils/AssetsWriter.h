@@ -31,6 +31,7 @@ namespace pe
 		void addBackground(Background* bg);
 		void addAnimation(Animation* anim);
 		void addObject(Object* obj);
+		void addScene(Scene* scene);
 		
 		tinyxml2::XMLDocument* m_doc;
 		

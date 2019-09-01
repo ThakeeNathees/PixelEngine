@@ -10,88 +10,12 @@ class Player : public pe::Object
 {
 public:
 	inline void init() override {
-
-		pe::Sprite* sprite = pe::Assets::newAsset<pe::Sprite>();
-		pe::Texture* tex = pe::Assets::newAsset<pe::Texture>();
-		tex->loadFromFile("res/sheet.png");
-		sprite->setTexture(*tex);
-		sprite->setFrames(12, 8);
-		setSprite(sprite);
-
-		//*
-		pe::Area* area = pe::Assets::newAsset<pe::Area>();
-		sf::ConvexShape* shape = new sf::ConvexShape(4);
-		shape->setPoint(0, {0,0});
-		shape->setPoint(1, {48,0});
-		shape->setPoint(2, {60,60});
-		shape->setPoint(3, {0,48});
-		area->setShape(shape);
-		setArea(area);
-		//*/
-		setPosition(100,100);
-		setScale(2,2);
-
-		setOrigin( getSprite().getTextureRect().width/2, getSprite().getTextureRect().height );
-
-		npc = &getScene().getObject("Npc");
-
-		
-		pe::Animation* walk_down_anim = pe::Assets::newAsset<pe::Animation>("walk_down"); walk_down_anim->setTimeLength(.4);
-		pe::Animation* walk_left_anim = pe::Assets::newAsset<pe::Animation>("walk_left"); walk_left_anim->setTimeLength(.4);
-		pe::Animation* walk_right_anim = pe::Assets::newAsset<pe::Animation>("walk_right"); walk_right_anim->setTimeLength(.4);
-		pe::Animation* walk_up_anim = pe::Assets::newAsset<pe::Animation>("walk_up"); walk_up_anim->setTimeLength(.4);
-
-		pe::SpriteFrameTrack* walk_down_track = new pe::SpriteFrameTrack();
-		walk_down_track->addKey({.0,0});
-		walk_down_track->addKey({.1,1});
-		walk_down_track->addKey({.2,2});
-		walk_down_track->addKey({.3,1});
-		walk_down_anim->setSpriteFrameTrack(walk_down_track);
-
-		pe::SpriteFrameTrack* walk_left_track = new pe::SpriteFrameTrack();
-		walk_left_track->addKey({ .0,12 });
-		walk_left_track->addKey({ .1,13 });
-		walk_left_track->addKey({ .2,14 });
-		walk_left_track->addKey({ .3,13 });
-		walk_left_anim->setSpriteFrameTrack(walk_left_track);
-
-		pe::SpriteFrameTrack* walk_right_track = new pe::SpriteFrameTrack();
-		walk_right_track->addKey({ .0,24 });
-		walk_right_track->addKey({ .1,25 });
-		walk_right_track->addKey({ .2,26 });
-		walk_right_track->addKey({ .3,25 });
-		walk_right_anim->setSpriteFrameTrack(walk_right_track);
-
-		pe::SpriteFrameTrack* walk_up_track = new pe::SpriteFrameTrack();
-		walk_up_track->addKey({ .0,36 });
-		walk_up_track->addKey({ .1,37 });
-		walk_up_track->addKey({ .2,38 });
-		walk_up_track->addKey({ .3,37 });
-		walk_up_anim->setSpriteFrameTrack(walk_up_track);
-
-		addAnimation( pe::Assets::getAsset<pe::Animation>("walk_down") );
-		addAnimation(walk_left_anim);
-		addAnimation(walk_right_anim);
-		addAnimation(walk_up_anim);
-
-		text.setString("testing");
-		text.setCharacterSize(60);
-
-		
-		/*
-		bg->setTexture(texe);
-		bg->setMoveSpeed({300,0});
-		bg->setRepeatd(true);
-		bg->setScale(.15,.15);
-		getScene().setBackground(bg);
-		*/
-
-		//test( this, bg, texe );
+		if (getScene().hasObject("Npc")) npc = &getScene().getObject("Npc");
 	}
 
 
 	inline void recieveSignal(pe::Signal& signal) override {
-		print( "[Object1]signal recieved" << signal.getName() );
+		print( "[player]signal recieved " << signal.getName() << " " << signal.getData().id );
 	}
 
 	inline void drawCall() const override {
@@ -104,6 +28,7 @@ public:
 		int spd = 10;
 		setZIndex( getPosition().y );
 		if (pe::isKeyPressed('W')) {
+			getApplication().setCurrentScene(70001);
 			getAnimation("walk_up").play();
 			//getApplication().getWindow().setPosition( getApplication().getWindow().getPosition() + sf::Vector2i(0,-spd) );
 			move(0,-2);
@@ -132,7 +57,6 @@ public:
 	}
 
 private:
-	sf::Text text;
 	pe::Font* f;
 	pe::Object* npc;
 };

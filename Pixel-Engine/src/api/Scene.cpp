@@ -4,13 +4,21 @@
 namespace pe
 {
 	int Signal::s_signal_count = 0;
+	int Scene::s_scene_count = 0;
+	int Scene::s_next_id = static_cast<int>(Asset::Type::Scene);
 
-	Scene::Scene(std::string name) : m_name(name) {}
+	Scene::Scene(std::string name) : m_name(name) {
+		s_scene_count++;
+		m_id = s_next_id++;
+	}
+	Scene::Scene() {
+		s_scene_count++;
+		m_id = s_next_id++;
+		m_name = std::string("scn_").append(std::to_string(m_id));
+	}
 
 	Scene::~Scene() {
-		for (Object* object : m_objects) {
-			delete object;
-		}
+		s_scene_count--;
 	}
 	bool Scene::sortCompare(pe::Drawable* obj1, pe::Drawable* obj2) {
 		return obj1->getZIndex() < obj2->getZIndex();
@@ -24,6 +32,7 @@ namespace pe
 
 	// setters
 	void Scene::addObject(Object* object) {
+		for (auto obj : m_objects) if (obj == object) return;
 		m_objects.push_back(object);
 		m_drawables.push_back(object);
 		object->setScene(this);

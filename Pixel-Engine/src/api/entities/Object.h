@@ -94,8 +94,9 @@ namespace pe
 		void addAnimation(Animation* anim);
 		void addTimer(Timer* timer);
 
-		inline void setVisible(bool visible) { m_visible = visible; }
 		inline void setName(const std::string& name) override { m_name = name; }
+		inline void setVisible(bool visible) { m_visible = visible; }
+		inline void setPersistence(bool persistence) { m_persistence = persistence; }
 
 		void clear(); // clear timers, ...
 
@@ -106,6 +107,7 @@ namespace pe
 		inline Type getType() const override { return Type::Object; }
 		inline int getZIndex() const { return m_z_index; }
 		inline bool getVisible() const { return m_visible; }
+		inline bool getPersistence() const { return m_persistence; }
 
 		inline Application& getApplication() const { assert(m_applicaton != nullptr); return *m_applicaton; }
 		inline Scene& getScene() const { assert(m_scene != nullptr);		return *m_scene; }
@@ -145,6 +147,7 @@ namespace pe
 		int m_id;
 		int m_z_index = 0; // small val render first
 		bool m_visible = true;
+		bool m_persistence = false; // persistence between scenes
 		Scene* m_scene = nullptr;
 		Application* m_applicaton = nullptr;
 		Sprite* m_sprite = nullptr;

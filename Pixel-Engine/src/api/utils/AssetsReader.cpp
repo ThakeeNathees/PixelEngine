@@ -17,16 +17,18 @@ namespace pe
 		m_doc->Print();
 	}
 
-	void AssetsReader::readAssets(std::map<int, Asset*>& asset_map){
+	void AssetsReader::readAssets(std::map<int, Asset*>& asset_map, Application* app){
 		readTextures( asset_map );
 		readFonts(asset_map);
 		readArea(asset_map);
 		readSprites(asset_map);
 		readBackground(asset_map);
 		readAnimation(asset_map);
+		readObject(asset_map, app);
+		readScene(asset_map, app);
 	}
-	void AssetsReader::readAssets() {
-		readAssets(Assets::s_assets);
+	void AssetsReader::readAssets(Application* app) {
+		readAssets(Assets::s_assets, app);
 	}
 
 	void AssetsReader::readTextures(std::map<int, Asset*>& asset_map) {
@@ -42,7 +44,8 @@ namespace pe
 			if (path != "") {
 				texture->loadFromFile(path);
 			}
-			asset_map[texture->getId()] = texture;
+			asset_map[texture->m_id] = texture;
+			Assets::s_assets[texture->m_id] = texture;
 		}
 	}
 
@@ -58,6 +61,7 @@ namespace pe
 				font->loadFromFile(path);
 			}
 			asset_map[font->m_id] = font;
+			Assets::s_assets[font->m_id] = font;
 		}
 	}
 
@@ -83,6 +87,7 @@ namespace pe
 				area->setShape(shape);
 			}
 			asset_map[area->m_id] = area;
+			Assets::s_assets[area->m_id] = area;
 		}
 	}
 
@@ -97,8 +102,8 @@ namespace pe
 			if (tex_tag) {
 				int id = tex_tag->IntAttribute("id");
 				Sprite::s_next_id = glm::max(sprite->m_id + 1, Sprite::s_next_id);
-				assert( asset_map[id] != NULL && "can't find texture for the sprite");
-				sprite->setTexture( *dynamic_cast<Texture*>(asset_map[id]) );
+				assert( Assets::s_assets[id] != NULL && "can't find texture for the sprite");
+				sprite->setTexture( *dynamic_cast<Texture*>(Assets::s_assets[id]) );
 
 				sf::IntRect rect;
 				rect.left = spr_tag->FirstChildElement("texture_rect")->IntAttribute("left");
@@ -117,6 +122,7 @@ namespace pe
 				sprite->setFrameIndex(index);
 			}
 			asset_map[sprite->m_id] = sprite;
+			Assets::s_assets[sprite->m_id] = sprite;
 		}
 	}
 
@@ -141,12 +147,12 @@ namespace pe
 			auto tex_tag = bg_tag->FirstChildElement("texture");
 			if (tex_tag) {
 				int id = tex_tag->IntAttribute("id");
-				assert( asset_map[id] != NULL && "can't find texture for the background");
-				bg->setTexture(*dynamic_cast<Texture*>(asset_map[id]));
-				bg->setRepeatd(bg_tag->FirstChildElement("properties")->BoolAttribute("repeat"));
+				assert( Assets::s_assets[id] != NULL && "can't find texture for the background");
+				bg->setTexture(*dynamic_cast<Texture*>(Assets::s_assets[id]));
 				bg->setSmooth(bg_tag->FirstChildElement("properties")->BoolAttribute("smooth"));
 			}
 			asset_map[bg->m_id] = bg;
+			Assets::s_assets[bg->m_id] = bg;
 		}
 	}
 
@@ -229,6 +235,88 @@ namespace pe
 				anim->setScaleTrack(scale_track);
 			}
 			asset_map[anim->m_id] = anim;
+			Assets::s_assets[anim->m_id] = anim;
+		}
+	}
+
+	void AssetsReader::readObject(std::map<int, Asset*>& asset_map, Application* app) {
+		auto objs = m_doc->FirstChildElement()->FirstChildElement("objects");
+		for (auto obj_tag = objs->FirstChildElement(); obj_tag != NULL; obj_tag = obj_tag->NextSiblingElement()) {
+			std::string class_name = obj_tag->Attribute("class_name");
+			Object* obj = Assets::constructObj(class_name); // assert here
+			obj->setName(obj_tag->Attribute("name"));
+			obj->m_id = obj_tag->IntAttribute("id");
+			//obj->m_class_name = class_name; already set
+			Object::s_next_id = glm::max(obj->m_id + 1, Object::s_next_id);
+
+			auto prop = obj_tag->FirstChildElement("properties");
+			obj->setVisible(prop->BoolAttribute("visible") );
+			obj->setZIndex(prop->IntAttribute("z_index"));
+			obj->setPersistence( prop->BoolAttribute("persistence") );
+
+			auto transform_tag = obj_tag->FirstChildElement("transform");
+			auto pos_tag = transform_tag->FirstChildElement("position");
+			obj->setPosition( pos_tag->FloatAttribute("x"), pos_tag->FloatAttribute("y") );
+			auto rotation_tag = transform_tag->FirstChildElement("rotation");
+			obj->setRotation( rotation_tag->FloatAttribute("angle") );
+			auto scale_tag = transform_tag->FirstChildElement("scale");
+			obj->setScale( scale_tag->FloatAttribute("x"), scale_tag->FloatAttribute("y") );
+			auto origin_tag = transform_tag->FirstChildElement("origin");
+			obj->setOrigin( origin_tag->FloatAttribute("x"), origin_tag->FloatAttribute("y") );
+
+			auto sprite_tag = obj_tag->FirstChildElement("sprite");
+			if (sprite_tag) {
+				int id = sprite_tag->IntAttribute("id");
+				assert(Assets::s_assets[id] != NULL && "can't find sprite for the object");
+				obj->setSprite( (dynamic_cast<Sprite*>(Assets::s_assets[id])) );
+			}
+			auto area_tag = obj_tag->FirstChildElement("area");
+			if (area_tag) {
+				int id = area_tag->IntAttribute("id");
+				assert(Assets::s_assets[id] != NULL && "can't find area for the object");
+				obj->setArea( dynamic_cast<Area*>(Assets::s_assets[id]) );
+			}
+			auto anims_tag = obj_tag->FirstChildElement("animations");
+			for (auto anim_tag = anims_tag->FirstChildElement(); anim_tag != NULL; anim_tag = anim_tag->NextSiblingElement()) {
+				int id = anim_tag->IntAttribute("id");
+				assert(Assets::s_assets[id] != NULL && "can't find the animation for the object");
+				obj->addAnimation( dynamic_cast<Animation*>( Assets::s_assets[id] ) );
+			}
+			asset_map[obj->m_id] = obj;
+			Assets::s_assets[obj->m_id] = obj;
+			if (app && obj->getPersistence()) app->addPersistenceObject(obj);
+		}
+	}
+
+	void AssetsReader::readScene(std::map<int, Asset*>& asset_map, Application* app) {
+		auto scns = m_doc->FirstChildElement()->FirstChildElement("scenes");
+		for (auto scn_tag = scns->FirstChildElement(); scn_tag != NULL; scn_tag = scn_tag->NextSiblingElement()) {
+			Scene* scene = Assets::newAsset<Scene>();
+			scene->setName(scn_tag->Attribute("name"));
+			scene->m_id = scn_tag->IntAttribute("id");
+			Scene::s_next_id = glm::max(scene->m_id + 1, Scene::s_next_id);
+			
+			auto size_tag = scn_tag->FirstChildElement("window_size");
+			scene->m_window_size = glm::ivec2(
+				size_tag->IntAttribute("width"),
+				size_tag->IntAttribute("height")
+			);
+
+			auto bg_tag = scn_tag->FirstChildElement("background");
+			if (bg_tag) {
+				int id = bg_tag->IntAttribute("id");
+				assert(Assets::s_assets[id] != NULL && "can't find background for the scene");
+				scene->setBackground( dynamic_cast<Background*>( Assets::s_assets[id] ) );
+			}
+			auto objs_tag = scn_tag->FirstChildElement("objects");
+			for (auto obj_tag = objs_tag->FirstChildElement(); obj_tag != NULL; obj_tag = obj_tag->NextSiblingElement()) {
+				int id = obj_tag->IntAttribute("id");
+				assert(Assets::s_assets[id] != NULL && "can't find the object for the scene");
+				scene->addObject( dynamic_cast<Object*>(Assets::s_assets[id]));
+			}
+			asset_map[scene->m_id] = scene;
+			Assets::s_assets[scene->m_id] = scene;
+			if (app) app->addScene(scene);
 		}
 	}
 }

@@ -11,27 +11,55 @@
 namespace pe
 {
 	Application::Application()
+		: m_scene_changed_signal( Signal("scene_changed") )
 	{
 		m_window = new sf::RenderWindow(sf::VideoMode(640, 480), "pixel-engine");
 	}
-	Application::~Application() {
-		for (auto scene : m_scenes) {
-			delete scene.second;
-		}
+	Application::~Application() {}
+
+	void Application::addPersistenceObject(Object* obj) {
+		for (auto _obj : m_persistent_objects) {
+			if (_obj == obj) return;
+		} m_persistent_objects.push_back(obj);
 	}
 
 	void Application::addScene(Scene* scene) {
-		m_scenes[scene->getName()] = scene;
+		m_scenes.push_back(scene);
 		scene->setSceneWindowSize({ m_window->getSize().x, m_window->getSize().y });
+		for (auto obj : m_persistent_objects) scene->addObject(obj);
 	}
-	void Application::setCurrentScene(std::string scene_name) {
-		assert(m_scenes.find(scene_name) != m_scenes.end() && "invalid scene name to set");
-		m_current_scene = m_scenes[scene_name];
+
+	void Application::setCurrentScene(Scene* scene) {
+		m_current_scene = scene;
 		m_current_scene->clear();
+
+		for (Object* obj : m_persistent_objects) obj->m_scene = m_current_scene;
+
+		m_scene_changed_signal.clear();
+		for (Object* obj : m_current_scene->getObjects()) m_scene_changed_signal.addReciever(obj);
+		m_scene_changed_signal.setData(m_current_scene->getId());
+		m_current_scene->addSignal(&m_scene_changed_signal);
+		
 		for (auto obj : m_current_scene->getObjects()) {
 			obj->m_applicaton = this;
 			obj->init();
 			for (Timer* timer : obj->m_timers) m_current_scene->addTimer(timer);
+		}
+	}
+	void Application::setCurrentScene(int id) {
+		for (auto scene : m_scenes) {
+			if (scene->getId() == id) {
+				setCurrentScene(scene);
+				return;
+			}
+		} assert(false && "invalid scene id to set");
+	}
+	void Application::setCurrentScene(const std::string& name) {
+		for (auto scene : m_scenes) {
+			if (scene->getName() == name) {
+				setCurrentScene(scene);
+				return;
+			} assert( false && "invalid scene name to set" );
 		}
 	}
 
@@ -54,10 +82,6 @@ namespace pe
 			// process
 			dt += clock.getElapsedTime().asMicroseconds() / 1000000.0;
 			if (dt >= 1 / m_frame_rate) {
-				for (Object* object : m_current_scene->getObjects()) {
-					dt += clock.getElapsedTime().asMicroseconds() / 1000000.0;
-					object->process(dt);
-				}
 
 				for (Timer* timer : m_current_scene->m_timers) {
 					timer->update();
@@ -69,6 +93,12 @@ namespace pe
 					}
 				}
 				m_current_scene->m_signals.clear();
+
+				for (Object* object : m_current_scene->getObjects()) {
+					dt += clock.getElapsedTime().asMicroseconds() / 1000000.0;
+					object->process(dt);
+				}
+
 				if (m_current_scene->hasBackground()) { m_current_scene->getBackground().move(dt); }
 				dt -= (1 / m_frame_rate);
 			}

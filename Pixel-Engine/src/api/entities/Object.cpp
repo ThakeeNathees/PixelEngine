@@ -168,6 +168,7 @@ namespace pe
 		m_sprite->setPosition(getPosition());
 		m_sprite->setRotation(getRotation());
 		m_sprite->setScale(getScale());
+		m_sprite->setOrigin(getOrigin());
 	}
 	void Object::setArea(Area* area) { // if area == nullptr => area set as sprite rect. old area not deleted -> memory leak
 		if (area == nullptr) {
@@ -176,7 +177,7 @@ namespace pe
 			
 			auto rect = m_sprite->getLocalBounds();
 			sf::RectangleShape* shape = new sf::RectangleShape(sf::Vector2f(rect.width, rect.height));
-			auto area = new Area();
+			auto area = Assets::newAsset<Area>();
 			area->setShape(shape);
 			setArea(area);
 		}

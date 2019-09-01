@@ -124,7 +124,6 @@
                 <origin x="24" y="48"/>
             </transform>
             <sprite id="30001"/>
-            <area id="20001"/>
             <animations/>
         </object>
     </objects>

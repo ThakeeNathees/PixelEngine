@@ -11,8 +11,8 @@ class Npc : public pe::Object
 public:
 	void init() override {
 
-		pe::Sprite* sprite = new pe::Sprite();
-		pe::Texture* texr = new pe::Texture();
+		pe::Sprite* sprite = pe::Assets::newAsset<pe::Sprite>();
+		pe::Texture* texr = pe::Assets::newAsset<pe::Texture>();
 		texr->loadFromFile("res/sheet.png");
 		sprite->setTexture(*texr);
 		sprite->setFrames(12,8);
@@ -30,6 +30,9 @@ public:
 		setOrigin(getSprite().getTextureRect().width / 2, getSprite().getTextureRect().height);
 		setArea();
 
+		pe::AssetsWriter w;
+		w.addAssets();
+		w.save("test.xml");
 	}
 
 	void drawCall() const override {
@@ -46,7 +49,7 @@ public:
 		text.setString(std::to_string(f)+std::string( " fps") );
 		//text.setPosition(getPosition() + sf::Vector2f(100,100) );
 		setZIndex(getPosition().y);
-		auto& player = getScene().getObject("Player").getArea();
+		auto& player = getScene().getObject("player1").getArea();
 		auto mouse = sf::Mouse::getPosition(getApplication().getWindow());
 		setPosition(mouse);
 	}

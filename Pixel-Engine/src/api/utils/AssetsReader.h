@@ -17,6 +17,7 @@ namespace pe
 	public:
 		AssetsReader(const char* path);
 		void loadFile(const char* path);
+		void readAssets();
 		void readAssets(std::map<int, Asset*>& asset_map);
 		void printDoc() const;
 

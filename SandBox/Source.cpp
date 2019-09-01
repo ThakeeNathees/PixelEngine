@@ -16,10 +16,10 @@ public:
 
 int main()
 {
-	REGISTER_CLASS( o );
-	pe::Object* obj = pe::Assets::constructObj("o");
+	REGISTER_CLASS( Player );
+	REGISTER_CLASS( Npc );
 
-	print( obj->getName() );
+	
 
 	pe::Application app;
 
@@ -33,14 +33,16 @@ int main()
 
 	pe::Scene* scene = new pe::Scene("scene1");
 
-	pe::Object* player = new Player;
-	player->setName("Player");
+	pe::Object* player = pe::Assets::constructObj("Player");
+	player->setName("player1");
 	scene->addObject( player );
 
-	pe::Object* npc = new Npc;
+	pe::Object* npc = pe::Assets::constructObj("Npc");
 	npc->setName("Npc");
 	scene->addObject( npc );
 	scene->sortZIndex();
+
+	
 	
 	app.setDebugMode(true);
 	app.addScene( scene );

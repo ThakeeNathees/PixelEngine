@@ -20,6 +20,8 @@ namespace pe
 		void addAssets();
 		void addAssets(std::map<int, Asset*>& asset_map);
 		void addAssets(std::vector<int>& assets_vec);
+		void addAsset(int id);
+		void addAsset(Asset* asset);
 
 	private:		
 		void addTexture( Texture* texture);
@@ -28,6 +30,7 @@ namespace pe
 		void addSprite(Sprite* sprite);
 		void addBackground(Background* bg);
 		void addAnimation(Animation* anim);
+		void addObject(Object* obj);
 		
 		tinyxml2::XMLDocument* m_doc;
 		

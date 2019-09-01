@@ -11,15 +11,15 @@ class Player : public pe::Object
 public:
 	inline void init() override {
 
-		pe::Sprite* sprite = new pe::Sprite();
-		pe::Texture* tex = new pe::Texture();
+		pe::Sprite* sprite = pe::Assets::newAsset<pe::Sprite>();
+		pe::Texture* tex = pe::Assets::newAsset<pe::Texture>();
 		tex->loadFromFile("res/sheet.png");
 		sprite->setTexture(*tex);
 		sprite->setFrames(12, 8);
 		setSprite(sprite);
 
 		//*
-		pe::Area* area = new pe::Area();
+		pe::Area* area = pe::Assets::newAsset<pe::Area>();
 		sf::ConvexShape* shape = new sf::ConvexShape(4);
 		shape->setPoint(0, {0,0});
 		shape->setPoint(1, {48,0});
@@ -35,10 +35,11 @@ public:
 
 		npc = &getScene().getObject("Npc");
 
-		pe::Animation* walk_down_anim = new pe::Animation("walk_down"); walk_down_anim->setTimeLength(.4);
-		pe::Animation* walk_left_anim = new pe::Animation("walk_left"); walk_left_anim->setTimeLength(.4);
-		pe::Animation* walk_right_anim = new pe::Animation("walk_right"); walk_right_anim->setTimeLength(.4);
-		pe::Animation* walk_up_anim = new pe::Animation("walk_up"); walk_up_anim->setTimeLength(.4);
+		
+		pe::Animation* walk_down_anim = pe::Assets::newAsset<pe::Animation>("walk_down"); walk_down_anim->setTimeLength(.4);
+		pe::Animation* walk_left_anim = pe::Assets::newAsset<pe::Animation>("walk_left"); walk_left_anim->setTimeLength(.4);
+		pe::Animation* walk_right_anim = pe::Assets::newAsset<pe::Animation>("walk_right"); walk_right_anim->setTimeLength(.4);
+		pe::Animation* walk_up_anim = pe::Assets::newAsset<pe::Animation>("walk_up"); walk_up_anim->setTimeLength(.4);
 
 		pe::SpriteFrameTrack* walk_down_track = new pe::SpriteFrameTrack();
 		walk_down_track->addKey({.0,0});
@@ -68,8 +69,6 @@ public:
 		walk_up_track->addKey({ .3,37 });
 		walk_up_anim->setSpriteFrameTrack(walk_up_track);
 
-		pe::Assets::addAsset(walk_down_anim);
-
 		addAnimation( pe::Assets::getAsset<pe::Animation>("walk_down") );
 		addAnimation(walk_left_anim);
 		addAnimation(walk_right_anim);
@@ -78,10 +77,7 @@ public:
 		text.setString("testing");
 		text.setCharacterSize(60);
 
-		pe::Texture* texe = new pe::Texture();
-		texe->loadFromFile("res/logo.png");
-
-		pe::Background* bg = new pe::Background();
+		
 		/*
 		bg->setTexture(texe);
 		bg->setMoveSpeed({300,0});

@@ -7,39 +7,40 @@
 
 namespace pe
 {
-
-	void AssetsWriter::addAssets(std::map<int, Asset*>& asset_map) {
-		for (auto asset : asset_map) {
-			switch (asset.second->getType())
-			{
-			case Asset::Type::Texture:		addTexture(static_cast<Texture*>(asset.second)); break;
-			case Asset::Type::Font:			addFont(static_cast<Font*>(asset.second)); break;
-			case Asset::Type::Area:			addArea(static_cast<Area*>(asset.second)); break;
-			case Asset::Type::Sprite:		addSprite(static_cast<Sprite*>(asset.second)); break;
-			case Asset::Type::Background:	addBackground(static_cast<Background*>(asset.second)); break;
-			case Asset::Type::Animation:	addAnimation(static_cast<Animation*>(asset.second)); break;
-			default:						break;
-			}
+	void AssetsWriter::addAsset(Asset* asset) {
+		switch (asset->getType())
+		{
+		case Asset::Type::Texture:		addTexture(static_cast<Texture*>(asset)); break;
+		case Asset::Type::Font:			addFont(static_cast<Font*>(asset)); break;
+		case Asset::Type::Area:			addArea(static_cast<Area*>(asset)); break;
+		case Asset::Type::Sprite:		addSprite(static_cast<Sprite*>(asset)); break;
+		case Asset::Type::Background:	addBackground(static_cast<Background*>(asset)); break;
+		case Asset::Type::Animation:	addAnimation(static_cast<Animation*>(asset)); break;
+		case Asset::Type::Object:		addObject(static_cast<Object*>(asset)); break;
+		default:						break;
 		}
 	}
+	void AssetsWriter::addAsset(int id) {
+		assert( pe::Assets::hasAsset(id) );
+		addAsset( pe::Assets::s_assets[id] );
+	}
+
 	void AssetsWriter::addAssets() {
-		addAssets( pe::Assets::s_assets );
+		for (auto asset : pe::Assets::s_assets) {
+			addAsset(asset.second);
+		}
+	}
+	void AssetsWriter::addAssets(std::map<int, Asset*>& asset_map) {
+		for (auto asset : asset_map) {
+			addAsset(asset.second);
+		}
 	}
 	void AssetsWriter::addAssets(std::vector<int>& assets_vec) {
 		for (int id : assets_vec) {
-			auto asset = pe::Assets::s_assets[id];
-			switch ( asset->getType() )
-			{
-			case Asset::Type::Texture:		addTexture(static_cast<Texture*>(asset)); break;
-			case Asset::Type::Font:			addFont(static_cast<Font*>(asset)); break;
-			case Asset::Type::Area:			addArea(static_cast<Area*>(asset)); break;
-			case Asset::Type::Sprite:		addSprite(static_cast<Sprite*>(asset)); break;
-			case Asset::Type::Background:	addBackground(static_cast<Background*>(asset)); break;
-			case Asset::Type::Animation:	addAnimation(static_cast<Animation*>(asset)); break;
-			default:						break;
-			}
+			addAsset(id);
 		}
 	}
+	/// adding assets
 
 	void AssetsWriter::save(const char* path) { m_doc->SaveFile(path); }
 
@@ -55,6 +56,7 @@ namespace pe
 		auto sprites		= m_doc->NewElement("sprites");
 		auto backgrounds	= m_doc->NewElement("backgrounds");
 		auto animations		= m_doc->NewElement("animations");
+		auto objects		= m_doc->NewElement("objects");
 		// tile map, ...
 
 		assets->InsertEndChild(textures);
@@ -63,6 +65,7 @@ namespace pe
 		assets->InsertEndChild(sprites);
 		assets->InsertEndChild(backgrounds);
 		assets->InsertEndChild(animations);
+		assets->InsertEndChild(objects);
 	}
 
 	void AssetsWriter::addTexture(Texture* texture) {
@@ -247,4 +250,55 @@ namespace pe
 		}
 	}
 
+	void AssetsWriter::addObject(Object* obj) {
+		auto objects = m_doc->FirstChildElement()->FirstChildElement("objects");
+		auto obj_tag = m_doc->NewElement("object");
+		objects->InsertEndChild(obj_tag);
+		obj_tag->SetAttribute("class_name", obj->getClassName().c_str());
+		obj_tag->SetAttribute("name", obj->getName().c_str());
+		obj_tag->SetAttribute("id", obj->getId());
+
+
+		auto prop = m_doc->NewElement("properties");
+		obj_tag->InsertEndChild(prop);
+		prop->SetAttribute("visible", obj->getVisible());
+		prop->SetAttribute("z_index", obj->getZIndex());
+
+		auto transform_tag = m_doc->NewElement("transform");
+		obj_tag->InsertEndChild(transform_tag);
+
+		auto pos_tag = m_doc->NewElement("position");
+		transform_tag->InsertEndChild(pos_tag);
+		pos_tag->SetAttribute("x", obj->getPosition().x);
+		pos_tag->SetAttribute("y", obj->getPosition().y);
+		auto rot_tag = m_doc->NewElement("rotation");
+		transform_tag->InsertEndChild(rot_tag);
+		rot_tag->SetAttribute("angle", obj->getRotation() );
+		auto scale_tag = m_doc->NewElement("scale");
+		transform_tag->InsertEndChild(scale_tag);
+		scale_tag->SetAttribute("x", obj->getScale().x);
+		scale_tag->SetAttribute("y", obj->getScale().y);
+		auto origin_tag = m_doc->NewElement("origin");
+		transform_tag->InsertEndChild(origin_tag);
+		origin_tag->SetAttribute( "x", obj->getOrigin().x );
+		origin_tag->SetAttribute( "y", obj->getOrigin().y );
+
+		if (obj->hasSprite()) {
+			auto spr_tag = m_doc->NewElement("sprite");
+			obj_tag->InsertEndChild(spr_tag);
+			spr_tag->SetAttribute("id", obj->getSprite().getId());
+		}
+		if (obj->hasArea()) {
+			auto area_tag = m_doc->NewElement("area");
+			obj_tag->InsertEndChild(area_tag);
+			area_tag->SetAttribute("id", obj->getArea().getId());
+		}
+		auto anims_tag = m_doc->NewElement("animations");
+		obj_tag->InsertEndChild(anims_tag);
+		for (auto anim : obj->getAnimations()) {
+			auto anim_tag = m_doc->NewElement("animation");
+			anims_tag->InsertEndChild(anim_tag);
+			anim_tag->SetAttribute("id", anim.second->getId());
+		}
+	}
 }

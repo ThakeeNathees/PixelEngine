@@ -25,6 +25,9 @@ namespace pe
 		readBackground(asset_map);
 		readAnimation(asset_map);
 	}
+	void AssetsReader::readAssets() {
+		readAssets(Assets::s_assets);
+	}
 
 	void AssetsReader::readTextures(std::map<int, Asset*>& asset_map) {
 		auto textures = m_doc->FirstChildElement()->FirstChildElement("textures");

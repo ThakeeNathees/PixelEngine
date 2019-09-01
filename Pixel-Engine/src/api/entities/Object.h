@@ -101,6 +101,7 @@ namespace pe
 
 		// getters  TODO: getPosition<glm::fvec2>()
 		inline const std::string& getName() const override { return m_name; }
+		inline const std::string& getClassName() const { return m_class_name; }
 		inline int getId() const override { return m_id; }
 		inline Type getType() const override { return Type::Object; }
 		inline int getZIndex() const { return m_z_index; }

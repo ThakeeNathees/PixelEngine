@@ -9,8 +9,27 @@
 
 #include "utils/AssetsReader.h"
 
+
+#include <pybind11/embed.h>
+namespace py = pybind11;
+
+class T { public: int x; };
+PYBIND11_EMBEDDED_MODULE(p, m) {
+	py::class_<T>(m, "T")
+		.def_readwrite("x",&T::x);
+	m.def("test", []() {std::cout << "test called" << std::endl; });
+}
+
 namespace pe
 {
+	void Application::test() {
+		py::scoped_interpreter intp;
+
+		auto p = py::module::import("p");
+		p.attr("test")();
+		__debugbreak();
+	}
+
 	sf::Color Application::s_background_color = sf::Color(80, 80, 80, 255);
 
 	Application::Application( const glm::ivec2& window_size, const std::string& title )

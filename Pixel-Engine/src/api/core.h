@@ -13,7 +13,7 @@
 
 // for debug
 #include <iostream>
-#define print(x) std::cout << x << std::endl;
+//#define print(x) std::cout << x << std::endl;
 #define PE_ASSERT(x) if(!x) __debugbreak()
 
 

@@ -15,7 +15,7 @@ public:
 
 
 	inline void recieveSignal(pe::Signal& signal) override {
-		print( "[player]signal recieved " << signal.getName() << " " << signal.getData().id );
+		//print( "[player]signal recieved " << signal.getName() << " " << signal.getData().id );
 	}
 
 	inline void drawCall() const override {

@@ -28,7 +28,7 @@
     <Xml Include="SandBox.peproj.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="register.h">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

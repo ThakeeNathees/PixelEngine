@@ -29,11 +29,7 @@
 void register_classes();
 int main()
 {
-	pe::AssetsWriter w;
-	pe::_peproj p(true);
-	w._setPeproj(p);
-	w.save("SandBox.peproj.xml");
-
+	pe::Application::test();
 	register_classes();
 
 	pe::AssetsReader reader("SandBox.peproj.xml");

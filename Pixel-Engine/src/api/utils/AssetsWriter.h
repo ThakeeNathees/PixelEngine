@@ -1,7 +1,7 @@
 #pragma once
 #include "..//core.h"
 
-#include "..//Scene.h"
+#include "..//Application.h"
 #include "..//misc/Texture.h"
 #include "..//misc/Font.h"
 
@@ -16,6 +16,7 @@ namespace pe
 	public:
 		AssetsWriter();
 
+
 		void save(const char* path);
 		void addAssets();
 		void addAssets(std::map<int, Asset*>& asset_map);
@@ -23,7 +24,10 @@ namespace pe
 		void addAsset(int id);
 		void addAsset(Asset* asset);
 
+		void _setPeproj(const struct _peproj& proj);
+
 	private:		
+		void init();
 		void addTexture( Texture* texture);
 		void addFont( Font* font);
 		void addArea(Area* area);
@@ -32,6 +36,7 @@ namespace pe
 		void addAnimation(Animation* anim);
 		void addObject(Object* obj);
 		void addScene(Scene* scene);
+
 		
 		tinyxml2::XMLDocument* m_doc;
 		

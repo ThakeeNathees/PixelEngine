@@ -11,10 +11,40 @@ namespace pe
 		m_doc = new tinyxml2::XMLDocument();
 		m_doc->LoadFile(path);
 	}
+	AssetsReader::AssetsReader(){
+		m_doc = new tinyxml2::XMLDocument();
+	}
+
 	void AssetsReader::loadFile(const char* path) { m_doc->LoadFile(path); }
 
 	void AssetsReader::printDoc() const {
 		m_doc->Print();
+	}
+
+	void AssetsReader::_readPeproj() {
+		auto root = m_doc->FirstChildElement("Project");
+		m_peproj.title = root->Attribute("title");
+
+		auto size_tag = root->FirstChildElement("window_size");
+		m_peproj.window_size.x = size_tag->IntAttribute("x");
+		m_peproj.window_size.y = size_tag->IntAttribute("y");
+
+		auto pref_tag = root->FirstChildElement("pref");
+		m_peproj.frame_rate = pref_tag->IntAttribute("frame_rate");
+		m_peproj.begin_scene_id = pref_tag->IntAttribute("begin_scene_id");
+		m_peproj.is_debug_mode = pref_tag->BoolAttribute("debug_mode");
+
+		auto assets_tag = root->FirstChildElement("assets");
+		assert( assets_tag->FirstChildElement()!=NULL );
+		for (auto path_tag = assets_tag->FirstChildElement(); path_tag != NULL; path_tag = path_tag->NextSiblingElement()) {
+			m_peproj.assets_paths.push_back( path_tag->GetText() );
+		}
+
+		auto bg_color_tag = root->FirstChildElement("bg_color");
+		m_peproj.default_bg_color.r = bg_color_tag->IntAttribute("r");
+		m_peproj.default_bg_color.g = bg_color_tag->IntAttribute("g");
+		m_peproj.default_bg_color.b = bg_color_tag->IntAttribute("b");
+		m_peproj.default_bg_color.a = bg_color_tag->IntAttribute("a");
 	}
 
 	void AssetsReader::readAssets(std::map<int, Asset*>& asset_map, Application* app){
@@ -194,7 +224,7 @@ namespace pe
 					key.data.sprite_frame = key_tag->IntAttribute("frame");
 					sprite_frame_track->addKey(key);
 				}
-				anim->setSpriteFrameTrack(sprite_frame_track);
+				anim->_setSpriteFrameTrack(sprite_frame_track);
 			}
 
 			auto position_track_tag = anim_tag->FirstChildElement("position_track");
@@ -207,7 +237,7 @@ namespace pe
 					key.data.position.y = key_tag->IntAttribute("y");
 					position_track->addKey(key);
 				}
-				anim->setPositionTrack(position_track);
+				anim->_setPositionTrack(position_track);
 			}
 
 			auto rotation_track_tag = anim_tag->FirstChildElement("rotation_track");
@@ -219,7 +249,7 @@ namespace pe
 					key.data.rotation = key_tag->FloatAttribute("angle");
 					rotation_track->addKey(key);
 				}
-				anim->setRotationTrack(rotation_track);
+				anim->_setRotationTrack(rotation_track);
 			}
 
 			auto scale_track_tag = anim_tag->FirstChildElement("scale_track");
@@ -232,7 +262,7 @@ namespace pe
 					key.data.scale.y = key_tag->IntAttribute("y");
 					scale_track->addKey(key);
 				}
-				anim->setScaleTrack(scale_track);
+				anim->_setScaleTrack(scale_track);
 			}
 			asset_map[anim->m_id] = anim;
 			Assets::s_assets[anim->m_id] = anim;
@@ -246,7 +276,6 @@ namespace pe
 			Object* obj = Assets::constructObj(class_name); // assert here
 			obj->setName(obj_tag->Attribute("name"));
 			obj->m_id = obj_tag->IntAttribute("id");
-			//obj->m_class_name = class_name; already set
 			Object::s_next_id = glm::max(obj->m_id + 1, Object::s_next_id);
 
 			auto prop = obj_tag->FirstChildElement("properties");
@@ -284,7 +313,7 @@ namespace pe
 			}
 			asset_map[obj->m_id] = obj;
 			Assets::s_assets[obj->m_id] = obj;
-			if (app && obj->getPersistence()) app->addPersistenceObject(obj);
+			if (app && obj->isPersistence()) app->addPersistenceObject(obj);
 		}
 	}
 

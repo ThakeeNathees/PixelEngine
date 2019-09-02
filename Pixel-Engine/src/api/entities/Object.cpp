@@ -39,9 +39,11 @@ namespace pe
 	}
 	void Object::drawDebug(sf::RenderTarget& target) const {
 		if (m_applicaton != nullptr && m_applicaton->isDebugMode()) {
-			if ( m_area && m_area->hasShape() ) {
-				target.draw( (m_area->getShape()));
-				drawCircle(m_area->getCentroid(), 3, sf::Color(0, 255, 0, 255));
+			if (m_applicaton->isDebugDrawArea()) {
+				if (m_area && m_area->hasShape()) {
+					target.draw((m_area->getShape()));
+					drawCircle(m_area->getCentroid(), 3, sf::Color(0, 255, 0, 255));
+				}
 			}
 
 			if (m_dbg_origin) {

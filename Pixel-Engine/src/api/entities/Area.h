@@ -78,7 +78,7 @@ namespace pe
 		sf::Vector2f m_centroid;
 		bool m_is_convex = false;
 		sf::Shape* m_shape = nullptr;
-		sf::Color m_fill_color = sf::Color(50, 75, 100, 100); // for debug
+		static sf::Color s_debug_shape_color;
 	};
 
 

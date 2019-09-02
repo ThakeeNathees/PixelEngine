@@ -7,15 +7,37 @@
 #include "utils/math_utils.h"
 #include "misc/Event.h"
 
+#include "utils/AssetsReader.h"
 
 namespace pe
 {
-	Application::Application()
+	sf::Color Application::s_background_color = sf::Color(80, 80, 80, 255);
+
+	Application::Application( const glm::ivec2& window_size, const std::string& title )
 		: m_scene_changed_signal( Signal("scene_changed") )
 	{
-		m_window = new sf::RenderWindow(sf::VideoMode(640, 480), "pixel-engine");
+		m_window = new sf::RenderWindow(sf::VideoMode(window_size.x, window_size.y), title);
 	}
-	Application::~Application() {}
+	Application::Application(const struct _peproj& proj)
+		: m_scene_changed_signal(Signal("scene_changed"))
+	{
+		m_window = new sf::RenderWindow(sf::VideoMode(proj.window_size.x, proj.window_size.y), proj.title);
+		setDebugMode(proj.is_debug_mode);
+		setFrameRate( proj.frame_rate );
+
+		AssetsReader reader;
+		for (auto path : proj.assets_paths) {
+			reader.loadFile( path.c_str());
+			reader.readAssets(this);
+		}
+
+		setCurrentScene( proj.begin_scene_id );
+		setBgColor( proj.default_bg_color );
+	}
+
+	Application::~Application() {
+		if ( m_window ) delete m_window;
+	}
 
 	void Application::addPersistenceObject(Object* obj) {
 		for (auto _obj : m_persistent_objects) {
@@ -24,6 +46,7 @@ namespace pe
 	}
 
 	void Application::addScene(Scene* scene) {
+		assert( scene != nullptr );
 		m_scenes.push_back(scene);
 		scene->setSceneWindowSize({ m_window->getSize().x, m_window->getSize().y });
 		for (auto obj : m_persistent_objects) scene->addObject(obj);
@@ -74,6 +97,7 @@ namespace pe
 
 			Event event;
 			while (m_window->pollEvent(event)) {
+				assert( m_current_scene );
 				for (Object* object : m_current_scene->getObjects()) {
 					object->input(event);
 					if (event.isHandled()) continue;
@@ -106,14 +130,14 @@ namespace pe
 			double interpolation = dt / (1 / m_frame_rate);
 
 			// draw
-			m_window->clear(m_background_color);
+			m_window->clear(s_background_color);
 			if (m_current_scene->getBackground()){
 				Background* bg = m_current_scene->getBackground();
-				if (bg->getVisible()) m_window->draw( *bg );
+				if (bg->isVisible()) m_window->draw( *bg );
 			}
 
 			for (pe::Drawable* drawable : m_current_scene->getDrawables()) {
-				if (drawable->getVisible()) m_window->draw(*drawable);
+				if (drawable->isVisible()) m_window->draw(*drawable);
 			}
 			m_window->display();
 		}

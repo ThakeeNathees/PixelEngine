@@ -24,7 +24,26 @@
 #include "misc/Font.h"
 #include "misc/Drawable.h"
 
-/*************************************/
+/************ Entry-Point ************/
+#ifndef PE_NO_MAIN
+void register_classes();
+int main()
+{
+	pe::AssetsWriter w;
+	pe::_peproj p(true);
+	w._setPeproj(p);
+	w.save("SandBox.peproj.xml");
 
+	register_classes();
+
+	pe::AssetsReader reader("SandBox.peproj.xml");
+	reader._readPeproj();
+	pe::Application app( reader._getPeproj() );
+	
+	app.update();
+
+	return 0;
+}
+#endif
 /*************************************/
 

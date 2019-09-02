@@ -7,6 +7,7 @@ namespace pe
 {
 	int Area::s_area_count = 0;
 	int Area::s_next_id = static_cast<int>(Asset::Type::Area);
+	sf::Color Area::s_debug_shape_color = sf::Color(0, 0, 0, 255);
 
 	Area::~Area() {
 		delete m_shape;
@@ -64,7 +65,9 @@ namespace pe
 		m_shape->setPosition(getPosition());
 		m_shape->setRotation(getRotation());
 		m_shape->setScale(getScale());
-		m_shape->setFillColor(m_fill_color);
+		m_shape->setOutlineThickness(1);
+		m_shape->setOutlineColor(s_debug_shape_color);
+		m_shape->setFillColor(sf::Color(0,0,0,0));
 	}
 
 

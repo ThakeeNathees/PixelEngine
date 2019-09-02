@@ -106,8 +106,8 @@ namespace pe
 		inline int getId() const override { return m_id; }
 		inline Type getType() const override { return Type::Object; }
 		inline int getZIndex() const { return m_z_index; }
-		inline bool getVisible() const { return m_visible; }
-		inline bool getPersistence() const { return m_persistence; }
+		inline bool isVisible() const { return m_visible; }
+		inline bool isPersistence() const { return m_persistence; }
 
 		inline Application& getApplication() const { assert(m_applicaton != nullptr); return *m_applicaton; }
 		inline Scene& getScene() const { assert(m_scene != nullptr);		return *m_scene; }

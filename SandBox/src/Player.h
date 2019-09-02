@@ -48,7 +48,7 @@ public:
 			move(0, 2);
 			if (npc && getArea().isIntersecting(npc->getArea())) move(0,-2);
 		}
-		// todo stop any animation
+
 
 	}
 

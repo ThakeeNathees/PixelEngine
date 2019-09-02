@@ -1,0 +1,8 @@
+<Project title="Pixel-Engine">
+    <window_size x="640" y="480"/>
+    <pref frame_rate="30" begin_scene_id="70000" debug_mode="true"/>
+    <assets>
+        <path>assets.xml</path>
+    </assets>
+    <bg_color r="80" g="80" b="80" a="255"/>
+</Project>

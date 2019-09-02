@@ -43,22 +43,30 @@ namespace pe
 	}
 	/// adding assets
 
-	void AssetsWriter::save(const char* path) { m_doc->SaveFile(path); }
+	void AssetsWriter::save(const char* path) {
+		m_doc->SaveFile(path); 
+		m_doc->Clear();
+		init();
+	}
 
 	AssetsWriter::AssetsWriter() {
 		m_doc = new tinyxml2::XMLDocument();
+		init();
+	}
 
+	void AssetsWriter::init()
+	{
 		auto assets = m_doc->NewElement("assets");
 		m_doc->InsertFirstChild(assets);
 
-		auto textures		= m_doc->NewElement("textures");
-		auto fonts			= m_doc->NewElement("fonts");
-		auto areas			= m_doc->NewElement("areas");
-		auto sprites		= m_doc->NewElement("sprites");
-		auto backgrounds	= m_doc->NewElement("backgrounds");
-		auto animations		= m_doc->NewElement("animations");
-		auto objects		= m_doc->NewElement("objects");
-		auto scenes			= m_doc->NewElement("scenes");
+		auto textures = m_doc->NewElement("textures");
+		auto fonts = m_doc->NewElement("fonts");
+		auto areas = m_doc->NewElement("areas");
+		auto sprites = m_doc->NewElement("sprites");
+		auto backgrounds = m_doc->NewElement("backgrounds");
+		auto animations = m_doc->NewElement("animations");
+		auto objects = m_doc->NewElement("objects");
+		auto scenes = m_doc->NewElement("scenes");
 		// tile map, ...
 
 		assets->InsertEndChild(textures);
@@ -70,7 +78,43 @@ namespace pe
 		assets->InsertEndChild(objects);
 		assets->InsertEndChild(scenes);
 	}
+	//*
+	void AssetsWriter::_setPeproj( const struct _peproj& proj) {
+		m_doc->Clear();
 
+		auto root = m_doc->NewElement("Project");
+		root->SetAttribute("title", proj.title.c_str());
+		m_doc->InsertFirstChild(root);
+
+		auto size_tag = m_doc->NewElement("window_size");
+		root->InsertEndChild(size_tag);
+		size_tag->SetAttribute("x",proj.window_size.x);
+		size_tag->SetAttribute("y",proj.window_size.y);
+
+		auto pref_tag = m_doc->NewElement("pref");
+		root->InsertEndChild(pref_tag);
+		pref_tag->SetAttribute("frame_rate", proj.frame_rate);
+		pref_tag->SetAttribute("begin_scene_id", proj.begin_scene_id);
+		pref_tag->SetAttribute("debug_mode", proj.is_debug_mode);
+		
+		auto assets_tag = m_doc->NewElement("assets");
+		root->InsertEndChild(assets_tag);
+		for (auto path : proj.assets_paths) {
+			auto path_tag = m_doc->NewElement("path");
+			assets_tag->InsertEndChild(path_tag);
+			path_tag->SetText(path.c_str());
+		}
+
+		auto bg_color = m_doc->NewElement("bg_color");
+		root->InsertEndChild(bg_color);
+		bg_color->SetAttribute("r", proj.default_bg_color.r);
+		bg_color->SetAttribute("g", proj.default_bg_color.g);
+		bg_color->SetAttribute("b", proj.default_bg_color.b);
+		bg_color->SetAttribute("a", proj.default_bg_color.a);
+	}
+	//*/
+
+	////////////////////////////////////////////////////////////////////////////////////
 	void AssetsWriter::addTexture(Texture* texture) {
 		auto textures = m_doc->FirstChildElement()->FirstChildElement("textures");
 		auto texture_tag = m_doc->NewElement("texture");
@@ -153,8 +197,7 @@ namespace pe
 
 		auto prop = m_doc->NewElement("properties");
 		bg_tag->InsertEndChild(prop);
-		prop->SetAttribute("visible", bg->getVisible());
-		prop->SetAttribute("smooth", bg->getSmooth());
+		prop->SetAttribute("visible", bg->isVisible());
 
 		auto speed_tag = m_doc->NewElement("move_speed");
 		bg_tag->InsertEndChild(speed_tag);
@@ -183,8 +226,8 @@ namespace pe
 		auto prop = m_doc->NewElement("properties");
 		anim_tag->InsertEndChild(prop);
 		prop->SetAttribute("time_length", anim->getTimeLength());
-		prop->SetAttribute("loop", anim->getLoop());
-		prop->SetAttribute("reverse", anim->getReverse());
+		prop->SetAttribute("loop", anim->isLoop());
+		prop->SetAttribute("reverse", anim->isReverse());
 
 		if (anim->getObject()) {
 			auto obj_tag = m_doc->NewElement("object");
@@ -196,30 +239,30 @@ namespace pe
 		anim_tag->InsertEndChild(begin_transform_tag);
 		auto begin_pos_tag = m_doc->NewElement("position");
 		begin_transform_tag->InsertEndChild(begin_pos_tag);
-		begin_pos_tag->SetAttribute("x", anim->getBeginPosition().x);
-		begin_pos_tag->SetAttribute("y", anim->getBeginPosition().y);
+		begin_pos_tag->SetAttribute("x", anim->_getBeginPosition().x);
+		begin_pos_tag->SetAttribute("y", anim->_getBeginPosition().y);
 		auto begin_rotation_tag = m_doc->NewElement("rotation");
 		begin_transform_tag->InsertEndChild(begin_rotation_tag);
-		begin_rotation_tag->SetAttribute("angle", anim->getBeginRotation());
+		begin_rotation_tag->SetAttribute("angle", anim->_getBeginRotation());
 		auto begin_scale_tag = m_doc->NewElement("scale");
 		begin_transform_tag->InsertEndChild(begin_scale_tag);
-		begin_scale_tag->SetAttribute("x", anim->getBeginScale().x);
-		begin_scale_tag->SetAttribute("y", anim->getBeginScale().y);
+		begin_scale_tag->SetAttribute("x", anim->_getBeginScale().x);
+		begin_scale_tag->SetAttribute("y", anim->_getBeginScale().y);
 		
-		if (anim->getSpriteFrameTrack()) {
+		if (anim->_getSpriteFrameTrack()) {
 			auto sprite_frame_track_tag = m_doc->NewElement("sprite_frame_track");
 			anim_tag->InsertEndChild(sprite_frame_track_tag);
-			for (auto key : anim->getSpriteFrameTrack()->getKeys()) {
+			for (auto key : anim->_getSpriteFrameTrack()->getKeys()) {
 				auto key_tag = m_doc->NewElement("key");
 				sprite_frame_track_tag->InsertEndChild(key_tag);
 				key_tag->SetAttribute("time", key.time);
 				key_tag->SetAttribute("frame", key.data.sprite_frame);
 			}
 		}
-		if (anim->getPositionTrack()) {
+		if (anim->_getPositionTrack()) {
 			auto position_track_tag = m_doc->NewElement("position_track");
 			anim_tag->InsertEndChild(position_track_tag);
-			for (auto key : anim->getPositionTrack()->getKeys()) {
+			for (auto key : anim->_getPositionTrack()->getKeys()) {
 				auto key_tag = m_doc->NewElement("key");
 				position_track_tag->InsertEndChild(key_tag);
 				key_tag->SetAttribute("time", key.time);
@@ -227,20 +270,20 @@ namespace pe
 				key_tag->SetAttribute("y", key.data.position.y);
 			}
 		}
-		if (anim->getRotationTrack()) {
+		if (anim->_getRotationTrack()) {
 			auto rotation_track_tag = m_doc->NewElement("rotation_track");
 			anim_tag->InsertEndChild(rotation_track_tag);
-			for (auto key : anim->getRotationTrack()->getKeys()) {
+			for (auto key : anim->_getRotationTrack()->getKeys()) {
 				auto key_tag = m_doc->NewElement("key");
 				rotation_track_tag->InsertEndChild(key_tag);
 				key_tag->SetAttribute("time", key.time);
 				key_tag->SetAttribute("angle", key.data.rotation);
 			}
 		}
-		if (anim->getScaleTrack()) {
+		if (anim->_getScaleTrack()) {
 			auto scale_track_tag = m_doc->NewElement("scale_track");
 			anim_tag->InsertEndChild(scale_track_tag);
-			for (auto key : anim->getScaleTrack()->getKeys()) {
+			for (auto key : anim->_getScaleTrack()->getKeys()) {
 				auto key_tag = m_doc->NewElement("key");
 				scale_track_tag->InsertEndChild(key_tag);
 				key_tag->SetAttribute("time", key.time);
@@ -262,8 +305,8 @@ namespace pe
 		auto prop = m_doc->NewElement("properties");
 		obj_tag->InsertEndChild(prop);
 		prop->SetAttribute("z_index", obj->getZIndex());
-		prop->SetAttribute("visible", obj->getVisible());
-		prop->SetAttribute("persistence", obj->getPersistence());
+		prop->SetAttribute("visible", obj->isVisible());
+		prop->SetAttribute("persistence", obj->isPersistence());
 
 		auto transform_tag = m_doc->NewElement("transform");
 		obj_tag->InsertEndChild(transform_tag);

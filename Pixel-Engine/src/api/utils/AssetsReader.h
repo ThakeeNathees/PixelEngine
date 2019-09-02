@@ -15,11 +15,16 @@ namespace pe
 	class PIXEL_ENGINE_API AssetsReader
 	{
 	public:
+
 		AssetsReader(const char* path);
+		AssetsReader();
 		void loadFile(const char* path);
 		void readAssets(Application* app=nullptr);
 		void readAssets(std::map<int, Asset*>& asset_map, Application* app = nullptr);
 		void printDoc() const;
+
+		void _readPeproj();
+		inline const struct _peproj& _getPeproj() { return m_peproj; }
 
 	private:
 
@@ -32,6 +37,8 @@ namespace pe
 		void readObject(std::map<int, Asset*>& asset_map, Application* app = nullptr);
 		void readScene(std::map<int, Asset*>& asset_map, Application* app=nullptr);
 
+
 		tinyxml2::XMLDocument* m_doc;
+		struct _peproj m_peproj;
 	};
 }

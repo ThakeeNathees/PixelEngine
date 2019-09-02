@@ -46,9 +46,9 @@ namespace pe
 		inline Type getType() const override { return Type::Background; }
 
 
-		inline bool getVisible() const { return m_visible; }
-		inline bool getRepeat() const { return m_texture->isRepeated(); }
-		inline bool getSmooth() const { return m_smooth; }
+		inline bool isVisible() const { return m_visible; }
+		inline bool isRepeat() const { return m_texture->isRepeated(); }
+		inline bool isSmooth() const { return m_texture->isSmooth(); }
 		inline Texture& getTexture() { assert(m_texture); return *m_texture; }
 		inline const glm::ivec2& getMoveSpeed() const { return m_move_speed; }
 
@@ -69,7 +69,6 @@ namespace pe
 		friend class Application;
 		Texture* m_texture = nullptr;
 		bool m_visible = true;
-		bool m_smooth = false;
 		glm::ivec2 m_move_speed = glm::ivec2(0,0);
 	};
 }

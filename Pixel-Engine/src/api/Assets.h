@@ -1,15 +1,7 @@
 #pragma once
 #include "core.h"
+#include "Scene.h"
 
-#include "entities/Sprite.h"
-#include "entities/Background.h"
-#include "entities/Animation.h"
-#include "entities/Area.h"
-
-#include "misc/Texture.h"
-#include "misc/Font.h"
-
-#include "utils/AssetsWriter.h"
 
 /*
 assets (fonts, areas, aprites, ...) are static to class Assets

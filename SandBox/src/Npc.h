@@ -10,13 +10,8 @@ class Npc : public pe::Object
 {
 public:
 	void init() override {
-
 		font.loadFromFile("res/Indie_Flower/IndieFlower-Regular.ttf");
 		text.setFont(font);
-		text.setString("test");
-		text.setCharacterSize(24);
-		text.setFillColor(sf::Color(0,0,0,255));
-		
 		setArea();
 	}
 
@@ -26,8 +21,6 @@ public:
 	}
 
 	void process(double dt) override {
-		f = 1 / dt;
-		text.setString(std::to_string(f)+std::string( " fps") );
 		setZIndex(getPosition().y);
 		auto mouse = sf::Mouse::getPosition(getApplication().getWindow());
 		setPosition(mouse);

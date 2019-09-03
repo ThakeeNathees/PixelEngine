@@ -1,8 +1,6 @@
 #pragma once
 #include "..//core.h"
-
 #include "..//misc/Texture.h"
-#include "Asset.h"
 
 namespace pe
 {

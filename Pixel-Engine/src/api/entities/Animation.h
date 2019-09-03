@@ -77,12 +77,14 @@ namespace pe
 			s_anim_count++;
 			m_id = s_next_id++;
 			m_name = std::string("anim_").append(std::to_string(m_id));
+			m_anim_end_signal.setData(Signal::Data(m_name.c_str()));
 		}
 		inline Animation(std::string name, float time_length = 1) 
 			: m_name(name)
 		{
 			s_anim_count++;
 			m_id = s_next_id++;
+			m_anim_end_signal.setData(Signal::Data(m_name.c_str()));
 		}
 
 		inline ~Animation() {
@@ -153,7 +155,7 @@ namespace pe
 		bool m_done_anim = false;
 		
 		sf::Clock m_clock;
-		float m_time_length;
+		float m_time_length =0;
 		float m_time_pointer=0; // points where the anim is now
 
 		glm::fvec2 m_begin_position = glm::fvec2(0,0);

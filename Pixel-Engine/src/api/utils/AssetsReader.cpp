@@ -33,12 +33,23 @@ namespace pe
 		m_peproj.frame_rate = pref_tag->IntAttribute("frame_rate");
 		m_peproj.begin_scene_id = pref_tag->IntAttribute("begin_scene_id");
 		m_peproj.is_debug_mode = pref_tag->BoolAttribute("debug_mode");
+		auto s = pref_tag->BoolAttribute("no_console");
+		m_peproj.no_console_window = pref_tag->BoolAttribute("no_console");
 
 		auto assets_tag = root->FirstChildElement("assets");
 		assert( assets_tag->FirstChildElement()!=NULL );
 		for (auto path_tag = assets_tag->FirstChildElement(); path_tag != NULL; path_tag = path_tag->NextSiblingElement()) {
 			m_peproj.assets_paths.push_back( path_tag->GetText() );
 		}
+
+		auto window_icon_tag = root->FirstChildElement("window_icon");
+		if (window_icon_tag) {
+			m_peproj.window_icon_texture_id = window_icon_tag->IntAttribute("texture_id");
+		}
+		else {
+			m_peproj.window_icon_texture_id = -1;
+		}
+
 
 		auto bg_color_tag = root->FirstChildElement("bg_color");
 		m_peproj.default_bg_color.r = bg_color_tag->IntAttribute("r");

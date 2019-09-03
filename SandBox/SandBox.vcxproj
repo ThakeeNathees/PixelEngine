@@ -154,6 +154,9 @@
     <Xml Include="SandBox.peproj.xml" />
     <Xml Include="test.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="py_test.py" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

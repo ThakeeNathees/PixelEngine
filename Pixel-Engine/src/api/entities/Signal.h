@@ -26,7 +26,6 @@ namespace pe
 		inline void clear() { m_recievers.clear(); }
 
 		inline void setData(const Data& data) { m_data = data; }
-		inline void setData(int data) { m_data.data_int = data; }
 
 		// getters
 		inline std::vector<Object*>& getRecievers() { return m_recievers; }
@@ -37,18 +36,28 @@ namespace pe
 
 		union Data {
 		public:
-			inline Data() {};
-			char data_char;
-			int data_int;
-			int id;
-			short data_short;
-			long data_long;
-			float data_float;
-			double data_double;
-
-			glm::fvec2 data_glmfvec2;
-			sf::Vector2f data_sfvec2f;
+			Data() { double_data = 0; };
+			Data(int data) { int_data = data; }
+			Data(const char* data) { str_data = data; }
+			Data(short data) { short_data = data; }
+			Data(long data) { long_data = data; }
+			Data(float data) { float_data = data; }
+			Data(double data) { double_data = data; }
+			Data(glm::fvec2 data) { glmvec_data = data; }
+			Data(sf::Vector2f data) { sfvec_data = data; }
 			
+			const char* str_data;
+			char char_data;
+			int int_data;
+			short short_data;
+			long long_data;
+			float float_data;
+			double double_data;
+
+			int id;
+			const char* anim_name;
+			glm::fvec2 glmvec_data;
+			sf::Vector2f sfvec_data;
 		};
 
 	private:

@@ -2,7 +2,8 @@
     <textures>
         <texture name="tex_0" id="0" smooth="false" repeat="true">res/logo.png</texture>
         <texture name="tex_1" id="1" smooth="false" repeat="false">res/sheet.png</texture>
-        <texture name="tex_1" id="2" smooth="false" repeat="true">res/backgrounds/grass.png</texture>
+        <texture name="tex_2" id="2" smooth="false" repeat="true">res/backgrounds/grass.png</texture>
+		<texture name="tex_3" id="3" smooth="false" repeat="true">res/win_icon.png</texture>
     </textures>
     <fonts/>
     <areas>
@@ -139,7 +140,7 @@
     <scenes>
         <scene name="scene1" id="70000">
             <window_size width="640" height="480"/>
-            <background id="40001"/>
+          <!--<background id="40001"/>-->
             <objects>
                 <object id="60000"/>
                 <object id="60001"/>

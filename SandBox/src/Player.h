@@ -28,7 +28,6 @@ public:
 		int spd = 10;
 		setZIndex( getPosition().y );
 		if (pe::isKeyPressed('W')) {
-			getApplication().setCurrentScene(70001);
 			getAnimation("walk_up").play();
 			move(0,-2);
 			if ( npc && getArea().isIntersecting(npc->getArea())) move(0,2);

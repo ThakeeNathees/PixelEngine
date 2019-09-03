@@ -2,7 +2,6 @@
 #include "AssetsWriter.h"
 
 #include "tinyxml2.h"
-#include "..//Assets.h"
 
 
 namespace pe
@@ -96,6 +95,7 @@ namespace pe
 		pref_tag->SetAttribute("frame_rate", proj.frame_rate);
 		pref_tag->SetAttribute("begin_scene_id", proj.begin_scene_id);
 		pref_tag->SetAttribute("debug_mode", proj.is_debug_mode);
+		pref_tag->SetAttribute("no_console", proj.no_console_window);
 		
 		auto assets_tag = m_doc->NewElement("assets");
 		root->InsertEndChild(assets_tag);
@@ -103,6 +103,12 @@ namespace pe
 			auto path_tag = m_doc->NewElement("path");
 			assets_tag->InsertEndChild(path_tag);
 			path_tag->SetText(path.c_str());
+		}
+		int id = proj.window_icon_texture_id;
+		if ( id  >= 0 ) {
+			auto window_icon_tag = m_doc->NewElement("window_icon");
+			root->InsertEndChild(window_icon_tag);
+			window_icon_tag->SetAttribute("texture_id", proj.window_icon_texture_id);
 		}
 
 		auto bg_color = m_doc->NewElement("bg_color");

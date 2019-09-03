@@ -12,22 +12,28 @@
 
 #include <pybind11/embed.h>
 namespace py = pybind11;
+// test
+#include "bindings/python/py_bind_test.h"
 
-class T { public: int x; };
-PYBIND11_EMBEDDED_MODULE(p, m) {
-	py::class_<T>(m, "T")
-		.def_readwrite("x",&T::x);
-	m.def("test", []() {std::cout << "test called" << std::endl; });
-}
+
 
 namespace pe
 {
 	void Application::test() {
+		//FreeConsole();
+		//*
 		py::scoped_interpreter intp;
-
-		auto p = py::module::import("p");
-		p.attr("test")();
-		__debugbreak();
+		try
+		{		
+			py::module mod = py::module::import("py_test");
+			mod.attr("func")();
+		}
+		catch (const std::exception& e )
+		{
+			PE_PRINT(e.what());
+		}
+		while (1);
+		//*/
 	}
 
 	sf::Color Application::s_background_color = sf::Color(80, 80, 80, 255);
@@ -36,18 +42,30 @@ namespace pe
 		: m_scene_changed_signal( Signal("scene_changed") )
 	{
 		m_window = new sf::RenderWindow(sf::VideoMode(window_size.x, window_size.y), title);
+		m_window->setFramerateLimit(1/30);
 	}
 	Application::Application(const struct _peproj& proj)
 		: m_scene_changed_signal(Signal("scene_changed"))
 	{
+		m_peproj = proj;
 		m_window = new sf::RenderWindow(sf::VideoMode(proj.window_size.x, proj.window_size.y), proj.title);
 		setDebugMode(proj.is_debug_mode);
 		setFrameRate( proj.frame_rate );
+		m_window->setFramerateLimit(1/proj.frame_rate);
+		if (m_peproj.no_console_window) FreeConsole();
+		else std::cout << "[pe] set no console window in preference to run without console window" << std::endl;
 
 		AssetsReader reader;
 		for (auto path : proj.assets_paths) {
 			reader.loadFile( path.c_str());
 			reader.readAssets(this);
+		}
+		
+		int texture_id = proj.window_icon_texture_id;
+		if (texture_id >= 0) {
+			assert( Assets::hasAsset(texture_id) );
+			auto tex = Assets::getAsset<Texture>(texture_id);
+			m_window->setIcon( tex->getSize().x,tex->getSize().y, tex->copyToImage().getPixelsPtr() );
 		}
 
 		setCurrentScene( proj.begin_scene_id );
@@ -125,7 +143,7 @@ namespace pe
 			// process
 			dt += clock.getElapsedTime().asMicroseconds() / 1000000.0;
 			if (dt >= 1 / m_frame_rate) {
-
+				if (m_is_debug_mode) m_window->setTitle(m_peproj.title + std::string(" | DebugMode | fps : ").append(std::to_string(1 / dt)));
 				for (Timer* timer : m_current_scene->m_timers) {
 					timer->update();
 				}

@@ -1,15 +1,12 @@
 #pragma once
 #include "..//core.h"
-
 #include "..//Application.h"
-#include "..//misc/Texture.h"
-#include "..//misc/Font.h"
 
 namespace tinyxml2{ class XMLDocument; }
+namespace pe { class Assets; struct _peproj; }
 
 namespace pe
 {
-	class Assets;
 
 	class PIXEL_ENGINE_API AssetsWriter
 	{

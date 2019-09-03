@@ -32,4 +32,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="py_test.py" />
+  </ItemGroup>
 </Project>

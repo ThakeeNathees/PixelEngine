@@ -1,8 +1,9 @@
-<Project title="Pixel-Engine">
+<Project title="SandBox">
     <window_size x="640" y="480"/>
-    <pref frame_rate="30" begin_scene_id="70000" debug_mode="true"/>
+    <pref frame_rate="30" begin_scene_id="70000" debug_mode="true" no_console="false"/>
     <assets>
         <path>assets.xml</path>
     </assets>
+    <window_icon texture_id="3"/>
     <bg_color r="80" g="80" b="80" a="255"/>
 </Project>

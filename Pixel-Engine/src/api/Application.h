@@ -1,7 +1,6 @@
 #pragma once
 #include "core.h"
 
-#include "Scene.h"
 #include "Assets.h"
 
 namespace pe {
@@ -11,11 +10,13 @@ namespace pe {
 			if (is_default) assets_paths.push_back("assets.xml");
 		}
 		glm::ivec2 window_size = glm::ivec2(640, 480);
-		std::string title = "Pixel-Engine";
+		std::string title = "Pixel-Engine-Project";
 		int frame_rate = 30;
 		int begin_scene_id = static_cast<int>(Asset::Type::Scene);
 		bool is_debug_mode = true;
+		bool no_console_window = false;
 		std::vector<std::string> assets_paths;
+		int window_icon_texture_id = -1;
 		sf::Color default_bg_color = sf::Color(80, 80, 80, 255);
 	};
 
@@ -51,6 +52,8 @@ namespace pe {
 
 	private:
 
+		struct _peproj m_peproj;
+
 		void setCurrentScene(Scene* scene);
 		double m_frame_rate = 30.0;
 		bool m_is_debug_mode = true;
@@ -61,7 +64,6 @@ namespace pe {
 		sf::RenderWindow* m_window = nullptr;
 		std::vector<Object*> m_persistent_objects;
 		std::vector<Scene*> m_scenes;
-
 		static sf::Color s_background_color;
 	};
 }

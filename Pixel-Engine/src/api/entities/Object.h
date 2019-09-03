@@ -2,16 +2,12 @@
 #include "..//core.h"
 
 
-#include "Asset.h"
 #include "Sprite.h"
 #include "Area.h"
-#include "Signal.h"
 #include "Animation.h"
-#include "Timer.h"
 
-#include "..//Assets.h"
+
 #include "..//misc/Event.h"
-#include "..//misc/Texture.h"
 #include "..//misc/Drawable.h"
 
 namespace pe

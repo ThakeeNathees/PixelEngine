@@ -1,10 +1,11 @@
 #pragma once
 #include "core.h"
 
+// all the assets are included
 #include "entities/Object.h"
 #include "entities/Background.h"
+#include "misc/Font.h"
 
-#include "misc/Drawable.h"
 
 namespace pe
 {

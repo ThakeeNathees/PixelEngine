@@ -2,8 +2,6 @@
 #include "..//core.h"
 
 #include "..//Application.h"
-#include "..//misc/Texture.h"
-#include "..//misc/Font.h"
 
 
 namespace tinyxml2 { class XMLDocument; }

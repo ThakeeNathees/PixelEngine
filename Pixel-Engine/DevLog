@@ -4,28 +4,19 @@
 	
 HIGHT PRIORITY
 	time map
+	pybind
 	camera
-	keyboard key define in header
-	magical number store xml
-	create globle assets and global objects for presistance between scene
 
 LOW PRIORITY
+	keyboard key define in header
+	pe::text
+	change assert to trow and chatch them with TCP socket
 	add object m_process_priority
+	peproj add mini asset for no setup run
+	scene window size delete in xml
 	remove persistence object from vector
 	timel map -> application draw a vector of drawable of current scene
 	nexeScene(), previousScene() => scene stack
-	consider getTimer, getSomething => returns pointer
-	pe::Event
-	global assets for holding Animations sprites bg ... and delete on time and also global objects
-	object hasTimer("name"); getTimer("name");
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))  -> if( pe::isKeyPressed('A') )
-	log system (spdlog)
-	sprite property editor
-	editor: filetree
-	xml serialize
-	editor: renderwindow
-		mouse capture
-		currently selected sprite(square area) -> moveable sprites 
 
 # Logs ########################################################################
 

@@ -29,15 +29,14 @@
 void register_classes();
 int main()
 {
-	pe::Application::test();
-	register_classes();
+	pe::Application::test(); // for testing
 
+	register_classes();
+	
 	pe::AssetsReader reader("SandBox.peproj.xml");
 	reader._readPeproj();
-	pe::Application app( reader._getPeproj() );
-	
+	pe::Application app(reader._getPeproj());
 	app.update();
-
 	return 0;
 }
 #endif

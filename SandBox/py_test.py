@@ -1,14 +1,8 @@
-py = "[python]"
-print(py,"called print from py_test.py")
 
 import pixel_engine as pe
 
-t = pe.T();
-t.x = 3;
-tuser = pe.Tuser();
+v1 = pe.Vect(2,3)
+v2 = pe.Vect(2,3)
 
-ans = tuser.callWithT(t);
-print(py, "ans =", ans.x)
+x = 2;
 
-def func():
-	print(py,"func called")

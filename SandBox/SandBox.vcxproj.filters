@@ -28,11 +28,11 @@
     <Xml Include="SandBox.peproj.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="register.h">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <None Include="py_test.py" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="py_test.py" />
+    <ClCompile Include="register.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

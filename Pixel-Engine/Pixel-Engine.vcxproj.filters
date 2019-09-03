@@ -57,9 +57,6 @@
     <ClCompile Include="vender\tinyxml2\tinyxml2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\bindings\python\test_py_binding.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\api\core.h">
@@ -131,7 +128,10 @@
     <ClInclude Include="vender\tinyxml2\tinyxml2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\bindings\python\py_bind_test.h">
+    <ClInclude Include="src\bindings\python\pybind.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bindings\python\py_Vect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -13,27 +13,31 @@
 #include <pybind11/embed.h>
 namespace py = pybind11;
 // test
-#include "bindings/python/py_bind_test.h"
+#include "bindings/python/pybind.h"
 
 
 
 namespace pe
 {
 	void Application::test() {
-		//FreeConsole();
-		//*
+
 		py::scoped_interpreter intp;
 		try
 		{		
-			py::module mod = py::module::import("py_test");
-			mod.attr("func")();
+			//py::module mod = py::module::import("py_test");
+			py::exec("import pixel_engine as pe");
+			while (true) {
+				try
+				{
+					py::exec("print('>>> ', end='')");
+					py::exec("_pe_cmd = input()");
+					py::exec("if _pe_cmd[:6]!= 'print(':\n\ttry:\n\t\tprint(eval(_pe_cmd))\n\texcept:\n\t\tpass");
+					py::exec("exec(_pe_cmd)");
+				}
+				catch (const std::exception& e) { PE_PRINT(e.what()); }
+			}
 		}
-		catch (const std::exception& e )
-		{
-			PE_PRINT(e.what());
-		}
-		while (1);
-		//*/
+		catch (const std::exception& e ) { PE_PRINT(e.what()); }
 	}
 
 	sf::Color Application::s_background_color = sf::Color(80, 80, 80, 255);
@@ -52,8 +56,10 @@ namespace pe
 		setDebugMode(proj.is_debug_mode);
 		setFrameRate( proj.frame_rate );
 		m_window->setFramerateLimit(1/proj.frame_rate);
+#ifdef PE_PLATFORM_WINDOWS
 		if (m_peproj.no_console_window) FreeConsole();
 		else std::cout << "[pe] set no console window in preference to run without console window" << std::endl;
+#endif
 
 		AssetsReader reader;
 		for (auto path : proj.assets_paths) {

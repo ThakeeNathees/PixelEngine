@@ -11,7 +11,7 @@ struct py_Vect : public sf::Vector2f
 	py_Vect() :sf::Vector2f(0,0) {}
 	py_Vect(float _x, float _y): sf::Vector2f(_x, _y) {}
 	
-	const py::str str() const {
+	const py::str py_str() const {
 		return py::str( std::string("(").append(std::to_string(x)).append(", ").append(std::to_string(y)).append(")").c_str() );
 	}
 
@@ -61,7 +61,7 @@ void register_vect(py::module& m)
 		.def_readwrite("x", &py_Vect::x)
 		.def_readwrite("y", &py_Vect::y)
 
-		.def("__str__", &py_Vect::str, "some help")
+		.def("__str__", &py_Vect::py_str)
 
 		.def("__add__", &py_Vect::operator+)
 		.def("__sub__", &py_Vect::operator-)

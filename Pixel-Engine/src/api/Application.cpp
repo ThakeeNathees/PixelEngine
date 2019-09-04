@@ -31,16 +31,18 @@ namespace pe
 			while (true) {
 				try
 				{
+					//*
+					while (app.getWindow().pollEvent(eve));
 					py::module mod = py::module::import("py_test");
-					auto shape = mod.attr("shape").cast<py_Shape>();
+					auto& spr = mod.attr("spr").cast<py_Sprite&>();
 
 					while (app.getWindow().pollEvent(eve));
 					app.getWindow().clear(sf::Color(12, 21, 34));
-					shape.setFillColor(sf::Color(32, 212, 12));
-					app.getWindow().draw(shape);
+					app.getWindow().draw(spr);
 					app.getWindow().display();
-					mod.reload();
-					/*py::exec("print('>>> ', end='')");
+					mod.reload();//*/
+					/*
+					py::exec("print('>>> ', end='')");
 					py::exec("_pe_cmd = input()");
 					py::exec("if _pe_cmd[:6]!= 'print(':\n\ttry:\n\t\tprint(eval(_pe_cmd))\n\texcept:\n\t\tpass");
 					py::exec("exec(_pe_cmd)");//*/

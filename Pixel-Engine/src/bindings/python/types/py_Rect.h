@@ -5,11 +5,17 @@ namespace py = pybind11;
 
 #include "py_Vect.h"
 
-struct py_Rect
+struct py_Rect : sf::FloatRect
 {
 	float x, y, w, h;
 
+	const sf::IntRect& asSfIntRect() const { return static_cast<sf::IntRect>(*this); }
+
 	py_Rect() : x(0), y(0), w(0), h(0) {}
+
+	py_Rect(sf::FloatRect rect) : sf::FloatRect(rect) {}
+	py_Rect(sf::IntRect rect) : sf::FloatRect(rect) {}
+
 	py_Rect(float _x, float _y, float _w, float _h) : x(_x), y(_y), w(_w), h(_h) {}
 	py_Rect(const py_Vect& position, const py_Vect& size) : x(position.x), y(position.y), w(size.x), h(size.y) {}
 

@@ -1,4 +1,4 @@
-#directories
+###directories
 .vs/
 bin/Debug-x64/
 bin/Release-x64/
@@ -6,7 +6,12 @@ bin-int/
 vender/SFML-2.5.1/examples/
 vender/SFML-2.5.1/doc/
 vender/SFML-2.5.1/lib/cmake/
+#SandBox/src
 
-#files
+#pycache
+SandBox/__pycache__/
 
+
+###files
 *.psd
+#SandBox/test.xml

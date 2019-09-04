@@ -85,6 +85,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)vender\tinyxml2;$(SolutionDir)Pixel-Engine\src\api;$(SolutionDir)vender\glm;$(SolutionDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PE_PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,6 +129,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)vender\tinyxml2;$(SolutionDir)Pixel-Engine\src\api;$(SolutionDir)vender\glm;$(SolutionDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PE_PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="register.cpp" />
+    <ClCompile Include="src\Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pixel-Engine\Pixel-Engine.vcxproj">

@@ -134,6 +134,15 @@
     <ClInclude Include="src\bindings\python\py_Vect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\bindings\python\py_Rect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bindings\python\py_Shape.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bindings\python\py_Color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="DevLog" />

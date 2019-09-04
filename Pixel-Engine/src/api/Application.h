@@ -23,7 +23,7 @@ namespace pe {
 	class PIXEL_ENGINE_API Application
 	{
 	public:
-		static void test();
+		static void test(Application& app);
 
 		Application(const glm::ivec2& window_size, const std::string& title );
 		Application(const struct _peproj& proj);

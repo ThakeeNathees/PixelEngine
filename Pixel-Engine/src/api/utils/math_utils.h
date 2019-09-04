@@ -60,7 +60,7 @@ namespace pe
 	T1 applyTransform(T2 point, const sf::Transformable & shape) {
 		sf::Vector2f transformed = shape.getTransform().transformPoint(sf::Vector2f(point.x, point.y));
 		return T1(transformed.x, transformed.y);
-		/* similer code of mine
+		/* similer
 		point -= shape.getOrigin();
 		point.x *= shape.getScale().x;
 		point.y *= shape.getScale().y;

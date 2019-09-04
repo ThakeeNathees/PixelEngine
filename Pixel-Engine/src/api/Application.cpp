@@ -19,25 +19,37 @@ namespace py = pybind11;
 
 namespace pe
 {
-	void Application::test() {
-
+	void Application::test( Application& app ) {
+		
+		//*
+		//PE_PRINT("TEST");
 		py::scoped_interpreter intp;
 		try
-		{		
-			//py::module mod = py::module::import("py_test");
+		{
 			py::exec("import pixel_engine as pe");
+			sf::Event eve;
 			while (true) {
 				try
 				{
-					py::exec("print('>>> ', end='')");
+					py::module mod = py::module::import("py_test");
+					auto shape = mod.attr("shape").cast<py_Shape>();
+
+					while (app.getWindow().pollEvent(eve));
+					app.getWindow().clear(sf::Color(12, 21, 34));
+					shape.setFillColor(sf::Color(32, 212, 12));
+					app.getWindow().draw(shape);
+					app.getWindow().display();
+					mod.reload();
+					/*py::exec("print('>>> ', end='')");
 					py::exec("_pe_cmd = input()");
 					py::exec("if _pe_cmd[:6]!= 'print(':\n\ttry:\n\t\tprint(eval(_pe_cmd))\n\texcept:\n\t\tpass");
-					py::exec("exec(_pe_cmd)");
+					py::exec("exec(_pe_cmd)");//*/
 				}
 				catch (const std::exception& e) { PE_PRINT(e.what()); }
 			}
 		}
 		catch (const std::exception& e ) { PE_PRINT(e.what()); }
+		//*/
 	}
 
 	sf::Color Application::s_background_color = sf::Color(80, 80, 80, 255);

@@ -1,9 +1,6 @@
-// dependencies
-#include <SFML/Window.hpp>
-#include <SFML/Graphics.hpp>
-#include <glm.hpp>
 
 // engine
+#define PE_PROJECT SandBox
 #include "Pixel-Engine.h"
 
 // classes for register

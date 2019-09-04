@@ -114,6 +114,9 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
     <ClInclude Include="src\api\Scene.h" />
     <ClInclude Include="src\api\utils\AssetsReader.h" />
     <ClInclude Include="src\bindings\python\pybind.h" />
+    <ClInclude Include="src\bindings\python\py_Color.h" />
+    <ClInclude Include="src\bindings\python\py_Rect.h" />
+    <ClInclude Include="src\bindings\python\py_Shape.h" />
     <ClInclude Include="src\bindings\python\py_Vect.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\api\Application.h" />

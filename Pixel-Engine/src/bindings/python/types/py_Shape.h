@@ -3,25 +3,28 @@
 #include <pybind11/embed.h>
 namespace py = pybind11;
 
-#include "py_Rect.h"
 
-class py_Shape : public sf::ConvexShape
-{
-public:
-
-	py_Shape(int point_count) : sf::ConvexShape(point_count) {}
-	py_Vect py_getPoint(int index) const { return getPoint(index);  } // TODO: throw index out of bound
-	void py_setPoint(int index, const py_Vect& point) { setPoint(index, point); }
-};
 
 void register_shape(py::module& m)
 {
-	py::class_<py_Shape>(m, "Shape")
-		.def(py::init<int>())
-		.def("setPointCount", &py_Shape::setPointCount)
-		.def("setPoint", &py_Shape::py_setPoint)
+	py::class_<sf::Shape, sf::Drawable, sf::Transformable>(m, "Shape")
 
-		.def("getPoint", &py_Shape::py_getPoint)
-		.def("getPointCount", &py_Shape::getPointCount)
+		.def("setTexture", &sf::Shape::setTexture, py::arg("texture"), py::arg("resetrect") = false)
+		.def("setTextureRect", &sf::Shape::setTextureRect)
+		.def("setFillColor", &sf::Shape::setFillColor)
+		.def("setOutlineColor", &sf::Shape::setOutlineColor)
+		.def("setOutlineThickness", &sf::Shape::setOutlineThickness)
+
+		.def("getTexture", &sf::Shape::getTexture)
+		.def("getTextureRect", &sf::Shape::getTextureRect)
+		.def("getFillColor", &sf::Shape::getFillColor)
+		.def("getOutlineColor", &sf::Shape::getOutlineColor)
+		.def("getOutlineThickness", &sf::Shape::getOutlineThickness)
+
+		.def("getPointCount", [](sf::Shape& self) -> int { return self.getPointCount(); })
+		.def("getPoint", [](sf::Shape& self, int index) -> sf::Vector2f { return self.getPoint(index); })
+		.def("getLocalBounds", &sf::Shape::getLocalBounds)
+		.def("getGlobalBounds", &sf::Shape::getGlobalBounds)
+
 		;
 }

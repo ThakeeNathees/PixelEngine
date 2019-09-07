@@ -104,8 +104,8 @@ namespace pe
 			time = 0; m_clock.restart();
 			m_playing = true;
 			if (m_object) {
-				m_begin_position	= pe::convertVect<glm::fvec2, sf::Vector2f>(m_object->getPosition());
-				m_begin_scale		= pe::convertVect<glm::fvec2, sf::Vector2f>(m_object->getScale());
+				m_begin_position	= m_object->getPosition();
+				m_begin_scale		= m_object->getScale();
 				m_begin_rotation	= m_object->getRotation();
 			}
 		}
@@ -142,7 +142,7 @@ namespace pe
 			if (m_scale_track != nullptr) {
 				auto data = m_scale_track->getData(m_time_pointer);
 				if (data.first) {
-					glm::fvec2 new_scale;
+					sf::Vector2f new_scale;
 					new_scale.x = data.second.scale.x * m_begin_scale.x;
 					new_scale.y = data.second.scale.y * m_begin_scale.y;
 					m_object->setScale( new_scale );

@@ -23,7 +23,7 @@ public:
 	void process(double dt) override {
 		setZIndex(getPosition().y);
 		auto mouse = sf::Mouse::getPosition(getApplication().getWindow());
-		setPosition(mouse);
+		setPosition(sf::Vector2f(mouse.x, mouse.y));
 	}
 
 private:

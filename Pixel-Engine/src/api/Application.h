@@ -25,7 +25,7 @@ namespace pe {
 	public:
 		static void test(Application& app);
 
-		Application(const glm::ivec2& window_size, const std::string& title );
+		Application(const sf::Vector2i& window_size, const std::string& title );
 		Application(const struct _peproj& proj);
 		Application(const Application& other) = delete;
 		~Application();

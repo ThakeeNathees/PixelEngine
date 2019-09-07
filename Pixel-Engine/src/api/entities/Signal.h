@@ -43,8 +43,7 @@ namespace pe
 			Data(long data) { long_data = data; }
 			Data(float data) { float_data = data; }
 			Data(double data) { double_data = data; }
-			Data(glm::fvec2 data) { glmvec_data = data; }
-			Data(sf::Vector2f data) { sfvec_data = data; }
+			Data(sf::Vector2f data) { vec_data = data; }
 			
 			const char* str_data;
 			char char_data;
@@ -56,8 +55,7 @@ namespace pe
 
 			int id;
 			const char* anim_name;
-			glm::fvec2 glmvec_data;
-			sf::Vector2f sfvec_data;
+			sf::Vector2f vec_data;
 		};
 
 	private:

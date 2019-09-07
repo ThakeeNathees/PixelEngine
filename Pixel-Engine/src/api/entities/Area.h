@@ -23,23 +23,18 @@ namespace pe
 
 		// setter
 		void setPosition(float x, float y);
-		template <typename T = glm::fvec2>
-		inline void setPosition(const T & position) { setPosition(position.x, position.y); }
+		inline void setPosition(const sf::Vector2f& position) { setPosition(position.x, position.y); }
 		void setRotation(float angle);
 		void setScale(float x, float y);
-		template <typename T = glm::fvec2>
-		inline void setScale(const T & scale) { setScale(scale.x, scale.y); }
+		inline void setScale(const sf::Vector2f& scale) { setScale(scale.x, scale.y); }
 
 		void move(float x, float y);
-		template <typename T = glm::fvec2>
-		void move(const T & vect) { move(vect.x, vect.y); }
+		void move(const sf::Vector2f& vect) { move(vect.x, vect.y); }
 		void rotate(float angle);
 		void scale(float x, float y);
-		template <typename T = glm::fvec2>
-		void scale(const T & vect) { scale(vect.x, vect.y); }
+		void scale(const sf::Vector2f& vect) { scale(vect.x, vect.y); }
 		void setOrigin(float x, float y);
-		template <typename T = glm::fvec2>
-		void setOrigin(const T & position) { setOrigin(position.x, position.y); }
+		void setOrigin(const sf::Vector2f& position) { setOrigin(position.x, position.y); }
 
 		inline void setName(const std::string& name) override { m_name = name; }
 		void setShape(sf::Shape* shape);
@@ -55,12 +50,11 @@ namespace pe
 
 		inline sf::Vector2f getCentroid(bool local = false) const {
 			if (local) return m_centroid;
-			return applyTransform<sf::Vector2f, sf::Vector2f>(m_centroid, *this);
+			return this->getTransform().transformPoint(m_centroid);
 		}
 
 		bool isContains(float x, float y);
 		inline bool isConvex() const{ return m_is_convex; }
-		inline bool isContains(glm::fvec2 point) { return isContains(point.x, point.y); }
 		inline bool isContains(sf::Vector2f point) { return isContains(point.x, point.y); }
 		inline bool isIntersecting(const Area& other) { return ::pe::isIntersecting( getShape(), other.getShape() ); }
 

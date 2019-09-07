@@ -16,7 +16,7 @@ namespace pe
 
 	// getters
 	bool Area::isContains(float x, float y) {
-		return isContainPoint(*m_shape, glm::fvec2(x, y));
+		return isContainPoint(*m_shape, sf::Vector2f(x, y));
 	}
 
 	std::size_t Area::getPointCount() const {

@@ -36,7 +36,7 @@ namespace pe
 		void setSmooth(bool smooth);
 		void setTexture(pe::Texture& texture);
 		inline void setMoveSpeed(int x, int y) { setMoveSpeed({x,y}); }
-		inline void setMoveSpeed(glm::ivec2 speed) { m_move_speed = speed; }
+		inline void setMoveSpeed(sf::Vector2i speed) { m_move_speed = speed; }
 
 		// getters
 		inline const std::string& getName() const override { return m_name; }
@@ -48,7 +48,7 @@ namespace pe
 		inline bool isRepeat() const { return m_texture->isRepeated(); }
 		inline bool isSmooth() const { return m_texture->isSmooth(); }
 		inline Texture& getTexture() { assert(m_texture); return *m_texture; }
-		inline const glm::ivec2& getMoveSpeed() const { return m_move_speed; }
+		inline const sf::Vector2i& getMoveSpeed() const { return m_move_speed; }
 
 		inline bool hasTexture() const { return m_texture != nullptr; }
 
@@ -57,7 +57,7 @@ namespace pe
 		friend class AssetsReader;
 		friend class Application; // call move
 		friend class Scene;
-		void setTextureRectSize(glm::ivec2 window_size, glm::ivec2 offset = glm::ivec2(0,0));
+		void setTextureRectSize(sf::Vector2i window_size, sf::Vector2i offset = sf::Vector2i(0,0));
 		void move(double dt);
 
 		std::string m_name;
@@ -67,6 +67,6 @@ namespace pe
 		friend class Application;
 		Texture* m_texture = nullptr;
 		bool m_visible = true;
-		glm::ivec2 m_move_speed = glm::ivec2(0,0);
+		sf::Vector2i m_move_speed = sf::Vector2i(0,0);
 	};
 }

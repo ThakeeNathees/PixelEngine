@@ -216,12 +216,12 @@ namespace pe
 			}
 
 			auto begin_trans_tag = anim_tag->FirstChildElement("begin_transform");
-			anim->m_begin_position = glm::fvec2(
+			anim->m_begin_position = sf::Vector2f(
 				begin_trans_tag->FirstChildElement("position")->FloatAttribute("x"),
 				begin_trans_tag->FirstChildElement("position")->FloatAttribute("y")
 			);
 			anim->m_begin_rotation = begin_trans_tag->FirstChildElement("rotation")->FloatAttribute("angle");
-			anim->m_begin_scale = glm::fvec2(
+			anim->m_begin_scale = sf::Vector2f(
 				begin_trans_tag->FirstChildElement("scale")->FloatAttribute("x"),
 				begin_trans_tag->FirstChildElement("scale")->FloatAttribute("y")
 			);
@@ -337,7 +337,7 @@ namespace pe
 			Scene::s_next_id = glm::max(scene->m_id + 1, Scene::s_next_id);
 			
 			auto size_tag = scn_tag->FirstChildElement("window_size");
-			scene->m_window_size = glm::ivec2(
+			scene->m_window_size = sf::Vector2i(
 				size_tag->IntAttribute("width"),
 				size_tag->IntAttribute("height")
 			);

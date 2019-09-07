@@ -5,7 +5,7 @@
 pe::Sprite* RenderWindow::test_sprite;
 
 sf::RenderTexture* RenderWindow::s_render_texture = new sf::RenderTexture();
-glm::vec2 RenderWindow::s_mouse_pos = glm::vec2(0,0);
+sf::Vector2f RenderWindow::s_mouse_pos = sf::Vector2f(0,0);
 
 void RenderWindow::init() {
 	s_render_texture->create(640, 480);

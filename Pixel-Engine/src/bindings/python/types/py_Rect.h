@@ -3,50 +3,44 @@
 #include <pybind11/embed.h>
 namespace py = pybind11;
 
-#include "py_Vect.h"
-
-struct py_Rect : sf::FloatRect
-{
-	float x, y, w, h;
-
-	const sf::IntRect& asSfIntRect() const { return static_cast<sf::IntRect>(*this); }
-
-	py_Rect() : x(0), y(0), w(0), h(0) {}
-
-	py_Rect(sf::FloatRect rect) : sf::FloatRect(rect) {}
-	py_Rect(sf::IntRect rect) : sf::FloatRect(rect) {}
-
-	py_Rect(float _x, float _y, float _w, float _h) : x(_x), y(_y), w(_w), h(_h) {}
-	py_Rect(const py_Vect& position, const py_Vect& size) : x(position.x), y(position.y), w(size.x), h(size.y) {}
-
-	bool isContain(float _x, float _y) const {
-		return (x <= _x && _x <= x + w) && (y <= _y && _y <= y + h);
-	}
-	bool isContain(const py_Vect& point) const {
-		return (x <= point.x && point.x <= x + w) && (y <= point.y && point.y <= y + h);
-	}
-
-	bool isIntersects(const py_Rect& other) {
-		if (other.x + other.w < x || x + w < other.x) return false;
-		if (other.y + other.h < y || y + h < other.y) return false;
-		return true;
-	}
-};
 
 void register_rect(py::module& m)
 {
-	py::class_<py_Rect>(m, "Rect")
+	py::class_<sf::FloatRect>(m, "Rect")
 		.def(py::init<>())
 		.def(py::init<float, float, float, float>())
-		.def(py::init<const py_Vect&, const py_Vect&>())
+		.def(py::init<const sf::Vector2f&, const sf::Vector2f&>())
 
-		.def_readwrite("x",&py_Rect::x)
-		.def_readwrite("y",&py_Rect::y)
-		.def_readwrite("w",&py_Rect::w)
-		.def_readwrite("h",&py_Rect::h)
+		.def_readwrite("x", &sf::FloatRect::left)
+		.def_readwrite("y", &sf::FloatRect::top)
+		.def_readwrite("w", &sf::FloatRect::width)
+		.def_readwrite("h", &sf::FloatRect::height)
 
-		.def("isContain", (bool(py_Rect::*)(float, float) const) &py_Rect::isContain)
-		.def("isContain", (bool(py_Rect::*)(const py_Vect&) const) &py_Rect::isContain)
-		.def("isIntersects", &py_Rect::isIntersects)
+		.def("isContain", (bool(sf::FloatRect::*)(float, float) const) & sf::FloatRect::contains)
+		.def("isContain", (bool(sf::FloatRect::*)(const sf::Vector2f&) const) & sf::FloatRect::contains)
+		.def("isIntersects", (bool(sf::FloatRect::*)(const sf::FloatRect & other) const) & sf::FloatRect::intersects)
+
+		.def("__eq__", [](const sf::FloatRect& self, const sf::FloatRect& other) { return self == other; })
+
+		;
+
+	///////////////////////////////////////
+
+	py::class_<sf::IntRect>(m, "Recti")
+		.def(py::init<>())
+		.def(py::init<int, int, int, int>())
+		.def(py::init<const sf::Vector2i&, const sf::Vector2i&>())
+
+		.def_readwrite("x", &sf::IntRect::left)
+		.def_readwrite("y", &sf::IntRect::top)
+		.def_readwrite("w", &sf::IntRect::width)
+		.def_readwrite("h", &sf::IntRect::height)
+
+		.def("isContain", (bool(sf::IntRect::*)(int, int) const) & sf::IntRect::contains)
+		.def("isContain", (bool(sf::IntRect::*)(const sf::Vector2i&) const) & sf::IntRect::contains)
+		.def("isIntersects", (bool(sf::IntRect::*)(const sf::IntRect & other) const) & sf::IntRect::intersects)
+
+		.def("__eq__", [](const sf::IntRect& self, const sf::IntRect& other) { return self == other; })
+
 		;
 }

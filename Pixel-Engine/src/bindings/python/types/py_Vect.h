@@ -3,78 +3,105 @@
 #include <pybind11/embed.h>
 namespace py = pybind11;
 
-struct py_Vect : public sf::Vector2f
-{
-	py_Vect( const sf::Vector2f& vect ): sf::Vector2f(vect) {}
-
-	// python functions
-	py_Vect() :sf::Vector2f(0,0) {}
-	py_Vect(float _x, float _y): sf::Vector2f(_x, _y) {}
-	
-	const py::str py_str() const {
-		return py::str( std::string("(").append(std::to_string(x)).append(", ").append(std::to_string(y)).append(")").c_str() );
-	}
-
-	py_Vect operator+(const py_Vect& other) const {
-		return py_Vect(x + other.x, y + other.y );
-	}
-	py_Vect operator-(const py_Vect& other) const {
-		return py_Vect(x - other.x, y - other.y );
-	}
-	py_Vect operator*(const py_Vect& other) const {
-		return py_Vect(x * other.x, y * other.y );
-	}
-	py_Vect operator*(float n) const {
-		return py_Vect(n * x, n * y);
-	}
-	py_Vect operator/(float n) const {
-		return py_Vect( x/n, y/n );
-	}
-
-	py_Vect* operator+=(const py_Vect& other) {
-		x += other.x; y += other.y; return this;
-	}
-	py_Vect* operator-=(const py_Vect& other) {
-		x -= other.x; y -= other.y; return this;
-	}
-	py_Vect* operator*=(const py_Vect& other) {
-		x *= other.x; y *= other.y; return this;
-	}
-	py_Vect* operator*=(float n) {
-		x *= n; y *= n; return this;
-	}
-
-	py_Vect* operator/=(float n) {
-		x /= n; y /= n; return this;
-	}
-
-	bool operator==(const py_Vect& other) {
-		return (x == other.x && y == other.y);
-	}
-};
 
 void register_vect(py::module& m) 
 {
-	py::class_<py_Vect>(m, "Vect")
+	py::class_<sf::Vector2f>(m, "Vect")
 		.def(py::init<>())
 		.def(py::init<float, float>())
-		.def_readwrite("x", &py_Vect::x)
-		.def_readwrite("y", &py_Vect::y)
+		.def_readwrite("x", &sf::Vector2f::x)
+		.def_readwrite("y", &sf::Vector2f::y)
 
-		.def("__str__", &py_Vect::py_str)
+		.def("__str__", [](py::object o)->py::str 
+			{
+				py::str _ret; 
+				_ret = std::string("(").append(std::to_string(o.attr("x").cast<float>())).append(", ").append(std::to_string(o.attr("y").cast<float>())).append(" )");
+				return _ret;
+			}
+		)
+		.def("__add__", [](const sf::Vector2f& self, const sf::Vector2f& other) { return self + other; })
+		.def("__sub__", [](const sf::Vector2f& self, const sf::Vector2f& other) { return self - other; })
+		.def("__mul__", [](const sf::Vector2f& self, const sf::Vector2f& other)
+			{
+				sf::Vector2f _ret;
+				_ret.x = self.x * other.x;
+				_ret.y = self.y * other.y;
+				return _ret;
+			}
+		)
+		.def("__mul__", [](const sf::Vector2f& self, float val) -> sf::Vector2f {
+				sf::Vector2f _ret;
+				_ret.x = self.x * val;
+				_ret.y = self.y * val;
+				return _ret;
+			}
+		)
+		.def("__rmul__", [](const sf::Vector2f& self, float val) -> sf::Vector2f {
+				sf::Vector2f _ret;
+				_ret.x = self.x * val;
+				_ret.y = self.y * val;
+				return _ret;
+			}
+		)
+		.def("__truediv__", [](const sf::Vector2f& self, float val) -> sf::Vector2f {
+				sf::Vector2f _ret;
+				_ret.x = self.x / val;
+				_ret.y = self.y / val;
+				return _ret;
+			}
+		)
+		.def("__eq__",   [](const sf::Vector2f& self, const sf::Vector2f& other) -> bool { return self == other; })
+		;
+}
 
-		.def("__add__", &py_Vect::operator+)
-		.def("__sub__", &py_Vect::operator-)
-		.def("__mul__", ( py_Vect(py_Vect::*)(const py_Vect&) const) &py_Vect::operator*  )
-		.def("__mul__", ( py_Vect(py_Vect::*)(float) const) &py_Vect::operator*)
-		.def("__rmul__", ( py_Vect(py_Vect::*)(float) const) &py_Vect::operator*)
-		.def("__div__", &py_Vect::operator/)
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		.def("__iadd__", &py_Vect::operator+=)
-		.def("__isub__", &py_Vect::operator-=)
-		.def("__imul__", ( py_Vect*(py_Vect::*)(const py_Vect&) ) &py_Vect::operator*=)
-		.def("__imul__", ( py_Vect*(py_Vect::*)(float) ) &py_Vect::operator*=)
-		.def("__idiv__", &py_Vect::operator/=)
-		.def("__eq__", &py_Vect::operator==)
+void register_vecti(py::module& m)
+{
+	py::class_<sf::Vector2i>(m, "Vecti")
+		.def(py::init<>())
+		.def(py::init<float, float>())
+		.def_readwrite("x", &sf::Vector2i::x)
+		.def_readwrite("y", &sf::Vector2i::y)
+
+		.def("__str__", [](py::object o)->py::str
+			{
+				py::str _ret;
+				_ret = std::string("(").append(std::to_string(o.attr("x").cast<float>())).append(", ").append(std::to_string(o.attr("y").cast<float>())).append(" )");
+				return _ret;
+			}
+		)
+		.def("__add__", [](const sf::Vector2i& self, const sf::Vector2i& other) { return self + other; })
+		.def("__sub__", [](const sf::Vector2i& self, const sf::Vector2i& other) { return self - other; })
+		.def("__mul__", [](const sf::Vector2i& self, const sf::Vector2i& other)
+			{
+				sf::Vector2i _ret;
+				_ret.x = self.x * other.x;
+				_ret.y = self.y * other.y;
+				return _ret;
+			}
+		)
+		.def("__mul__", [](const sf::Vector2i& self, float val) -> sf::Vector2i {
+				sf::Vector2i _ret;
+				_ret.x = self.x * val;
+				_ret.y = self.y * val;
+				return _ret;
+			}
+		)
+		.def("__rmul__", [](const sf::Vector2i& self, float val) -> sf::Vector2i {
+		sf::Vector2i _ret;
+		_ret.x = self.x * val;
+		_ret.y = self.y * val;
+		return _ret;
+			}
+		)
+		.def("__truediv__", [](const sf::Vector2i& self, float val) -> sf::Vector2i {
+				sf::Vector2i _ret;
+				_ret.x = self.x / val;
+				_ret.y = self.y / val;
+				return _ret;
+			}
+		)
+		.def("__eq__", [](const sf::Vector2i& self, const sf::Vector2i& other) -> bool { return self == other; })
 		;
 }

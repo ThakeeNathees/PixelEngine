@@ -46,7 +46,7 @@ namespace pe
 		m_background->setTextureRectSize(m_window_size);
 	}
 
-	void Scene::setSceneWindowSize(glm::ivec2 window_size) {
+	void Scene::setSceneWindowSize(sf::Vector2i window_size) {
 		m_window_size = window_size;
 		if (m_background != nullptr) m_background->setTextureRectSize(m_window_size);
 	}

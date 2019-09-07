@@ -10,12 +10,14 @@ namespace pe
 	{
 	public:
 		union Data {
+			Data() {}
 			int sprite_frame;
 			float rotation;
-			glm::fvec2 position;
-			glm::fvec2 scale;
+			sf::Vector2f position;
+			sf::Vector2f scale;
 		};
 		struct Key {
+			Key() {}
 			float time;
 			Data data;
 		};
@@ -124,8 +126,8 @@ namespace pe
 		inline float getTimeLength() const { return m_time_length; }
 		inline Signal& getAnimEndSignal() { return m_anim_end_signal; }
 
-		inline const glm::fvec2& _getBeginPosition() const { return m_begin_position; }
-		inline const glm::fvec2& _getBeginScale() const { return m_begin_scale; }
+		inline const sf::Vector2f& _getBeginPosition() const { return m_begin_position; }
+		inline const sf::Vector2f& _getBeginScale() const { return m_begin_scale; }
 		inline const float _getBeginRotation() const { return m_begin_rotation; }
 		
 		inline const SpriteFrameTrack* _getSpriteFrameTrack() const {  return m_sprite_frame_track;  }
@@ -158,8 +160,8 @@ namespace pe
 		float m_time_length =0;
 		float m_time_pointer=0; // points where the anim is now
 
-		glm::fvec2 m_begin_position = glm::fvec2(0,0);
-		glm::fvec2 m_begin_scale = glm::fvec2(1,1);
+		sf::Vector2f m_begin_position = sf::Vector2f(0,0);
+		sf::Vector2f m_begin_scale = sf::Vector2f(1,1);
 		float m_begin_rotation = 0;
 
 		// tracks

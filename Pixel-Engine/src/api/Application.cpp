@@ -28,20 +28,18 @@ namespace pe
 		{
 			py::exec("import pixel_engine as pe");
 			sf::Event eve;
+			py::module mod = py::module::import("py_test");
+			//auto& spr = mod.attr("spr").cast<py_Sprite&>();
 			while (true) {
 				try
 				{
-					//*
-					while (app.getWindow().pollEvent(eve));
-					py::module mod = py::module::import("py_test");
-					auto& spr = mod.attr("spr").cast<py_Sprite&>();
-
+					/*
 					while (app.getWindow().pollEvent(eve));
 					app.getWindow().clear(sf::Color(12, 21, 34));
 					app.getWindow().draw(spr);
 					app.getWindow().display();
 					mod.reload();//*/
-					/*
+					//*
 					py::exec("print('>>> ', end='')");
 					py::exec("_pe_cmd = input()");
 					py::exec("if _pe_cmd[:6]!= 'print(':\n\ttry:\n\t\tprint(eval(_pe_cmd))\n\texcept:\n\t\tpass");
@@ -56,7 +54,7 @@ namespace pe
 
 	sf::Color Application::s_background_color = sf::Color(80, 80, 80, 255);
 
-	Application::Application( const glm::ivec2& window_size, const std::string& title )
+	Application::Application( const sf::Vector2i& window_size, const std::string& title )
 		: m_scene_changed_signal( Signal("scene_changed") )
 	{
 		m_window = new sf::RenderWindow(sf::VideoMode(window_size.x, window_size.y), title);
@@ -105,7 +103,7 @@ namespace pe
 	void Application::addScene(Scene* scene) {
 		assert( scene != nullptr );
 		m_scenes.push_back(scene);
-		scene->setSceneWindowSize({ m_window->getSize().x, m_window->getSize().y });
+		scene->setSceneWindowSize(sf::Vector2i(m_window->getSize().x, m_window->getSize().y) );
 		for (auto obj : m_persistent_objects) scene->addObject(obj);
 	}
 

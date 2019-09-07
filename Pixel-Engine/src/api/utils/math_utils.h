@@ -6,34 +6,25 @@
 
 namespace pe
 {
-	template<typename T1 = glm::fvec2, typename T2 = sf::Vector2f>
-	T1 convertVect(const T2 & vect) {
-		T1 _vect;
-		_vect.x = vect.x;
-		_vect.y = vect.y;
-		return _vect;
-	}
 
-	template<typename T = glm::fvec2>
-	T rotatePoint(float x, float y, float angle_degree) {
+	
+	inline sf::Vector2f rotatePoint(float x, float y, float angle_degree) {
 		float angle = angle_degree * PI / 180.0f;
-		T rotated;
+		sf::Vector2f rotated;
 		rotated.x = x * glm::cos(angle) - y * glm::sin(angle);
 		rotated.y = y * glm::cos(angle) + x * glm::sin(angle);
 		return rotated;
 	}
-	template<typename T = glm::fvec2>
-	T rotatePoint(glm::fvec2 point, float angle_degree) { return rotatePoint<T>(point.x, point.y, angle_degree); }
-	template<typename T = glm::fvec2>
-	T rotatePoint(sf::Vector2f point, float angle_degree) { return rotatePoint<T>(point.x, point.y, angle_degree); }
 
-	inline float vectCross(const glm::fvec2& vec2, const glm::fvec2& vec1) { // return magnitude in z axis
+	inline sf::Vector2f rotatePoint(sf::Vector2f point, float angle_degree) { return rotatePoint(point.x, point.y, angle_degree); }
+
+	inline float vectCross(const sf::Vector2f& vec2, const sf::Vector2f& vec1) { // return magnitude in z axis
 		return  vec1.x * vec2.y - vec1.y * vec2.x;
 	}
 
-	template <typename T = sf::Vector2f>
-	T getCentroid(sf::Shape * shape) {
-		T centroid;
+	
+	inline sf::Vector2f getCentroid(sf::Shape * shape) {
+		sf::Vector2f centroid;
 		double signed_area = 0;
 		for (int i = 0; i < shape->getPointCount() - 1; i++) {
 			auto p0 = shape->getPoint(i);
@@ -56,29 +47,15 @@ namespace pe
 
 	}
 
-	template <typename T1 = glm::fvec2, typename T2 = sf::Vector2f>
-	T1 applyTransform(T2 point, const sf::Transformable & shape) {
-		sf::Vector2f transformed = shape.getTransform().transformPoint(sf::Vector2f(point.x, point.y));
-		return T1(transformed.x, transformed.y);
-		/* similer
-		point -= shape.getOrigin();
-		point.x *= shape.getScale().x;
-		point.y *= shape.getScale().y;
-		point = rotatePoint<sf::Vector2f>(point, shape.getRotation());
-		point += shape.getPosition();
-		return T1(point.x, point.y);
-		*/
-	}
-
 	inline bool isShapeConvex(const sf::Shape& shape) {
 		if (shape.getPointCount() <= 3) return true;
 
 		for (int i = 0; i < shape.getPointCount(); i++) {
 
-			glm::fvec2 point0 = convertVect(shape.getPoint(i % shape.getPointCount()));
-			glm::fvec2 point1 = convertVect(shape.getPoint((i + 1) % shape.getPointCount()));
-			glm::fvec2 point2 = convertVect(shape.getPoint((i + 2) % shape.getPointCount()));
-			glm::fvec2 point3 = convertVect(shape.getPoint((i + 3) % shape.getPointCount()));
+			sf::Vector2f point0 = shape.getPoint(i % shape.getPointCount());
+			sf::Vector2f point1 = shape.getPoint((i + 1) % shape.getPointCount());
+			sf::Vector2f point2 = shape.getPoint((i + 2) % shape.getPointCount());
+			sf::Vector2f point3 = shape.getPoint((i + 3) % shape.getPointCount());
 
 			float cross0 = vectCross(point2 - point1, point1 - point0);
 			float cross1 = vectCross(point3 - point2, point2 - point1);
@@ -89,14 +66,14 @@ namespace pe
 	}
 
 
-	inline bool isContainPoint(const sf::Shape& shape, glm::fvec2 point) {
+	inline bool isContainPoint(const sf::Shape& shape, sf::Vector2f point) {
 		if (shape.getPointCount() < 3) return false;
 
 		for (int i = 0; i < shape.getPointCount(); i++) {
 
-			glm::fvec2 point0 = applyTransform(shape.getPoint(i % shape.getPointCount()), shape);
-			glm::fvec2 point1 = applyTransform(shape.getPoint((i + 1) % shape.getPointCount()), shape);
-			glm::fvec2 point2 = applyTransform(shape.getPoint((i + 2) % shape.getPointCount()), shape);
+			sf::Vector2f point0 = shape.getTransform().transformPoint(shape.getPoint(i % shape.getPointCount()));
+			sf::Vector2f point1 = shape.getTransform().transformPoint(shape.getPoint((i + 1) % shape.getPointCount()));
+			sf::Vector2f point2 = shape.getTransform().transformPoint(shape.getPoint((i + 2) % shape.getPointCount()));
 
 			float cross0 = vectCross(point - point1, point1 - point0);
 			float cross1 = vectCross(point - point2, point2 - point1);
@@ -109,7 +86,7 @@ namespace pe
 	// return if any point of shape2 is inside shape1 ?
 	inline bool isShape2InShape1(const sf::Shape& shape1, const sf::Shape& shape2) {
 		for (int i = 0; i < shape2.getPointCount(); i++) {
-			auto shape2_point = applyTransform( shape2.getPoint(i), shape2 );
+			auto shape2_point = shape2.getTransform().transformPoint( shape2.getPoint(i) );
 			if (isContainPoint(shape1, shape2_point)) {
 				return true;
 			}

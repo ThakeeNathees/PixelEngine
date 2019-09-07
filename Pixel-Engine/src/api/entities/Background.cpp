@@ -22,7 +22,7 @@ namespace pe
 		m_texture->setSmooth(smooth);
 	}
 
-	void Background::setTextureRectSize(glm::ivec2 size, glm::ivec2 offset) {
+	void Background::setTextureRectSize(sf::Vector2i size, sf::Vector2i offset) {
 		if (!m_texture->isRepeated()) return;
 		setTextureRect(sf::IntRect(offset.x, offset.y, size.x / getScale().x, size.y / getScale().y));
 	}

@@ -23,7 +23,7 @@ namespace pe
 		void addTimer(Timer* timer);
 		void sortZIndex();
 		void setBackground( Background* background);
-		void setSceneWindowSize(glm::ivec2 window_size);
+		void setSceneWindowSize(sf::Vector2i window_size);
 		inline void setName(const std::string& name) override { m_name = name; }
 
 		void clear(); // clear signals and Timers
@@ -48,7 +48,7 @@ namespace pe
 
 		std::string m_name;
 		int m_id;
-		glm::ivec2 m_window_size = glm::ivec2(-1, -1);
+		sf::Vector2i m_window_size = sf::Vector2i(-1, -1);
 		Background* m_background = nullptr;
 		std::vector<Object*> m_objects;
 		std::vector<pe::Drawable*> m_drawables;

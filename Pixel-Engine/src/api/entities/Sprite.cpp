@@ -17,25 +17,24 @@ namespace pe
 		m_frame_index = index;
 		assert( (index >=0) &&  (index < getFrameCount()) && "invalid sprite frame index" );
 		assert( m_texture && "cant set frames without any textures" );
-		int width  = m_texture->getSize().x / m_frames.x;
-		int height = m_texture->getSize().y / m_frames.y;
-		int left = (index % (m_frames.x))* width;
-		int top  = (index / (m_frames.x))* height;
-		sf::IntRect rect( left + m_frames.z, top + m_frames.w, width, height );
+		int width  = m_texture->getSize().x / std::get<0>(m_frames).x;
+		int height = m_texture->getSize().y / std::get<0>(m_frames).y;
+		int left = (index % (std::get<0>(m_frames).x))* width;
+		int top  = (index / (std::get<0>(m_frames).x))* height;
+		sf::IntRect rect( left + std::get<1>(m_frames).x, top + std::get<1>(m_frames).y, width, height );
 		setTextureRect(rect); 
 	}
 
 	// getters
 	void Sprite::setFrames(int x, int y, int offset_x, int offset_y) {
 		assert(x > 0 && y > 0);
-		m_frames.x = x; m_frames.y = y; m_frames.z = offset_x; m_frames.w = offset_y;
+		std::get<0>(m_frames).x = x; std::get<0>(m_frames).y = y; std::get<1>(m_frames).x = offset_x; std::get<1>(m_frames).y = offset_y;
 		setFrameIndex(0);
 	}
 
-	void Sprite::setFrames(const glm::ivec4& frames) {
-		setFrames(frames.x, frames.y, frames.z, frames.w);
+	void Sprite::setFrames(const std::tuple<sf::Vector2i, sf::Vector2i>& frames) {
+		setFrames(std::get<0>(frames).x, std::get<0>(frames).y, std::get<1>(frames).x, std::get<1>(frames).y);
 	}
 
-	
-	
+
 }

@@ -4,7 +4,7 @@
 namespace py = pybind11;
 
 #include "py_Texture.h"
-
+/*
 class py_Sprite : public pe::Sprite
 {
 public:
@@ -24,26 +24,34 @@ public:
 	const py_Rect& py_getLocalBounds() { return pe::Sprite::getLocalBounds(); }
 	const py_Rect& py_getGlobalBounds() { return pe::Sprite::getGlobalBounds(); }
 };
+*/
 
 void register_sprite(py::module m)
 {
-	py::class_<py_Sprite>(m, "Sprite")
+	py::class_<pe::Sprite, sf::Drawable, sf::Transformable, pe::Asset >(m, "Sprite")
 		.def(py::init<>())
 		.def(py::init<py::str>())
-		.def("setFrames", (void (py_Sprite::*)(int, int, int, int)) &py_Sprite::setFrames)
-		.def("setName", &py_Sprite::py_setName)
-		.def("setTexture", &py_Sprite::py_setTexture, py::arg("texture"), py::arg("reset")=false)
-		.def("setFrameIndex", &py_Sprite::setFrameIndex)
 
-		.def("getName", &py_Sprite::py_getName)
-		.def("getId", &py_Sprite::getId)
-		.def("getType", &py_Sprite::getType)
-		.def("getFrames", &py_Sprite::py_getFrames)
-		.def("getFrameIndex", &py_Sprite::getFrameIndex)
-		.def("getTexture", &py_Sprite::py_getTexture)
-		.def("hasTexture", &py_Sprite::hasTexture)
-		.def("getTextureRect", &py_Sprite::py_getTextureRect)
-		.def("getLocalBounds", &py_Sprite::py_getLocalBounds)
-		.def("getGlobalBounds", &py_Sprite::py_getGlobalBounds)
+		// static
+		.def_static("getCount", &pe::Sprite::getCount)
+
+
+		// methods
+		.def("setTexture",	&pe::Sprite::setTexture, py::arg("texture"), py::arg("reset_rect")=false)
+		.def("setFrames",	(void(pe::Sprite::*)(int, int, int, int))&pe::Sprite::setFrames, py::arg("x"), py::arg("y"), py::arg("offset_x")=0, py::arg("offset_y")=0)
+		.def("setFrames", [](pe::Sprite& self, std::tuple<sf::Vector2i, sf::Vector2i> tup) 
+			{
+				self.setFrames( std::get<0>(tup).x, std::get<0>(tup).y, std::get<1>(tup).x, std::get<1>(tup).y );
+			}
+		)
+		.def("setFrameIndex", &pe::Sprite::setFrameIndex)
+		.def("getFrames", &pe::Sprite::getFrames)
+		.def("getFrameCount",&pe::Sprite::getFrameCount)
+		.def("getFrameIndex", &pe::Sprite::getFrameIndex)
+		.def("getTexture", [](pe::Sprite& self) ->pe::Texture* {
+				if (!self.hasTexture()) return nullptr;
+				return &self.getTexture();
+			}
+		)
 		;
 }

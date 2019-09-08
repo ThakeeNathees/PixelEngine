@@ -153,13 +153,15 @@ namespace pe
 				rect.height = spr_tag->FirstChildElement("texture_rect")->IntAttribute("height");
 				sprite->setTextureRect(rect);
 
-				glm::ivec4 frames;
-				frames.x = spr_tag->FirstChildElement("frames")->IntAttribute("x");
-				frames.y = spr_tag->FirstChildElement("frames")->IntAttribute("y");
-				frames.z = spr_tag->FirstChildElement("frames")->IntAttribute("offset_x");
-				frames.w = spr_tag->FirstChildElement("frames")->IntAttribute("offset_y");
+				std::tuple<sf::Vector2i, sf::Vector2i> frames;
+				sf::Vector2i dimension, offset;
+				dimension.x = spr_tag->FirstChildElement("frames")->IntAttribute("x");
+				dimension.y = spr_tag->FirstChildElement("frames")->IntAttribute("y");
+				offset.x = spr_tag->FirstChildElement("frames")->IntAttribute("offset_x");
+				offset.y = spr_tag->FirstChildElement("frames")->IntAttribute("offset_y");
 				int index = spr_tag->FirstChildElement("frames")->IntAttribute("index");
-				sprite->setFrames(frames);
+				auto tup = std::make_tuple(dimension, offset);
+				sprite->setFrames(tup);
 				sprite->setFrameIndex(index);
 			}
 			asset_map[sprite->m_id] = sprite;

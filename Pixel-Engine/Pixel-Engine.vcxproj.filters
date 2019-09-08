@@ -143,13 +143,16 @@
     <ClInclude Include="src\bindings\python\types\py_Draw_Trans.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\bindings\python\types\py_sf_Texture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\bindings\python\types\py_Shape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\bindings\python\entities\py_Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bindings\python\entities\py_Sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bindings\python\entities\py_Area.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

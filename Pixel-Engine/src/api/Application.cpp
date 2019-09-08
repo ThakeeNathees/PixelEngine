@@ -28,18 +28,19 @@ namespace pe
 		{
 			py::exec("import pixel_engine as pe");
 			sf::Event eve;
-			py::module mod = py::module::import("py_test");
-			//auto& spr = mod.attr("spr").cast<py_Sprite&>();
 			while (true) {
 				try
 				{
-					/*
+					//*
+					py::module mod = py::module::import("py_test");
+					auto& area = mod.attr("area").cast<pe::Area&>();
 					while (app.getWindow().pollEvent(eve));
 					app.getWindow().clear(sf::Color(12, 21, 34));
-					app.getWindow().draw(spr);
+					if (area.hasShape())
+					app.getWindow().draw(area.getShape());
 					app.getWindow().display();
 					mod.reload();//*/
-					//*
+					/*
 					py::exec("print('>>> ', end='')");
 					py::exec("_pe_cmd = input()");
 					py::exec("if _pe_cmd[:6]!= 'print(':\n\ttry:\n\t\tprint(eval(_pe_cmd))\n\texcept:\n\t\tpass");
@@ -50,6 +51,7 @@ namespace pe
 		}
 		catch (const std::exception& e ) { PE_PRINT(e.what()); }
 		//*/
+		__debugbreak();
 	}
 
 	sf::Color Application::s_background_color = sf::Color(80, 80, 80, 255);

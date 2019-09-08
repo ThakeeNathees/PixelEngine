@@ -151,8 +151,8 @@ namespace pe
 		if (area->hasShape()) {
 			auto shape_tag = m_doc->NewElement("shape");
 			area_tag->InsertEndChild(shape_tag);
-			shape_tag->SetAttribute("point_count", (int)area->getPointCount());
-			for (int i = 0; i < area->getPointCount(); i++) {
+			shape_tag->SetAttribute("point_count", (int)area->getShape().getPointCount());
+			for (int i = 0; i < area->getShape().getPointCount(); i++) {
 				auto point_tag = m_doc->NewElement("point");
 				shape_tag->InsertEndChild(point_tag);
 				point_tag->SetAttribute("index", i);
@@ -184,10 +184,10 @@ namespace pe
 
 			auto frames_tag = m_doc->NewElement("frames");
 			sprite_tag->InsertEndChild(frames_tag);
-			frames_tag->SetAttribute("x", sprite->getFrames().x);
-			frames_tag->SetAttribute("y", sprite->getFrames().y);
-			frames_tag->SetAttribute("offset_x", sprite->getFrames().z);
-			frames_tag->SetAttribute("offset_y", sprite->getFrames().w);
+			frames_tag->SetAttribute("x", std::get<0>(sprite->getFrames()).x);
+			frames_tag->SetAttribute("y", std::get<0>(sprite->getFrames()).y);
+			frames_tag->SetAttribute("offset_x", std::get<1>(sprite->getFrames()).x);
+			frames_tag->SetAttribute("offset_y", std::get<1>(sprite->getFrames()).y);
 			frames_tag->SetAttribute("index", sprite->getFrameIndex());
 		}
 	}

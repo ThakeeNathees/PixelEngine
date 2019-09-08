@@ -1,11 +1,11 @@
 
 import pixel_engine as pe
 
+s  = pe.Signal()
+s.setData(42)
+print( s.getData() )
 
-
-
-
-
+#'''
 spr = pe.Sprite()
 tex = pe.Texture()
 tex.loadFromFile("res/logo.png")
@@ -29,9 +29,11 @@ area.setShape(sh2)
 area.setPosition(100,100)
 area.setScale(2,2)
 area.setOrigin(10,10)
-area.rotate(area.getId()%360)
+#area.rotate(area.getId()%360)
 
+#'''
 
+#print(area.getCount())
 
 #spr.setFrames(3,3,0,0)
 #spr.setFrameIndex(1)

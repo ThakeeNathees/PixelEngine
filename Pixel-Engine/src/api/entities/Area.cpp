@@ -10,6 +10,7 @@ namespace pe
 	sf::Color Area::s_debug_shape_color = sf::Color(100, 0, 0, 255);
 
 	Area::~Area() {
+		std::cout << "area distruct" << std::endl;
 		s_area_count--;
 	}
 

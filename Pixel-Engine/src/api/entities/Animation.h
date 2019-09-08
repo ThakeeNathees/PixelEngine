@@ -79,14 +79,14 @@ namespace pe
 			s_anim_count++;
 			m_id = s_next_id++;
 			m_name = std::string("anim_").append(std::to_string(m_id));
-			m_anim_end_signal.setData(Signal::Data(m_name.c_str()));
+			m_anim_end_signal.setData((void*)m_name.c_str());
 		}
 		inline Animation(std::string name, float time_length = 1) 
 			: m_name(name)
 		{
 			s_anim_count++;
 			m_id = s_next_id++;
-			m_anim_end_signal.setData(Signal::Data(m_name.c_str()));
+			m_anim_end_signal.setData((void*)m_name.c_str());
 		}
 
 		inline ~Animation() {

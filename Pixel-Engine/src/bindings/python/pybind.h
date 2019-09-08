@@ -13,6 +13,7 @@ namespace py = pybind11;
 #include "entities/py_Texture.h"
 #include "entities/py_Sprite.h"
 #include "entities/py_Area.h"
+#include "entities/py_Signal.h"
 
 // import pixel_engine as pe
 PYBIND11_EMBEDDED_MODULE(pixel_engine, m) { 
@@ -47,6 +48,7 @@ PYBIND11_EMBEDDED_MODULE(pixel_engine, m) {
 	register_texture(m);
 	register_sprite(m);
 	register_area(m);
+	register_signal(m);
 
 
 }

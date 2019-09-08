@@ -28,16 +28,19 @@ namespace pe
 		{
 			py::exec("import pixel_engine as pe");
 			sf::Event eve;
+			auto pxe = py::module::import("pixel_engine");
 			while (true) {
 				try
 				{
 					//*
 					py::module mod = py::module::import("py_test");
-					auto& area = mod.attr("area").cast<pe::Area&>();
+
+					__debugbreak();
+					auto a = mod.attr("area").cast<Area*>();
 					while (app.getWindow().pollEvent(eve));
 					app.getWindow().clear(sf::Color(12, 21, 34));
-					if (area.hasShape())
-					app.getWindow().draw(area.getShape());
+					if (a->hasShape())
+					app.getWindow().draw(a->getShape());
 					app.getWindow().display();
 					mod.reload();//*/
 					/*
@@ -117,7 +120,7 @@ namespace pe
 
 		m_scene_changed_signal.clear();
 		for (Object* obj : m_current_scene->getObjects()) m_scene_changed_signal.addReciever(obj);
-		m_scene_changed_signal.setData(m_current_scene->getId());
+		m_scene_changed_signal.setData((void*)m_current_scene->getId());
 		m_current_scene->addSignal(&m_scene_changed_signal);
 		
 		for (auto obj : m_current_scene->getObjects()) {

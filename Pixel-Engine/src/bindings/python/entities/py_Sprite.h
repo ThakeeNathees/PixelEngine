@@ -26,7 +26,7 @@ public:
 };
 */
 
-void register_sprite(py::module m)
+void register_sprite(py::module& m)
 {
 	py::class_<pe::Sprite, sf::Drawable, sf::Transformable, pe::Asset >(m, "Sprite")
 		.def(py::init<>())

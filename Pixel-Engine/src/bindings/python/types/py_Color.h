@@ -4,7 +4,7 @@
 namespace py = pybind11;
 
 
-void register_color(py::module m)
+void register_color(py::module& m)
 {
 	py::class_<sf::Color>(m, "Color")
 		.def(py::init<>())

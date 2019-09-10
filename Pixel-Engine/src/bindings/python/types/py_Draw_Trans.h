@@ -5,7 +5,7 @@ namespace py = pybind11;
 
 #include "SFML/Graphics.hpp"
 
-void register_draw_transform(py::module m)
+void register_draw_transform(py::module& m)
 {
 	py::class_<sf::Drawable>(m, "Drawable");
 

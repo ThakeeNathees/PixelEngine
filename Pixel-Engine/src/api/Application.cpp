@@ -9,7 +9,7 @@
 
 #include "utils/AssetsReader.h"
 
-
+#include <pybind11/stl.h>
 #include <pybind11/embed.h>
 namespace py = pybind11;
 // test
@@ -27,20 +27,23 @@ namespace pe
 		try
 		{
 			py::exec("import pixel_engine as pe");
-			sf::Event eve;
+			pe::Event eve;
 			auto pxe = py::module::import("pixel_engine");
 			while (true) {
 				try
 				{
 					//*
 					py::module mod = py::module::import("py_test");
-
-					__debugbreak();
-					auto a = mod.attr("area").cast<Area*>();
-					while (app.getWindow().pollEvent(eve));
-					app.getWindow().clear(sf::Color(12, 21, 34));
-					if (a->hasShape())
-					app.getWindow().draw(a->getShape());
+					//__debugbreak();
+					auto input = mod.attr("inp");
+					//auto a = mod.attr("area").cast<Area*>();
+					while (app.getWindow().pollEvent(eve))
+					{
+						input(py::cast(eve));
+					}
+					//app.getWindow().clear(sf::Color(12, 21, 34));
+					//if (a->hasShape())
+					//app.getWindow().draw(a->getShape());
 					app.getWindow().display();
 					mod.reload();//*/
 					/*

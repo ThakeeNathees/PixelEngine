@@ -237,7 +237,7 @@ namespace pe
 					key.data.sprite_frame = key_tag->IntAttribute("frame");
 					sprite_frame_track->addKey(key);
 				}
-				anim->_setSpriteFrameTrack(sprite_frame_track);
+				anim->setSpriteFrameTrack(sprite_frame_track);
 			}
 
 			auto position_track_tag = anim_tag->FirstChildElement("position_track");
@@ -250,7 +250,7 @@ namespace pe
 					key.data.position.y = key_tag->IntAttribute("y");
 					position_track->addKey(key);
 				}
-				anim->_setPositionTrack(position_track);
+				anim->setPositionTrack(position_track);
 			}
 
 			auto rotation_track_tag = anim_tag->FirstChildElement("rotation_track");
@@ -262,7 +262,7 @@ namespace pe
 					key.data.rotation = key_tag->FloatAttribute("angle");
 					rotation_track->addKey(key);
 				}
-				anim->_setRotationTrack(rotation_track);
+				anim->setRotationTrack(rotation_track);
 			}
 
 			auto scale_track_tag = anim_tag->FirstChildElement("scale_track");
@@ -275,7 +275,7 @@ namespace pe
 					key.data.scale.y = key_tag->IntAttribute("y");
 					scale_track->addKey(key);
 				}
-				anim->_setScaleTrack(scale_track);
+				anim->setScaleTrack(scale_track);
 			}
 			asset_map[anim->m_id] = anim;
 			Assets::s_assets[anim->m_id] = anim;

@@ -3,7 +3,7 @@
 #include <pybind11/embed.h>
 namespace py = pybind11;
 
-void register_texture(py::module m)
+void register_texture(py::module& m)
 {
 
 	py::class_<pe::Texture, pe::Asset>(m, "Texture")

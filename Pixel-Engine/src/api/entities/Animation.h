@@ -11,6 +11,9 @@ namespace pe
 	public:
 		union Data {
 			Data() {}
+			Data(int frame) : sprite_frame(frame) {}
+			Data(float rot) : rotation(rot) {}
+			Data(const sf::Vector2f& vec) : position(vec) {}
 			int sprite_frame;
 			float rotation;
 			sf::Vector2f position;
@@ -18,6 +21,7 @@ namespace pe
 		};
 		struct Key {
 			Key() {}
+			Key(float _time, const Data& _data) : time(_time), data(_data) {}
 			float time;
 			Data data;
 		};
@@ -108,15 +112,13 @@ namespace pe
 		inline void setObject(Object* object) { m_object = object; } // will set by object
 		inline void setTimeLength(float time_length) { m_time_length = time_length; }
 		
-		inline void _setSpriteFrameTrack(SpriteFrameTrack* sprite_frame_track) { m_sprite_frame_track = sprite_frame_track; }
-		inline void _setPositionTrack(PositionTrack* position_track) { m_position_track = position_track; }
-		inline void _setRotationTrack(RotationTrack* rotation_track) { m_rotation_track = rotation_track; }
-		inline void _setScaleTrack(ScaleTrack* scale_track) { m_scale_track = scale_track; }
+		inline void setSpriteFrameTrack(SpriteFrameTrack* sprite_frame_track) { m_sprite_frame_track = sprite_frame_track; }
+		inline void setPositionTrack(PositionTrack* position_track) { m_position_track = position_track; }
+		inline void setRotationTrack(RotationTrack* rotation_track) { m_rotation_track = rotation_track; }
+		inline void setScaleTrack(ScaleTrack* scale_track) { m_scale_track = scale_track; }
 
 		// getters
-		inline const Object* getObject() const {
-			return m_object;
-		}
+		inline const Object* getObject() const {return m_object;}
 		inline const std::string& getName() const override { return m_name; }
 		inline int getId() const override { return m_id; }
 		inline Type getType() const override { return Type::Animation; }
@@ -126,14 +128,14 @@ namespace pe
 		inline float getTimeLength() const { return m_time_length; }
 		inline Signal& getAnimEndSignal() { return m_anim_end_signal; }
 
-		inline const sf::Vector2f& _getBeginPosition() const { return m_begin_position; }
-		inline const sf::Vector2f& _getBeginScale() const { return m_begin_scale; }
-		inline const float _getBeginRotation() const { return m_begin_rotation; }
+		inline const sf::Vector2f& getBeginPosition() const { return m_begin_position; }
+		inline const sf::Vector2f& getBeginScale() const { return m_begin_scale; }
+		inline const float getBeginRotation() const { return m_begin_rotation; }
 		
-		inline const SpriteFrameTrack* _getSpriteFrameTrack() const {  return m_sprite_frame_track;  }
-		inline const PositionTrack* _getPositionTrack() const { return m_position_track; }
-		inline const RotationTrack* _getRotationTrack() const { return m_rotation_track; }
-		inline const ScaleTrack* _getScaleTrack() const { return m_scale_track; }
+		inline const SpriteFrameTrack* getSpriteFrameTrack() const {  return m_sprite_frame_track;  }
+		inline const PositionTrack* getPositionTrack() const { return m_position_track; }
+		inline const RotationTrack* getRotationTrack() const { return m_rotation_track; }
+		inline const ScaleTrack* getScaleTrack() const { return m_scale_track; }
 
 	private:
 		void emitSignal();

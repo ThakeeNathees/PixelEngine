@@ -245,30 +245,30 @@ namespace pe
 		anim_tag->InsertEndChild(begin_transform_tag);
 		auto begin_pos_tag = m_doc->NewElement("position");
 		begin_transform_tag->InsertEndChild(begin_pos_tag);
-		begin_pos_tag->SetAttribute("x", anim->_getBeginPosition().x);
-		begin_pos_tag->SetAttribute("y", anim->_getBeginPosition().y);
+		begin_pos_tag->SetAttribute("x", anim->getBeginPosition().x);
+		begin_pos_tag->SetAttribute("y", anim->getBeginPosition().y);
 		auto begin_rotation_tag = m_doc->NewElement("rotation");
 		begin_transform_tag->InsertEndChild(begin_rotation_tag);
-		begin_rotation_tag->SetAttribute("angle", anim->_getBeginRotation());
+		begin_rotation_tag->SetAttribute("angle", anim->getBeginRotation());
 		auto begin_scale_tag = m_doc->NewElement("scale");
 		begin_transform_tag->InsertEndChild(begin_scale_tag);
-		begin_scale_tag->SetAttribute("x", anim->_getBeginScale().x);
-		begin_scale_tag->SetAttribute("y", anim->_getBeginScale().y);
+		begin_scale_tag->SetAttribute("x", anim->getBeginScale().x);
+		begin_scale_tag->SetAttribute("y", anim->getBeginScale().y);
 		
-		if (anim->_getSpriteFrameTrack()) {
+		if (anim->getSpriteFrameTrack()) {
 			auto sprite_frame_track_tag = m_doc->NewElement("sprite_frame_track");
 			anim_tag->InsertEndChild(sprite_frame_track_tag);
-			for (auto key : anim->_getSpriteFrameTrack()->getKeys()) {
+			for (auto key : anim->getSpriteFrameTrack()->getKeys()) {
 				auto key_tag = m_doc->NewElement("key");
 				sprite_frame_track_tag->InsertEndChild(key_tag);
 				key_tag->SetAttribute("time", key.time);
 				key_tag->SetAttribute("frame", key.data.sprite_frame);
 			}
 		}
-		if (anim->_getPositionTrack()) {
+		if (anim->getPositionTrack()) {
 			auto position_track_tag = m_doc->NewElement("position_track");
 			anim_tag->InsertEndChild(position_track_tag);
-			for (auto key : anim->_getPositionTrack()->getKeys()) {
+			for (auto key : anim->getPositionTrack()->getKeys()) {
 				auto key_tag = m_doc->NewElement("key");
 				position_track_tag->InsertEndChild(key_tag);
 				key_tag->SetAttribute("time", key.time);
@@ -276,20 +276,20 @@ namespace pe
 				key_tag->SetAttribute("y", key.data.position.y);
 			}
 		}
-		if (anim->_getRotationTrack()) {
+		if (anim->getRotationTrack()) {
 			auto rotation_track_tag = m_doc->NewElement("rotation_track");
 			anim_tag->InsertEndChild(rotation_track_tag);
-			for (auto key : anim->_getRotationTrack()->getKeys()) {
+			for (auto key : anim->getRotationTrack()->getKeys()) {
 				auto key_tag = m_doc->NewElement("key");
 				rotation_track_tag->InsertEndChild(key_tag);
 				key_tag->SetAttribute("time", key.time);
 				key_tag->SetAttribute("angle", key.data.rotation);
 			}
 		}
-		if (anim->_getScaleTrack()) {
+		if (anim->getScaleTrack()) {
 			auto scale_track_tag = m_doc->NewElement("scale_track");
 			anim_tag->InsertEndChild(scale_track_tag);
-			for (auto key : anim->_getScaleTrack()->getKeys()) {
+			for (auto key : anim->getScaleTrack()->getKeys()) {
 				auto key_tag = m_doc->NewElement("key");
 				scale_track_tag->InsertEndChild(key_tag);
 				key_tag->SetAttribute("time", key.time);

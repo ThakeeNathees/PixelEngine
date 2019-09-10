@@ -22,11 +22,11 @@ namespace pe
 		void update();
 
 		inline void setLoop(bool loop) { m_loop = loop; }
-		inline void setTotalTime(float time) { m_time = time; }
+		inline void setTime(float time) { m_time = time; }
 
 		double getRemainingTime() const;
 		inline const std::string& getName() const { return m_name; }
-		inline float getTotalTime() const { return m_time; }
+		inline float getTime() const { return m_time; }
 		inline Signal& getTimoutSignal() { return m_signal; }
 
 	private:

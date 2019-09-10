@@ -6,7 +6,7 @@ namespace py = pybind11;
 
 #include "api/entities/Area.h"
 
-void register_area(py::module m)
+void register_area(py::module& m)
 {
 	py::class_<pe::Area, sf::Transformable, pe::Asset>(m, "Area")
 		.def(py::init<>())

@@ -155,7 +155,13 @@
     <ClInclude Include="src\bindings\python\entities\py_Area.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\bindings\python\entities\py_Signal.h">
+    <ClInclude Include="src\bindings\python\entities\py_Signal_Timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bindings\python\entities\py_Animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bindings\python\types\py_Event.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

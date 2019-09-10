@@ -1,11 +1,36 @@
 
 import pixel_engine as pe
 
-s  = pe.Signal()
-s.setData(42)
-print( s.getData() )
-
+#print(
+#dir(pe.Key)
+#)
+#print(dir(pe))
+#print(dir(pe.Event.EventType))
+'''
+print(dir(pe.Mouse))
 #'''
+
+
+def inp(event):
+        if (event.getType() == pe.EventType.MouseWheelMoved):
+                print(event.getWheel())
+                print(event.getMousePosition())
+        pass
+	#print(event)
+
+'''
+k = pe.TrackKey(0,pe.TrackData(11212))
+s = pe.SpriteFrameTrack()
+s.addKey(k)
+
+a = pe.Animation()
+a.setTimeLength(10)
+a.setSpriteFrameTrack(s)
+
+spt = a.getSpriteFrameTrack()
+print(spt.getKeys()[0].data.sprite_frame)
+
+
 spr = pe.Sprite()
 tex = pe.Texture()
 tex.loadFromFile("res/logo.png")
@@ -31,10 +56,10 @@ area.setScale(2,2)
 area.setOrigin(10,10)
 #area.rotate(area.getId()%360)
 
-#'''
 
 #print(area.getCount())
 
 #spr.setFrames(3,3,0,0)
 #spr.setFrameIndex(1)
 
+#'''

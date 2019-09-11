@@ -11,7 +11,7 @@ namespace pe
 	int Object::s_object_count = 0;
 	int Object::s_next_id = static_cast<int>( Asset::Type::Object );
 	sf::RenderTarget* Object::s_render_target = nullptr;
-	sf::Color Object::m_default_color = sf::Color(50, 75, 100, 255);
+	sf::Color Object::s_default_color = sf::Color(50, 75, 100, 255);
 
 	Object::Object() {
 		s_object_count++;
@@ -62,7 +62,7 @@ namespace pe
 		if ( m_sprite ) s_render_target->draw(getSprite());
 	}
 
-	void Object::drawRectangle(float x, float y, float width, float height, sf::Color color, bool outline, int outline_thickness) const {
+	void Object::drawRectangle(float x, float y, float width, float height, const sf::Color& color, bool outline, int outline_thickness) const {
 		assert(s_render_target != nullptr && "drawRectangle() can only be call from draw() method");
 		sf::RectangleShape shape(sf::Vector2f(width, height));
 		shape.setPosition(x, y);
@@ -77,11 +77,11 @@ namespace pe
 		s_render_target->draw(shape);
 	}
 
-	void Object::drawLine(float x1, float y1, float x2, float y2, float thickness, sf::Color color) const {
+	void Object::drawLine(float x1, float y1, float x2, float y2, float thickness, const sf::Color& color) const {
 		assert(s_render_target != nullptr && "drawLIne() can only be call from draw() method");
 		// TODO:
 	}
-	void Object::drawCircle(float x, float y, float r, sf::Color color, bool outline, int outline_thickness) const {
+	void Object::drawCircle(float x, float y, float r, const sf::Color& color, bool outline, int outline_thickness) const {
 		assert(s_render_target != nullptr && "drawCircle() can only be call from draw() method");
 		sf::CircleShape circle(r);
 		circle.setPosition(x - r, y - r);
@@ -161,7 +161,7 @@ namespace pe
 		setScale(getScale().x * x, getScale().y * y);
 	}
 
-	void Object::setZIndex(int z_index) {
+	void Object::setZindex(int z_index) {
 		m_z_index = z_index;
 		if ( m_scene!= nullptr ) getScene().sortZIndex();
 	}

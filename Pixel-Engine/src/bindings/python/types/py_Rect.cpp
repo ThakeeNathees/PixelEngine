@@ -1,4 +1,5 @@
-#pragma once
+#include "pch.h"
+#include "types.h"
 
 #include <pybind11/embed.h>
 namespace py = pybind11;
@@ -15,10 +16,10 @@ void register_rect(py::module& m)
 		.def_readwrite("y", &sf::FloatRect::top)
 		.def_readwrite("w", &sf::FloatRect::width)
 		.def_readwrite("h", &sf::FloatRect::height)
-
-		.def("isContain", (bool(sf::FloatRect::*)(float, float) const) & sf::FloatRect::contains)
-		.def("isContain", (bool(sf::FloatRect::*)(const sf::Vector2f&) const) & sf::FloatRect::contains)
-		.def("isIntersects", (bool(sf::FloatRect::*)(const sf::FloatRect & other) const) & sf::FloatRect::intersects)
+		
+		.def("isContain", [](sf::FloatRect& self, float x, float y) {return self.contains(x, y); })
+		.def("isContain", [](sf::FloatRect& self, const sf::Vector2f& point) {return self.contains(point); })
+		.def("isIntersects", [](sf::FloatRect& self, const sf::FloatRect& other) { return self.intersects(other); })
 
 		.def("__eq__", [](const sf::FloatRect& self, const sf::FloatRect& other) { return self == other; })
 
@@ -36,9 +37,9 @@ void register_rect(py::module& m)
 		.def_readwrite("w", &sf::IntRect::width)
 		.def_readwrite("h", &sf::IntRect::height)
 
-		.def("isContain", (bool(sf::IntRect::*)(int, int) const) & sf::IntRect::contains)
-		.def("isContain", (bool(sf::IntRect::*)(const sf::Vector2i&) const) & sf::IntRect::contains)
-		.def("isIntersects", (bool(sf::IntRect::*)(const sf::IntRect & other) const) & sf::IntRect::intersects)
+		.def("isContain", [](sf::IntRect& self, int x, int y) {return self.contains(x, y); })
+		.def("isContain", [](sf::IntRect& self, const sf::Vector2i& point) {return self.contains(point); })
+		.def("isIntersects", [](sf::IntRect& self, const sf::IntRect& other) { return self.intersects(other); })
 
 		.def("__eq__", [](const sf::IntRect& self, const sf::IntRect& other) { return self == other; })
 

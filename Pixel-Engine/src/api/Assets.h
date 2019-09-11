@@ -57,12 +57,12 @@ namespace pe
 		template <typename T>
 		static T* getAsset(const std::string& name){
 			for (auto asset : s_assets) if (asset.second->getName() == name) return static_cast<T*>(asset.second);
-			assert(false && "invalid asset name to get!");
+			return nullptr;
 		}
 
 		template <typename T>
 		static T* getAsset(int id) {
-			assert( hasAsset(id) && "invalid asset name to get!");
+			if(! hasAsset(id)) return nullptr;
 			return static_cast<T*>(s_assets[id]);
 		}
 		
@@ -77,5 +77,8 @@ namespace pe
 		std::vector<int> m_assets;
 
 		static std::map<std::string, construct_f> s_object_registry;
+
+		// debug
+		friend class Application;
 	};
 }

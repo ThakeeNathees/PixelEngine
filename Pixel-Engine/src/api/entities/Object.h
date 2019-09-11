@@ -25,11 +25,12 @@ namespace pe
 		~Object();
 
 		// virtual functions
-		inline virtual void init() {};
+		inline virtual void sceneEntered(Scene*) {};
 		inline virtual void process(double dt) {};
-		inline virtual void input(Event& event) {} // return if event handled ?
+		inline virtual void input(Event& event) {}
 		inline virtual void recieveSignal(Signal& signal) {}
 		virtual void drawCall() const;
+		
 		void draw(const sf::Drawable& drawable) const;
 	private:
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -39,20 +40,20 @@ namespace pe
 		// draw methods
 		sf::RenderTarget& getRenderTarget() const;
 		void drawSelf() const;
-		void drawRectangle(float x, float y, float width, float height, sf::Color color = m_default_color, bool outline = false, int outline_thickness = 2) const;
 
-		void drawRectangle(const sf::Vector2f& position, const sf::Vector2f& dimension, sf::Color color = m_default_color, bool outline = false, int outline_thickness = 2) const { drawRectangle(position.x, position.y, dimension.x, dimension.y, color, outline, outline_thickness); }
-		inline void drawRectangle(const sf::FloatRect& rect, sf::Color color = m_default_color, bool outline = false, int outline_thickness = 2) const { drawRectangle(rect.top, rect.left, rect.width, rect.height, color, outline, outline_thickness); }
-		inline void drawRectangle(const sf::RectangleShape& shape) { draw(shape); }
+		void drawRectangle(float x, float y, float width, float height, const sf::Color& color = s_default_color, bool outline = false, int outline_thickness = 2) const;
+		void drawRectangle(const sf::Vector2f& position, const sf::Vector2f& dimension, const sf::Color& color = s_default_color, bool outline = false, int outline_thickness = 2) const { drawRectangle(position.x, position.y, dimension.x, dimension.y, color, outline, outline_thickness); }
+		inline void drawRectangle(const sf::FloatRect& rect, const sf::Color& color = s_default_color, bool outline = false, int outline_thickness = 2) const { drawRectangle(rect.top, rect.left, rect.width, rect.height, color, outline, outline_thickness); }
+		inline void drawRectangle(const sf::RectangleShape& shape) const { draw(shape); }
 
 
-		void drawLine(float x1, float y1, float x2, float y2, float thickness = 5, sf::Color color = m_default_color)const; // TODO:	
-		inline void drawLine(const sf::Vector2f& point1, const sf::Vector2f& point2, float thickness = 5, sf::Color color = m_default_color) const {
+		void drawLine(float x1, float y1, float x2, float y2, float thickness = 5, const sf::Color& color = s_default_color)const; // TODO:	
+		inline void drawLine(const sf::Vector2f& point1, const sf::Vector2f& point2, float thickness = 5, const sf::Color& color = s_default_color) const {
 			drawLine(point1.x, point1.y, point2.x, point2.y, thickness, color);
 		}
 
-		void drawCircle(float x, float y, float r, sf::Color color = m_default_color, bool outline = false, int outline_thickness = 2) const;
-		inline void drawCircle(const sf::Vector2f& position, float r, sf::Color color = m_default_color, bool outline = false, int outline_thickness = 2) const { drawCircle(position.x, position.y, r, color, outline, outline_thickness); }
+		void drawCircle(float x, float y, float r, const sf::Color& color = s_default_color, bool outline = false, int outline_thickness = 2) const;
+		inline void drawCircle(const sf::Vector2f& position, float r, const sf::Color& color = s_default_color, bool outline = false, int outline_thickness = 2) const { drawCircle(position.x, position.y, r, color, outline, outline_thickness); }
 
 		void emitSignal(Signal& signal);
 
@@ -75,13 +76,13 @@ namespace pe
 		inline void scale(const sf::Vector2f& vect) { scale(vect.x, vect.y); }
 
 		void setSprite(Sprite* sprite);
-		void setZIndex(int z_index);
+		void setZindex(int z_index);
 		void setArea(Area* area = nullptr);
 		void addAnimation(Animation* anim);
 		void addTimer(Timer* timer);
 
 		inline void setName(const std::string& name) override { m_name = name; }
-		inline void setVisible(bool visible) { m_visible = visible; }
+		inline void setVisible(bool visible) override { m_visible = visible; }
 		inline void setPersistence(bool persistence) { m_persistence = persistence; }
 
 		void clear(); // clear timers, ...
@@ -91,18 +92,18 @@ namespace pe
 		inline const std::string& getClassName() const { return m_class_name; }
 		inline int getId() const override { return m_id; }
 		inline Type getType() const override { return Type::Object; }
-		inline int getZIndex() const { return m_z_index; }
-		inline bool isVisible() const { return m_visible; }
+		inline int getZindex() const override { return m_z_index; }
+		inline bool isVisible() const override { return m_visible; }
 		inline bool isPersistence() const { return m_persistence; }
 
 		inline Application& getApplication() const { assert(m_applicaton != nullptr); return *m_applicaton; }
 		inline Scene& getScene() const { assert(m_scene != nullptr);		return *m_scene; }
 		inline Area& getArea() const { assert(m_area != nullptr);		return *m_area; }
 		inline Sprite& getSprite() const { assert(m_sprite != nullptr);		return *m_sprite; }
-		inline std::vector<Timer*>& getTimers() { return m_timers; }
 		Timer& getTimer(const std::string& timer_name);
-		inline std::map<std::string, Animation*>& getAnimations() { return m_animations; }
+		inline std::vector<Timer*>& getTimers() { return m_timers; }
 		Animation& getAnimation(const std::string& anim_name);
+		inline std::map<std::string, Animation*>& getAnimations() { return m_animations; }
 
 
 		inline bool hasApplication() const { return m_applicaton != nullptr; }
@@ -142,7 +143,7 @@ namespace pe
 		std::map<std::string, Animation*> m_animations;
 
 		// for debug printing
-		static sf::Color m_default_color;
+		static sf::Color s_default_color;
 		sf::CircleShape* m_dbg_origin = nullptr;
 	};
 }

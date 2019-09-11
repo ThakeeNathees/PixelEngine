@@ -50,6 +50,7 @@ namespace pe {
 		inline bool hasWindow() const { return m_window != nullptr; }
 		inline bool hasScene() const { return m_current_scene != nullptr; }
 
+		static sf::Color s_default_color;
 	private:
 
 		struct _peproj m_peproj;

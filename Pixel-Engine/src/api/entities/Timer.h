@@ -27,7 +27,7 @@ namespace pe
 		double getRemainingTime() const;
 		inline const std::string& getName() const { return m_name; }
 		inline float getTime() const { return m_time; }
-		inline Signal& getTimoutSignal() { return m_signal; }
+		inline Signal& getTimeoutSignal() { return m_signal; }
 
 	private:
 

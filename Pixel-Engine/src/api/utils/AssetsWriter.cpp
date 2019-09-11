@@ -310,7 +310,7 @@ namespace pe
 
 		auto prop = m_doc->NewElement("properties");
 		obj_tag->InsertEndChild(prop);
-		prop->SetAttribute("z_index", obj->getZIndex());
+		prop->SetAttribute("z_index", obj->getZindex());
 		prop->SetAttribute("visible", obj->isVisible());
 		prop->SetAttribute("persistence", obj->isPersistence());
 

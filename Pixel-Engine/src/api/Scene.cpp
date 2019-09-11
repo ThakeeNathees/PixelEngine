@@ -21,7 +21,7 @@ namespace pe
 		s_scene_count--;
 	}
 	bool Scene::sortCompare(pe::Drawable* obj1, pe::Drawable* obj2) {
-		return obj1->getZIndex() < obj2->getZIndex();
+		return obj1->getZindex() < obj2->getZindex();
 	}
 
 	void Scene::clear()

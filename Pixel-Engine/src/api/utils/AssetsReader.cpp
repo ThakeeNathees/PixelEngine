@@ -293,7 +293,7 @@ namespace pe
 
 			auto prop = obj_tag->FirstChildElement("properties");
 			obj->setVisible(prop->BoolAttribute("visible") );
-			obj->setZIndex(prop->IntAttribute("z_index"));
+			obj->setZindex(prop->IntAttribute("z_index"));
 			obj->setPersistence( prop->BoolAttribute("persistence") );
 
 			auto transform_tag = obj_tag->FirstChildElement("transform");

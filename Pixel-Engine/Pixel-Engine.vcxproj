@@ -113,18 +113,10 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
     <ClInclude Include="src\api\misc\Texture.h" />
     <ClInclude Include="src\api\Scene.h" />
     <ClInclude Include="src\api\utils\AssetsReader.h" />
-    <ClInclude Include="src\bindings\python\entities\py_Animation.h" />
-    <ClInclude Include="src\bindings\python\entities\py_Area.h" />
-    <ClInclude Include="src\bindings\python\entities\py_Signal_Timer.h" />
-    <ClInclude Include="src\bindings\python\entities\py_Sprite.h" />
-    <ClInclude Include="src\bindings\python\entities\py_Texture.h" />
+    <ClInclude Include="src\bindings\python\pe_api\pe_api.h" />
+    <ClInclude Include="src\bindings\python\entities\entities.h" />
     <ClInclude Include="src\bindings\python\pybind.h" />
-    <ClInclude Include="src\bindings\python\types\py_Color.h" />
-    <ClInclude Include="src\bindings\python\types\py_Draw_Trans.h" />
-    <ClInclude Include="src\bindings\python\types\py_Event.h" />
-    <ClInclude Include="src\bindings\python\types\py_Rect.h" />
-    <ClInclude Include="src\bindings\python\types\py_Shape.h" />
-    <ClInclude Include="src\bindings\python\types\py_Vect.h" />
+    <ClInclude Include="src\bindings\python\types\types.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\api\Application.h" />
     <ClInclude Include="src\api\core.h" />
@@ -146,6 +138,19 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
     <ClCompile Include="src\api\misc\misc.cpp" />
     <ClCompile Include="src\api\Scene.cpp" />
     <ClCompile Include="src\api\utils\AssetsReader.cpp" />
+    <ClCompile Include="src\bindings\python\pe_api\py_Assets.cpp" />
+    <ClCompile Include="src\bindings\python\entities\py_Animation.cpp" />
+    <ClCompile Include="src\bindings\python\entities\py_Area.cpp" />
+    <ClCompile Include="src\bindings\python\entities\py_Object.cpp" />
+    <ClCompile Include="src\bindings\python\entities\py_Signal_Timer.cpp" />
+    <ClCompile Include="src\bindings\python\entities\py_Sprite.cpp" />
+    <ClCompile Include="src\bindings\python\entities\py_Texture.cpp" />
+    <ClCompile Include="src\bindings\python\types\py_Color.cpp" />
+    <ClCompile Include="src\bindings\python\types\py_Draw_Trans.cpp" />
+    <ClCompile Include="src\bindings\python\types\py_Event.cpp" />
+    <ClCompile Include="src\bindings\python\types\py_Rect.cpp" />
+    <ClCompile Include="src\bindings\python\types\py_Shape.cpp" />
+    <ClCompile Include="src\bindings\python\types\py_Vect.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch.h</PrecompiledHeaderFile>

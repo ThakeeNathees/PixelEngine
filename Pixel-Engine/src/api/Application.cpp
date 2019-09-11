@@ -21,32 +21,28 @@ namespace pe
 {
 	void Application::test( Application& app ) {
 		
-		//*
-		//PE_PRINT("TEST");
 		py::scoped_interpreter intp;
 		try
 		{
-			py::exec("import pixel_engine as pe");
 			pe::Event eve;
-			auto pxe = py::module::import("pixel_engine");
+			//py::exec("import pixel_engine as pe");
+			//auto pxe = py::module::import("pixel_engine");
+			auto o = new Object();
+			py::module mod = py::module::import("py_test");
+			mod.attr("init")(py::cast(o));
 			while (true) {
 				try
 				{
-					//*
-					py::module mod = py::module::import("py_test");
-					//__debugbreak();
-					auto input = mod.attr("inp");
-					//auto a = mod.attr("area").cast<Area*>();
-					while (app.getWindow().pollEvent(eve))
-					{
-						input(py::cast(eve));
-					}
-					//app.getWindow().clear(sf::Color(12, 21, 34));
-					//if (a->hasShape())
-					//app.getWindow().draw(a->getShape());
+					while (app.getWindow().pollEvent(eve)){}
+					Assets::s_assets;
+					mod.attr("process")(py::cast(o));
+
+					app.getWindow().clear();
+					app.getWindow().draw(*o);
 					app.getWindow().display();
-					mod.reload();//*/
-					/*
+					mod.reload();
+					
+					/* interpriter
 					py::exec("print('>>> ', end='')");
 					py::exec("_pe_cmd = input()");
 					py::exec("if _pe_cmd[:6]!= 'print(':\n\ttry:\n\t\tprint(eval(_pe_cmd))\n\texcept:\n\t\tpass");
@@ -61,6 +57,7 @@ namespace pe
 	}
 
 	sf::Color Application::s_background_color = sf::Color(80, 80, 80, 255);
+	sf::Color Application::s_default_color = sf::Color(50, 75, 100, 255);
 
 	Application::Application( const sf::Vector2i& window_size, const std::string& title )
 		: m_scene_changed_signal( Signal("scene_changed") )
@@ -128,7 +125,7 @@ namespace pe
 		
 		for (auto obj : m_current_scene->getObjects()) {
 			obj->m_applicaton = this;
-			obj->init();
+			obj->sceneEntered(m_current_scene);
 			for (Timer* timer : obj->m_timers) m_current_scene->addTimer(timer);
 		}
 	}

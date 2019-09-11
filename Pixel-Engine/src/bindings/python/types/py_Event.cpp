@@ -1,9 +1,9 @@
-#pragma once
+#include "pch.h"
+#include "types.h"
 
 #include <pybind11/embed.h>
 namespace py = pybind11;
 
-#include <SFML/Window.hpp>
 #include "api/misc/Event.h"
 
 void register_event(py::module& m)
@@ -33,7 +33,6 @@ void register_event(py::module& m)
 		.value("TouchMoved", pe::Event::EventType::TouchMoved)
 		.value("TouchEnded", pe::Event::EventType::TouchEnded)
 		.value("SensorChanged", pe::Event::EventType::SensorChanged)
-		.export_values()
 		;
 
 	py::enum_<sf::Keyboard::Key>(m, "Key")
@@ -139,7 +138,6 @@ void register_event(py::module& m)
 		.value("F14", sf::Keyboard::Key::F14)
 		.value("F15", sf::Keyboard::Key::F15)
 		.value("Pause", sf::Keyboard::Key::Pause)
-		.export_values()
 		;
 	py::enum_<sf::Mouse::Button>(m, "Button")
 		.value("Left",	sf::Mouse::Button::Left )
@@ -153,8 +151,6 @@ void register_event(py::module& m)
 		.value("VerticalWheel", sf::Mouse::Wheel::VerticalWheel)
 		.value("HorizontalWheel", sf::Mouse::Wheel::HorizontalWheel)
 		;
-
-
 
 /*
 	py::class_<pe::Event::KeyEvent>(m, "_KeyEvent")
@@ -231,6 +227,7 @@ void register_event(py::module& m)
 				}
 				if (self.type == sf::Event::EventType::MouseWheelMoved) { pos.x = self.mouseWheel.x; pos.y = self.mouseWheel.y; return pos; }
 				if (self.type == sf::Event::EventType::MouseWheelScrolled) { pos.x = self.mouseWheelScroll.x; pos.y = self.mouseWheelScroll.y; return pos; }
+				return pos;
 			}
 		)
 		.def("getSize", [](pe::Event& self) {sf::Vector2i size; size.x = self.size.width; size.y = self.size.height; return size; })

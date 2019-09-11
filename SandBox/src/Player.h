@@ -9,7 +9,7 @@
 class Player : public pe::Object
 {
 public:
-	inline void init() override {
+	inline void sceneEntered(pe::Scene* scene) override {
 		npc = getScene().getObject("Npc");
 	}
 
@@ -26,7 +26,7 @@ public:
 
 	inline void process(double dt) override {
 		int spd = 10;
-		setZIndex( getPosition().y );
+		setZindex( getPosition().y );
 		if (pe::isKeyPressed('W')) {
 			getAnimation("walk_up").play();
 			move(0,-2);

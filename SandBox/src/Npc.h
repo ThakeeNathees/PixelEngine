@@ -9,7 +9,7 @@
 class Npc : public pe::Object
 {
 public:
-	void init() override {
+	void sceneEntered(pe::Scene* scene) override {
 		font.loadFromFile("res/Indie_Flower/IndieFlower-Regular.ttf");
 		text.setFont(font);
 		setArea();
@@ -21,7 +21,7 @@ public:
 	}
 
 	void process(double dt) override {
-		setZIndex(getPosition().y);
+		setZindex(getPosition().y);
 		auto mouse = sf::Mouse::getPosition(getApplication().getWindow());
 		setPosition(sf::Vector2f(mouse.x, mouse.y));
 	}

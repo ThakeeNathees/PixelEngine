@@ -1,24 +1,31 @@
 
 import pixel_engine as pe
 
-#print(
-#dir(pe.Key)
-#)
-#print(dir(pe))
-#print(dir(pe.Event.EventType))
-'''
-print(dir(pe.Mouse))
-#'''
+def init(self):
+        t = pe.Assets.newTexture("tex")
+        t.loadFromFile("res/sheet.png")
+        s = pe.Assets.newSprite("my_spr")
+        s.setTexture(t)
+        print(s.getTexture().getName())
+        s.setFrames(12,8)
+        self.setSprite(s)
 
-
-def inp(event):
-        if (event.getType() == pe.EventType.MouseWheelMoved):
-                print(event.getWheel())
-                print(event.getMousePosition())
+def process(self):
+        s = self.getSprite()
+        print(s.getTexture().getName())
+        t= pe.Assets.getTexture("tex")
         pass
-	#print(event)
+        #self.setSprite(s)
+        
+        
+        
 
 '''
+def inp(event):
+        if (event.getType() == pe.EventType.KeyPressed):
+                print(event.getKey())                
+        pass
+
 k = pe.TrackKey(0,pe.TrackData(11212))
 s = pe.SpriteFrameTrack()
 s.addKey(k)

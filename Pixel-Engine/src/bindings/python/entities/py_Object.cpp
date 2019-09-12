@@ -5,10 +5,14 @@
 namespace py = pybind11;
 
 #include "api/Application.h"
+#include "..//PythonObject.h"
+
 
 void register_object(py::module m)
 {
-	py::class_<pe::Object, sf::Transformable, pe::Drawable, pe::Asset>(m, "Object")
+
+	py::class_<pe::Object, sf::Transformable, pe::Drawable, pe::Asset> pe_object(m, "Object", py::dynamic_attr());
+	pe_object
 		.def(py::init<>())
 
 		/* will defined in client_src.py
@@ -53,6 +57,7 @@ void register_object(py::module m)
 		// draw method end /////////////////////////////////////////////////////////
 
 		.def("emitSignal", &pe::Object::emitSignal)
+		.def("getObjectType", &pe::Object::getOjbectType)
 
 		.def("setPosition", (void(pe::Object::*)(float, float)) &pe::Object::setPosition)
 		.def("setPosition", (void(pe::Object::*)(const sf::Vector2f&)) &pe::Object::setPosition)
@@ -87,10 +92,14 @@ void register_object(py::module m)
 		.def("getAnimation", [](pe::Object& self, const std::string& name)->pe::Animation * { if (self.hasAnimation(name)) return &self.getAnimation(name); return nullptr; }, py::return_value_policy::reference)
 		.def("getTimers", &pe::Object::getTimers, py::return_value_policy::reference)
 		.def("getAnimations", &pe::Object::getAnimations, py::return_value_policy::reference)
-		//*/
-		
-
 
 		;
+
+	py::enum_<pe::Object::ObjectType>(pe_object, "ObjectType")
+		.value("CPP_OBJECT", pe::Object::ObjectType::CPP_OBJECT)
+		.value("PYTHON_OBJECT", pe::Object::ObjectType::PYTHON_OBJECT)
+		;
+
+	py::class_<PythonObject, pe::Object>(m, "__pyObject");
 }
 

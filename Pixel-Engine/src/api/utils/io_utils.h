@@ -2,7 +2,7 @@
 #include "../core.h"
 
 // TODO: up_key, down_key, numpad, delete, control, shift and other
-
+/*
 namespace pe
 {
 	inline bool isKeyPressed(char key) {
@@ -38,3 +38,4 @@ namespace pe
 		return false;
 	}
 }
+*/

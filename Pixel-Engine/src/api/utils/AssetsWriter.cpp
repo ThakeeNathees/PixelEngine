@@ -303,6 +303,14 @@ namespace pe
 		auto objects = m_doc->FirstChildElement()->FirstChildElement("objects");
 		auto obj_tag = m_doc->NewElement("object");
 		objects->InsertEndChild(obj_tag);
+		switch (obj->getOjbectType()) {
+		case Object::ObjectType::CPP_OBJECT:
+			obj_tag->SetAttribute("type", "CPP_OBJECT");
+			break;
+		case Object::ObjectType::PYTHON_OBJECT:
+			obj_tag->SetAttribute("type", "PYTHON_OBJECT");
+			break;
+		}
 		obj_tag->SetAttribute("class_name", obj->getClassName().c_str());
 		obj_tag->SetAttribute("name", obj->getName().c_str());
 		obj_tag->SetAttribute("id", obj->getId());

@@ -22,6 +22,7 @@ PYBIND11_EMBEDDED_MODULE(pixel_engine, m) {
 		.def("setName", [](pe::Asset& self, const std::string& name) {self.setName(name); })
 		.def("getType", [](pe::Asset& self) {return self.getType(); })
 		;
+	
 
 	py::enum_<pe::Asset::Type>(py_asset, "AssetTypes")
 		.value("Texture", pe::Asset::Type::Texture)
@@ -47,10 +48,11 @@ PYBIND11_EMBEDDED_MODULE(pixel_engine, m) {
 	// entities
 	register_texture(m);
 	register_sprite(m);
+	register_bg(m);
 	register_area(m);
 	register_signal_timer(m);
 	register_animation(m);
-	register_object(m);
+	register_object(m);	
 
 	// pe_api
 	register_assets(m);

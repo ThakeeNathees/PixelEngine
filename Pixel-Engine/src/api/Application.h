@@ -1,14 +1,11 @@
 #pragma once
 #include "core.h"
-
 #include "Assets.h"
+
 
 namespace pe {
 
 	struct PIXEL_ENGINE_API _peproj {
-		inline _peproj(bool is_default=true) {
-			if (is_default) assets_paths.push_back("assets.xml");
-		}
 		glm::ivec2 window_size = glm::ivec2(640, 480);
 		std::string title = "Pixel-Engine-Project";
 		int frame_rate = 30;
@@ -29,6 +26,8 @@ namespace pe {
 		Application(const struct _peproj& proj);
 		Application(const Application& other) = delete;
 		~Application();
+
+		static void mainLoop(const _peproj& proj); // scope of python interpriter
 
 		void update();
 
@@ -66,5 +65,6 @@ namespace pe {
 		std::vector<Object*> m_persistent_objects;
 		std::vector<Scene*> m_scenes;
 		static sf::Color s_background_color;
+
 	};
 }

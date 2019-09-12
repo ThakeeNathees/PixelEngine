@@ -23,13 +23,19 @@ namespace pe
 		Object();
 		Object(const Object& other) = delete;
 		~Object();
+	
+		enum class ObjectType {
+			CPP_OBJECT = 0,
+			PYTHON_OBJECT
+		};
 
 		// virtual functions
 		inline virtual void sceneEntered(Scene*) {};
 		inline virtual void process(double dt) {};
-		inline virtual void input(Event& event) {}
+		inline virtual void handleEvent(Event& event) {}
 		inline virtual void recieveSignal(Signal& signal) {}
-		virtual void drawCall() const;
+		inline virtual void drawCall() const;
+		inline virtual void scriptReload() {}
 		
 		void draw(const sf::Drawable& drawable) const;
 	private:
@@ -91,6 +97,7 @@ namespace pe
 		inline const std::string& getName() const override { return m_name; }
 		inline const std::string& getClassName() const { return m_class_name; }
 		inline int getId() const override { return m_id; }
+		inline ObjectType getOjbectType() { return m_object_type; }
 		inline Type getType() const override { return Type::Object; }
 		inline int getZindex() const override { return m_z_index; }
 		inline bool isVisible() const override { return m_visible; }
@@ -115,7 +122,9 @@ namespace pe
 
 
 
-
+	protected:
+		ObjectType m_object_type = ObjectType::CPP_OBJECT;
+		std::string m_class_name; // class name as string
 	private:
 		inline void setScene(Scene* scene) { m_scene = scene; }
 		friend class Scene;
@@ -129,9 +138,9 @@ namespace pe
 
 		
 
-		std::string m_class_name; // class name as string
 		std::string m_name;
 		int m_id;
+
 		int m_z_index = 0; // small val render first
 		bool m_visible = true;
 		bool m_persistence = false; // persistence between scenes

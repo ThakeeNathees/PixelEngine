@@ -3,19 +3,17 @@
 ## TODO ########################################################################
 	
 HIGHT PRIORITY
-	time map
 	pybind
-	camera
+		font, text, scene, window, application
 
 LOW PRIORITY
-	keyboard key define in header
+	time map
+	camera
 	pe::text
 	change assert to trow and chatch them with TCP socket
 	add object m_process_priority
 	peproj add mini asset for no setup run
-	scene window size delete in xml
 	remove persistence object from vector
-	timel map -> application draw a vector of drawable of current scene
 	nexeScene(), previousScene() => scene stack
 
 # Logs ########################################################################

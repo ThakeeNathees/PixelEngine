@@ -1,6 +1,37 @@
 
 import pixel_engine as pe
 
+y = 2
+
+def init(s):
+        return
+
+def process(self, dt):
+        if pe.isKeyPressed(pe.Key.A):
+                self.getSprite().setFrameIndex(23)
+                self.move(-4,0)
+        if pe.isKeyPressed(pe.Key.D):
+                self.getSprite().setFrameIndex(33)
+                self.move(4,0)
+        pass
+
+def handleEvent(self, event):
+        pass
+
+def drawCall(self):
+        self.drawSelf()
+        self.drawRectangle(10,10,100,100, pe.Color(100,80,140))
+        return 
+        for i in range(8):
+                for j in range(8):
+                        color = pe.Color(255,255,255)
+                        if (i==4 and j==0): color = pe.Color(100,0,0)
+                        if (i==1 and j==4): color = pe.Color(0,0,100)
+                        if (i == 5) : color = pe.Color(0,100,0)
+                        if (j==3) : color = pe.Color(151, 101, 160)
+                        self.drawRectangle(50*i+10,50*j+10,50-10,50-10, color, False, 3)
+
+'''
 def init(self):
         t = pe.Assets.newTexture("tex")
         t.loadFromFile("res/sheet.png")
@@ -12,13 +43,12 @@ def init(self):
 
 def process(self):
         s = self.getSprite()
-        print(s.getTexture().getName())
-        t= pe.Assets.getTexture("tex")
+        print(s.getTexture().getId())
         pass
         #self.setSprite(s)
         
         
-        
+'''        
 
 '''
 def inp(event):

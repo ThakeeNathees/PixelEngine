@@ -7,7 +7,7 @@ namespace pe
 {
 	int Area::s_area_count = 0;
 	int Area::s_next_id = static_cast<int>(Asset::Type::Area);
-	sf::Color Area::s_debug_shape_color = sf::Color(100, 0, 0, 255);
+	sf::Color Area::s_debug_shape_color = sf::Color(0, 0, 0, 255);
 
 	Area::~Area() {
 		std::cout << "area distruct" << std::endl;

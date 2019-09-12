@@ -116,6 +116,7 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
     <ClInclude Include="src\bindings\python\pe_api\pe_api.h" />
     <ClInclude Include="src\bindings\python\entities\entities.h" />
     <ClInclude Include="src\bindings\python\pybind.h" />
+    <ClInclude Include="src\bindings\python\PythonObject.h" />
     <ClInclude Include="src\bindings\python\types\types.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\api\Application.h" />
@@ -138,6 +139,7 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
     <ClCompile Include="src\api\misc\misc.cpp" />
     <ClCompile Include="src\api\Scene.cpp" />
     <ClCompile Include="src\api\utils\AssetsReader.cpp" />
+    <ClCompile Include="src\bindings\python\entities\py_Background.cpp" />
     <ClCompile Include="src\bindings\python\pe_api\py_Assets.cpp" />
     <ClCompile Include="src\bindings\python\entities\py_Animation.cpp" />
     <ClCompile Include="src\bindings\python\entities\py_Area.cpp" />

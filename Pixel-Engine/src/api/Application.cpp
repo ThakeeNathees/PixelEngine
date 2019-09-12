@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "Application.h"
+#include "api/utils/AssetsReader.h"
+#include "api/utils/AssetsWriter.h"
 
 #include "entities/Sprite.h"
 #include "entities/Object.h"
@@ -14,33 +16,28 @@
 namespace py = pybind11;
 // test
 #include "bindings/python/pybind.h"
-
-
+#include "bindings/python/PythonObject.h"
 
 namespace pe
 {
 	void Application::test( Application& app ) {
+		return;
 		
-		py::scoped_interpreter intp;
 		try
 		{
 			pe::Event eve;
-			//py::exec("import pixel_engine as pe");
-			//auto pxe = py::module::import("pixel_engine");
-			auto o = new Object();
-			py::module mod = py::module::import("py_test");
-			mod.attr("init")(py::cast(o));
+			Object* o = new PythonObject("py_test");
 			while (true) {
 				try
 				{
-					while (app.getWindow().pollEvent(eve)){}
-					Assets::s_assets;
-					mod.attr("process")(py::cast(o));
-
-					app.getWindow().clear();
+					while (app.getWindow().pollEvent(eve)){
+						o->handleEvent(eve);
+					}
+					o->process(1/30);
+					app.getWindow().clear(sf::Color(30,40,50));
 					app.getWindow().draw(*o);
 					app.getWindow().display();
-					mod.reload();
+					o->scriptReload();
 					
 					/* interpriter
 					py::exec("print('>>> ', end='')");
@@ -52,12 +49,26 @@ namespace pe
 			}
 		}
 		catch (const std::exception& e ) { PE_PRINT(e.what()); }
-		//*/
+
 		__debugbreak();
 	}
 
 	sf::Color Application::s_background_color = sf::Color(80, 80, 80, 255);
 	sf::Color Application::s_default_color = sf::Color(50, 75, 100, 255);
+
+	void Application::mainLoop(const _peproj& proj) {
+		py::scoped_interpreter intp;
+
+		pe::Application app(proj);
+
+		// for testing
+		pe::AssetsWriter w;
+		w.addAssets();
+		w.save("test.xml");
+		pe::Application::test(app); 
+
+		app.update();
+	}
 
 	Application::Application( const sf::Vector2i& window_size, const std::string& title )
 		: m_scene_changed_signal( Signal("scene_changed") )
@@ -91,7 +102,12 @@ namespace pe
 			m_window->setIcon( tex->getSize().x,tex->getSize().y, tex->copyToImage().getPixelsPtr() );
 		}
 
-		setCurrentScene( proj.begin_scene_id );
+		if (proj.assets_paths.size() == 0) {
+			auto scene = Assets::newAsset<Scene>();
+			setCurrentScene(scene);
+		}
+		else setCurrentScene(proj.begin_scene_id);
+
 		setBgColor( proj.default_bg_color );
 	}
 
@@ -159,7 +175,8 @@ namespace pe
 			while (m_window->pollEvent(event)) {
 				assert( m_current_scene );
 				for (Object* object : m_current_scene->getObjects()) {
-					object->input(event);
+					try{ object->handleEvent(event); }
+					catch (const std::exception& err) { PE_PRINT(err.what()); }
 					if (event.isHandled()) continue;
 				}
 			}
@@ -173,18 +190,23 @@ namespace pe
 
 				for (Signal* signal : m_current_scene->m_signals) {
 					for (Object* object : signal->getRecievers()) {
-						if (object != nullptr) object->recieveSignal(*signal);
+						if (object != nullptr) { 
+							try{ object->recieveSignal(*signal); }
+							catch (const std::exception& err) { PE_PRINT(err.what()); }
+						}
 					}
 				}
 				m_current_scene->m_signals.clear();
 
 				for (Object* object : m_current_scene->getObjects()) {
 					dt += clock.getElapsedTime().asMicroseconds() / 1000000.0;
-					object->process(dt);
+					try { object->process(dt); }
+					catch (const std::exception& err) { PE_PRINT(err.what()); }
 				}
 
 				if (m_current_scene->getBackground()) { m_current_scene->getBackground()->move(dt); }
-				dt -= (1 / m_frame_rate);
+				//dt -=  (1 / m_frame_rate);
+				dt =  0;
 			}
 			clock.restart();
 			double interpolation = dt / (1 / m_frame_rate);
@@ -197,9 +219,16 @@ namespace pe
 			}
 
 			for (pe::Drawable* drawable : m_current_scene->getDrawables()) {
-				if (drawable->isVisible()) m_window->draw(*drawable);
+				if (drawable->isVisible()) {
+					try { m_window->draw(*drawable); }
+					catch (const std::exception& err) { PE_PRINT(err.what()); }
+				}
 			}
 			m_window->display();
+
+			if (m_is_debug_mode && sf::Keyboard::isKeyPressed(sf::Keyboard::F4)) {
+				for (auto obj : m_current_scene->getObjects()) obj->scriptReload();
+			}
 		}
 	}
 }

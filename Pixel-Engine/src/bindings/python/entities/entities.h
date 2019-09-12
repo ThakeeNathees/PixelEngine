@@ -9,3 +9,4 @@ void register_object(py::module m);
 void register_signal_timer(py::module& m);
 void register_sprite(py::module& m);
 void register_texture(py::module& m);
+void register_bg(py::module& m);

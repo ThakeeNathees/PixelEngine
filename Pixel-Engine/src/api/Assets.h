@@ -9,8 +9,6 @@ to organize and save the assets they group together as m_assets in each Assets i
 */
 
 
-
-
 typedef pe::Object* (*construct_f)(const std::string&);
 #define REGISTER_CLASS(class_name) pe::Assets::registerClass<class_name>(#class_name);
 
@@ -73,7 +71,9 @@ namespace pe
 		friend class AssetsReader;
 		friend class AssetsWriter;
 		friend class AssetsWindow; // delete this line
+	
 		static std::map<int, Asset*> s_assets;
+
 		std::vector<int> m_assets;
 
 		static std::map<std::string, construct_f> s_object_registry;

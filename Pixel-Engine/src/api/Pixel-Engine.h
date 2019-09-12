@@ -41,12 +41,9 @@ int main()
 	register_classes();
 	pe::AssetsReader reader( std::string(TOSTRING(PE_PROJECT)).append(".peproj.xml").c_str() );
 	reader._readPeproj();
-	pe::Application app(reader._getPeproj());
-
-	pe::Application::test(app); // for testing
-
-	app.update();
+	pe::Application::mainLoop(reader._getPeproj());
 	return 0;
+
 }
 #endif
 /*************************************/

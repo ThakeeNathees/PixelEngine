@@ -36,9 +36,10 @@ namespace pe
 		void setSmooth(bool smooth);
 		void setTexture(pe::Texture& texture);
 		inline void setMoveSpeed(int x, int y) { setMoveSpeed({x,y}); }
-		inline void setMoveSpeed(sf::Vector2i speed) { m_move_speed = speed; }
+		inline void setMoveSpeed(const sf::Vector2i& speed) { m_move_speed = speed; }
 
 		// getters
+		inline static int getCount() { return s_bg_count; }
 		inline const std::string& getName() const override { return m_name; }
 		inline int getId() const override { return m_id; }
 		inline Type getType() const override { return Type::Background; }

@@ -4,6 +4,8 @@
 #include "tinyxml2.h"
 #include "..//Assets.h"
 
+#include "bindings/python/PythonObject.h"
+
 namespace pe
 {
 
@@ -285,8 +287,18 @@ namespace pe
 	void AssetsReader::readObject(std::map<int, Asset*>& asset_map, Application* app) {
 		auto objs = m_doc->FirstChildElement()->FirstChildElement("objects");
 		for (auto obj_tag = objs->FirstChildElement(); obj_tag != NULL; obj_tag = obj_tag->NextSiblingElement()) {
+
+			std::string type = obj_tag->Attribute("type");
 			std::string class_name = obj_tag->Attribute("class_name");
-			Object* obj = Assets::constructObj(class_name); // assert here
+
+			Object* obj = nullptr;
+			if (type == std::string("CPP_OBJECT"))
+				obj = Assets::constructObj(class_name); // assert here
+			else if (type == std::string("PYTHON_OBJECT")) {
+				obj = new PythonObject(class_name);
+				Assets::addAsset(obj);
+			}
+
 			obj->setName(obj_tag->Attribute("name"));
 			obj->m_id = obj_tag->IntAttribute("id");
 			Object::s_next_id = glm::max(obj->m_id + 1, Object::s_next_id);

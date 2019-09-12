@@ -1,11 +1,12 @@
 <assets>
     <textures>
         <texture name="tex_0" id="0" smooth="false" repeat="true">res/logo.png</texture>
-        <texture name="tex_1" id="1" smooth="false" repeat="false">res/sheet.png</texture>
+        <texture name="tex_1" id="1" smooth="false" repeat="false">res/sprite_sheets/sheet.png</texture>
         <texture name="tex_2" id="2" smooth="false" repeat="true">res/backgrounds/grass.png</texture>
-        <texture name="tex_3" id="3" smooth="false" repeat="true">res/win_icon.png</texture>
     </textures>
-    <fonts/>
+    <fonts>
+        <font name="Asap-Regular" id="10000">res/fonts/Asap/Asap-Regular.ttf</font>
+    </fonts>
     <areas>
         <area name="area_20000" id="20000">
             <shape point_count="4">
@@ -32,14 +33,6 @@
             </shape>
         </area>
         <area name="area_20005" id="20005">
-            <shape point_count="4">
-                <point index="0" x="0" y="0"/>
-                <point index="1" x="48" y="0"/>
-                <point index="2" x="48" y="48"/>
-                <point index="3" x="0" y="48"/>
-            </shape>
-        </area>
-        <area name="area_20006" id="20006">
             <shape point_count="4">
                 <point index="0" x="0" y="0"/>
                 <point index="1" x="48" y="0"/>
@@ -162,7 +155,7 @@
                 <origin x="24" y="48"/>
             </transform>
             <sprite id="30001"/>
-            <area id="20006"/>
+            <area id="20005"/>
             <animations/>
         </object>
         <object type="PYTHON_OBJECT" class_name="py_test" name="pyobj" id="60002">

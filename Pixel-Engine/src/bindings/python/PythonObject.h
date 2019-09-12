@@ -13,26 +13,27 @@ public:
 		m_object_type = pe::Object::ObjectType::PYTHON_OBJECT;
 		m_module = py::module::import(module_name.c_str());
 		m_class_name = module_name;
+		m_self = py::cast(this);
 		init();
 	}
 
 	inline void init() {
-		if (py::hasattr(m_module, "init")) m_module.attr("init")(py::cast(this));
+		if (py::hasattr(m_module, "init")) m_module.attr("init")(m_self);
 	}
 	inline void sceneEntered(pe::Scene* scene) override {
-		if (py::hasattr(m_module, "sceneEntered")) m_module.attr("sceneEntered")(py::cast(this),scene);
+		if (py::hasattr(m_module, "sceneEntered")) m_module.attr("sceneEntered")(m_self,scene);
 	}
 	inline void process(double dt) {
-		if (py::hasattr(m_module, "process")) m_module.attr("process")(py::cast(this), dt);
+		if (py::hasattr(m_module, "process")) m_module.attr("process")(m_self, dt);
 	}
 	inline void handleEvent(pe::Event& event) override {
-		if (py::hasattr(m_module, "handleEvent")) m_module.attr("handleEvent")(py::cast(this), event);
+		if (py::hasattr(m_module, "handleEvent")) m_module.attr("handleEvent")(m_self, event);
 	}
 	inline void recieveSignal(pe::Signal& signal) override {
-		if (py::hasattr(m_module, "recieveSignal")) m_module.attr("recieveSignal")(py::cast(this), signal);
+		if (py::hasattr(m_module, "recieveSignal")) m_module.attr("recieveSignal")(m_self, signal);
 	}
 	inline void drawCall() const override {
-		if (py::hasattr(m_module, "drawCall")) m_module.attr("drawCall")(py::cast(this));
+		if (py::hasattr(m_module, "drawCall")) m_module.attr("drawCall")(m_self);
 		else pe::Object::drawCall();
 	}
 
@@ -41,5 +42,6 @@ public:
 	}
 
 private:
+	py::object m_self;
 	py::module m_module;
 };

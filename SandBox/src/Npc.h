@@ -10,14 +10,6 @@ class Npc : public pe::Object
 {
 public:
 	void sceneEntered(pe::Scene* scene) override {
-		font.loadFromFile("res/Indie_Flower/IndieFlower-Regular.ttf");
-		text.setFont(font);
-		setArea();
-	}
-
-	void drawCall() const override {
-		drawSelf();
-		draw( text );
 	}
 
 	void process(double dt) override {
@@ -27,8 +19,4 @@ public:
 	}
 
 private:
-	glm::ivec2 off = { 0,0 };
-	double f;
-	sf::Text text;
-	sf::Font font;
 };

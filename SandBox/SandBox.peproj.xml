@@ -4,6 +4,6 @@
     <assets>
         <path>assets.xml</path>
     </assets>
-    <window_icon texture_id="3"/>
+    <window_icon texture_id="0"/>
     <bg_color r="80" g="80" b="80" a="255"/>
 </Project>

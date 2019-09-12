@@ -62,10 +62,12 @@ namespace pe
 		pe::Application app(proj);
 
 		// for testing
+		/*
 		pe::AssetsWriter w;
 		w.addAssets();
 		w.save("test.xml");
 		pe::Application::test(app); 
+		*/
 
 		app.update();
 	}

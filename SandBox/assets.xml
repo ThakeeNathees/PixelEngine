@@ -1,11 +1,12 @@
 <assets>
     <textures>
         <texture name="tex_0" id="0" smooth="false" repeat="true">res/logo.png</texture>
-        <texture name="tex_1" id="1" smooth="false" repeat="false">res/sheet.png</texture>
+        <texture name="tex_1" id="1" smooth="false" repeat="false">res/sprite_sheets/sheet.png</texture>
         <texture name="tex_2" id="2" smooth="false" repeat="true">res/backgrounds/grass.png</texture>
-        <texture name="tex_3" id="3" smooth="false" repeat="true">res/win_icon.png</texture>
     </textures>
-    <fonts/>
+    <fonts>
+        <font name="Asap-Regular" id="10000">res/fonts/Asap/Asap-Regular.ttf</font>
+    </fonts>
     <areas>
         <area name="area_20000" id="20000">
             <shape point_count="4">

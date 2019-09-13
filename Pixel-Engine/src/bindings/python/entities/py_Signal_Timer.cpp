@@ -13,10 +13,30 @@ namespace py = pybind11;
 void register_signal_timer(py::module& m)
 {
 
-	py::class_<pe::Signal>(m, "Signal", py::dynamic_attr())
+	py::class_<pe::Signal>py_signal(m, "Signal", py::dynamic_attr());
+
+	py::enum_<pe::Signal::Type>(py_signal, "Type")
+		.value("CUSTOM", pe::Signal::Type::CUSTOM)
+		.value("ANIMATION_END", pe::Signal::Type::ANIMATION_END)
+		.value("SCENE_CHANGE", pe::Signal::Type::SCENE_CHANGE)
+		;
+	py::class_<pe::Signal::_AnimEndSignal>(py_signal, "_AnimEndSignal")
+		.def_readonly("anim_id", &pe::Signal::_AnimEndSignal::anim_id)
+		.def_readonly("anim_name", &pe::Signal::_AnimEndSignal::anim_name)
+		;
+	py::class_<pe::Signal::_SceneChange>(py_signal, "_SceneChange")
+		.def_readonly("scene_id", &pe::Signal::_SceneChange::scene_id)
+		.def_readonly("scene_name", &pe::Signal::_SceneChange::scene_name)
+		;
+
+	py_signal
 		.def(py::init<>())
 		.def(py::init<py::str>())
 		.def_static("getCount", pe::Signal::getCount)
+
+		.def("getType", &pe::Signal::getType)
+		.def_readonly("anim_end_data", &pe::Signal::anim_end_data)
+		.def_readonly("scene_change_data", &pe::Signal::scene_change_data)
 
 		.def("setName", [](pe::Signal& self, const std::string& name) {self.setName(name); })
 		.def("getName", [](pe::Signal& self) {return self.getName(); }, py::return_value_policy::reference)

@@ -37,7 +37,7 @@ namespace pe
 
 
 	private:
-		friend class AssetsReader;
+		friend class FileHandler;
 		static int s_texture_count;
 		static int s_next_id;
 		std::string m_name;

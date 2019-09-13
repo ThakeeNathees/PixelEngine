@@ -130,7 +130,7 @@ namespace pe
 		friend class Scene;
 		friend class Assets;
 		friend class Application;
-		friend class AssetsReader;
+		friend class FileHandler;
 		
 		static int s_object_count;
 		static int s_next_id;

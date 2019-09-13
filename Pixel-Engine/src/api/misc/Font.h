@@ -32,7 +32,7 @@ namespace pe
 		inline const std::string& getPath() const { return m_path; }
 
 	private:
-		friend class AssetsReader;
+		friend class FileHandler;
 		static int s_font_count;
 		static int s_next_id;
 		std::string m_name;

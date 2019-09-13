@@ -8,22 +8,26 @@ namespace py = pybind11;
 
 void register_event(py::module& m)
 {
+	py::class_<pe::Event>py_event(m, "Event");
+	py::class_<sf::Keyboard>py_keyboard(m, "Keyboard");
+	py::class_<sf::Mouse>py_mouse(m,"Mouse");
 
-	py::enum_<sf::Event::EventType>(m, "EventType")
-		.value("Closed",					pe::Event::EventType::Closed)
-		.value("Resized",					pe::Event::EventType::Resized)
-		.value("LostFocus",					pe::Event::EventType::LostFocus)
-		.value("GainedFocus",				pe::Event::EventType::GainedFocus)
-		.value("TextEntered",				pe::Event::EventType::TextEntered)
-		.value("KeyPressed",				pe::Event::EventType::KeyPressed)
-		.value("KeyReleased",				pe::Event::EventType::KeyReleased)
-		.value("MouseWheelMoved",			pe::Event::EventType::MouseWheelMoved)
-		.value("MouseWheelScrolled",		pe::Event::EventType::MouseWheelScrolled)
-		.value("MouseButtonPressed",		pe::Event::EventType::MouseButtonPressed)
-		.value("MouseButtonReleased",		pe::Event::EventType::MouseButtonReleased)
-		.value("MouseMoved",				pe::Event::EventType::MouseMoved)
-		.value("MouseEntered",				pe::Event::EventType::MouseEntered)
-		.value("MouseLeft",					pe::Event::EventType::MouseLeft)
+	py::enum_<sf::Event::EventType>(py_event, "Type")
+		.value("CLOSED",					pe::Event::EventType::Closed)
+		.value("RESIZED",					pe::Event::EventType::Resized)
+		.value("LOST_FOCUS",					pe::Event::EventType::LostFocus)
+		.value("GAINED_FOCUS",				pe::Event::EventType::GainedFocus)
+		.value("TEXT_ENTERED",				pe::Event::EventType::TextEntered)
+		.value("KEY_PRESSED",				pe::Event::EventType::KeyPressed)
+		.value("KEY_RELEASED",				pe::Event::EventType::KeyReleased)
+		.value("MOUSE_WHEEL_MOVED",			pe::Event::EventType::MouseWheelMoved)
+		.value("MOUSE_WHEEL_SCROLLED",		pe::Event::EventType::MouseWheelScrolled)
+		.value("MOUSE_BUTTON_PRESSED",		pe::Event::EventType::MouseButtonPressed)
+		.value("MOUSE_BUTTON_RELEASED",		pe::Event::EventType::MouseButtonReleased)
+		.value("MOUSE_MOVED",				pe::Event::EventType::MouseMoved)
+		.value("MOUSE_ENTERED",				pe::Event::EventType::MouseEntered)
+		.value("MOUSE_LEFT",					pe::Event::EventType::MouseLeft)
+		/*
 		.value("JoystickButtonPressed",		pe::Event::EventType::JoystickButtonPressed)
 		.value("JoystickButtonReleased",	pe::Event::EventType::JoystickButtonReleased)
 		.value("JoystickMoved",				pe::Event::EventType::JoystickMoved)
@@ -33,9 +37,10 @@ void register_event(py::module& m)
 		.value("TouchMoved",				pe::Event::EventType::TouchMoved)
 		.value("TouchEnded",				pe::Event::EventType::TouchEnded)
 		.value("SensorChanged",				pe::Event::EventType::SensorChanged)
+		*/
 		;
 
-	py::enum_<sf::Keyboard::Key>(m, "Key")
+	py::enum_<sf::Keyboard::Key>(py_keyboard, "Key")
 		.value("Unknown", sf::Keyboard::Key::Unknown)
 		.value("A", sf::Keyboard::Key::A)
 		.value("B", sf::Keyboard::Key::B)
@@ -138,22 +143,25 @@ void register_event(py::module& m)
 		.value("F14", sf::Keyboard::Key::F14)
 		.value("F15", sf::Keyboard::Key::F15)
 		.value("Pause", sf::Keyboard::Key::Pause)
+		.export_values()
 		;
-	py::enum_<sf::Mouse::Button>(m, "Button")
+	py::enum_<sf::Mouse::Button>(py_mouse, "Button")
 		.value("Left",	sf::Mouse::Button::Left )
 		.value("Right", sf::Mouse::Button::Right )
 		.value("Middle", sf::Mouse::Button::Middle )
 		.value("XButton1", sf::Mouse::Button::XButton1 )
 		.value("XButton2", sf::Mouse::Button::XButton2 )
+		.export_values()
 		;
 
-	py::enum_<sf::Mouse::Wheel>(m, "Wheel")
+	py::enum_<sf::Mouse::Wheel>(py_mouse, "Wheel")
 		.value("VerticalWheel", sf::Mouse::Wheel::VerticalWheel)
 		.value("HorizontalWheel", sf::Mouse::Wheel::HorizontalWheel)
+		.export_values()
 		;
+	///////////////////////////////////////////////////////////////////////
 
-/*
-	py::class_<pe::Event::KeyEvent>(m, "_KeyEvent")
+	py::class_<pe::Event::KeyEvent>(py_event, "_KeyEvent")
 		.def_readonly("code", &pe::Event::KeyEvent::code )
 		.def_readonly("alt", &pe::Event::KeyEvent::alt)
 		.def_readonly("control", &pe::Event::KeyEvent::control)
@@ -161,36 +169,37 @@ void register_event(py::module& m)
 		.def_readonly("system", &pe::Event::KeyEvent::system)
 		;
 
-	py::class_<pe::Event::MouseMoveEvent>(m, "_MouseMoveEvent")
+	py::class_<pe::Event::MouseMoveEvent>(py_event, "_MouseMoveEvent")
 		.def_readonly("x", &pe::Event::MouseMoveEvent::x)
 		.def_readonly("y", &pe::Event::MouseMoveEvent::y)
 		;
 
-	py::class_<pe::Event::MouseButtonEvent>(m, "_MouseButtonEvent")
+	py::class_<pe::Event::MouseButtonEvent>(py_event, "_MouseButtonEvent")
 		.def_readonly("button", &pe::Event::MouseButtonEvent::button)
 		.def_readonly("x", &pe::Event::MouseButtonEvent::x)
 		.def_readonly("y", &pe::Event::MouseButtonEvent::y)
 		;
 
 
-	py::class_<pe::Event::MouseWheelEvent>(m, "_MouseWheelEvent")
+	py::class_<pe::Event::MouseWheelEvent>(py_event, "_MouseWheelEvent")
 		.def_readonly("delta", &pe::Event::MouseWheelEvent::delta)
 		.def_readonly("x", &pe::Event::MouseWheelEvent::x)
 		.def_readonly("y", &pe::Event::MouseWheelEvent::y)
 		;
 
-	py::class_<pe::Event::MouseWheelScrollEvent>(m, "_MouseWheelScrollEvent")
+	py::class_<pe::Event::MouseWheelScrollEvent>(py_event, "_MouseWheelScrollEvent")
 		.def_readonly("wheel", &pe::Event::MouseWheelScrollEvent::wheel)
 		.def_readonly("delta", &pe::Event::MouseWheelScrollEvent::delta)
 		.def_readonly("x", &pe::Event::MouseWheelScrollEvent::x)
 		.def_readonly("y", &pe::Event::MouseWheelScrollEvent::y)
 		;
 
-	py::class_<pe::Event::SizeEvent>(m, "_SizeEvent")
+	py::class_<pe::Event::SizeEvent>(py_event, "_SizeEvent")
 		.def_readonly("width", &pe::Event::SizeEvent::width)
 		.def_readonly("hight", &pe::Event::SizeEvent::height)
 		;
 
+/*
 */
 	///////////////////////////////////////////////////////////////////////
 
@@ -203,11 +212,20 @@ void register_event(py::module& m)
 		.def("setMousePosition", (void(*)(const sf::Vector2i&, const sf::Window&))& sf::Mouse::setPosition)
 		;
 
-	py::class_<pe::Event>(m,"Event")
+	
+	py_event
 		.def("setHandled", &pe::Event::setHandled)
 		.def("isHandled", &pe::Event::isHandled)
 		.def("getType", [](pe::Event& self) { return self.type; })
-		
+
+		.def_readonly("size", &pe::Event::size)
+		.def_readonly("key", &pe::Event::key)
+		.def_readonly("mouse_move", &pe::Event::mouseMove)
+		.def_readonly("mouse_button", &pe::Event::mouseButton)
+		.def_readonly("mouse_wheel", &pe::Event::mouseWheel)
+		.def_readonly("mouse_wheel_scroll", &pe::Event::mouseWheelScroll)
+
+		/*
 		.def("getKey", [](pe::Event& self) {return self.key.code; })
 		.def("isKeyDownAlt", [](pe::Event& self) {return self.key.alt; })
 		.def("isKeyDownControl", [](pe::Event& self) {return self.key.control; })
@@ -231,6 +249,7 @@ void register_event(py::module& m)
 			}
 		)
 		.def("getSize", [](pe::Event& self) {sf::Vector2i size; size.x = self.size.width; size.y = self.size.height; return size; })
+		*/
 		;
 	
 }

@@ -65,7 +65,7 @@ namespace pe
 		inline bool hasShape() const { return m_shape != nullptr; }
 
 	private:
-		friend class AssetsReader;
+		friend class FileHandler;
 
 		std::string m_name;
 		static int s_area_count;

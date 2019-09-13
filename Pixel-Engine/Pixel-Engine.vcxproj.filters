@@ -45,13 +45,7 @@
     <ClCompile Include="src\api\Assets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\api\utils\AssetsWriter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\api\misc\misc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\api\utils\AssetsReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="vender\tinyxml2\tinyxml2.cpp">
@@ -102,7 +96,10 @@
     <ClCompile Include="src\api\Pixel-Engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\api\utils\FileHandler.cpp">
+    <ClCompile Include="src\api\utils\FileHandler_write.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\api\utils\FileHandler_read.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -158,13 +155,7 @@
     <ClInclude Include="src\api\misc\Font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\api\utils\AssetsWriter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\api\misc\Drawable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\api\utils\AssetsReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\api\entities\Asset.h">
@@ -189,6 +180,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\api\utils\FileHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\misc\Text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

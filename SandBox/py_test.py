@@ -1,26 +1,25 @@
 
 import pixel_engine as pe
 
-y = 2
-
 def init(s):
         return
 
 def process(self, dt):
-        if pe.isKeyPressed(pe.Key.A):
+        if pe.isKeyPressed(pe.Keyboard.W):
                 self.getSprite().setFrameIndex(23)
-                self.move(-4,0)
-        if pe.isKeyPressed(pe.Key.D):
+                self.move(0,-4)
+        if pe.isKeyPressed(pe.Keyboard.Key.S):
                 self.getSprite().setFrameIndex(33)
-                self.move(4,0)
+                self.move(0,4)
         pass
 
 def handleEvent(self, event):
+        if event.getType() == pe.Event.Type.MouseMoved:
+                print(event.mouseMove.x, event.mouseMove.y)
         pass
 
 def drawCall(self):
         self.drawSelf()
-        self.drawRectangle(10,10,100,100, pe.Color(100,80,140))
         return 
         for i in range(8):
                 for j in range(8):

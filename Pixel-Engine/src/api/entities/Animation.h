@@ -83,14 +83,16 @@ namespace pe
 			s_anim_count++;
 			m_id = s_next_id++;
 			m_name = std::string("anim_").append(std::to_string(m_id));
-			m_anim_end_signal.setData((void*)m_name.c_str());
+			m_anim_end_signal.anim_end_data.anim_id = m_id;
+			m_anim_end_signal.anim_end_data.anim_name = m_name.c_str();
 		}
 		inline Animation(std::string name, float time_length = 1) 
 			: m_name(name)
 		{
 			s_anim_count++;
 			m_id = s_next_id++;
-			m_anim_end_signal.setData((void*)m_name.c_str());
+			m_anim_end_signal.anim_end_data.anim_id = m_id;
+			m_anim_end_signal.anim_end_data.anim_name = m_name.c_str();
 		}
 
 		inline ~Animation() {
@@ -142,7 +144,7 @@ namespace pe
 
 	private:  // TODO: add auto time length
 		friend class Application;
-		friend class AssetsReader;
+		friend class FileHandler;
 
 		std::string m_name;
 		static int s_anim_count;
@@ -153,7 +155,7 @@ namespace pe
 		bool m_reverse	 = false;
 		Object* m_object = nullptr;
 		int m_object_id = -1; // temp data needed when deserializing
-		Signal m_anim_end_signal = Signal("anim_end");
+		Signal m_anim_end_signal = Signal("anim_end", Signal::Type::ANIMATION_END);
 
 		bool m_playing = false;
 		bool m_done_anim = false;

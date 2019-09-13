@@ -61,8 +61,6 @@ namespace pe
 		// TODO: and remove s_assets with id, ...
 
 	private:
-		friend class AssetsReader;
-		friend class AssetsWriter;
 		friend class FileHandler;
 	
 		static std::map<int, Asset*> s_assets;

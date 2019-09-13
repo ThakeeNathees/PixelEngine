@@ -55,7 +55,7 @@ namespace pe
 
 
 	private:
-		friend class AssetsReader;
+		friend class FileHandler;
 		friend class Application; // call move
 		friend class Scene;
 		void setTextureRectSize(sf::Vector2i window_size, sf::Vector2i offset = sf::Vector2i(0,0));

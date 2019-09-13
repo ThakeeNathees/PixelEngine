@@ -9,8 +9,6 @@
 //utils
 #include "utils/FileHandler.h"
 #include "utils/math_utils.h"
-#include "utils/AssetsReader.h"
-#include "utils/AssetsWriter.h"
 
 #include "Application.h"
 #include "Scene.h"
@@ -36,12 +34,12 @@
 #ifdef PE_PROJECT
 
 void register_classes();
-void pe_mainLoop( const char* project_name );
+void pe_mainLoop(const char* project_name, int argc, char** argv);
 
-int main()
+int main(int argc, char** argv)
 {
 	register_classes();
-	pe_mainLoop( TOSTRING(PE_PROJECT) );
+	pe_mainLoop( TOSTRING(PE_PROJECT), argc, argv );
 	return 0;
 }
 

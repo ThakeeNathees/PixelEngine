@@ -5,6 +5,7 @@
 #include "entities/Object.h"
 #include "entities/Background.h"
 #include "misc/Font.h"
+#include "misc/Text.h"
 
 
 namespace pe
@@ -40,8 +41,6 @@ namespace pe
 
 	private:
 		friend class Application;
-		friend class AssetsWriter;
-		friend class AssetsReader;
 		friend class FileHandler;
 		static bool sortCompare(pe::Drawable* obj1, pe::Drawable* obj2);
 		static int s_scene_count;

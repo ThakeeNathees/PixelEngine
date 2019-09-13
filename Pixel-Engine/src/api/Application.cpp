@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Application.h"
-#include "api/utils/AssetsReader.h"
-#include "api/utils/AssetsWriter.h"
+#include "utils/FileHandler.h"
 
 #include "entities/Sprite.h"
 #include "entities/Object.h"
@@ -19,85 +18,52 @@ namespace py = pybind11;
 
 namespace pe
 {
-	void Application::test( Application& app ) {
-		return;
-		
-		try
-		{
-			pe::Event eve;
-			Object* o = new PythonObject("py_test");
-			while (true) {
-				try
-				{
-					while (app.getWindow().pollEvent(eve)){
-						o->handleEvent(eve);
-					}
-					o->process(1/30);
-					app.getWindow().clear(sf::Color(30,40,50));
-					app.getWindow().draw(*o);
-					app.getWindow().display();
-					o->scriptReload();
-					
-					/* interpriter
-					py::exec("print('>>> ', end='')");
-					py::exec("_pe_cmd = input()");
-					py::exec("if _pe_cmd[:6]!= 'print(':\n\ttry:\n\t\tprint(eval(_pe_cmd))\n\texcept:\n\t\tpass");
-					py::exec("exec(_pe_cmd)");//*/
-				}
-				catch (const std::exception& e) { PE_PRINT(e.what()); }
-			}
-		}
-		catch (const std::exception& e ) { PE_PRINT(e.what()); }
-
-		__debugbreak();
-	}
 
 	sf::Color Application::s_background_color = sf::Color(80, 80, 80, 255);
 	sf::Color Application::s_default_color = sf::Color(50, 75, 100, 255);
 	sf::Vector2i Application::s_window_size = sf::Vector2i(0,0);
 
 
-	Application::Application( const sf::Vector2i& window_size, const std::string& title )
-		: m_scene_changed_signal( Signal("scene_changed") )
+	Application::Application(const char* proj_path)
 	{
-		m_window = new sf::RenderWindow(sf::VideoMode(window_size.x, window_size.y), title);
-		m_window->setFramerateLimit(1/30);
+		FileHandler file;
+		int error = file.readProject(proj_path); // TODO: error handle
+		m_peproj = file.getProject();
+		m_window = new sf::RenderWindow(sf::VideoMode(m_peproj.window_size.x, m_peproj.window_size.y), m_peproj.title);
 		s_window_size = static_cast<sf::Vector2i>(m_window->getSize());
-	}
-	Application::Application(const struct _peproj& proj)
-		: m_scene_changed_signal(Signal("scene_changed"))
-	{
-		m_peproj = proj;
-		m_window = new sf::RenderWindow(sf::VideoMode(proj.window_size.x, proj.window_size.y), proj.title);
-		s_window_size = static_cast<sf::Vector2i>(m_window->getSize());
-		setDebugMode(proj.is_debug_mode);
-		setFrameRate( proj.frame_rate );
-		m_window->setFramerateLimit(1/proj.frame_rate);
-#ifdef PE_PLATFORM_WINDOWS
+		setDebugMode(m_peproj.is_debug_mode);
+		setFrameRate(m_peproj.frame_rate );
+		m_window->setFramerateLimit(1/ m_peproj.frame_rate);
+#ifdef _WIN32
 		if (m_peproj.no_console_window) FreeConsole();
 		else std::cout << "[pe] set no console window in preference to run without console window" << std::endl;
 #endif
 
-		AssetsReader reader;
-		for (auto path : proj.assets_paths) {
-			reader.loadFile( path.c_str());
-			reader.readAssets(this);
+		if (std::string(m_peproj.assets_path) != std::string(""))
+			error = file.readAssets(m_peproj.assets_path.c_str()); // TODO: error handle
+		else; // TODO: create assets.xml file and add
+
+		for (auto& path : m_peproj.objects_path) {
+			file.readObject(path.c_str(), this);
+		}
+		for (auto& path : m_peproj.scene_paths) {
+			file.readScenes(path.c_str(), this);
 		}
 		
-		int texture_id = proj.logo_texture_id;
+		int texture_id = m_peproj.logo_texture_id;
 		if (texture_id >= 0) {
 			assert( Assets::hasAsset(texture_id) );
 			auto tex = Assets::getAsset<Texture>(texture_id);
 			m_window->setIcon( tex->getSize().x,tex->getSize().y, tex->copyToImage().getPixelsPtr() );
 		}
+		setBgColor(m_peproj.default_bg_color );
 
-		if (proj.assets_paths.size() == 0) {
+		if (m_peproj.scene_paths.size() == 0) {
 			auto scene = Assets::newAsset<Scene>();
 			setCurrentScene(scene);
 		}
-		else setCurrentScene(proj.begin_scene_id);
+		else setCurrentScene(m_peproj.begin_scene_id);
 
-		setBgColor( proj.default_bg_color );
 	}
 
 	Application::~Application() {
@@ -125,7 +91,8 @@ namespace pe
 
 		m_scene_changed_signal.clear();
 		for (Object* obj : m_current_scene->getObjects()) m_scene_changed_signal.addReciever(obj);
-		m_scene_changed_signal.setData((void*)m_current_scene->getId());
+		m_scene_changed_signal.scene_change_data.scene_id= m_current_scene->getId();
+		m_scene_changed_signal.scene_change_data.scene_name = m_current_scene->getName().c_str();
 		m_current_scene->addSignal(&m_scene_changed_signal);
 		
 		for (auto obj : m_current_scene->getObjects()) {

@@ -46,7 +46,7 @@ namespace pe {
 		
 
 	private:
-		friend class AssetsReader;
+		friend class FileHandler;
 		std::string m_name;
 		static int s_sprite_count;
 		static int s_next_id;

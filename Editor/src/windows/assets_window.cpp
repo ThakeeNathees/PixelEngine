@@ -17,9 +17,11 @@ void AssetsWindow::renderAssetsWindow()
 	}
 
 	if (ImGui::Button("save")) {
+		/*
 		pe::AssetsWriter w;
 		w.addAssets(pe::Assets::s_assets);
 		w.save( (Globals::s_working_dir  + std::string("assets.xml") ).c_str() );
+		*/
 	}
 
 	ImGui::End();

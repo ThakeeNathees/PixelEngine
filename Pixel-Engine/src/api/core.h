@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef PE_PLATFORM_WINDOWS
+#ifdef _WIN32
 
 	#define NOMINMAX
 	#include <Windows.h>
@@ -18,6 +18,5 @@
 // for debug
 #include <iostream>
 #define PE_PRINT(x) std::cout << x << std::endl;
+#define PE_LOG(x) std::cout << "[pe] " << x << std::endl
 #define PE_ASSERT(x) if(!x) __debugbreak()
-
-

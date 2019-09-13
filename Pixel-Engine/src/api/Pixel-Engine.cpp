@@ -4,24 +4,24 @@
 #include <pybind11/embed.h>
 namespace py = pybind11;
 
+#ifdef _WIN32
+	#include <direct.h>
+	#define getCurrentDir _getcwd
+	#define changeDir _chdir
+#else
+	#include "unistd.h"
+	#define getCurrentDir getcwd
+	#define changeDir chdir
+#endif
 
-PIXEL_ENGINE_API void pe_mainLoop(const char* project_name)
+PIXEL_ENGINE_API void pe_mainLoop(const char* project_name, int argc, char** argv)
 {
+	//changeDir("../../__test_env/pe_test/SandBox/");
+	//char buf[4096];
+	//std::cout << "CWD: " << getCurrentDir(buf, sizeof buf) << std::endl;
+
 	py::scoped_interpreter intp;
 
-	pe::AssetsReader reader(std::string(project_name).append(".peproj.xml").c_str());
-	reader._readPeproj();
-	pe::Application app(reader._getPeproj());
-	pe::FileHandler h;
-	//h.writeProject( reader._getPeproj() ,"./");
-	__debugbreak();
-	// for testing
-	/*
-	pe::AssetsWriter w;
-	w.addAssets();
-	w.save("test.xml");
-	pe::Application::test(app);
-	*/
-
+	pe::Application app(  std::string(project_name).append(".peproj.xml").c_str() );
 	app.update();
 }

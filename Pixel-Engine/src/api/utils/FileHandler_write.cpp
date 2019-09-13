@@ -11,7 +11,7 @@ namespace pe
 		m_doc = new tinyxml2::XMLDocument();
 	}
 
-	void FileHandler::writeProject(const struct _peproj& proj, const char* path) {
+	int FileHandler::writeProject(const struct _peproj& proj, const char* path) {
 		m_doc->Clear();
 
 		auto root = m_doc->NewElement("Project");
@@ -66,11 +66,11 @@ namespace pe
 		auto str_path = std::string(path);
 		if (str_path[str_path.length() - 1] != '/' || str_path[str_path.length() - 1] != '\\')
 			str_path.append("/");
-		m_doc->SaveFile(str_path.append(proj.title).append(".test.peproj.xml").c_str());
+		return m_doc->SaveFile(str_path.append(proj.title).append(".test.peproj.xml").c_str());
 
 	} // peproj
 
-	void FileHandler::writeObject(Object* obj, const char* path) {
+	int FileHandler::writeObject(Object* obj, const char* path) {
 		m_doc->Clear();
 		auto obj_tag = m_doc->NewElement("object");
 		m_doc->InsertFirstChild(obj_tag);
@@ -129,11 +129,11 @@ namespace pe
 		auto str_path = std::string(path);
 		if (str_path[str_path.length() - 1] != '/' || str_path[str_path.length() - 1] != '\\')
 			str_path.append("/");
-		m_doc->SaveFile( str_path.append(std::to_string(obj->getId())).append(".obj.xml").c_str()  );
+		return m_doc->SaveFile( str_path.append(std::to_string(obj->getId())).append(".obj.xml").c_str()  );
 
 	} // write object
 
-	void FileHandler::writeScene(Scene* scene, const char* path) {
+	int FileHandler::writeScene(Scene* scene, const char* path) {
 		m_doc->Clear();
 		auto scn_tag = m_doc->NewElement("scene");
 		m_doc->InsertEndChild(scn_tag);
@@ -178,7 +178,7 @@ namespace pe
 		auto str_path = std::string(path);
 		if (str_path[str_path.length() - 1] != '/' || str_path[str_path.length() - 1] != '\\')
 			str_path.append("/");
-		m_doc->SaveFile(str_path.append(std::to_string(scene->getId())).append(".scn.xml").c_str());
+		return m_doc->SaveFile(str_path.append(std::to_string(scene->getId())).append(".scn.xml").c_str());
 	}
 
 	//////////////////////////////////////////////////////////////////

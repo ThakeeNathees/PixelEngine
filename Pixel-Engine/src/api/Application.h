@@ -12,23 +12,18 @@ namespace pe {
 		int begin_scene_id = static_cast<int>(Asset::Type::Scene);
 		bool is_debug_mode = true;
 		bool no_console_window = false;
-		std::vector<std::string> assets_paths;
-		// new
+		int logo_texture_id = -1;
+		sf::Color default_bg_color = sf::Color(80, 80, 80, 255);
 		std::string assets_path = "assets.xml";
 		std::vector<std::string> objects_path;
 		std::vector<std::string> scene_paths;
 
-		int logo_texture_id = -1;
-		sf::Color default_bg_color = sf::Color(80, 80, 80, 255);
 	};
 
 	class PIXEL_ENGINE_API Application
 	{
 	public:
-		static void test(Application& app);
-
-		Application(const sf::Vector2i& window_size, const std::string& title );
-		Application(const struct _peproj& proj);
+		Application(const char* proj_path);
 		Application(const Application& other) = delete;
 		~Application();
 
@@ -64,7 +59,7 @@ namespace pe {
 		bool m_is_debug_mode = true;
 		bool m_is_debug_draw_area = true;
 
-		Signal m_scene_changed_signal;
+		Signal m_scene_changed_signal = Signal("scene_changed", Signal::Type::SCENE_CHANGE);
 		Scene* m_current_scene = nullptr;
 		sf::RenderWindow* m_window = nullptr;
 		std::vector<Object*> m_persistent_objects;

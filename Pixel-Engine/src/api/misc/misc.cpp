@@ -2,6 +2,7 @@
 
 #include "Event.h"
 #include "Font.h"
+#include "Text.h"
 #include "Texture.h"
 
 namespace pe
@@ -11,4 +12,6 @@ namespace pe
 
 	int Font::s_font_count = 0;
 	int Font::s_next_id = static_cast<int>( Asset::Type::Font );
+
+	Font* Text::s_default_font = nullptr;
 }

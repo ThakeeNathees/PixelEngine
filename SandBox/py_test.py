@@ -1,21 +1,38 @@
 
 import pixel_engine as pe
 
+
 def init(s):
         return
 
 def process(self, dt):
-        if pe.isKeyPressed(pe.Keyboard.W):
+        p = pe.Assets.getObject(60000)
+        intersect = False
+        spd = 5
+        if pe.isKeyPressed(pe.Keyboard.J):
                 self.getSprite().setFrameIndex(23)
-                self.move(0,-4)
-        if pe.isKeyPressed(pe.Keyboard.Key.S):
+                self.move(-spd,0)
+                intersect = (p.getArea().isIntersecting(self.getArea()))
+                if (intersect): self.move(spd,0)
+        if pe.isKeyPressed(pe.Keyboard.Key.L):
                 self.getSprite().setFrameIndex(33)
-                self.move(0,4)
+                self.move(spd,0)
+                intersect = (p.getArea().isIntersecting(self.getArea()))
+                if (intersect): self.move(-spd,0)
+        if pe.isKeyPressed(pe.Keyboard.I):
+                self.getSprite().setFrameIndex(23)
+                self.move(0,-spd)
+                intersect = (p.getArea().isIntersecting(self.getArea()))
+                if (intersect): self.move(0,spd)
+        if pe.isKeyPressed(pe.Keyboard.K):
+                self.getSprite().setFrameIndex(23)
+                self.move(0,spd)
+                intersect = (p.getArea().isIntersecting(self.getArea()))
+                if (intersect): self.move(0,-spd)
+        print(intersect)
         pass
 
 def handleEvent(self, event):
-        if event.getType() == pe.Event.Type.MouseMoved:
-                print(event.mouseMove.x, event.mouseMove.y)
         pass
 
 def drawCall(self):

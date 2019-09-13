@@ -5,6 +5,7 @@
 namespace py = pybind11;
 
 #include "api/misc/Texture.h"
+#include "api/Assets.h"
 
 void register_texture(py::module& m)
 {
@@ -12,7 +13,8 @@ void register_texture(py::module& m)
 	py::class_<pe::Texture, pe::Asset>(m, "Texture")
 		.def(py::init<>())
 		.def(py::init<py::str>())
-		// satic
+		.def_static("new", []() { return pe::Assets::newAsset<pe::Texture>(); }, py::return_value_policy::reference)
+		.def_static("new", [](const std::string& name) { return pe::Assets::newAsset<pe::Texture>(name); }, py::return_value_policy::reference)
 		.def_static("getCount", pe::Texture::getCount)
 
 		// methods

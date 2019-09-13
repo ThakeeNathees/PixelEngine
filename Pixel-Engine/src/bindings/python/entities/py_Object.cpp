@@ -12,8 +12,33 @@ void register_object(py::module m)
 {
 
 	py::class_<pe::Object, sf::Transformable, pe::Drawable, pe::Asset> pe_object(m, "Object", py::dynamic_attr());
+
+	py::enum_<pe::Object::ObjectType>(pe_object, "ObjectType")
+		.value("CPP_OBJECT", pe::Object::ObjectType::CPP_OBJECT)
+		.value("PYTHON_OBJECT", pe::Object::ObjectType::PYTHON_OBJECT)
+		;
+
 	pe_object
 		.def(py::init<>())
+		.def_static("new", [](const std::string& class_name, pe::Object::ObjectType type) -> pe::Object*
+			{
+				if (class_name == std::string("") && type == pe::Object::ObjectType::CPP_OBJECT) {
+					return pe::Assets::newAsset<pe::Object>();
+				}
+				pe::Object* obj = nullptr;
+				switch (type) {
+				case pe::Object::ObjectType::CPP_OBJECT:
+					return pe::Assets::newObject(class_name);
+					break;
+				case pe::Object::ObjectType::PYTHON_OBJECT:
+					obj = new PythonObject(class_name);
+					pe::Assets::addAsset(obj);
+					return obj;
+				default:
+					return obj;
+				}
+			}, py::arg("class_name")="", py::arg("type")=pe::Object::ObjectType::CPP_OBJECT, 
+			py::return_value_policy::reference)
 
 		/* will defined in client_src.py
 		inline virtual void sceneEntered(Scene*) {};			def sceneEntered(self, scene): ...
@@ -93,11 +118,6 @@ void register_object(py::module m)
 		.def("getTimers", &pe::Object::getTimers, py::return_value_policy::reference)
 		.def("getAnimations", &pe::Object::getAnimations, py::return_value_policy::reference)
 
-		;
-
-	py::enum_<pe::Object::ObjectType>(pe_object, "ObjectType")
-		.value("CPP_OBJECT", pe::Object::ObjectType::CPP_OBJECT)
-		.value("PYTHON_OBJECT", pe::Object::ObjectType::PYTHON_OBJECT)
 		;
 
 	py::class_<PythonObject, pe::Object>(m, "__pyObject");

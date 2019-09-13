@@ -2,14 +2,15 @@
 #include "entities.h"
 
 #include "api/entities/Background.h"
+#include "api/Assets.h"
 
 void register_bg(py::module& m)
 {
 	py::class_<pe::Background, sf::Drawable, sf::Transformable, pe::Asset >(m, "Background")
 		.def(py::init<>())
 		.def(py::init<py::str>())
-
-		// static
+		.def_static("new", []() { return pe::Assets::newAsset<pe::Background>(); }, py::return_value_policy::reference)
+		.def_static("new", [](const std::string& name) { return pe::Assets::newAsset<pe::Background>(name); }, py::return_value_policy::reference)
 		.def_static("getCount", []() {return pe::Background::getCount(); })
 
 		.def("setTexture", &pe::Background::setTexture)

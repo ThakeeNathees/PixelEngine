@@ -5,12 +5,15 @@
 namespace py = pybind11;
 
 #include "api/entities/Area.h"
+#include "api/Assets.h"
 
 void register_area(py::module& m)
 {
 	py::class_<pe::Area, sf::Transformable, pe::Asset>(m, "Area")
 		.def(py::init<>())
 		.def(py::init<py::str>())
+		.def_static("new", []() { return pe::Assets::newAsset<pe::Area>(); }, py::return_value_policy::reference)
+		.def_static("new", [](const std::string& name) { return pe::Assets::newAsset<pe::Area>(name); }, py::return_value_policy::reference)
 		.def_static("getCount", &pe::Area::getCount)
 
 		.def("getCentroid", [](pe::Area& self, bool local) {return self.getCentroid(local); }, py::arg("local") = false)

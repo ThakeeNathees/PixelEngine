@@ -104,11 +104,11 @@ namespace pe
 			assets_tag->InsertEndChild(path_tag);
 			path_tag->SetText(path.c_str());
 		}
-		int id = proj.window_icon_texture_id;
+		int id = proj.logo_texture_id;
 		if ( id  >= 0 ) {
 			auto window_icon_tag = m_doc->NewElement("window_icon");
 			root->InsertEndChild(window_icon_tag);
-			window_icon_tag->SetAttribute("texture_id", proj.window_icon_texture_id);
+			window_icon_tag->SetAttribute("texture_id", proj.logo_texture_id);
 		}
 
 		auto bg_color = m_doc->NewElement("bg_color");
@@ -366,11 +366,6 @@ namespace pe
 		scenes->InsertEndChild(scn_tag);
 		scn_tag->SetAttribute("name", scene->getName().c_str());
 		scn_tag->SetAttribute("id", scene->getId());
-
-		auto window_size_tag = m_doc->NewElement("window_size");
-		scn_tag->InsertEndChild(window_size_tag);
-		window_size_tag->SetAttribute("width", scene->m_window_size.x);
-		window_size_tag->SetAttribute("height", scene->m_window_size.y);
 
 		if (scene->getBackground()) {
 			auto bg_tag = m_doc->NewElement("background");

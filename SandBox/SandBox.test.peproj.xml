@@ -1,0 +1,9 @@
+<Project title="SandBox">
+    <window_size x="640" y="480"/>
+    <pref frame_rate="30" begin_scene_id="70000" debug_mode="true" no_console="false"/>
+    <logo_texture id="0"/>
+    <bg_color r="80" g="80" b="80" a="255"/>
+    <assets>assets.xml</assets>
+    <objects/>
+    <scenes/>
+</Project>

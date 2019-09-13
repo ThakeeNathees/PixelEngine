@@ -46,10 +46,10 @@ namespace pe
 
 		auto window_icon_tag = root->FirstChildElement("window_icon");
 		if (window_icon_tag) {
-			m_peproj.window_icon_texture_id = window_icon_tag->IntAttribute("texture_id");
+			m_peproj.logo_texture_id = window_icon_tag->IntAttribute("texture_id");
 		}
 		else {
-			m_peproj.window_icon_texture_id = -1;
+			m_peproj.logo_texture_id = -1;
 		}
 
 
@@ -293,7 +293,7 @@ namespace pe
 
 			Object* obj = nullptr;
 			if (type == std::string("CPP_OBJECT"))
-				obj = Assets::constructObj(class_name); // assert here
+				obj = Assets::newObject(class_name); // assert here
 			else if (type == std::string("PYTHON_OBJECT")) {
 				obj = new PythonObject(class_name);
 				Assets::addAsset(obj);
@@ -349,12 +349,6 @@ namespace pe
 			scene->setName(scn_tag->Attribute("name"));
 			scene->m_id = scn_tag->IntAttribute("id");
 			Scene::s_next_id = glm::max(scene->m_id + 1, Scene::s_next_id);
-			
-			auto size_tag = scn_tag->FirstChildElement("window_size");
-			scene->m_window_size = sf::Vector2i(
-				size_tag->IntAttribute("width"),
-				size_tag->IntAttribute("height")
-			);
 
 			auto bg_tag = scn_tag->FirstChildElement("background");
 			if (bg_tag) {

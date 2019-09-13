@@ -123,7 +123,7 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
     <ClInclude Include="src\api\core.h" />
     <ClInclude Include="src\api\Pixel-Engine.h" />
     <ClInclude Include="src\api\utils\math_utils.h" />
-    <ClInclude Include="src\api\utils\io_utils.h" />
+    <ClInclude Include="src\api\utils\FileHandler.h" />
     <ClInclude Include="src\api\utils\AssetsWriter.h" />
     <ClInclude Include="vender\tinyxml2\tinyxml2.h" />
   </ItemGroup>
@@ -137,8 +137,10 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
     <ClCompile Include="src\api\Application.cpp" />
     <ClCompile Include="src\api\entities\Timer.cpp" />
     <ClCompile Include="src\api\misc\misc.cpp" />
+    <ClCompile Include="src\api\Pixel-Engine.cpp" />
     <ClCompile Include="src\api\Scene.cpp" />
     <ClCompile Include="src\api\utils\AssetsReader.cpp" />
+    <ClCompile Include="src\api\utils\FileHandler.cpp" />
     <ClCompile Include="src\bindings\python\entities\py_Background.cpp" />
     <ClCompile Include="src\bindings\python\pe_api\py_Assets.cpp" />
     <ClCompile Include="src\bindings\python\entities\py_Animation.cpp" />

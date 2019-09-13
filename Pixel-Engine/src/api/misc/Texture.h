@@ -17,6 +17,7 @@ namespace pe
 			s_texture_count++;
 			m_id = s_next_id++;
 		}
+
 		inline ~Texture() { s_texture_count--; }
 
 		inline bool loadFromFile(const std::string& path, const sf::IntRect& area = sf::IntRect()) {

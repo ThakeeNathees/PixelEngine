@@ -7,7 +7,7 @@
 #endif
 
 //utils
-#include "utils/io_utils.h"
+#include "utils/FileHandler.h"
 #include "utils/math_utils.h"
 #include "utils/AssetsReader.h"
 #include "utils/AssetsWriter.h"
@@ -34,17 +34,17 @@
 
 /************ Entry-Point ************/
 #ifdef PE_PROJECT
+
 void register_classes();
+void pe_mainLoop( const char* project_name );
+
 int main()
 {
-	
 	register_classes();
-	pe::AssetsReader reader( std::string(TOSTRING(PE_PROJECT)).append(".peproj.xml").c_str() );
-	reader._readPeproj();
-	pe::Application::mainLoop(reader._getPeproj());
+	pe_mainLoop( TOSTRING(PE_PROJECT) );
 	return 0;
-
 }
+
 #endif
 /*************************************/
 

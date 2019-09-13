@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Scene.h"
 
+#include "Application.h"
+
 namespace pe
 {
 	int Signal::s_signal_count = 0;
@@ -43,13 +45,15 @@ namespace pe
 	}
 	void Scene::setBackground(Background* background) {
 		m_background = background;
-		m_background->setTextureRectSize(m_window_size);
+		m_background->setTextureRectSize(Application::getWindowSize());
 	}
 
+	/*
 	void Scene::setSceneWindowSize(sf::Vector2i window_size) {
 		m_window_size = window_size;
 		if (m_background != nullptr) m_background->setTextureRectSize(m_window_size);
 	}
+	*/
 
 	void Scene::addTimer(Timer* timer) {
 		m_timers.push_back(timer);

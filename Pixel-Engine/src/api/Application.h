@@ -13,7 +13,12 @@ namespace pe {
 		bool is_debug_mode = true;
 		bool no_console_window = false;
 		std::vector<std::string> assets_paths;
-		int window_icon_texture_id = -1;
+		// new
+		std::string assets_path = "assets.xml";
+		std::vector<std::string> objects_path;
+		std::vector<std::string> scene_paths;
+
+		int logo_texture_id = -1;
 		sf::Color default_bg_color = sf::Color(80, 80, 80, 255);
 	};
 
@@ -26,8 +31,6 @@ namespace pe {
 		Application(const struct _peproj& proj);
 		Application(const Application& other) = delete;
 		~Application();
-
-		static void mainLoop(const _peproj& proj); // scope of python interpriter
 
 		void update();
 
@@ -49,6 +52,8 @@ namespace pe {
 		inline bool hasWindow() const { return m_window != nullptr; }
 		inline bool hasScene() const { return m_current_scene != nullptr; }
 
+		inline static const sf::Vector2i& getWindowSize() { return s_window_size; }
+
 		static sf::Color s_default_color;
 	private:
 
@@ -64,6 +69,8 @@ namespace pe {
 		sf::RenderWindow* m_window = nullptr;
 		std::vector<Object*> m_persistent_objects;
 		std::vector<Scene*> m_scenes;
+
+		static sf::Vector2i s_window_size;
 		static sf::Color s_background_color;
 
 	};

@@ -23,7 +23,7 @@ namespace pe
 		void addTimer(Timer* timer);
 		void sortZIndex();
 		void setBackground( Background* background);
-		void setSceneWindowSize(sf::Vector2i window_size);
+		//void setSceneWindowSize(sf::Vector2i window_size);
 		inline void setName(const std::string& name) override { m_name = name; }
 
 		void clear(); // clear signals and Timers
@@ -42,13 +42,14 @@ namespace pe
 		friend class Application;
 		friend class AssetsWriter;
 		friend class AssetsReader;
+		friend class FileHandler;
 		static bool sortCompare(pe::Drawable* obj1, pe::Drawable* obj2);
 		static int s_scene_count;
 		static int s_next_id;
 
 		std::string m_name;
 		int m_id;
-		sf::Vector2i m_window_size = sf::Vector2i(-1, -1);
+		//sf::Vector2i m_window_size = sf::Vector2i(-1, -1);
 		Background* m_background = nullptr;
 		std::vector<Object*> m_objects;
 		std::vector<pe::Drawable*> m_drawables;

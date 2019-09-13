@@ -22,12 +22,12 @@ namespace pe
 		}
 
 		// deleted functions bg only have scale
-		void setPosition() = delete;
-		void setRotation() = delete;
-		void setOrigin() = delete;
-		void getPosition() = delete;
-		void retRotation() = delete;
-		void getOrigin() = delete;
+		void setPosition()	= delete;
+		void setRotation()	= delete;
+		void setOrigin()	= delete;
+		void getPosition()	= delete;
+		void retRotation()	= delete;
+		void getOrigin()	= delete;
 
 		// setters
 		inline void setName(const std::string& name) override { m_name = name; }

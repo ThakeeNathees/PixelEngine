@@ -9,7 +9,6 @@
 #include "utils/math_utils.h"
 #include "misc/Event.h"
 
-#include "utils/AssetsReader.h"
 
 #include <pybind11/stl.h>
 #include <pybind11/embed.h>
@@ -55,34 +54,22 @@ namespace pe
 
 	sf::Color Application::s_background_color = sf::Color(80, 80, 80, 255);
 	sf::Color Application::s_default_color = sf::Color(50, 75, 100, 255);
+	sf::Vector2i Application::s_window_size = sf::Vector2i(0,0);
 
-	void Application::mainLoop(const _peproj& proj) {
-		py::scoped_interpreter intp;
-
-		pe::Application app(proj);
-
-		// for testing
-		/*
-		pe::AssetsWriter w;
-		w.addAssets();
-		w.save("test.xml");
-		pe::Application::test(app); 
-		*/
-
-		app.update();
-	}
 
 	Application::Application( const sf::Vector2i& window_size, const std::string& title )
 		: m_scene_changed_signal( Signal("scene_changed") )
 	{
 		m_window = new sf::RenderWindow(sf::VideoMode(window_size.x, window_size.y), title);
 		m_window->setFramerateLimit(1/30);
+		s_window_size = static_cast<sf::Vector2i>(m_window->getSize());
 	}
 	Application::Application(const struct _peproj& proj)
 		: m_scene_changed_signal(Signal("scene_changed"))
 	{
 		m_peproj = proj;
 		m_window = new sf::RenderWindow(sf::VideoMode(proj.window_size.x, proj.window_size.y), proj.title);
+		s_window_size = static_cast<sf::Vector2i>(m_window->getSize());
 		setDebugMode(proj.is_debug_mode);
 		setFrameRate( proj.frame_rate );
 		m_window->setFramerateLimit(1/proj.frame_rate);
@@ -97,7 +84,7 @@ namespace pe
 			reader.readAssets(this);
 		}
 		
-		int texture_id = proj.window_icon_texture_id;
+		int texture_id = proj.logo_texture_id;
 		if (texture_id >= 0) {
 			assert( Assets::hasAsset(texture_id) );
 			auto tex = Assets::getAsset<Texture>(texture_id);
@@ -126,7 +113,7 @@ namespace pe
 	void Application::addScene(Scene* scene) {
 		assert( scene != nullptr );
 		m_scenes.push_back(scene);
-		scene->setSceneWindowSize(sf::Vector2i(m_window->getSize().x, m_window->getSize().y) );
+		//scene->setSceneWindowSize(sf::Vector2i(m_window->getSize().x, m_window->getSize().y) );
 		for (auto obj : m_persistent_objects) scene->addObject(obj);
 	}
 

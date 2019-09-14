@@ -2,7 +2,6 @@
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include <glm.hpp>
 
 #include "Pixel-Engine.h"
 

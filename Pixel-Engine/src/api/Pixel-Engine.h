@@ -3,7 +3,8 @@
 #ifndef PE_BUILD_DLL // TODO:
 	#include <SFML/Window.hpp>
 	#include <SFML/Graphics.hpp>
-	#include <glm.hpp>
+	#include <assert.h>
+	#include <math.h>
 #endif
 
 //utils

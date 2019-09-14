@@ -11,8 +11,8 @@ namespace pe
 	inline sf::Vector2f rotatePoint(float x, float y, float angle_degree) {
 		float angle = angle_degree * PI / 180.0f;
 		sf::Vector2f rotated;
-		rotated.x = x * glm::cos(angle) - y * glm::sin(angle);
-		rotated.y = y * glm::cos(angle) + x * glm::sin(angle);
+		rotated.x = x * cos(angle) - y * sin(angle);
+		rotated.y = y * cos(angle) + x * sin(angle);
 		return rotated;
 	}
 

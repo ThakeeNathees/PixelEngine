@@ -1,6 +1,5 @@
 #pragma once
 
-#include <glm.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
@@ -11,5 +10,6 @@
 #include <assert.h>
 
 #include <algorithm>
+#include <math.h>
 #include <string>
 #include <vector>

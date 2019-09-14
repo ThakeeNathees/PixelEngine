@@ -6,7 +6,7 @@
 namespace pe {
 
 	struct PIXEL_ENGINE_API _peproj {
-		glm::ivec2 window_size = glm::ivec2(640, 480);
+		sf::Vector2i window_size = sf::Vector2i(640, 480);
 		std::string title = "Pixel-Engine-Project";
 		int frame_rate = 30;
 		int begin_scene_id = static_cast<int>(Asset::Type::Scene);

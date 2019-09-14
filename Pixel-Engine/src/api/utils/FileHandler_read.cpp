@@ -75,7 +75,7 @@ namespace pe
 			Font* font = new Font();
 			font->setName(font_tag->Attribute("name"));
 			font->m_id = font_tag->IntAttribute("id");
-			Font::s_next_id = glm::max(font->m_id + 1, Font::s_next_id);
+			Font::s_next_id = std::max(font->m_id + 1, Font::s_next_id);
 			std::string path = font_tag->GetText();
 			font->loadFromFile(path);
 			if (!Text::getDefaultFont()) Text::setDefaultFont(font);
@@ -102,7 +102,7 @@ namespace pe
 
 		obj->setName(obj_tag->Attribute("name"));
 		obj->m_id = obj_tag->IntAttribute("id");
-		Object::s_next_id = glm::max(obj->m_id + 1, Object::s_next_id);
+		Object::s_next_id = std::max(obj->m_id + 1, Object::s_next_id);
 
 		auto prop = obj_tag->FirstChildElement("properties");
 		obj->setVisible(prop->BoolAttribute("visible"));
@@ -128,7 +128,7 @@ namespace pe
 			auto tex_tag = spr_tag->FirstChildElement("texture");
 			if (tex_tag) {
 				int id = tex_tag->IntAttribute("id");
-				Sprite::s_next_id = glm::max(sprite->m_id + 1, Sprite::s_next_id);
+				Sprite::s_next_id = std::max(sprite->m_id + 1, Sprite::s_next_id);
 				assert(Assets::s_assets[id] != NULL && "can't find texture for the sprite");
 				sprite->setTexture(*dynamic_cast<Texture*>(Assets::s_assets[id]));
 
@@ -159,7 +159,7 @@ namespace pe
 			Area* area = new Area();
 			area->setName(area_tag->Attribute("name"));
 			area->m_id = area_tag->IntAttribute("id");
-			Area::s_next_id = glm::max(area->m_id + 1, Area::s_next_id);
+			Area::s_next_id = std::max(area->m_id + 1, Area::s_next_id);
 
 			auto shape_tag = area_tag->FirstChildElement("shape");
 			if (shape_tag) {
@@ -183,7 +183,7 @@ namespace pe
 			Animation* anim = new Animation();
 			anim->setName(anim_tag->Attribute("name"));
 			anim->m_id = anim_tag->IntAttribute("id");
-			Animation::s_next_id = glm::max(anim->m_id + 1, Animation::s_next_id);
+			Animation::s_next_id = std::max(anim->m_id + 1, Animation::s_next_id);
 
 			auto prop_tag = anim_tag->FirstChildElement("properties");
 			anim->setTimeLength(prop_tag->FloatAttribute("time_length"));
@@ -256,14 +256,14 @@ namespace pe
 		Scene* scene = Assets::newAsset<Scene>();
 		scene->setName(scn_tag->Attribute("name"));
 		scene->m_id = scn_tag->IntAttribute("id");
-		Scene::s_next_id = glm::max(scene->m_id + 1, Scene::s_next_id);
+		Scene::s_next_id = std::max(scene->m_id + 1, Scene::s_next_id);
 
 		auto bg_tag = scn_tag->FirstChildElement("background");
 		if (bg_tag) {
 			Background* bg = new Background();
 			bg->setName(bg_tag->Attribute("name"));
 			bg->m_id = bg_tag->IntAttribute("id");
-			Background::s_next_id = glm::max(bg->m_id + 1, Background::s_next_id);
+			Background::s_next_id = std::max(bg->m_id + 1, Background::s_next_id);
 
 			bg->setVisible(bg_tag->FirstChildElement("properties")->BoolAttribute("visible"));
 			bg->setMoveSpeed(

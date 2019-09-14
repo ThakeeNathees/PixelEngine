@@ -1,8 +1,5 @@
 #pragma once
 
-#include <SFML/Window.hpp>
-#include <SFML/Graphics.hpp>
-
 #include "Pixel-Engine.h"
 
 class Player : public pe::Object

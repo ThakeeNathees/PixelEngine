@@ -28,6 +28,8 @@ namespace pe
 	{
 		FileHandler file;
 		int error = file.readProject(proj_path); // TODO: error handle
+		if (error) { PE_LOG("project file reading error"); }
+		else { PE_LOG("project file reading success"); }
 		m_peproj = file.getProject();
 		m_window = new sf::RenderWindow(sf::VideoMode(m_peproj.window_size.x, m_peproj.window_size.y), m_peproj.title);
 		s_window_size = static_cast<sf::Vector2i>(m_window->getSize());
@@ -36,29 +38,37 @@ namespace pe
 		m_window->setFramerateLimit(1/ m_peproj.frame_rate);
 #ifdef _WIN32
 		if (m_peproj.no_console_window) FreeConsole();
-		else std::cout << "[pe] set no console window in preference to run without console window" << std::endl;
+		else PE_CONSOLE_LOG( "set no console window in preference to run without console window" );
 #endif
 
-		if (std::string(m_peproj.assets_path) != std::string(""))
+		if (std::string(m_peproj.assets_path) != std::string("")) {
 			error = file.readAssets(m_peproj.assets_path.c_str()); // TODO: error handle
+			if (error) { PE_LOG("assets file reading error"); }
+			else { PE_LOG("assets file reading success"); }
+		}
 		else; // TODO: create assets.xml file and add
 
 		for (auto& path : m_peproj.objects_path) {
 			file.readObject(path.c_str(), this);
+			PE_LOG("object deserialized : %s", path.c_str());
 		}
 		for (auto& path : m_peproj.scene_paths) {
 			file.readScenes(path.c_str(), this);
+			PE_LOG("scene deserialized : %s", path.c_str());
 		}
 		
 		int texture_id = m_peproj.logo_texture_id;
 		if (texture_id >= 0) {
-			assert( Assets::hasAsset(texture_id) );
-			auto tex = Assets::getAsset<Texture>(texture_id);
-			m_window->setIcon( tex->getSize().x,tex->getSize().y, tex->copyToImage().getPixelsPtr() );
+			if (Assets::hasAsset(texture_id)) {
+				auto tex = Assets::getAsset<Texture>(texture_id);
+				m_window->setIcon(tex->getSize().x, tex->getSize().y, tex->copyToImage().getPixelsPtr());
+			}
+			else { PE_LOG("project logo not found in assets : texture id = %i", texture_id); }
 		}
 		setBgColor(m_peproj.default_bg_color );
 
 		if (m_peproj.scene_paths.size() == 0) {
+			PE_LOG("\nNo scene found using default scene!\n");
 			auto scene = Assets::newAsset<Scene>();
 			setCurrentScene(scene);
 		}
@@ -132,7 +142,7 @@ namespace pe
 				assert( m_current_scene );
 				for (Object* object : m_current_scene->getObjects()) {
 					try{ object->handleEvent(event); }
-					catch (const std::exception& err) { PE_PRINT(err.what()); }
+					catch (const std::exception& err) { PE_CONSOLE_LOG(err.what()); }
 					if (event.isHandled()) continue;
 				}
 			}
@@ -148,7 +158,7 @@ namespace pe
 					for (Object* object : signal->getRecievers()) {
 						if (object != nullptr) { 
 							try{ object->recieveSignal(*signal); }
-							catch (const std::exception& err) { PE_PRINT(err.what()); }
+							catch (const std::exception& err) { PE_CONSOLE_LOG(err.what()); }
 						}
 					}
 				}
@@ -157,7 +167,7 @@ namespace pe
 				for (Object* object : m_current_scene->getObjects()) {
 					dt += clock.getElapsedTime().asMicroseconds() / 1000000.0;
 					try { object->process(dt); }
-					catch (const std::exception& err) { PE_PRINT(err.what()); }
+					catch (const std::exception& err) { PE_CONSOLE_LOG(err.what()); }
 				}
 
 				if (m_current_scene->getBackground()) { m_current_scene->getBackground()->move(dt); }
@@ -177,7 +187,7 @@ namespace pe
 			for (pe::Drawable* drawable : m_current_scene->getDrawables()) {
 				if (drawable->isVisible()) {
 					try { m_window->draw(*drawable); }
-					catch (const std::exception& err) { PE_PRINT(err.what()); }
+					catch (const std::exception& err) { PE_CONSOLE_LOG(err.what()); }
 				}
 			}
 			m_window->display();

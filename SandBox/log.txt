@@ -1,0 +1,8 @@
+[pe] engine initialized
+[pe] cwd : C:\dev\Pixel-Engine\SandBox
+[pe] python interpriter initialized
+[pe] project file reading success
+[pe] assets file reading success
+[pe] object deserialized : res/scene1/objects/60000.obj.xml
+[pe] object deserialized : res/scene1/objects/60001.obj.xml
+[pe] scene deserialized : res/scene1/70000.scn.xml

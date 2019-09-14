@@ -34,19 +34,7 @@ def process(self, dt):
 def handleEvent(self, event):
         pass
 
-x = 0
 def drawCall(self):
-        global x
-        x+=.1
-        t = pe.Text()
-        t.rotate(x)
-        t.setCharacterSize(40)
-        f = pe.Assets.getFont(10001)
-        t.setPosition(100,100)
-
-        t.setFont(f)
-        t.setString("testing")
-        self.draw(t)
         self.drawSelf()
         return 
         for i in range(8):

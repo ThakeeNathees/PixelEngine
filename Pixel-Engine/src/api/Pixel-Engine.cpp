@@ -1,6 +1,11 @@
 #include "pch.h"
 #include "Pixel-Engine.h"
 
+#include "core.h"
+char Logger::s_buf[4096];
+std::string Logger::s_path = "./log.txt"; // default
+std::ofstream Logger::s_outfile;
+
 #include <pybind11/embed.h>
 namespace py = pybind11;
 
@@ -16,21 +21,24 @@ namespace py = pybind11;
 
 PIXEL_ENGINE_API void pe_mainLoop(const char* project_name, int argc, char** argv)
 {
-	//changeDir("../../__test_env/pe_test/SandBox/");
-	//char buf[4096];
-	//std::cout << "CWD: " << getCurrentDir(buf, sizeof buf) << std::endl;
 
-	std::ifstream chcwd_file("chcwd");
-	char buf[4096];
-	if (chcwd_file.is_open()) {
+	std::ifstream init_file("init");
+	if (init_file.is_open()) {
 		std::string path;
-		std::getline(chcwd_file, path);
-		chcwd_file.close();
+		std::getline(init_file, path);
+		Logger::init(path);
+		std::getline(init_file, path);
 		changeDir(path.c_str());
+		init_file.close();
 	}
-	PE_LOG("cwd: " << getCurrentDir(buf, sizeof buf) );
+
+	PE_LOG("engine initialized"); 
+	char buf[4096];
+	PE_LOG("cwd : %s", getCurrentDir(buf, sizeof buf));
 
 	py::scoped_interpreter intp;
+	PE_LOG("python interpriter initialized");
+
 	pe::Application app(  std::string(project_name).append(".peproj.xml").c_str() );
 	app.update();
 }

@@ -1,0 +1,5 @@
+C:\dev\Pixel-Engine\SandBox\log.txt
+C:\dev\Pixel-Engine\SandBox
+
+this file change the working dir to the path in the secong line
+and out put the logs to the path in the first line

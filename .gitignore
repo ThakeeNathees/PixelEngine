@@ -9,7 +9,7 @@ vender/SFML-2.5.1/lib/cmake/
 #SandBox/src
 
 #pycache
-SandBox/__pycache__/
+*.__pycache__
 
 
 ###files

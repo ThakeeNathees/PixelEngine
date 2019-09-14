@@ -1,0 +1,13 @@
+downloaded from:
+	https://rvros.itch.io/animated-pixel-hero
+	
+Sprite dimension:
+	50x37 px
+
+License Permissions:
+	You can do:
+		- You can use this asset for personal and commercial purpose. Credit is not required but would be appreciated. 
+		- Modify to suit your needs.
+
+	You cannot do:
+		- Resell/redistribute this asset.

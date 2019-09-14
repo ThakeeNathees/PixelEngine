@@ -11,8 +11,8 @@
 #include "utils/FileHandler.h"
 #include "utils/math_utils.h"
 
-#include "Application.h"
 #include "Scene.h"
+#include "Application.h"
 
 // entities
 #include "entities/Sprite.h"

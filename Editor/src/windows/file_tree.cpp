@@ -22,7 +22,7 @@ void FileTree::renderFileTree(const char* path)
 
 
 void FileTree::fileTreeRecurtion(std::string path) {
-	long long id = simple_hash(path.substr(glm::max((int)path.length() - 64, 0))); // last 64 character of the path
+	long long id = simple_hash(path.substr(std::max((int)path.length() - 64, 0))); // last 64 character of the path
 	static long long selected_id = -1;
 
 	if (SimpleDir::isDirectory(path)) {

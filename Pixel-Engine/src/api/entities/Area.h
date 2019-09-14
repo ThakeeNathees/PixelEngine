@@ -75,6 +75,7 @@ namespace pe
 		bool m_is_convex = false;
 		sf::Shape* m_shape = nullptr;
 		static sf::Color s_debug_shape_color;
+		static float s_outline_thickness;
 	};
 
 

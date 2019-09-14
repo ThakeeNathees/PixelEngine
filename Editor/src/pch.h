@@ -1,6 +1,5 @@
 #pragma once
 
-#include <glm.hpp>
 #include "imgui.h"
 #include "imgui-SFML.h"
 

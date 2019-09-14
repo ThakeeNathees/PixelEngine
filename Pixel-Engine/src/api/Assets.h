@@ -4,7 +4,8 @@
 
 
 typedef pe::Object* (*construct_f)(const std::string&);
-#define REGISTER_CLASS(class_name) pe::Assets::registerClass<class_name>(#class_name);
+#define REGISTER_CLASS(class_name) pe::Assets::registerClass<class_name>(#class_name)
+#define ADD_PYOBJECT_PATH( path ) pe::Assets::addPyobjectPath(path);
 
 namespace pe
 {
@@ -36,6 +37,8 @@ namespace pe
 			s_object_registry[class_name] = &construct<T>;
 		}
 
+		static void addPyobjectPath(const std::string& path) {s_pyobj_paths.push_back(path);}
+		static const std::vector<std::string>& getPyobjectPaths() { return s_pyobj_paths; }
 		// setters
 		static void addAsset(Asset* asset);
 
@@ -65,7 +68,7 @@ namespace pe
 	
 		static std::map<int, Asset*> s_assets;
 
-
+		static std::vector<std::string> s_pyobj_paths;
 		static std::map<std::string, construct_f> s_object_registry;
 		static std::vector<std::string> s_python_classes;
 

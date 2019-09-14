@@ -194,14 +194,13 @@
     <ClInclude Include="vender\simpledir\simpledir.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\icon_256x256.ico" />
+    <Image Include="icon_256x256.ico" />
     <Image Include="res\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Editor.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Editor.aps" />
     <None Include="imgui.ini" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -141,7 +141,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="register.cpp" />
-    <ClCompile Include="src\Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pixel-Engine\Pixel-Engine.vcxproj">
@@ -157,7 +156,11 @@
     <Xml Include="SandBox.peproj.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="py_test.py" />
+    <None Include="init" />
+    <None Include="src\py_test.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="log.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

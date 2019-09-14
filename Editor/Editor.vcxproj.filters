@@ -139,10 +139,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\icon_256x256.ico">
+    <Image Include="res\logo.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\logo.png">
+    <Image Include="icon_256x256.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
@@ -152,7 +152,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Editor.aps" />
     <None Include="imgui.ini" />
   </ItemGroup>
 </Project>

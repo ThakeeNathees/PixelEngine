@@ -4,7 +4,7 @@
 namespace pe
 {
 	std::map<std::string, construct_f> Assets::s_object_registry;
-
+	std::vector<std::string> Assets::s_pyobj_paths;
 	std::map<int, Asset*>	Assets::s_assets;
 
 	void Assets::assetsDistruct() { // TODO: add remove(any asset) functions

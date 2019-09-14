@@ -27,14 +27,15 @@
     <Xml Include="SandBox.peproj.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="py_test.py" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="register.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\py_test.py" />
+    <None Include="init" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="log.txt" />
   </ItemGroup>
 </Project>

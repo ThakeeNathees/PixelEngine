@@ -3,7 +3,7 @@ import os, subprocess
 
 ## in cmd > scons platfrom=windows generate_bindings=yes
 out_path='bin/SandBox'
-include_paths = ['./include', './include/pixel-engine/', './include/glm']
+include_paths = ['./include']
 lib_files = ["Pixel-Engine", "sfml-audio-d","sfml-graphics-d","sfml-main-d",
 "sfml-network-d","sfml-system-d", "sfml-window-d"]
 

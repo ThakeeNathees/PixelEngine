@@ -26,9 +26,9 @@ PIXEL_ENGINE_API void pe_mainLoop(const char* project_name, int argc, char** arg
 	if (init_file.is_open()) {
 		std::string path;
 		std::getline(init_file, path);
-		Logger::init(path);
-		std::getline(init_file, path);
 		changeDir(path.c_str());
+		std::getline(init_file, path);
+		Logger::init(path);
 		init_file.close();
 	}
 

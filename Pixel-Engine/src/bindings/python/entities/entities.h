@@ -1,6 +1,7 @@
 #pragma once
 
 #include <pybind11/embed.h>
+#include <pybind11/stl.h>
 namespace py = pybind11;
 
 void register_animation(py::module& m);

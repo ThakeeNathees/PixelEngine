@@ -6,6 +6,7 @@
 
 #include <memory>
 #include <iostream>
+#include <fstream>
 #include <functional>
 #include <assert.h>
 

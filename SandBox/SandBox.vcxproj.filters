@@ -23,7 +23,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="test.xml" />
     <Xml Include="assets.xml" />
     <Xml Include="SandBox.peproj.xml" />
   </ItemGroup>

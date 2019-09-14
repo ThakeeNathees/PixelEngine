@@ -148,6 +148,9 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
     <ClCompile Include="src\bindings\python\entities\py_Signal_Timer.cpp" />
     <ClCompile Include="src\bindings\python\entities\py_Sprite.cpp" />
     <ClCompile Include="src\bindings\python\entities\py_Texture.cpp" />
+    <ClCompile Include="src\bindings\python\pe_api\py_Font.cpp" />
+    <ClCompile Include="src\bindings\python\pe_api\py_Scene.cpp" />
+    <ClCompile Include="src\bindings\python\pe_api\py_Text.cpp" />
     <ClCompile Include="src\bindings\python\types\py_Color.cpp" />
     <ClCompile Include="src\bindings\python\types\py_Draw_Trans.cpp" />
     <ClCompile Include="src\bindings\python\types\py_Event.cpp" />

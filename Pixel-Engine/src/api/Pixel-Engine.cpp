@@ -20,8 +20,17 @@ PIXEL_ENGINE_API void pe_mainLoop(const char* project_name, int argc, char** arg
 	//char buf[4096];
 	//std::cout << "CWD: " << getCurrentDir(buf, sizeof buf) << std::endl;
 
-	py::scoped_interpreter intp;
+	std::ifstream chcwd_file("chcwd");
+	char buf[4096];
+	if (chcwd_file.is_open()) {
+		std::string path;
+		std::getline(chcwd_file, path);
+		chcwd_file.close();
+		changeDir(path.c_str());
+	}
+	PE_LOG("cwd: " << getCurrentDir(buf, sizeof buf) );
 
+	py::scoped_interpreter intp;
 	pe::Application app(  std::string(project_name).append(".peproj.xml").c_str() );
 	app.update();
 }

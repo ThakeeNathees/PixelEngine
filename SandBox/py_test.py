@@ -2,13 +2,12 @@
 import pixel_engine as pe
 
 
-def init(s):
+def init(self):
         return
 
 def process(self, dt):
-        p = pe.Assets.getObject(60000)
-        intersect = False
-        spd = 5
+        spd = 4
+        p = self.getScene().getObject("player1")
         if pe.isKeyPressed(pe.Keyboard.J):
                 self.getSprite().setFrameIndex(23)
                 self.move(-spd,0)
@@ -29,13 +28,25 @@ def process(self, dt):
                 self.move(0,spd)
                 intersect = (p.getArea().isIntersecting(self.getArea()))
                 if (intersect): self.move(0,-spd)
-        print(intersect)
+        #print(intersect)
         pass
 
 def handleEvent(self, event):
         pass
 
+x = 0
 def drawCall(self):
+        global x
+        x+=.1
+        t = pe.Text()
+        t.rotate(x)
+        t.setCharacterSize(40)
+        f = pe.Assets.getFont(10001)
+        t.setPosition(100,100)
+
+        t.setFont(f)
+        t.setString("testing")
+        self.draw(t)
         self.drawSelf()
         return 
         for i in range(8):

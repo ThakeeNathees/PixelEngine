@@ -155,7 +155,6 @@
   <ItemGroup>
     <Xml Include="assets.xml" />
     <Xml Include="SandBox.peproj.xml" />
-    <Xml Include="test.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="py_test.py" />

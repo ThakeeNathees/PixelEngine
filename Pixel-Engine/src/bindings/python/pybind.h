@@ -10,6 +10,7 @@
 #include "pe_api/pe_api.h"
 
 #include <pybind11/embed.h>
+#include <pybind11/stl.h>
 namespace py = pybind11;
 
 // import pixel_engine as pe
@@ -56,5 +57,8 @@ PYBIND11_EMBEDDED_MODULE(pixel_engine, m) {
 
 	// pe_api
 	register_assets(m);
+	register_font(m);
+	register_text(m);
+	register_scene(m);
 }
 

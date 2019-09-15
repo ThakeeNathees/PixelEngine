@@ -4,9 +4,10 @@ import os
 
 obj_format = ".obj.xml"
 scene_format = ".scn.xml"
+proj_format = ".peproj"
 
 def updateProj(proj_name = "SandBox", working_dir='.'):
-    proj_file_name= proj_name + '.peproj.xml'
+    proj_file_name= proj_name + proj_format
     working_dir = working_dir+'/' if working_dir[-1] !='/' else working_dir ## need below
     proj_file_path = os.path.join(working_dir , proj_file_name)
     if not os.path.isfile(proj_file_path):

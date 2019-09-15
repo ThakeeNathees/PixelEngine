@@ -1,11 +1,10 @@
 import os
 
 init_format = '''\
-%s
-%s
-
-this file change the working dir to the path in the first line
-and out put the logs to the path in the second line
+conf="%s"
+cwd="%s"
+log="%s"
+kill_switch="F9"
 '''
 
 register_format = '''\
@@ -43,9 +42,9 @@ def makeRegister( proj_title, proj_dir,  classes={}, pyobj_paths=[] ):
     file.write(register_text)
     file.close()
 
-def makeInit(dst, cwd, log):
+def makeInit(dst, conf, cwd, log):
     file = open(os.path.join(dst, 'init'), 'w')
-    file.write( init_format%(cwd, log) )
+    file.write( init_format%(conf, cwd, log) )
     file.close()
 
 if __name__ == "__main__" and 0:

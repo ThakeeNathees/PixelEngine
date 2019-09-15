@@ -22,10 +22,13 @@ namespace pe
 	sf::Color Application::s_background_color = sf::Color(80, 80, 80, 255);
 	sf::Color Application::s_default_color = sf::Color(50, 75, 100, 255);
 	sf::Vector2i Application::s_window_size = sf::Vector2i(0,0);
+	int Application::s_conf = 0;
+	sf::Keyboard::Key Application::s_kill_switch = sf::Keyboard::Unknown;
 
 
 	Application::Application(const char* proj_path)
 	{
+		setDebugMode( s_conf == 0 ); // TODO: make applicatin static class
 		FileHandler file;
 		int error = file.readProject(proj_path); // TODO: error handle
 		if (error) { PE_LOG("project file reading error"); }
@@ -33,12 +36,11 @@ namespace pe
 		m_peproj = file.getProject();
 		m_window = new sf::RenderWindow(sf::VideoMode(m_peproj.window_size.x, m_peproj.window_size.y), m_peproj.title);
 		s_window_size = static_cast<sf::Vector2i>(m_window->getSize());
-		setDebugMode(m_peproj.is_debug_mode);
 		setFrameRate(m_peproj.frame_rate );
 		m_window->setFramerateLimit(1/ m_peproj.frame_rate);
 #ifdef _WIN32
-		if (m_peproj.no_console_window) FreeConsole();
-		else PE_CONSOLE_LOG( "set no console window in preference to run without console window" );
+		if ( !m_is_debug_mode ) FreeConsole();
+		else PE_CONSOLE_LOG( "this console window only apear in debug mode" );
 #endif
 
 		if (std::string(m_peproj.assets_path) != std::string("")) {
@@ -49,12 +51,12 @@ namespace pe
 		else; // TODO: create assets.xml file and add
 
 		for (auto& path : m_peproj.objects_path) {
+			PE_LOG("\nobject deserialization begin : %s", path.c_str());
 			file.readObject(path.c_str(), this);
-			PE_LOG("object deserialized : %s", path.c_str());
 		}
 		for (auto& path : m_peproj.scene_paths) {
+			PE_LOG("\nscene deserialization begin : %s", path.c_str());
 			file.readScenes(path.c_str(), this);
-			PE_LOG("scene deserialized : %s", path.c_str());
 		}
 		
 		int texture_id = m_peproj.logo_texture_id;
@@ -87,6 +89,7 @@ namespace pe
 	}
 
 	void Application::addScene(Scene* scene) {
+		if (scene == nullptr){ PE_LOG("\nERROR: pe::Application::addScene(pe::Scene*) called with nullptr"); }
 		assert( scene != nullptr );
 		m_scenes.push_back(scene);
 		//scene->setSceneWindowSize(sf::Vector2i(m_window->getSize().x, m_window->getSize().y) );
@@ -117,15 +120,19 @@ namespace pe
 				setCurrentScene(scene);
 				return;
 			}
-		} assert(false && "invalid scene id to set");
+		}
+		PE_LOG("\nERROR: pe::Application::setCurrentScene(int) called with invalid id [%i]", id);
+		assert(false && "invalid scene id to set");
 	}
 	void Application::setCurrentScene(const std::string& name) {
 		for (auto scene : m_scenes) {
 			if (scene->getName() == name) {
 				setCurrentScene(scene);
 				return;
-			} assert( false && "invalid scene name to set" );
+			} 
 		}
+		PE_LOG("\nERROR: pe::Application::setCurrentScene(const std::string&) called with invalid name [%s]", name.c_str());
+		assert( false && "invalid scene name to set" );
 	}
 
 	/// main loop
@@ -139,6 +146,8 @@ namespace pe
 
 			Event event;
 			while (m_window->pollEvent(event)) {
+				if (!m_current_scene) { PE_LOG("\nERROR: in pe::Application::update() current scene is NULL"); }
+				if (isEventKillSwitch(event)) m_window->close();
 				assert( m_current_scene );
 				for (Object* object : m_current_scene->getObjects()) {
 					try{ object->handleEvent(event); }
@@ -196,5 +205,17 @@ namespace pe
 				for (auto obj : m_current_scene->getObjects()) obj->scriptReload();
 			}
 		}
+	}
+
+
+	// private functions ///////////////
+
+	bool Application::isEventKillSwitch(sf::Event& event) {
+		if (event.type == sf::Event::KeyPressed) {
+			if (event.key.code != sf::Keyboard::Unknown && event.key.code == s_kill_switch) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

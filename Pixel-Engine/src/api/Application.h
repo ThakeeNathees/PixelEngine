@@ -2,7 +2,6 @@
 #include "core.h"
 #include "Assets.h"
 
-
 namespace pe {
 
 	struct PIXEL_ENGINE_API _peproj {
@@ -50,9 +49,11 @@ namespace pe {
 		inline static const sf::Vector2i& getWindowSize() { return s_window_size; }
 
 		static sf::Color s_default_color;
+		static int s_conf; // 0 = debug, 1 = release, default = debug
+		static sf::Keyboard::Key s_kill_switch;
 	private:
-
 		struct _peproj m_peproj;
+		bool isEventKillSwitch(sf::Event& event);
 
 		void setCurrentScene(Scene* scene);
 		double m_frame_rate = 30.0;

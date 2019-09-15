@@ -153,10 +153,9 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="assets.xml" />
-    <Xml Include="SandBox.peproj.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="init" />
+    <None Include="SandBox.peproj" />
     <None Include="src\py_test.py" />
   </ItemGroup>
   <ItemGroup>

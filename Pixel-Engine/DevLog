@@ -4,15 +4,13 @@
 	
 HIGHT PRIORITY
 	pybind
-		font, text, scene, window, application
+		window, application
 
 LOW PRIORITY
 	time map
 	camera
-	pe::text
 	change assert to trow and chatch them with TCP socket
 	add object m_process_priority
-	peproj add mini asset for no setup run
 	remove persistence object from vector
 	nexeScene(), previousScene() => scene stack
 
@@ -61,3 +59,10 @@ LOG 4
 	disable HID-compliant vendor-defined devices (the second one in my pc) in the devices manager
 
 
+LOG 5 : registry
+	add editor to path environment variable
+	set openwith editor.exe for *.peproj and run
+		at : Computer\HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.peproj
+	*.peproj will visible in editor's icon to chagne it create "DefaultIcon" key in registry
+		at : Computer\HKEY_CLASSES_ROOT\Applications\Editor.exe
+	export all registry for installations

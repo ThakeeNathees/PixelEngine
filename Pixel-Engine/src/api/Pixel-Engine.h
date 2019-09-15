@@ -4,12 +4,15 @@
 	#include <SFML/Window.hpp>
 	#include <SFML/Graphics.hpp>
 	#include <assert.h>
+	#include <sstream>
+	#include <ctime>
 	#include <math.h>
 #endif
 
 //utils
 #include "utils/FileHandler.h"
 #include "utils/math_utils.h"
+#include "utils/string_utils.h"
 
 #include "Scene.h"
 #include "Application.h"
@@ -34,8 +37,8 @@
 /************ Entry-Point ************/
 #ifdef PE_PROJECT
 
-void register_classes();
 void pe_mainLoop(const char* project_name, int argc, char** argv);
+void register_classes();
 
 int main(int argc, char** argv)
 {

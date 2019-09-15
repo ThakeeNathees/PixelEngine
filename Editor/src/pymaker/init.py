@@ -5,8 +5,8 @@ import assets_loader
 import file_maker
 
 ## dst
-dst_path    = 'e:/__test/'
-proj_name   = 'TestProj'
+dst_path    = 'e:/__test/test'
+proj_name   = 'Project1'
 
 #src
 pe_sln_path     = 'C:/dev/Pixel-Engine'
@@ -129,8 +129,8 @@ def init():
     assets_loader.loadAssets(proj_dir)
     proj_updater.updateProj(proj_name, proj_dir)
     file_maker.makeRegister(proj_name, proj_dir)
-    file_maker.makeInit( os.path.join(proj_dir, 'bin/x64-debug'), '../../', 'bin/x64-debug/log.txt' )
-    file_maker.makeInit( os.path.join(proj_dir, 'bin/x64-release'), '../../', 'bin/x64-debug/log.txt' )
+    file_maker.makeInit( os.path.join( proj_dir, 'bin/x64-debug'), "debug", '../../', 'bin/x64-debug/log.txt' )
+    file_maker.makeInit( os.path.join( proj_dir, 'bin/x64-release'), "release", '../../', 'bin/x64-release/log.txt' )
 
     
     

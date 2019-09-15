@@ -1,5 +1,4 @@
-C:\dev\Pixel-Engine\SandBox
-C:\dev\Pixel-Engine\SandBox\log.txt
-
-this file change the working dir to the path in the first line
-and out put the logs to the path in the second line
+conf		="debug"
+cwd			="./"
+log			="./log.txt"
+kill_switch = "F9"

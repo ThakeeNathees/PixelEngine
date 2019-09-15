@@ -202,6 +202,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
+    <None Include="src\pymaker\assets_loader.py" />
+    <None Include="src\pymaker\clean.py" />
+    <None Include="src\pymaker\file_maker.py" />
+    <None Include="src\pymaker\init.py" />
+    <None Include="src\pymaker\proj_updater.py" />
+    <None Include="src\utils\path_functions.py" />
+    <None Include="src\utils\str_function.py" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -103,6 +103,7 @@ namespace pe
 		obj->setName(obj_tag->Attribute("name"));
 		obj->m_id = obj_tag->IntAttribute("id");
 		Object::s_next_id = std::max(obj->m_id + 1, Object::s_next_id);
+		PE_LOG("object created: type=%s  id=%i name=%s", type.c_str(), obj->m_id, obj->m_name.c_str());
 
 		auto prop = obj_tag->FirstChildElement("properties");
 		obj->setVisible(prop->BoolAttribute("visible"));
@@ -129,6 +130,9 @@ namespace pe
 			if (tex_tag) {
 				int id = tex_tag->IntAttribute("id");
 				Sprite::s_next_id = std::max(sprite->m_id + 1, Sprite::s_next_id);
+				if (Assets::s_assets[id] == NULL) {
+					PE_LOG("\nERROR: cant find sprite's texture: id=%i", id);
+				}
 				assert(Assets::s_assets[id] != NULL && "can't find texture for the sprite");
 				sprite->setTexture(*dynamic_cast<Texture*>(Assets::s_assets[id]));
 
@@ -152,6 +156,7 @@ namespace pe
 			}
 			obj->setSprite(sprite);
 			Assets::s_assets[sprite->m_id] = sprite;
+			PE_LOG("sprite created: id=%i", sprite->m_id);
 		} // sprite
 
 		auto area_tag = obj_tag->FirstChildElement("area");
@@ -176,6 +181,7 @@ namespace pe
 			}
 			obj->setArea(area);
 			Assets::s_assets[area->m_id] = area;
+			PE_LOG("area created: id=%i", area->m_id);
 		} // area
 
 		auto anims_tag = obj_tag->FirstChildElement("animations");
@@ -243,10 +249,11 @@ namespace pe
 			}
 			obj->addAnimation(anim);
 			Assets::s_assets[anim->m_id] = anim;
+			PE_LOG("animation created: id=%i", anim->m_id);
 		} // animation
 		Assets::s_assets[obj->m_id] = obj;
 		if (app && obj->isPersistence()) app->addPersistenceObject(obj);
-
+		PE_LOG("object serialization success");
 	} // objects
 
 	void FileHandler::readScenes(const char* path, Application* app) {
@@ -283,15 +290,18 @@ namespace pe
 				bg->setSmooth(bg_tag->FirstChildElement("properties")->BoolAttribute("smooth"));
 			}
 			Assets::s_assets[bg->m_id] = bg;
+			PE_LOG("background created: id=%i", bg->m_id);
 		} // bg
 
 		auto objs_tag = scn_tag->FirstChildElement("objects");
 		for (auto obj_tag = objs_tag->FirstChildElement(); obj_tag != NULL; obj_tag = obj_tag->NextSiblingElement()) {
 			int id = obj_tag->IntAttribute("id");
+			if (Assets::s_assets[id] == NULL) {PE_LOG("\nERROR: cant find object for the scene: id=%i", id);}
 			assert(Assets::s_assets[id] != NULL && "can't find the object for the scene");
 			scene->addObject(dynamic_cast<Object*>(Assets::s_assets[id]));
 		}
 		Assets::s_assets[scene->m_id] = scene;
 		if (app) app->addScene(scene);
+		PE_LOG("scene serialization success");
 	} // scenes
 }

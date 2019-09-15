@@ -24,7 +24,6 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="assets.xml" />
-    <Xml Include="SandBox.peproj.xml" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="register.cpp">
@@ -33,7 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\py_test.py" />
-    <None Include="init" />
+    <None Include="SandBox.peproj" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="log.txt" />

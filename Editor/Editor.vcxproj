@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
@@ -25,19 +17,6 @@
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
@@ -55,12 +34,6 @@
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -85,7 +58,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)vender\simpledir;$(ProjectDir)vender\ImGuiColorTextEdit;$(ProjectDir)vender\ImSf;$(ProjectDir)vender\ImGui;$(SolutionDir)Pixel-Engine\src\api;$(SolutionDir)vender\glm;$(SolutionDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)vender\simpledir;$(ProjectDir)vender\ImGuiColorTextEdit;$(ProjectDir)vender\ImSf;$(ProjectDir)vender\ImGui;$(SolutionDir)Pixel-Engine\src\api;$(SolutionDir)vender\pybind\include;$(SolutionDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PreprocessorDefinitions>PE_PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -94,19 +67,8 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)vender\SFML-2.5.1\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;sfml-main.lib;sfml-audio.lib;sfml-graphics.lib;sfml-network.lib;sfml-window.lib;sfml-system.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>$(SolutionDir)vender\SFML-2.5.1\lib;$(SolutionDir)vender\pybind\libs\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>python38.lib;opengl32.lib;sfml-main.lib;sfml-audio.lib;sfml-graphics.lib;sfml-network.lib;sfml-window.lib;sfml-system.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -115,30 +77,15 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)vender\simpledir;$(ProjectDir)vender\ImGuiColorTextEdit;$(ProjectDir)vender\ImSf;$(ProjectDir)vender\ImGui;$(SolutionDir)Pixel-Engine\src\api;$(SolutionDir)vender\glm;$(SolutionDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)vender\simpledir;$(ProjectDir)vender\ImGuiColorTextEdit;$(ProjectDir)vender\ImSf;$(ProjectDir)vender\ImGui;$(SolutionDir)Pixel-Engine\src\api;$(SolutionDir)vender\pybind\include;$(SolutionDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PreprocessorDefinitions>PE_PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>$(SolutionDir)vender\SFML-2.5.1\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;sfml-main-d.lib;sfml-audio-d.lib;sfml-graphics-d.lib;sfml-network-d.lib;sfml-window-d.lib;sfml-system-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)vender\SFML-2.5.1\lib;$(SolutionDir)vender\pybind\libs\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>python38_d.lib;opengl32.lib;sfml-main-d.lib;sfml-audio-d.lib;sfml-graphics-d.lib;sfml-network-d.lib;sfml-window-d.lib;sfml-system-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -147,40 +94,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\globals.cpp" />
-    <ClCompile Include="src\windows\assets_window.cpp" />
-    <ClCompile Include="vender\ImSf\imgui-SFML.cpp" />
-    <ClCompile Include="vender\ImGui\imgui.cpp" />
-    <ClCompile Include="vender\ImGui\imgui_demo.cpp" />
-    <ClCompile Include="vender\ImGui\imgui_draw.cpp" />
-    <ClCompile Include="vender\ImGui\imgui_widgets.cpp" />
-    <ClCompile Include="vender\ImGui\TextEditor.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\utils\string_util.cpp" />
-    <ClCompile Include="src\windows\console.cpp" />
-    <ClCompile Include="src\windows\editor_map.cpp" />
-    <ClCompile Include="src\windows\file_tree.cpp" />
-    <ClCompile Include="src\windows\image_viwer.cpp" />
-    <ClCompile Include="src\windows\property_window\property_editor.cpp" />
-    <ClCompile Include="src\windows\render_window.cpp" />
+    <ClCompile Include="vender\ImGuiColorTextEdit\TextEditor.cpp" />
+    <ClCompile Include="vender\ImGui\imgui.cpp" />
+    <ClCompile Include="vender\ImGui\imgui_demo.cpp" />
+    <ClCompile Include="vender\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="vender\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="vender\ImSf\imgui-SFML.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="src\globals.h" />
     <ClInclude Include="src\pch.h" />
-    <ClInclude Include="src\utils\string_util.h" />
-    <ClInclude Include="src\windows\assets_window.h" />
-    <ClInclude Include="src\windows\console.h" />
-    <ClInclude Include="src\windows\editor_map.h" />
-    <ClInclude Include="src\windows\file_tree.h" />
-    <ClInclude Include="src\windows\image_viwer.h" />
-    <ClInclude Include="src\windows\property_window\proprty_editor.h" />
-    <ClInclude Include="src\windows\render_window.h" />
-    <ClInclude Include="src\windows\window_manager.h" />
     <ClInclude Include="vender\ImGuiColorTextEdit\TextEditor.h" />
     <ClInclude Include="vender\ImGui\imconfig.h" />
     <ClInclude Include="vender\ImGui\imgui.h" />
@@ -191,24 +119,14 @@
     <ClInclude Include="vender\ImSf\imconfig-SFML.h" />
     <ClInclude Include="vender\ImSf\imgui-SFML.h" />
     <ClInclude Include="vender\ImSf\imgui-SFML_export.h" />
-    <ClInclude Include="vender\simpledir\simpledir.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="icon_256x256.ico" />
+    <Image Include="icons\file_icon.ico" />
+    <Image Include="icons\icon.ico" />
     <Image Include="res\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Editor.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="imgui.ini" />
-    <None Include="src\pymaker\assets_loader.py" />
-    <None Include="src\pymaker\clean.py" />
-    <None Include="src\pymaker\file_maker.py" />
-    <None Include="src\pymaker\init.py" />
-    <None Include="src\pymaker\proj_updater.py" />
-    <None Include="src\utils\path_functions.py" />
-    <None Include="src\utils\str_function.py" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

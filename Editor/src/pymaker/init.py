@@ -8,15 +8,15 @@ import file_maker
 dst_path    = 'e:/__test/test'
 proj_name   = 'Project1'
 
-#src
+## src
 pe_sln_path     = 'C:/dev/Pixel-Engine'
 pe_api_path     = 'C:/dev/Pixel-Engine/Pixel-Engine/src/api/'
 sfml_path       = 'C:/dev/Pixel-Engine/vender/SFML-2.5.1/include/'
 sfml_lib_path   = 'C:/dev/Pixel-Engine/vender/SFML-2.5.1/lib/'
 sfml_dll_path   = 'C:/dev/Pixel-Engine/vender/SFML-2.5.1/bin/'
-pe_out          = 'C:/dev/Pixel-Engine/bin/Debug-x64/Pixel-Engine/'
+pe_debug_out          = 'C:/dev/Pixel-Engine/bin/Debug-x64/Pixel-Engine/'
 pe_release_out  = 'C:/dev/Pixel-Engine/bin/Release-x64/Pixel-Engine/'
-res_path        = "C:/dev/Pixel-Engine/Editor/res/"
+#res_path        = "C:/dev/Pixel-Engine/Editor/res/"
 
 
 def makeDirs(proj_dir):
@@ -89,14 +89,14 @@ def copySfmlDlls(sfml_dll_path, proj_dir):
                         os.path.join(proj_dir, 'bin/x64-release'))
             print("copied file:",os.path.join(sfml_dll_path, dll))
             
-def copyPEOut(pe_out, proj_dir, spec='debug'):
+def copyPEOut(pe_debug_out, proj_dir, spec='debug'):
     assert( spec in ['debug', 'release'] )
-    shutil.copy(os.path.join(pe_out, 'Pixel-Engine.dll'),
+    shutil.copy(os.path.join(pe_debug_out, 'Pixel-Engine.dll'),
                         os.path.join(proj_dir, 'bin/x64-%s'%spec))
-    print("copied file:",os.path.join(pe_out, 'Pixel-Engine.dll'))
-    shutil.copy(os.path.join(pe_out, 'Pixel-Engine.lib'),
+    print("copied file:",os.path.join(pe_debug_out, 'Pixel-Engine.dll'))
+    shutil.copy(os.path.join(pe_debug_out, 'Pixel-Engine.lib'),
                         os.path.join(proj_dir, 'lib/x64-%s'%spec))
-    print("copied file:",os.path.join(pe_out, 'Pixel-Engine.lib'))
+    print("copied file:",os.path.join(pe_debug_out, 'Pixel-Engine.lib'))
     
 
 def copyLicenseScons(pe_sln_path, proj_dir):
@@ -120,10 +120,10 @@ def init():
     copyInclude(sfml_path, os.path.join(proj_dir, 'include'))
     copySfmlLibs(sfml_lib_path, proj_dir)
     copySfmlDlls(sfml_dll_path, proj_dir)
-    copyPEOut(pe_out, proj_dir, 'debug')
+    copyPEOut(pe_debug_out, proj_dir, 'debug')
     copyPEOut(pe_release_out, proj_dir, 'release')
     
-    copyResDir(res_path, os.path.join(proj_dir, 'res'))
+    #copyResDir(res_path, os.path.join(proj_dir, 'res'))
     copyLicenseScons(pe_sln_path, proj_dir)
 
     assets_loader.loadAssets(proj_dir)

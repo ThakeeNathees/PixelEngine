@@ -1,15 +1,38 @@
 #pragma once
 
-#include "imgui.h"
-#include "imgui-SFML.h"
+#include <imgui.h>
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+#include <imgui-SFML.h>
+#include <TextEditor.h>
 
+#include <Pixel-Engine.h>
+
+#include <stdio.h>
 #include <memory>
 #include <iostream>
-#include <stdio.h>
-#include <functional>
 #include <fstream>
+#include <sstream>
+#include <functional>
+#include <assert.h>
 
+#include <algorithm>
+#include <math.h>
 #include <string>
 #include <vector>
-#include <map>
-#include <array>
+
+/* logo color bottom left to top right
+
+sf::Color(20,105,170)
+sf::Color(20,124,185)
+sf::Color(20,143,183)
+
+sf::Color(39,130,199)
+sf::Color(29,155,217)
+sf::Color(15,168,221)
+
+sf::Color(15,185,237)
+sf::Color(51,194,235)
+sf::Color(64,196,225)
+*/

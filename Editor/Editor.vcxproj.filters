@@ -21,34 +21,10 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\globals.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\windows\console.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\windows\editor_map.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\windows\file_tree.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\windows\render_window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utils\string_util.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\windows\image_viwer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\windows\property_window\property_editor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="vender\ImGui\imgui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vender\ImGui\TextEditor.cpp">
+    <ClCompile Include="vender\ImGui\imgui_demo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="vender\ImGui\imgui_draw.cpp">
@@ -57,51 +33,36 @@
     <ClCompile Include="vender\ImGui\imgui_widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vender\ImGui\imgui_demo.cpp">
+    <ClCompile Include="vender\ImGuiColorTextEdit\TextEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="vender\ImSf\imgui-SFML.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\windows\assets_window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\globals.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\windows\console.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\windows\editor_map.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\windows\file_tree.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\windows\render_window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utils\string_util.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\windows\image_viwer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\windows\property_window\proprty_editor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="vender\ImGui\imconfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="vender\ImGui\imgui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vender\ImGui\imgui_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vender\ImGui\imstb_rectpack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vender\ImGui\imstb_textedit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vender\ImGui\imstb_truetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="vender\ImGuiColorTextEdit\TextEditor.h">
@@ -116,33 +77,15 @@
     <ClInclude Include="vender\ImSf\imgui-SFML_export.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vender\simpledir\simpledir.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="vender\ImGui\imgui_internal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="vender\ImGui\imstb_rectpack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="vender\ImGui\imstb_truetype.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="vender\ImGui\imstb_textedit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\windows\window_manager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\windows\assets_window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\logo.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="icon_256x256.ico">
+    <Image Include="icons\file_icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="icons\icon.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
@@ -150,15 +93,5 @@
     <ResourceCompile Include="Editor.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="imgui.ini" />
-    <None Include="src\pymaker\assets_loader.py" />
-    <None Include="src\pymaker\clean.py" />
-    <None Include="src\pymaker\file_maker.py" />
-    <None Include="src\pymaker\init.py" />
-    <None Include="src\pymaker\proj_updater.py" />
-    <None Include="src\utils\path_functions.py" />
-    <None Include="src\utils\str_function.py" />
   </ItemGroup>
 </Project>

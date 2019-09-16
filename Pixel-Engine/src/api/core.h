@@ -73,4 +73,12 @@ public:
 {sprintf( Logger::s_buf, str, __VA_ARGS__); \
 Logger::log();}
 
-#define PE_CONSOLE_LOG(x, ...) {printf("[pe] ");printf( x, __VA_ARGS__ ); printf("\n");}
+#define PE_CONSOLE_LOG(x, ...) printf( x, __VA_ARGS__ ); printf("\n")
+# define PE_TRY(x) try \
+{\
+	x;\
+}\
+catch (const std::exception& e)\
+{\
+	std::cout << e.what() << std::endl; \
+}

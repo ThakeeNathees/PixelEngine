@@ -4,17 +4,13 @@ import proj_updater
 import assets_loader
 import file_maker
 
-## dst
-dst_path    = 'e:/__test/test'
-proj_name   = 'Project1'
-
 ## src
 pe_sln_path     = 'C:/dev/Pixel-Engine'
 pe_api_path     = 'C:/dev/Pixel-Engine/Pixel-Engine/src/api/'
 sfml_path       = 'C:/dev/Pixel-Engine/vender/SFML-2.5.1/include/'
 sfml_lib_path   = 'C:/dev/Pixel-Engine/vender/SFML-2.5.1/lib/'
 sfml_dll_path   = 'C:/dev/Pixel-Engine/vender/SFML-2.5.1/bin/'
-pe_debug_out          = 'C:/dev/Pixel-Engine/bin/Debug-x64/Pixel-Engine/'
+pe_debug_out    = 'C:/dev/Pixel-Engine/bin/Debug-x64/Pixel-Engine/'
 pe_release_out  = 'C:/dev/Pixel-Engine/bin/Release-x64/Pixel-Engine/'
 #res_path        = "C:/dev/Pixel-Engine/Editor/res/"
 
@@ -109,7 +105,9 @@ def copyResDir(res_path, dst):
     
 #####################################################
 
-def init():
+def init(__proj_name, __dst_path=None):
+    proj_name = __proj_name
+    dst_path = __dst_path if __dst_path else '.'
     proj_dir = os.path.join(dst_path, proj_name)
     try:
         makeDirs(proj_dir)

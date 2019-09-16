@@ -16,12 +16,23 @@ namespace pe
 	}
 
 	// replace dst to src in string str
-	inline std::string __removeWiteSpace(std::string& str) {
+	inline std::string __removeWiteSpace(std::string str) {
 		std::size_t pos = -1;
 		std::string ret;
 		for (int i = 0; i < str.size(); i++) {
 			if (str[i] != ' ' && str[i] != '\t')
 				ret += str[i];
+		}
+		return ret;
+	}
+
+	// convert C:\dev\engine -> C:/dev/engine
+	inline std::string __fixPath(std::string path) {
+		std::size_t pos = -1;
+		std::string ret;
+		for (int i = 0; i < path.size(); i++) {
+			if (path[i] == '\\') path[i] = '/';
+			ret += path[i];
 		}
 		return ret;
 	}

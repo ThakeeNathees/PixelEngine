@@ -96,7 +96,6 @@
   <ItemGroup>
     <ClCompile Include="src\cli\CLI.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\path_handler\PathHandler.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -111,9 +110,6 @@
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\cli\CLI.h" />
-    <ClInclude Include="src\cli\help.h" />
-    <ClInclude Include="src\cli\init.h" />
-    <ClInclude Include="src\path_handler\PathHandler.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="vender\ImGuiColorTextEdit\TextEditor.h" />
     <ClInclude Include="vender\ImGui\imconfig.h" />
@@ -136,10 +132,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\cli\proj_init\assets_loader.py" />
+    <None Include="src\cli\proj_init\assets_updater.py" />
     <None Include="src\cli\proj_init\clean.py" />
-    <None Include="src\cli\proj_init\file_maker.py" />
     <None Include="src\cli\proj_init\init.py" />
     <None Include="src\cli\proj_init\proj_updater.py" />
+    <None Include="src\cli\proj_init\register_updater.py" />
     <None Include="src\pyutils\path_utils.py" />
     <None Include="src\pyutils\str_util.py" />
   </ItemGroup>

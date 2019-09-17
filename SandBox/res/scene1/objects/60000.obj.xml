@@ -1,4 +1,5 @@
-<object type="CPP_OBJECT" class_name="Player" name="player1" id="60000">
+<object name="player1" id="60000">
+    <class name="Player" type="CPP_OBJECT">src/Player.h</class>
     <properties z_index="204" visible="true" persistence="true"/>
     <transform>
         <position x="200" y="250"/>

@@ -75,7 +75,7 @@ namespace pe
 		auto obj_tag = m_doc->NewElement("object");
 		m_doc->InsertFirstChild(obj_tag);
 
-		
+		/*
 		switch (obj->getOjbectType()) {
 		case Object::ObjectType::CPP_OBJECT:
 			obj_tag->SetAttribute("type", "CPP_OBJECT");
@@ -85,9 +85,22 @@ namespace pe
 			break;
 		}
 		obj_tag->SetAttribute("class_name", obj->getClassName().c_str());
+		*/
 		obj_tag->SetAttribute("name", obj->getName().c_str());
 		obj_tag->SetAttribute("id", obj->getId());
 
+		auto class_tag = m_doc->NewElement("class");
+		obj_tag->InsertEndChild(class_tag);
+		class_tag->SetAttribute("name", obj->m_class_name.c_str());
+		switch (obj->getOjbectType()) {
+		case Object::ObjectType::CPP_OBJECT:
+			class_tag->SetAttribute("type", "CPP_OBJECT");
+			break;
+		case Object::ObjectType::PYTHON_OBJECT:
+			class_tag->SetAttribute("type", "PYTHON_OBJECT");
+			break;
+		}
+		class_tag->SetText(obj->m_class_path.c_str());
 
 		auto prop = m_doc->NewElement("properties");
 		obj_tag->InsertEndChild(prop);

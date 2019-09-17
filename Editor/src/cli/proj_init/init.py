@@ -1,8 +1,8 @@
 import os,shutil
 
 import proj_updater
-import assets_loader
-import file_maker
+import assets_updater
+import register_updater
 
 ## src
 pe_sln_path     = 'C:/dev/Pixel-Engine'
@@ -14,6 +14,18 @@ pe_debug_out    = 'C:/dev/Pixel-Engine/bin/Debug-x64/Pixel-Engine/'
 pe_release_out  = 'C:/dev/Pixel-Engine/bin/Release-x64/Pixel-Engine/'
 #res_path        = "C:/dev/Pixel-Engine/Editor/res/"
 
+init_format = '''\
+conf="%s"
+cwd="%s"
+log="%s"
+kill_switch="F9"
+'''
+
+def makeInit(dst, conf, cwd, log):
+    file = open(os.path.join(dst, 'init'), 'w')
+    file.write( init_format%(conf, cwd, log) )
+    file.close()
+    
 
 def makeDirs(proj_dir):
     os.makedirs(proj_dir)
@@ -124,14 +136,15 @@ def init(__proj_name, __dst_path=None):
     #copyResDir(res_path, os.path.join(proj_dir, 'res'))
     copyLicenseScons(pe_sln_path, proj_dir)
 
-    assets_loader.loadAssets(proj_dir)
+    assets_updater.updateAssets(proj_dir)
     proj_updater.updateProj(proj_name, proj_dir)
-    file_maker.makeRegister(proj_name, proj_dir)
-    file_maker.makeInit( os.path.join( proj_dir, 'bin/x64-debug'), "debug", '../../', 'bin/x64-debug/log.txt' )
-    file_maker.makeInit( os.path.join( proj_dir, 'bin/x64-release'), "release", '../../', 'bin/x64-release/log.txt' )
+    register_updater.updateRegister(proj_name, proj_dir)
+    
+    makeInit( os.path.join( proj_dir, 'bin/x64-debug'), "debug", '../../', 'bin/x64-debug/log.txt' )
+    makeInit( os.path.join( proj_dir, 'bin/x64-release'), "release", '../../', 'bin/x64-release/log.txt' )
 
-    
-    
+
+#init("proj1","E:/__test/test") 
     
     
     

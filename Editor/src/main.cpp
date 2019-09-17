@@ -4,33 +4,29 @@
 namespace py = pybind11;
 
 #include "cli/CLI.h"
-#include "path_handler/PathHandler.h"
 
 
 
 int main(int argc, char** argv)
 {
 	py::scoped_interpreter intrp;
-
-	PathHandler::init();
+	py::exec("import sys, os");
 	// move them to a file at exec_path
 	py::exec("sys.path.append('C:/dev/Pixel-Engine/Editor/src/pyutils')");
 	py::exec("sys.path.append('C:/dev/Pixel-Engine/Editor/src/cli/proj_init')");
 
-	auto ret = CLI::parseArgs(argc, argv);
-	if (ret == CLI::CliRet::Done) return 0;
+	CLI::init();
 
-
-	return 0;
-	//py::exec("print('[py]', os.getcwd())");
+	// process command lne arguments
+	//auto ret = CLI::parseArgs(argc, argv);
 
 
 	unsigned int w = sf::VideoMode::getDesktopMode().width - 600;
 	unsigned int h = sf::VideoMode::getDesktopMode().height - 300;
 
-	sf::RenderWindow window(sf::VideoMode(w, h), "Pixel-Engine");// , sf::Style::None);
-	sf::Texture tex; tex.loadFromFile("res/logo/logo.png");
-	window.setIcon(tex.getSize().x, tex.getSize().y, tex.copyToImage().getPixelsPtr());
+	sf::RenderWindow window(sf::VideoMode(w, h), "Pixel-Engine");//, sf::Style::None);
+	sf::Texture icon_tex; icon_tex.loadFromFile("res/logo/logo.png");
+	window.setIcon(icon_tex.getSize().x, icon_tex.getSize().y, icon_tex.copyToImage().getPixelsPtr());
 
 
 	window.setFramerateLimit(60);
@@ -38,11 +34,8 @@ int main(int argc, char** argv)
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-
-
 	sf::Event event; sf::Clock clock;
 	while (window.isOpen()) {
-
 		// event handle
 		while (window.pollEvent(event)) {
 			ImGui::SFML::ProcessEvent(event);

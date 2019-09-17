@@ -5,7 +5,7 @@ import os
 image_formats = [".jpg", ".jpeg", ".png"]
 font_formats = [ ".ttf" ]
 
-def loadAssets(working_dir='./', assets_file_name='assets.xml', default_tex_smooth=True, default_tex_repeat=False):
+def updateAssets(working_dir='./', assets_file_name='assets.xml', default_tex_smooth=True, default_tex_repeat=False):
     working_dir = working_dir+'/' if working_dir[-1] !='/' else working_dir ## need below
     assets_file_path = os.path.join(working_dir , assets_file_name)
     if not os.path.isfile(assets_file_path):

@@ -42,9 +42,6 @@
     <ClCompile Include="src\cli\CLI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\path_handler\PathHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -86,15 +83,6 @@
     <ClInclude Include="src\cli\CLI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\cli\help.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\cli\init.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\path_handler\PathHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\logo.png">
@@ -117,8 +105,9 @@
     <None Include="src\pyutils\path_utils.py" />
     <None Include="src\cli\proj_init\assets_loader.py" />
     <None Include="src\cli\proj_init\clean.py" />
-    <None Include="src\cli\proj_init\file_maker.py" />
     <None Include="src\cli\proj_init\init.py" />
     <None Include="src\cli\proj_init\proj_updater.py" />
+    <None Include="src\cli\proj_init\assets_updater.py" />
+    <None Include="src\cli\proj_init\register_updater.py" />
   </ItemGroup>
 </Project>

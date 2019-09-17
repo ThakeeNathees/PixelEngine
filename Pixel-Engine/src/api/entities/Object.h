@@ -96,6 +96,7 @@ namespace pe
 		// getters  TODO: getPosition<glm::fvec2>()
 		inline const std::string& getName() const override { return m_name; }
 		inline const std::string& getClassName() const { return m_class_name; }
+		inline const std::string& getClassPath() const { return m_class_path; }
 		inline int getId() const override { return m_id; }
 		inline ObjectType getOjbectType() { return m_object_type; }
 		inline Type getType() const override { return Type::Object; }
@@ -124,7 +125,8 @@ namespace pe
 
 	protected:
 		ObjectType m_object_type = ObjectType::CPP_OBJECT;
-		std::string m_class_name; // class name as string
+		std::string m_class_name ="Object"; // class name as string
+		std::string m_class_path =""; // for cpp-inlcude path, python-src_dir path
 	private:
 		inline void setScene(Scene* scene) { m_scene = scene; }
 		friend class Scene;

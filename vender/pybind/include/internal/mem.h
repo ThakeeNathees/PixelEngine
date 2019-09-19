@@ -1,11 +1,7 @@
-#ifndef Py_INTERNAL_PYMEM_H
-#define Py_INTERNAL_PYMEM_H
+#ifndef Py_INTERNAL_MEM_H
+#define Py_INTERNAL_MEM_H
 #ifdef __cplusplus
 extern "C" {
-#endif
-
-#ifndef Py_BUILD_CORE
-#  error "this header requires Py_BUILD_CORE define"
 #endif
 
 #include "objimpl.h"
@@ -147,13 +143,7 @@ struct _gc_runtime_state {
 
 PyAPI_FUNC(void) _PyGC_Initialize(struct _gc_runtime_state *);
 
-
-/* Set the memory allocator of the specified domain to the default.
-   Save the old allocator into *old_alloc if it's non-NULL.
-   Return on success, or return -1 if the domain is unknown. */
-PyAPI_FUNC(int) _PyMem_SetDefaultAllocator(
-    PyMemAllocatorDomain domain,
-    PyMemAllocatorEx *old_alloc);
+#define _PyGC_generation0 _PyRuntime.gc.generation0
 
 /* Heuristic checking if a pointer value is newly allocated
    (uninitialized) or newly freed. The pointer is not dereferenced, only the
@@ -179,16 +169,7 @@ static inline int _PyMem_IsPtrFreed(void *ptr)
 #endif
 }
 
-PyAPI_FUNC(int) _PyMem_GetAllocatorName(
-    const char *name,
-    PyMemAllocatorName *allocator);
-
-/* Configure the Python memory allocators.
-   Pass PYMEM_ALLOCATOR_DEFAULT to use default allocators.
-   PYMEM_ALLOCATOR_NOT_SET does nothing. */
-PyAPI_FUNC(int) _PyMem_SetupAllocators(PyMemAllocatorName allocator);
-
 #ifdef __cplusplus
 }
 #endif
-#endif /* !Py_INTERNAL_PYMEM_H */
+#endif /* !Py_INTERNAL_MEM_H */

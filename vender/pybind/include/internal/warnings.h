@@ -4,10 +4,6 @@
 extern "C" {
 #endif
 
-#ifndef Py_BUILD_CORE
-#  error "this header requires Py_BUILD_CORE define"
-#endif
-
 #include "object.h"
 
 struct _warnings_runtime_state {

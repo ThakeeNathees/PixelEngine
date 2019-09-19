@@ -144,7 +144,7 @@ def init(__proj_name, __dst_path=None):
     makeInit( os.path.join( proj_dir, 'bin/x64-release'), "release", '../../', 'bin/x64-release/log.txt' )
 
 
-#init("proj1","E:/__test/test") 
+init("proj2","E:/__test/test") 
     
     
     

@@ -1,10 +1,6 @@
 #ifndef Py_INTERNAL_CONDVAR_H
 #define Py_INTERNAL_CONDVAR_H
 
-#ifndef Py_BUILD_CORE
-#  error "this header requires Py_BUILD_CORE define"
-#endif
-
 #ifndef _POSIX_THREADS
 /* This means pthreads are not implemented in libc headers, hence the macro
    not present in unistd.h. But they still can be implemented as an external

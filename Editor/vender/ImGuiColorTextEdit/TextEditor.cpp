@@ -858,6 +858,15 @@ void TextEditor::HandleMouseInputs()
 
 void TextEditor::Render()
 {
+	/* modified by https://github.com/ThakeeNathees/ */
+	static bool font_size_changed = false;
+	static int last_font_scale = 1;
+	if (font_size_changed = (last_font_scale != m_font_scale)) {
+		ImGui::SetWindowFontScale(m_font_scale);
+		last_font_scale = m_font_scale;
+	}
+	/*==============================================*/
+
 	/* Compute mCharAdvance regarding to scaled font size (Ctrl + mouse wheel)*/
 	const float fontSize = ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, "#", nullptr, nullptr).x;
 	mCharAdvance = ImVec2(fontSize, ImGui::GetTextLineHeightWithSpacing() * mLineSpacing);
@@ -1128,12 +1137,12 @@ void TextEditor::Render(const char* aTitle, const ImVec2& aSize, bool aBorder)
 	mWithinRender = true;
 	mTextChanged = false;
 	mCursorPositionChanged = false;
-
+	
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImGui::ColorConvertU32ToFloat4(mPalette[(int)PaletteIndex::Background]));
 	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
 	if (!mIgnoreImGuiChild)
 		ImGui::BeginChild(aTitle, aSize, aBorder, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_AlwaysHorizontalScrollbar | ImGuiWindowFlags_NoMove);
-
+	
 	if (mHandleKeyboardInputs)
 	{
 		HandleKeyboardInputs();

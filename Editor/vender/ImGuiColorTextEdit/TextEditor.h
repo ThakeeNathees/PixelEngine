@@ -185,6 +185,14 @@ public:
 	TextEditor();
 	~TextEditor();
 
+	/* modified by https://github.com/ThakeeNathees/ */
+	void setFontScale(float scale) {
+		if (scale <= 0) throw "font scale must be greather than zero";
+		m_font_scale = scale;
+	}
+	float getFontScale() const { return m_font_scale; }
+	/*==============================================*/
+
 	void SetLanguageDefinition(const LanguageDefinition& aLanguageDef);
 	const LanguageDefinition& GetLanguageDefinition() const { return mLanguageDefinition; }
 
@@ -347,6 +355,10 @@ private:
 	void HandleKeyboardInputs();
 	void HandleMouseInputs();
 	void Render();
+
+	/* modified by https://github.com/ThakeeNathees/ */
+	float m_font_scale = 1;
+	/*==============================================*/
 
 	float mLineSpacing;
 	Lines mLines;

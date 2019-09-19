@@ -109,5 +109,6 @@
     <None Include="src\cli\proj_init\proj_updater.py" />
     <None Include="src\cli\proj_init\assets_updater.py" />
     <None Include="src\cli\proj_init\register_updater.py" />
+    <None Include="src\cli\file_tree.py" />
   </ItemGroup>
 </Project>

@@ -24,7 +24,7 @@ void register_classes()
 include_format = "#include \"%s\""
 register_class_format =  "REGISTER_CLASS(%s);"
 pyobjpath_format = "ADD_PYOBJECT_PATH(\"%s\");"
-file_name = "register.cpp"
+file_name = "register.h"
 
 def updateRegister(proj_name, working_dir = '.'):
     include_lists=[]

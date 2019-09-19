@@ -35,7 +35,7 @@ PIXEL_ENGINE_API void pe_mainLoop(const char* project_name, int argc, char** arg
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void pe_readInitFile() {
-	std::ifstream init_file("init");
+	std::ifstream init_file("conf.init");
 	if (init_file.is_open()) {
 		std::string line;
 		while (std::getline(init_file, line)) {

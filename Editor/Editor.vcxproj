@@ -131,6 +131,7 @@
     <ResourceCompile Include="Editor.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="src\cli\file_tree.py" />
     <None Include="src\cli\proj_init\assets_loader.py" />
     <None Include="src\cli\proj_init\assets_updater.py" />
     <None Include="src\cli\proj_init\clean.py" />

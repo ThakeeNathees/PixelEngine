@@ -14,6 +14,7 @@ pe_debug_out    = 'C:/dev/Pixel-Engine/bin/Debug-x64/Pixel-Engine/'
 pe_release_out  = 'C:/dev/Pixel-Engine/bin/Release-x64/Pixel-Engine/'
 #res_path        = "C:/dev/Pixel-Engine/Editor/res/"
 
+init_file_name = "conf.init"
 init_format = '''\
 conf="%s"
 cwd="%s"
@@ -21,8 +22,37 @@ log="%s"
 kill_switch="F9"
 '''
 
+
+## /MDd : defines _DEBUG, _MT, _DLL
+## /Fe output File exe name
+## cl /EHsc /DEBUG /MDd /Febin/x64-debug/SandBox /Iinclude link.cpp
+## cl /EHsc /Febin/x64-release/SandBox /Iinclude link.cpp
+
+link_file_name = 'link.cpp'
+link_cpp = '''\
+#include "register.h"
+
+#ifdef _DEBUG
+	#pragma comment(lib, "lib/x64-debug/Pixel-Engine.lib")
+	#pragma comment(lib, "lib/x64-debug/sfml-audio-d.lib")
+	#pragma comment(lib, "lib/x64-debug/sfml-graphics-d.lib")
+	#pragma comment(lib, "lib/x64-debug/sfml-main-d.lib")
+	#pragma comment(lib, "lib/x64-debug/sfml-network-d.lib")
+	#pragma comment(lib, "lib/x64-debug/sfml-system-d.lib")
+	#pragma comment(lib, "lib/x64-debug/sfml-window-d.lib")
+#else
+	#pragma comment(lib, "lib/x64-release/Pixel-Engine.lib")
+	#pragma comment(lib, "lib/x64-release/sfml-audio.lib")
+	#pragma comment(lib, "lib/x64-release/sfml-graphics.lib")
+	#pragma comment(lib, "lib/x64-release/sfml-main.lib")
+	#pragma comment(lib, "lib/x64-release/sfml-network.lib")
+	#pragma comment(lib, "lib/x64-release/sfml-system.lib")
+	#pragma comment(lib, "lib/x64-release/sfml-window.lib")
+#endif
+'''
+
 def makeInit(dst, conf, cwd, log):
-    file = open(os.path.join(dst, 'init'), 'w')
+    file = open(os.path.join(dst, init_file_name), 'w')
     file.write( init_format%(conf, cwd, log) )
     file.close()
     
@@ -139,12 +169,18 @@ def init(__proj_name, __dst_path=None):
     assets_updater.updateAssets(proj_dir)
     proj_updater.updateProj(proj_name, proj_dir)
     register_updater.updateRegister(proj_name, proj_dir)
+
+    
+    link_cpp_file = open( os.path.join( proj_dir,link_file_name), 'w')
+    link_cpp_file.write(link_cpp)
+    link_cpp_file.close()
     
     makeInit( os.path.join( proj_dir, 'bin/x64-debug'), "debug", '../../', 'bin/x64-debug/log.txt' )
     makeInit( os.path.join( proj_dir, 'bin/x64-release'), "release", '../../', 'bin/x64-release/log.txt' )
 
 
-init("proj2","E:/__test/test") 
+if __name__ == "__main__":
+    init("proj4","E:/__test/test") 
     
     
     

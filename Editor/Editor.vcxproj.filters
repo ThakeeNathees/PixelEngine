@@ -83,6 +83,9 @@
     <ClInclude Include="src\cli\CLI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\cli\FileTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\logo.png">

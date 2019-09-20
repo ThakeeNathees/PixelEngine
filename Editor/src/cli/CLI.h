@@ -21,6 +21,7 @@ public:
 
 private:
 	CLI() {}
+	static void readPeConfigFile();
 	static CLI* s_instance;
 	static std::string s_exec_path;
 };

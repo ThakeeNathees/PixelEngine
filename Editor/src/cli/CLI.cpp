@@ -21,6 +21,8 @@ void CLI::init()
 	auto os = py::module::import("os");
 	s_exec_path = os.attr("path").attr("dirname")(pe::__fixPath(pBuf)).cast<std::string>();
 	py::exec(std::string("sys.path.append('").append(s_exec_path).append("')"));
+
+	readPeConfigFile();
 }
 
 const std::string CLI::getCwd() {
@@ -36,4 +38,24 @@ void CLI::chDir(const std::string& path) {
 
 void CLI::parseArgs(int argc, char** argv){
 	//	TODO: parse args
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+
+void CLI::readPeConfigFile() {
+	std::ifstream init_file("peconfig.init");
+	if (init_file.is_open()) {
+		std::string line;
+		while (std::getline(init_file, line)) {
+			auto dict = pe::split(line, '=');
+			if (dict.size() >= 2) {
+				std::string key = pe::__removeWiteSpace(dict[0]);
+				std::string value = pe::__getValueString(dict[1]);
+				if (key == std::string("py_path")) {
+					py::exec(std::string("sys.path.append('").append(value).append("')"));
+				}
+			}
+		}
+	}
 }

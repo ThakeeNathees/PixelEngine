@@ -6,7 +6,6 @@ import proj_updater as proj
 register_format = '''\
 
 // engine
-#define PE_PROJECT %s
 #include "Pixel-Engine.h"
 
 // include classes
@@ -26,7 +25,7 @@ register_class_format =  "REGISTER_CLASS(%s);"
 pyobjpath_format = "ADD_PYOBJECT_PATH(\"%s\");"
 file_name = "register.h"
 
-def updateRegister(proj_name, working_dir = '.'):
+def updateRegister(working_dir = '.'):
     include_lists=[]
     cpp_register_list = []
     python_path_list = []
@@ -47,7 +46,6 @@ def updateRegister(proj_name, working_dir = '.'):
                     python_path_list.append(class_tag.text)
     file = open(file_path, 'w')
     file.write( register_format %(
-        proj_name,
         '\n'.join( list(map(lambda path: include_format%path,include_lists))),
         '\n\t'.join(list(map(lambda path: register_class_format%path,cpp_register_list))),
         '\n\t'.join(list(map(lambda path: pyobjpath_format%path,python_path_list)))

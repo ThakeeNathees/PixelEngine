@@ -6,7 +6,7 @@
     <assets>assets.xml</assets>
     <objects>
     	<path>res/scene1/objects/60000.obj.xml</path>
-    	<path>res/scene1/objects/60001.obj.xml</path>
+    	<path>res/scene1/objects/60002.obj.xml</path>
     </objects>
     <scenes>
     	<path>res/scene1/70000.scn.xml</path>

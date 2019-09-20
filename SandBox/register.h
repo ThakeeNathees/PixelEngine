@@ -1,6 +1,5 @@
 
 // engine
-#define PE_PROJECT SandBox
 #include "Pixel-Engine.h"
 
 

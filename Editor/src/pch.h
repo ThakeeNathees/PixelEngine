@@ -6,8 +6,8 @@
 #include <SFML/System.hpp>
 #include <imgui-SFML.h>
 #include <TextEditor.h>
-
 #include <Pixel-Engine.h>
+
 
 #include <stdio.h>
 #include <memory>
@@ -21,6 +21,8 @@
 #include <math.h>
 #include <string>
 #include <vector>
+
+
 
 /* logo color bottom left to top right
 

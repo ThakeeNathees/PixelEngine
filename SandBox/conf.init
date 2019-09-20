@@ -1,0 +1,6 @@
+conf		="debug"
+cwd			="./"
+log			="./log.txt"
+kill_switch = "F9"
+
+py_path="E:/programming/projects/SLRC_2019"

@@ -21,14 +21,12 @@
     <ClInclude Include="src\Npc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="register.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="assets.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="register.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\py_test.py" />
@@ -36,5 +34,10 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="log.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="link.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

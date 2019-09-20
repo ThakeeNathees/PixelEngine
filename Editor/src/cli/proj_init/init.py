@@ -10,6 +10,7 @@ pe_api_path     = 'C:/dev/Pixel-Engine/Pixel-Engine/src/api/'
 sfml_path       = 'C:/dev/Pixel-Engine/vender/SFML-2.5.1/include/'
 sfml_lib_path   = 'C:/dev/Pixel-Engine/vender/SFML-2.5.1/lib/'
 sfml_dll_path   = 'C:/dev/Pixel-Engine/vender/SFML-2.5.1/bin/'
+py_dll_path     = 'C:/dev/Pixel-Engine/vender/pybind/dll'
 pe_debug_out    = 'C:/dev/Pixel-Engine/bin/Debug-x64/Pixel-Engine/'
 pe_release_out  = 'C:/dev/Pixel-Engine/bin/Release-x64/Pixel-Engine/'
 #res_path        = "C:/dev/Pixel-Engine/Editor/res/"
@@ -30,6 +31,7 @@ kill_switch="F9"
 
 link_file_name = 'link.cpp'
 link_cpp = '''\
+#define PE_PROJECT %s
 #include "register.h"
 
 #ifdef _DEBUG
@@ -69,7 +71,7 @@ def makeDirs(proj_dir):
     print('project dirs created')
 
 def copyInclude(src, dst):
-    copyTree(src, dst)
+    copyTree(src, dst, dir_override=True)
     for path, dirs, files in os.walk(dst):
         for file in files:
             if file.endswith('.cpp'):
@@ -83,30 +85,36 @@ def clearLib(dst):
                 os.remove( os.path.join(path, file) )
                 print("removed file: %s"%file)
 
-def copyTree(src, dst, symlinks=False, ignore=None):
-    try:
-        for item in os.listdir(src):
-            s = os.path.join(src, item)
-            d = os.path.join(dst, item)
-            if os.path.isdir(s):
+def copyTree(src, dst, symlinks=False, ignore=None, dir_override=False):
+    for item in os.listdir(src):
+        s = os.path.join(src, item)
+        d = os.path.join(dst, item)
+        if os.path.isdir(s):
+            try:
                 shutil.copytree(s, d, symlinks, ignore)
-                print("copied dir: %s"%s)
-            else:
-                shutil.copy2(s, d)
-                print("copied file: %s"%s)
-    except FileExistsError:
-        print("Error : directory already exists!")
+                print("copied dir: %s"%d)
+            except:
+                if dir_override:
+                    shutil.rmtree(d)
+                    shutil.copytree(s, d, symlinks, ignore)
+                    print("copied dir: %s"%d)
+                else:
+                    print("Error : directory already exists!")
+        else:
+            shutil.copy2(s, d)
+            print("copied file: %s"%d)
+        
 
 def copySfmlLibs(sfml_lib_path, proj_dir):
     for lib in os.listdir(sfml_lib_path):
         if lib.split('.')[0][-1] == 'd':
             shutil.copy(os.path.join(sfml_lib_path, lib),
                         os.path.join(proj_dir, 'lib/x64-debug'))
-            print("copied file:",os.path.join(sfml_lib_path, lib))
+            print("copied file:",os.path.join(proj_dir, 'lib/x64-debug/%s'%lib))
         else:
             shutil.copy(os.path.join(sfml_lib_path, lib),
                         os.path.join(proj_dir, 'lib/x64-release'))
-            print("copied file:",os.path.join(sfml_lib_path, lib))
+            print("copied file:",os.path.join(proj_dir, 'lib/x64-release/%s'%lib))
     clearLib(os.path.join(proj_dir, 'lib'))
 
 def copySfmlDlls(sfml_dll_path, proj_dir):
@@ -121,31 +129,48 @@ def copySfmlDlls(sfml_dll_path, proj_dir):
         if dll.endswith('-d-2.dll'):
             shutil.copy(os.path.join(sfml_dll_path, dll),
                         os.path.join(proj_dir, 'bin/x64-debug'))
-            print("copied file:",os.path.join(sfml_dll_path, dll))
+            print("copied file:",os.path.join(proj_dir, 'bin/x64-debug%s'%dll))
         else:
             shutil.copy(os.path.join(sfml_dll_path, dll),
                         os.path.join(proj_dir, 'bin/x64-release'))
-            print("copied file:",os.path.join(sfml_dll_path, dll))
-            
+            print("copied file:",os.path.join(proj_dir, 'bin/x64-release%s'%dll))
+
+def copyPythonDll(py_dll_path, proj_dir, spec='debug'):
+    assert( spec in ['debug', 'release'] )
+    dll_name = 'python3.dll' #if spec == 'release' else 'python3_d.dll'
+    ## todo: for debug copy python3_d.dll (not support in my pc)
+    shutil.copy(os.path.join(py_dll_path, dll_name),
+                        os.path.join(proj_dir, 'bin/x64-%s'%spec))
+    print("copied file:",os.path.join(proj_dir, 'bin/x64-%s'%spec))
+
 def copyPEOut(pe_debug_out, proj_dir, spec='debug'):
     assert( spec in ['debug', 'release'] )
     shutil.copy(os.path.join(pe_debug_out, 'Pixel-Engine.dll'),
                         os.path.join(proj_dir, 'bin/x64-%s'%spec))
-    print("copied file:",os.path.join(pe_debug_out, 'Pixel-Engine.dll'))
+    print("copied file:",os.path.join(proj_dir, 'bin/x64-%s/Pixel-Engine.dll'%spec))
     shutil.copy(os.path.join(pe_debug_out, 'Pixel-Engine.lib'),
                         os.path.join(proj_dir, 'lib/x64-%s'%spec))
-    print("copied file:",os.path.join(pe_debug_out, 'Pixel-Engine.lib'))
+    print("copied file:",os.path.join(proj_dir, 'lib/x64-%s/Pixel-Engine.lib'%spec))
     
 
-def copyLicenseScons(pe_sln_path, proj_dir):
-    shutil.copy(os.path.join(pe_sln_path, 'SConstruct'), proj_dir)
+def copyLicense(pe_sln_path, proj_dir):
+    ##shutil.copy(os.path.join(pe_sln_path, 'SConstruct'), proj_dir)
     shutil.copy(os.path.join(pe_sln_path, 'LICENSE'),
                 os.path.join(proj_dir, 'include'))
+    print("copied file:",os.path.join(os.path.join(proj_dir, 'include/LICENSE')))
 
 def copyResDir(res_path, dst):
     copyTree(res_path, dst)
     
 #####################################################
+
+def updateProj(proj_name, proj_dir):
+    copyInclude(pe_api_path, os.path.join(proj_dir, 'include'))
+    copyPEOut(pe_debug_out, proj_dir, 'debug')
+    copyPEOut(pe_release_out, proj_dir, 'release')
+    assets_updater.updateAssets(proj_dir)
+    proj_updater.updateProj(proj_name, proj_dir)
+    register_updater.updateRegister( proj_dir)
 
 def init(__proj_name, __dst_path=None):
     proj_name = __proj_name
@@ -156,31 +181,31 @@ def init(__proj_name, __dst_path=None):
     except FileExistsError:
         print('ERROR: file already exists, initialization terminate!')
         return
-    copyInclude(pe_api_path, os.path.join(proj_dir, 'include'))
+    #copyResDir(res_path, os.path.join(proj_dir, 'res'))
     copyInclude(sfml_path, os.path.join(proj_dir, 'include'))
     copySfmlLibs(sfml_lib_path, proj_dir)
     copySfmlDlls(sfml_dll_path, proj_dir)
-    copyPEOut(pe_debug_out, proj_dir, 'debug')
-    copyPEOut(pe_release_out, proj_dir, 'release')
+    copyPythonDll(py_dll_path, proj_dir, 'debug')
+    copyPythonDll(py_dll_path, proj_dir, 'release')
     
-    #copyResDir(res_path, os.path.join(proj_dir, 'res'))
-    copyLicenseScons(pe_sln_path, proj_dir)
+    updateProj(proj_name, proj_dir)
+    copyLicense(pe_sln_path, proj_dir)
 
-    assets_updater.updateAssets(proj_dir)
-    proj_updater.updateProj(proj_name, proj_dir)
-    register_updater.updateRegister(proj_name, proj_dir)
-
-    
     link_cpp_file = open( os.path.join( proj_dir,link_file_name), 'w')
-    link_cpp_file.write(link_cpp)
+    link_cpp_file.write(link_cpp%proj_name)
     link_cpp_file.close()
     
     makeInit( os.path.join( proj_dir, 'bin/x64-debug'), "debug", '../../', 'bin/x64-debug/log.txt' )
     makeInit( os.path.join( proj_dir, 'bin/x64-release'), "release", '../../', 'bin/x64-release/log.txt' )
 
 
-if __name__ == "__main__":
-    init("proj4","E:/__test/test") 
+
+if __name__ == "__main__" and 1:
+    if 0:
+        init("SlrcPlot","E:/__test/test")
+    else:
+        updateProj("SlrcPlot","E:/__test/test/SlrcPlot")
+    
     
     
     

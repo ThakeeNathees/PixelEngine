@@ -1,5 +1,6 @@
 #include "pch.h"
 
+#include <pybind11/stl.h>
 #include "pybind11/embed.h"
 namespace py = pybind11;
 
@@ -17,22 +18,10 @@ int main(int argc, char** argv)
 	editor.SetLanguageDefinition(language);
 
 	py::scoped_interpreter intrp;
-	try
-	{
-	py::exec(py::str("print('test')"));
 	py::exec("import sys, os");
-	// move them to a file at exec_path
-	py::exec("sys.path.append('C:/dev/Pixel-Engine/Editor/src/pyutils')");
-	py::exec("sys.path.append('C:/dev/Pixel-Engine/Editor/src/cli/proj_init')");
-
-	}
-	catch (const std::exception& e)
-	{
-		std::cout << e.what() << std::endl;
-		int x;
-	}
 
 	CLI::init();
+
 
 	// process command lne arguments
 	CLI::parseArgs(argc, argv);

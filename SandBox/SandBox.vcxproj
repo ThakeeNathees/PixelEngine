@@ -87,14 +87,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="register.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Pixel-Engine\Pixel-Engine.vcxproj">
       <Project>{1fc4c090-26d4-412b-bc86-52f11d6f9325}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="register.h" />
     <ClInclude Include="src\Npc.h" />
     <ClInclude Include="src\Player.h" />
   </ItemGroup>
@@ -107,6 +105,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="log.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="link.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

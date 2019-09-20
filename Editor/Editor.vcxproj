@@ -85,7 +85,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>$(SolutionDir)vender\SFML-2.5.1\lib;$(SolutionDir)vender\pybind\libs\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>python3_d.lib;opengl32.lib;sfml-main-d.lib;sfml-audio-d.lib;sfml-graphics-d.lib;sfml-network-d.lib;sfml-window-d.lib;sfml-system-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>python3.lib;opengl32.lib;sfml-main-d.lib;sfml-audio-d.lib;sfml-graphics-d.lib;sfml-network-d.lib;sfml-window-d.lib;sfml-system-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -110,6 +110,7 @@
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\cli\CLI.h" />
+    <ClInclude Include="src\cli\FileTree.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="vender\ImGuiColorTextEdit\TextEditor.h" />
     <ClInclude Include="vender\ImGui\imconfig.h" />

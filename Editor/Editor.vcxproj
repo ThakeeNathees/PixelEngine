@@ -94,7 +94,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\cli\CLI.cpp" />
+    <ClCompile Include="src\core\cli\CLI.cpp" />
+    <ClCompile Include="src\core\Resources.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -109,8 +110,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="src\cli\CLI.h" />
-    <ClInclude Include="src\cli\FileTree.h" />
+    <ClInclude Include="src\core\cli\CLI.h" />
+    <ClInclude Include="src\core\cli\FileTree.h" />
+    <ClInclude Include="src\core\Resources.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="vender\ImGuiColorTextEdit\TextEditor.h" />
     <ClInclude Include="vender\ImGui\imconfig.h" />
@@ -132,14 +134,14 @@
     <ResourceCompile Include="Editor.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\cli\file_tree.py" />
+    <None Include="src\core\cli\file_tree.py" />
     <None Include="src\cli\proj_init\assets_loader.py" />
-    <None Include="src\cli\proj_init\assets_updater.py" />
-    <None Include="src\cli\proj_init\clean.py" />
-    <None Include="src\cli\proj_init\init.py" />
-    <None Include="src\cli\proj_init\proj_updater.py" />
-    <None Include="src\cli\proj_init\register_updater.py" />
-    <None Include="src\pyutils\path_utils.py" />
+    <None Include="src\core\cli\proj_init\assets_updater.py" />
+    <None Include="src\core\cli\proj_init\clean.py" />
+    <None Include="src\core\cli\proj_init\init.py" />
+    <None Include="src\core\cli\proj_init\proj_updater.py" />
+    <None Include="src\core\cli\proj_init\register_updater.py" />
+    <None Include="src\pyutils\math_util.py" />
     <None Include="src\pyutils\str_util.py" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

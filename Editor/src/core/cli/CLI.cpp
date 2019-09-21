@@ -1,8 +1,10 @@
 #include "pch.h"
 #include "CLI.h"
+#include "FileTree.h"
 
 
 CLI* CLI::s_instance = nullptr;
+FileTree* FileTree::s_instance = nullptr;
 std::string CLI::s_exec_path;
 
 void CLI::init()
@@ -44,7 +46,8 @@ void CLI::parseArgs(int argc, char** argv){
 //////////////////////////////////////////////////////////////////////////
 
 void CLI::readPeConfigFile() {
-	std::ifstream init_file("peconfig.init");
+	
+	std::ifstream init_file(CLI::getExecPath().append("/peconfig.init"));
 	if (init_file.is_open()) {
 		std::string line;
 		while (std::getline(init_file, line)) {

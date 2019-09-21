@@ -15,7 +15,7 @@ public:
 	}
 
 	static void init();
-	static const std::string& getExecPath() { return s_exec_path; }
+	static std::string getExecPath() { return s_exec_path; }
 	static const std::string getCwd();
 	static void chDir(const std::string& path);
 

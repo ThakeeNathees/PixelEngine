@@ -39,7 +39,10 @@
     <ClCompile Include="vender\ImSf\imgui-SFML.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cli\CLI.cpp">
+    <ClCompile Include="src\core\cli\CLI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Resources.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -80,10 +83,13 @@
     <ClInclude Include="vender\ImSf\imgui-SFML_export.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\cli\CLI.h">
+    <ClInclude Include="src\core\cli\CLI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\cli\FileTree.h">
+    <ClInclude Include="src\core\cli\FileTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Resources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -105,13 +111,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\pyutils\str_util.py" />
-    <None Include="src\pyutils\path_utils.py" />
     <None Include="src\cli\proj_init\assets_loader.py" />
-    <None Include="src\cli\proj_init\clean.py" />
-    <None Include="src\cli\proj_init\init.py" />
-    <None Include="src\cli\proj_init\proj_updater.py" />
-    <None Include="src\cli\proj_init\assets_updater.py" />
-    <None Include="src\cli\proj_init\register_updater.py" />
-    <None Include="src\cli\file_tree.py" />
+    <None Include="src\pyutils\math_util.py" />
+    <None Include="src\core\cli\proj_init\clean.py" />
+    <None Include="src\core\cli\proj_init\init.py" />
+    <None Include="src\core\cli\proj_init\proj_updater.py" />
+    <None Include="src\core\cli\proj_init\register_updater.py" />
+    <None Include="src\core\cli\file_tree.py" />
+    <None Include="src\core\cli\proj_init\assets_updater.py" />
   </ItemGroup>
 </Project>

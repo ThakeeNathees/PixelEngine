@@ -74,16 +74,22 @@ private:
 	void drawFileIcon(const std::string& path) {
 		std::string format = m_py_filetree.attr("getFileFormat")(path).cast<std::string>();
 		if (format == std::string("py")) { ImGui::Image(Resources::Icons::FILE_PY); ImGui::SameLine();return;}
+		if (format == std::string("peproj")) { ImGui::Image(Resources::Icons::FILE_PEPROJ); ImGui::SameLine();return;}
+		if (format == std::string("txt")) { ImGui::Image(Resources::Icons::FILE_TEXT); ImGui::SameLine();return;}
+		if (format == std::string("xml")) { ImGui::Image(Resources::Icons::FILE_XML); ImGui::SameLine();return;}
+		if (format == std::string("pyc")) { ImGui::Image(Resources::Icons::FILE_PYC); ImGui::SameLine();return;}
 		if (format == std::string("cpp")) { ImGui::Image(Resources::Icons::FILE_CPP); ImGui::SameLine();return;}
 		if (format == std::string("h")) { ImGui::Image(Resources::Icons::FILE_H); ImGui::SameLine();return;}
 		if (format == std::string("png")) { ImGui::Image(Resources::Icons::FILE_PNG); ImGui::SameLine();return;}
 		if (format == std::string("ttf")) { ImGui::Image(Resources::Icons::FILE_TTF); ImGui::SameLine();return;}
 		// binary files
-		if (format == std::string("dll") || format == std::string("lib") || format == std::string("exe")) {
+		if (format == std::string("lib") || format == std::string("exe")) {
 			ImGui::Image(Resources::Icons::FILE_BIN); ImGui::SameLine();return;
 		}
+		if (format == std::string("dll")) { ImGui::Image(Resources::Icons::FILE_DLL); ImGui::SameLine();return;}
+		if (format == std::string("obj")) { ImGui::Image(Resources::Icons::FILE_OBJ); ImGui::SameLine();return;}
 
-		ImGui::Image(Resources::Icons::FILE_TEXT); ImGui::SameLine();
+		ImGui::Image(Resources::Icons::_FILE_UNKNOWN); ImGui::SameLine();
 	}
 
 

@@ -14,14 +14,19 @@ public:
 		return s_instance;
 	}
 
-	static void init();
+	void init();
 	static std::string getExecPath() { return s_exec_path; }
 	static const std::string getCwd();
 	static void chDir(const std::string& path);
 
 private:
-	CLI() {}
-	static void readPeConfigFile();
+	CLI() {
+		m_py_os = py::module::import("os");
+	}
+	static std::pair<std::string, std::string> getKeyValue(const std::string& line);
 	static CLI* s_instance;
 	static std::string s_exec_path;
+
+	void readPeConfigFile();
+	py::module m_py_os;
 };

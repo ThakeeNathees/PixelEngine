@@ -180,6 +180,9 @@ public:
 		static const LanguageDefinition& SQL();
 		static const LanguageDefinition& AngelScript();
 		static const LanguageDefinition& Lua();
+		/* modified by https://github.com/ThakeeNathees/ */
+		static const LanguageDefinition& Python();
+		/*==============================================*/
 	};
 
 	TextEditor();
@@ -357,7 +360,7 @@ private:
 	void Render();
 
 	/* modified by https://github.com/ThakeeNathees/ */
-	float m_font_scale = 1;
+	float m_font_scale = 1.5;
 	/*==============================================*/
 
 	float mLineSpacing;

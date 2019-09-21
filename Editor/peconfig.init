@@ -1,0 +1,23 @@
+## all paths are relative to .exe file
+
+py_path="..\..\..\../Editor/src/pyutils"
+py_path="..\..\..\../Editor/src/core/cli/proj_init"
+py_path="..\..\..\../Editor/src/core/cli"
+
+file_format_icons:
+	dir_close="..\..\..\../Editor/res/icons/file_format/dir_closed.png"
+	dir_open="..\..\..\../Editor/res/icons/file_format/dir_open.png"
+	file_unknown="..\..\..\../Editor/res/icons/file_format/file_unknown.png"
+	file_peproj="..\..\..\../Editor/res/icons/file_format/file_peproj.png"
+	file_text="..\..\..\../Editor/res/icons/file_format/file_text.png"
+	file_xml="..\..\..\../Editor/res/icons/file_format/file_xml.png"
+	file_py"..\..\..\../Editor/res/icons/file_format/file_py.png"
+	file_pyc="..\..\..\../Editor/res/icons/file_format/file_pyc.png"
+	file_cpp="..\..\..\../Editor/res/icons/file_format/file_cpp.png"
+	file_h="..\..\..\../Editor/res/icons/file_format/file_h.png"
+	file_png="..\..\..\../Editor/res/icons/file_format/file_png.png"
+	file_ttf="..\..\..\../Editor/res/icons/file_format/file_ttf.png"
+	file_bin="..\..\..\../Editor/res/icons/file_format/file_bin.png"
+	file_dll="..\..\..\../Editor/res/icons/file_format/file_dll.png"
+	file_obj="..\..\..\../Editor/res/icons/file_format/file_obj.png"
+end

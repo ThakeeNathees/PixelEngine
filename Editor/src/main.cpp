@@ -14,15 +14,14 @@ void show_dock_space();
 int main(int argc, char** argv)
 {
 	TextEditor editor;
-	TextEditor::LanguageDefinition language = TextEditor::LanguageDefinition::CPlusPlus();
-	editor.SetLanguageDefinition(language);
+	editor.SetLanguageDefinition(TextEditor::LanguageDefinition::Python());
 
 	py::scoped_interpreter intrp;
 	py::exec("import sys, os");
 
-	CLI::init();
-	Resources::init();
+	CLI::getInstance()->init();
 
+	CLI::chDir("E:/__test/test/SlrcPlot");
 	// process command lne arguments
 	CLI::parseArgs(argc, argv);
 	
@@ -40,8 +39,6 @@ int main(int argc, char** argv)
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-	py::module m = py::module::import("file_tree");
-	py::object o =  m.attr("FileTree")(".");
 	sf::Event event; sf::Clock clock;
 	while (window.isOpen()) {
 		// event handle
@@ -55,7 +52,6 @@ int main(int argc, char** argv)
 		show_dock_space();
 
 		ImGui::Begin("demo_text_editor");
-		editor.setFontScale(1.5);
 		editor.Render("test");
 		ImGui::End();
 		FileTree::getInstance()->render();

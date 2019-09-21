@@ -3172,3 +3172,70 @@ const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::Lua()
 	}
 	return langDef;
 }
+
+/* modified by https://github.com/ThakeeNathees/ */
+const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::Python()
+{
+	static bool inited = false;
+	static LanguageDefinition langDef;
+	if (!inited)
+	{
+		static const char* const pythonKeywords[] = {
+			"False","class","finally","is","return","None","continue","for","lambda","try","True","def","from","nonlocal","while","and","del","global","not","with","as","elif","if","or","yield","assert","else","import","pass","break","except","in","raise"
+		};
+		for (auto& k : pythonKeywords)
+			langDef.mKeywords.insert(k);
+
+		static const char* const identifiers[] = {
+		"abs","delattr","hash","memoryview","set","all","dict","help","min","setattr","any","dir","hex","next","slice","ascii","divmod","id","object","sorted","bin","enumerate","input","oct","staticmethod","bool","eval","int","open","str","breakpoint","exec",
+		"isinstance","ord","sum","bytearray","filter","issubclass","pow","super","bytes","float","iter","print","tuple","callable","format","len","property","type","chr","frozenset","list","range","vars","classmethod","getattr","locals","repr","zip","compile",
+		"globals","map","reversed","__import__","complex","hasattr","max","round"
+		};
+		for (auto& k : identifiers)
+		{
+			Identifier id;
+			id.mDeclaration = "Built-in function";
+			langDef.mIdentifiers.insert(std::make_pair(std::string(k), id));
+		}
+
+		langDef.mTokenize = [](const char* in_begin, const char* in_end, const char*& out_begin, const char*& out_end, PaletteIndex& paletteIndex) -> bool
+		{
+			paletteIndex = PaletteIndex::Max;
+
+			while (in_begin < in_end && isascii(*in_begin) && isblank(*in_begin))
+				in_begin++;
+
+			if (in_begin == in_end)
+			{
+				out_begin = in_end;
+				out_end = in_end;
+				paletteIndex = PaletteIndex::Default;
+			}
+			else if (TokenizeCStyleString(in_begin, in_end, out_begin, out_end))
+				paletteIndex = PaletteIndex::String;
+			else if (TokenizeCStyleCharacterLiteral(in_begin, in_end, out_begin, out_end))
+				paletteIndex = PaletteIndex::CharLiteral;
+			else if (TokenizeCStyleIdentifier(in_begin, in_end, out_begin, out_end))
+				paletteIndex = PaletteIndex::Identifier;
+			else if (TokenizeCStyleNumber(in_begin, in_end, out_begin, out_end))
+				paletteIndex = PaletteIndex::Number;
+			else if (TokenizeCStylePunctuation(in_begin, in_end, out_begin, out_end))
+				paletteIndex = PaletteIndex::Punctuation;
+
+			return paletteIndex != PaletteIndex::Max;
+		};
+
+		langDef.mCommentStart = "'''";
+		langDef.mCommentEnd = "'''";
+		langDef.mSingleLineComment = "#";
+
+		langDef.mCaseSensitive = true;
+		langDef.mAutoIndentation = true;
+
+		langDef.mName = "Python";
+
+		inited = true;
+	}
+	return langDef;
+}
+/*==============================================*/

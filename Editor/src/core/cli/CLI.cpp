@@ -1,10 +1,9 @@
 #include "pch.h"
 #include "CLI.h"
-#include "FileTree.h"
 
+#include "..//Resources.h"
 
 CLI* CLI::s_instance = nullptr;
-FileTree* FileTree::s_instance = nullptr;
 std::string CLI::s_exec_path;
 
 void CLI::init()
@@ -38,10 +37,32 @@ void CLI::chDir(const std::string& path) {
 }
 
 
+
+int CLI::readTextFile(std::string& out, const std::string& path) {
+	std::ifstream in(path);
+	if (in.good())
+	{
+		std::string str((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
+		out = str;
+		return 0;
+	}
+	return 1;
+}
+
+int CLI::readBinaryFile(std::vector<unsigned char>& buffer, const std::string& path) {
+	std::ifstream in(path.c_str(), std::ios::binary );
+	if (in.good()) {
+		std::vector<unsigned char> new_buffer(std::istreambuf_iterator<char>(in), {});
+		buffer = new_buffer;
+		return 0;
+	}
+	return 1;
+}
+
+
 void CLI::parseArgs(int argc, char** argv){
 	//	TODO: parse args
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -61,9 +82,9 @@ void CLI::readPeConfigFile() {
 		while (std::getline(init_file, line)) {
 			if (line[0] == '#') continue;
 
-			if (line == std::string("file_format_icons:")) {
+			if (pe::__removeWiteSpace(line) == std::string("file_format_icons:")) {
 				while (std::getline(init_file, line)) {
-					if (line == std::string("end")) break;
+					if (pe::__removeWiteSpace(line)== std::string("end")) break;
 					auto key_value = CLI::getKeyValue(line);
 					if (key_value.first == std::string("dir_close"))	{ Resources::Icons::DIR_CLOSED.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
 					if (key_value.first == std::string("dir_open"))		{ Resources::Icons::DIR_OPEN.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }

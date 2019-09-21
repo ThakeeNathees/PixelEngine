@@ -70,6 +70,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)vender\SFML-2.5.1\lib;$(SolutionDir)vender\pybind\libs\</AdditionalLibraryDirectories>
       <AdditionalDependencies>python3.lib;opengl32.lib;sfml-main.lib;sfml-audio.lib;sfml-graphics.lib;sfml-network.lib;sfml-window.lib;sfml-system.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>copy /Y $(ProjectDir)peconfig.init $(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -87,6 +90,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)vender\SFML-2.5.1\lib;$(SolutionDir)vender\pybind\libs\</AdditionalLibraryDirectories>
       <AdditionalDependencies>python3.lib;opengl32.lib;sfml-main-d.lib;sfml-audio-d.lib;sfml-graphics-d.lib;sfml-network-d.lib;sfml-window-d.lib;sfml-system-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>copy /Y $(ProjectDir)peconfig.init $(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pixel-Engine\Pixel-Engine.vcxproj">
@@ -101,6 +107,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\windows\static_initialize.cpp" />
     <ClCompile Include="vender\ImGuiColorTextEdit\TextEditor.cpp" />
     <ClCompile Include="vender\ImGui\imgui.cpp" />
     <ClCompile Include="vender\ImGui\imgui_demo.cpp" />
@@ -111,13 +118,16 @@
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\core\cli\CLI.h" />
-    <ClInclude Include="src\core\cli\FileTree.h" />
+    <ClInclude Include="src\windows\FileTree.h" />
     <ClInclude Include="src\core\Resources.h" />
     <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\windows\HexEditors.h" />
+    <ClInclude Include="src\windows\TextEditors.h" />
     <ClInclude Include="vender\ImGuiColorTextEdit\TextEditor.h" />
     <ClInclude Include="vender\ImGui\imconfig.h" />
     <ClInclude Include="vender\ImGui\imgui.h" />
     <ClInclude Include="vender\ImGui\imgui_internal.h" />
+    <ClInclude Include="vender\ImGui\imgui_memory_editor.h" />
     <ClInclude Include="vender\ImGui\imstb_rectpack.h" />
     <ClInclude Include="vender\ImGui\imstb_textedit.h" />
     <ClInclude Include="vender\ImGui\imstb_truetype.h" />
@@ -134,7 +144,7 @@
     <ResourceCompile Include="Editor.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\core\cli\file_tree.py" />
+    <None Include="src\windows\file_tree.py" />
     <None Include="src\cli\proj_init\assets_loader.py" />
     <None Include="src\core\cli\proj_init\assets_updater.py" />
     <None Include="src\core\cli\proj_init\clean.py" />

@@ -1,7 +1,9 @@
 #pragma once
 
-#include "CLI.h"
-#include "..//Resources.h"
+#include "../core/cli/CLI.h"
+#include "../core/Resources.h"
+#include "TextEditors.h"
+#include "HexEditors.h"
 
 #include <pybind11/stl.h>
 #include "pybind11/embed.h"
@@ -18,6 +20,15 @@ private:
 		m_py_os = py::module::import("os");
 		m_math_util = py::module::import("math_util"); // make it static like
 	}
+
+	static FileTree* s_instance;
+	std::string m_title;
+	py::object m_py_os;
+	py::object m_py_filetree;
+	py::object m_math_util;
+	long long m_slected_id = -1;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 public:
 	static FileTree* getInstance() {
@@ -57,11 +68,14 @@ private:
 				// draw file icon
 				ImGui::SetCursorPosX(ImGui::GetCursorPosX()+20);
 				drawFileIcon(path);
-
 				ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 20);
-				ImGui::TreeNodeEx((void*)(intptr_t)(id), node_flags, m_py_os.attr("path").attr("basename")(path).cast<std::string>().c_str());
+				std::string title = m_py_os.attr("path").attr("basename")(path).cast<std::string>();
+				ImGui::TreeNodeEx((void*)(intptr_t)(id), node_flags, title.c_str());
+				// click node
 				if (ImGui::IsItemClicked()) {
 					m_slected_id = id;
+					HexEditors::addHexEditor(title, path);
+					//TextEditors::addTextEditor(title, path, id);
 				}
 			}
 			ImGui::TreePop();
@@ -92,12 +106,7 @@ private:
 		ImGui::Image(Resources::Icons::_FILE_UNKNOWN); ImGui::SameLine();
 	}
 
-
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
 private:
-	static FileTree* s_instance;
-	std::string m_title;
-	py::object m_py_os;
-	py::object m_py_filetree;
-	py::object m_math_util;
-	long long m_slected_id = -1;
+	
 };

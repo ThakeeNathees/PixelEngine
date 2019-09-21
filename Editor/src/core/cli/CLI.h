@@ -7,17 +7,18 @@ class CLI
 {
 public:
 
-	static void parseArgs(int argc, char** argv);
+	void init();
 
+	static void parseArgs(int argc, char** argv);
 	static CLI* getInstance() {
 		if (!s_instance) s_instance = new CLI();
 		return s_instance;
 	}
-
-	void init();
 	static std::string getExecPath() { return s_exec_path; }
 	static const std::string getCwd();
 	static void chDir(const std::string& path);
+	static int readTextFile(std::string& out, const std::string& path);
+	static int readBinaryFile(std::vector<unsigned char>& buffer, const std::string& path);
 
 private:
 	CLI() {

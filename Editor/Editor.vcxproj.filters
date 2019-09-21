@@ -45,6 +45,9 @@
     <ClCompile Include="src\core\Resources.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\windows\static_initialize.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -86,10 +89,19 @@
     <ClInclude Include="src\core\cli\CLI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\cli\FileTree.h">
+    <ClInclude Include="src\core\Resources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\Resources.h">
+    <ClInclude Include="src\windows\TextEditors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vender\ImGui\imgui_memory_editor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\windows\HexEditors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\windows\FileTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -117,7 +129,7 @@
     <None Include="src\core\cli\proj_init\init.py" />
     <None Include="src\core\cli\proj_init\proj_updater.py" />
     <None Include="src\core\cli\proj_init\register_updater.py" />
-    <None Include="src\core\cli\file_tree.py" />
     <None Include="src\core\cli\proj_init\assets_updater.py" />
+    <None Include="src\windows\file_tree.py" />
   </ItemGroup>
 </Project>

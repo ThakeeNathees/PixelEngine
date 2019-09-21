@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <imgui-SFML.h>
+#include <imgui_memory_editor.h>
 #include <TextEditor.h>
 #include <Pixel-Engine.h>
 

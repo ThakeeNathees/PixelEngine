@@ -2,7 +2,7 @@
 
 py_path="..\..\..\../Editor/src/pyutils"
 py_path="..\..\..\../Editor/src/core/cli/proj_init"
-py_path="..\..\..\../Editor/src/core/cli"
+py_path="..\..\..\../Editor/src/windows"
 
 file_format_icons:
 	dir_close="..\..\..\../Editor/res/icons/file_format/dir_closed.png"
@@ -11,7 +11,7 @@ file_format_icons:
 	file_peproj="..\..\..\../Editor/res/icons/file_format/file_peproj.png"
 	file_text="..\..\..\../Editor/res/icons/file_format/file_text.png"
 	file_xml="..\..\..\../Editor/res/icons/file_format/file_xml.png"
-	file_py"..\..\..\../Editor/res/icons/file_format/file_py.png"
+	file_py="..\..\..\../Editor/res/icons/file_format/file_py.png"
 	file_pyc="..\..\..\../Editor/res/icons/file_format/file_pyc.png"
 	file_cpp="..\..\..\../Editor/res/icons/file_format/file_cpp.png"
 	file_h="..\..\..\../Editor/res/icons/file_format/file_h.png"

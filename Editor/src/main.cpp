@@ -6,22 +6,26 @@ namespace py = pybind11;
 
 #include "core/cli/CLI.h"
 #include "core/Resources.h"
-#include "core/cli/FileTree.h"
+#include "windows/FileTree.h"
+#include "windows/TextEditors.h"
 
 // forward declaration
 void show_dock_space();
 
 int main(int argc, char** argv)
 {
-	TextEditor editor;
-	editor.SetLanguageDefinition(TextEditor::LanguageDefinition::Python());
+	//TextEditor editor;
+	//editor.SetLanguageDefinition(TextEditor::LanguageDefinition::Python());
+	//MemoryEditor medit;
+	//std::vector<unsigned char> buffer;
+	//int x = CLI::readBinaryFile(buffer,"E:/__test/test/SlrcPlot/res/robo.png");
 
 	py::scoped_interpreter intrp;
 	py::exec("import sys, os");
 
 	CLI::getInstance()->init();
-
 	CLI::chDir("E:/__test/test/SlrcPlot");
+
 	// process command lne arguments
 	CLI::parseArgs(argc, argv);
 	
@@ -48,14 +52,13 @@ int main(int argc, char** argv)
 		}
 		ImGui::SFML::Update(window, clock.restart());
 
-		// render editor
+		// render
 		show_dock_space();
-
-		ImGui::Begin("demo_text_editor");
-		editor.Render("test");
-		ImGui::End();
+		TextEditors::renderEditors();
 		FileTree::getInstance()->render();
-		
+		HexEditors::renderEditors();
+		//medit.ReadOnly = true;
+		//medit.DrawWindow("test", (void*)&(buffer[0]), buffer.size() );
 		ImGui::ShowTestWindow();
 
 

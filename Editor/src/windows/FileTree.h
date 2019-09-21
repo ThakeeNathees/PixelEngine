@@ -4,6 +4,7 @@
 #include "../core/Resources.h"
 #include "TextEditors.h"
 #include "HexEditors.h"
+#include "FontViwers.h"
 
 #include <pybind11/stl.h>
 #include "pybind11/embed.h"
@@ -28,7 +29,6 @@ private:
 	py::object m_math_util;
 	long long m_slected_id = -1;
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 public:
 	static FileTree* getInstance() {
@@ -44,6 +44,7 @@ public:
 		ImGui::End();
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
 private:
 	void renderTreeRecursive(py::object& tree, bool next_item_open = false) {
 		std::string path = tree.attr("path").cast<std::string>();
@@ -74,8 +75,7 @@ private:
 				// click node
 				if (ImGui::IsItemClicked()) {
 					m_slected_id = id;
-					HexEditors::addHexEditor(title, path);
-					//TextEditors::addTextEditor(title, path, id);
+					nodeClickedEvent(title, path, id);
 				}
 			}
 			ImGui::TreePop();
@@ -90,6 +90,7 @@ private:
 		if (format == std::string("py")) { ImGui::Image(Resources::Icons::FILE_PY); ImGui::SameLine();return;}
 		if (format == std::string("peproj")) { ImGui::Image(Resources::Icons::FILE_PEPROJ); ImGui::SameLine();return;}
 		if (format == std::string("txt")) { ImGui::Image(Resources::Icons::FILE_TEXT); ImGui::SameLine();return;}
+		if (format == std::string("ini")) { ImGui::Image(Resources::Icons::FILE_TEXT); ImGui::SameLine();return;}
 		if (format == std::string("xml")) { ImGui::Image(Resources::Icons::FILE_XML); ImGui::SameLine();return;}
 		if (format == std::string("pyc")) { ImGui::Image(Resources::Icons::FILE_PYC); ImGui::SameLine();return;}
 		if (format == std::string("cpp")) { ImGui::Image(Resources::Icons::FILE_CPP); ImGui::SameLine();return;}
@@ -97,16 +98,37 @@ private:
 		if (format == std::string("png")) { ImGui::Image(Resources::Icons::FILE_PNG); ImGui::SameLine();return;}
 		if (format == std::string("ttf")) { ImGui::Image(Resources::Icons::FILE_TTF); ImGui::SameLine();return;}
 		// binary files
-		if (format == std::string("lib") || format == std::string("exe")) {
-			ImGui::Image(Resources::Icons::FILE_BIN); ImGui::SameLine();return;
-		}
+		if (format == std::string("exe")) { ImGui::Image(Resources::Icons::FILE_BIN); ImGui::SameLine(); return; }
+		if (format == std::string("lib")) { ImGui::Image(Resources::Icons::FILE_BIN); ImGui::SameLine();return;}
 		if (format == std::string("dll")) { ImGui::Image(Resources::Icons::FILE_DLL); ImGui::SameLine();return;}
 		if (format == std::string("obj")) { ImGui::Image(Resources::Icons::FILE_OBJ); ImGui::SameLine();return;}
 
 		ImGui::Image(Resources::Icons::_FILE_UNKNOWN); ImGui::SameLine();
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-private:
-	
+
+	void nodeClickedEvent(const std::string& title, const std::string& path, int id=-1) {
+
+		if (title == std::string("LICENSE")) { TextEditors::addTextEditor(title, path, id, TextEditor::LanguageDefinition::PlainText()); return; }
+
+		std::string format = m_py_filetree.attr("getFileFormat")(path).cast<std::string>();
+		if (format == std::string("py")) { TextEditors::addTextEditor(title, path, id, TextEditor::LanguageDefinition::Python()); return; }
+		if (format == std::string("peproj")) { TextEditors::addTextEditor(title, path, id, TextEditor::LanguageDefinition::C()); return; }
+		if (format == std::string("txt")) { TextEditors::addTextEditor(title, path, id, TextEditor::LanguageDefinition::PlainText()); return; }
+		if (format == std::string("ini")) { TextEditors::addTextEditor(title, path, id, TextEditor::LanguageDefinition::PlainText()); return; }
+		if (format == std::string("xml")) { TextEditors::addTextEditor(title, path, id, TextEditor::LanguageDefinition::C()); return; }
+		if (format == std::string("cpp")) { TextEditors::addTextEditor(title, path, id, TextEditor::LanguageDefinition::CPlusPlus());  return; }
+		if (format == std::string("h"))   { TextEditors::addTextEditor(title, path, id, TextEditor::LanguageDefinition::CPlusPlus()); return; }
+
+		if (format == std::string("pyc")) { HexEditors::addHexEditor(title, path);  return; }
+		if (format == std::string("exe")) { HexEditors::addHexEditor(title, path);  return; }
+		if (format == std::string("lib")) { HexEditors::addHexEditor(title, path);  return; }
+		if (format == std::string("dll")) { HexEditors::addHexEditor(title, path);  return; }
+		if (format == std::string("obj")) { HexEditors::addHexEditor(title, path);  return; }
+
+		if (format == std::string("ttf")) { FontViwers::addFont(path); return; } // TODO: draw sample font on sf::render texture
+		if (format == std::string("png")) { return; }
+		// binary files
+
+	}
 };

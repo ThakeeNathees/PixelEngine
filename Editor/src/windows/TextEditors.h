@@ -27,8 +27,8 @@ public:
 		TextEditor editor;
 	};
 
-	static void addTextEditor(const std::string& title, std::string& path, long long id) {
-		s_text_editors[id] = new TextEditorData(title, path, id);
+	static void addTextEditor(const std::string& title, const std::string& path, long long id, const TextEditor::LanguageDefinition& _lang = TextEditor::LanguageDefinition::Python()) {
+		s_text_editors[id] = new TextEditorData(title, path, id, _lang);
 	}
 
 	static void renderEditors() {

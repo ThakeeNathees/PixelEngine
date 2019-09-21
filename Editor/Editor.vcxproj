@@ -121,6 +121,7 @@
     <ClInclude Include="src\windows\FileTree.h" />
     <ClInclude Include="src\core\Resources.h" />
     <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\windows\FontViwers.h" />
     <ClInclude Include="src\windows\HexEditors.h" />
     <ClInclude Include="src\windows\TextEditors.h" />
     <ClInclude Include="vender\ImGuiColorTextEdit\TextEditor.h" />

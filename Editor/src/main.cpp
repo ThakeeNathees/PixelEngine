@@ -7,18 +7,12 @@ namespace py = pybind11;
 #include "core/cli/CLI.h"
 #include "core/Resources.h"
 #include "windows/FileTree.h"
-#include "windows/TextEditors.h"
 
 // forward declaration
 void show_dock_space();
 
 int main(int argc, char** argv)
 {
-	//TextEditor editor;
-	//editor.SetLanguageDefinition(TextEditor::LanguageDefinition::Python());
-	//MemoryEditor medit;
-	//std::vector<unsigned char> buffer;
-	//int x = CLI::readBinaryFile(buffer,"E:/__test/test/SlrcPlot/res/robo.png");
 
 	py::scoped_interpreter intrp;
 	py::exec("import sys, os");
@@ -57,8 +51,8 @@ int main(int argc, char** argv)
 		TextEditors::renderEditors();
 		FileTree::getInstance()->render();
 		HexEditors::renderEditors();
-		//medit.ReadOnly = true;
-		//medit.DrawWindow("test", (void*)&(buffer[0]), buffer.size() );
+		FontViwers::renderFontViwers();
+
 		ImGui::ShowTestWindow();
 
 

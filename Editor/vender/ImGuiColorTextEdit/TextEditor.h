@@ -182,6 +182,7 @@ public:
 		static const LanguageDefinition& Lua();
 		/* modified by https://github.com/ThakeeNathees/ */
 		static const LanguageDefinition& Python();
+		static const LanguageDefinition& PlainText();
 		/*==============================================*/
 	};
 

@@ -704,7 +704,9 @@ void TextEditor::HandleKeyboardInputs()
 	auto ctrl = io.ConfigMacOSXBehaviors ? io.KeySuper : io.KeyCtrl;
 	auto alt = io.ConfigMacOSXBehaviors ? io.KeyCtrl : io.KeyAlt;
 	
-	// TODO [Pixel-Engine]: set focus true here
+	/* modified by https://github.com/ThakeeNathees/ */
+	m_is_window_focus = ImGui::IsWindowFocused();
+	/*==============================================*/
 	
 
 	if (ImGui::IsWindowFocused())
@@ -3225,8 +3227,8 @@ const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::Python()
 			return paletteIndex != PaletteIndex::Max;
 		};
 
-		langDef.mCommentStart = "'''";
-		langDef.mCommentEnd = "'''";
+		langDef.mCommentStart = "'''#";
+		langDef.mCommentEnd = "#'''";
 		langDef.mSingleLineComment = "#";
 
 		langDef.mCaseSensitive = true;

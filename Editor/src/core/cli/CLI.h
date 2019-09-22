@@ -14,6 +14,7 @@ public:
 		if (!s_instance) s_instance = new CLI();
 		return s_instance;
 	}
+	static void save(const std::string& text_to_save, const std::string& file_path);
 	static std::string getExecPath() { return s_exec_path; }
 	static const std::string getCwd();
 	static void chDir(const std::string& path);

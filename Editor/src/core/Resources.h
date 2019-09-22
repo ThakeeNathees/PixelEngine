@@ -16,6 +16,7 @@ public:
 		static sf::Texture FILE_PYC;
 		static sf::Texture FILE_CPP;
 		static sf::Texture FILE_H;
+		static sf::Texture FILE_HPP;
 		static sf::Texture FILE_PNG;
 		static sf::Texture FILE_TTF;
 		static sf::Texture FILE_BIN;

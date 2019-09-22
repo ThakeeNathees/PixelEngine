@@ -15,6 +15,7 @@ file_format_icons:
 	file_pyc="..\..\..\../Editor/res/icons/file_format/file_pyc.png"
 	file_cpp="..\..\..\../Editor/res/icons/file_format/file_cpp.png"
 	file_h="..\..\..\../Editor/res/icons/file_format/file_h.png"
+	file_hpp="..\..\..\../Editor/res/icons/file_format/file_hpp.png"
 	file_png="..\..\..\../Editor/res/icons/file_format/file_png.png"
 	file_ttf="..\..\..\../Editor/res/icons/file_format/file_ttf.png"
 	file_bin="..\..\..\../Editor/res/icons/file_format/file_bin.png"

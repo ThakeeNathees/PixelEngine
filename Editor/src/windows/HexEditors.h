@@ -16,19 +16,21 @@ public:
 		std::vector<unsigned char> buffer;
 	};
 
-	static void addHexEditor(const std::string& title, const std::string& path) {
-		s_hex_editors.push_back(new HexEditorData(title, path));
+	static void openHexEditor(const std::string& title, const std::string& path, long long id) {
+		if (s_hex_editors.find(id) == s_hex_editors.end())
+			s_hex_editors[id] = new HexEditorData(title, path);
+		else s_hex_editors[id]->p_open = true;
 	}
 
 	static void renderEditors() {
-		for (auto hex : s_hex_editors) {
-			if (hex->p_open && !hex->error_read) {
-				hex->memedit.DrawWindow(hex->title.c_str(), (void*) & (hex->buffer[0]), hex->buffer.size(), &(hex->p_open));
+		for (auto pair: s_hex_editors) {
+			if (pair.second->p_open && !pair.second->error_read) {
+				pair.second->memedit.DrawWindow(pair.second->title.c_str(), (void*) & (pair.second->buffer[0]), pair.second->buffer.size(), &(pair.second->p_open));
 			}
 		}
 	}
 
 private:
 	HexEditors() {}
-	static std::vector<HexEditorData*> s_hex_editors;
+	static std::map<long long, HexEditorData*> s_hex_editors;
 };

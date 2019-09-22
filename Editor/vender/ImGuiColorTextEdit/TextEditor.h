@@ -195,6 +195,7 @@ public:
 		m_font_scale = scale;
 	}
 	float getFontScale() const { return m_font_scale; }
+	bool isFocus() { return m_is_window_focus; }
 	/*==============================================*/
 
 	void SetLanguageDefinition(const LanguageDefinition& aLanguageDef);
@@ -362,6 +363,7 @@ private:
 
 	/* modified by https://github.com/ThakeeNathees/ */
 	float m_font_scale = 1.5;
+	bool m_is_window_focus = false;
 	/*==============================================*/
 
 	float mLineSpacing;

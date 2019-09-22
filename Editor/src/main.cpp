@@ -43,6 +43,7 @@ int main(int argc, char** argv)
 		while (window.pollEvent(event)) {
 			ImGui::SFML::ProcessEvent(event);
 			if (event.type == sf::Event::Closed) window.close();
+			if (event.type == sf::Event::GainedFocus) { FileTree::getInstance()->reload(); }
 		}
 		ImGui::SFML::Update(window, clock.restart());
 

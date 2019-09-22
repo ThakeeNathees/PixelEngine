@@ -74,6 +74,14 @@ std::pair<std::string, std::string> CLI::getKeyValue(const std::string& line) {
 	return std::make_pair(key, value);
 }
 
+void CLI::save(const std::string& text_to_save, const std::string& file_path)
+{
+	std::ofstream save_file;
+	save_file.open(file_path);
+	save_file << text_to_save;
+	save_file.close();
+}
+
 void CLI::readPeConfigFile() {
 	
 	std::ifstream init_file(CLI::getExecPath().append("/peconfig.init"));
@@ -96,6 +104,7 @@ void CLI::readPeConfigFile() {
 					if (key_value.first == std::string("file_pyc"))		{ Resources::Icons::FILE_PYC.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
 					if (key_value.first == std::string("file_cpp"))		{ Resources::Icons::FILE_CPP.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
 					if (key_value.first == std::string("file_h"))		{ Resources::Icons::FILE_H.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
+					if (key_value.first == std::string("file_hpp"))		{ Resources::Icons::FILE_HPP.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
 					if (key_value.first == std::string("file_png"))		{ Resources::Icons::FILE_PNG.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
 					if (key_value.first == std::string("file_ttf"))		{ Resources::Icons::FILE_TTF.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
 					if (key_value.first == std::string("file_bin"))		{ Resources::Icons::FILE_BIN.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }

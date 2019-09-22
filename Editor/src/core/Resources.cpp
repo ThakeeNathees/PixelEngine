@@ -12,6 +12,7 @@ sf::Texture Resources::Icons::FILE_PY;
 sf::Texture Resources::Icons::FILE_PYC;
 sf::Texture Resources::Icons::FILE_CPP;
 sf::Texture Resources::Icons::FILE_H;
+sf::Texture Resources::Icons::FILE_HPP;
 sf::Texture Resources::Icons::FILE_PNG;
 sf::Texture Resources::Icons::FILE_TTF;
 sf::Texture Resources::Icons::FILE_BIN;

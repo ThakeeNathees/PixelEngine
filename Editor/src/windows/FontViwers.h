@@ -47,16 +47,18 @@ public:
 	}; // font data end
 
 
-	static void addFont(const std::string& path) {
-		s_fonts.push_back( new FontData(path) );
+	static void openFontViwer(const std::string& path, long long id) {
+		if (s_fonts.find(id) == s_fonts.end())
+			s_fonts[id] = new FontData(path);
+		else s_fonts[id]->p_open = true;
 	}
 
 	static void renderFontViwers() {
-		for (auto font : s_fonts) {
-			if (font->p_open) {
-				ImGui::Begin(font->path.c_str(), &font->p_open, ImGuiWindowFlags_NoScrollbar);
+		for (auto pair : s_fonts) {
+			if (pair.second->p_open) {
+				ImGui::Begin(pair.second->path.c_str(), &pair.second->p_open, ImGuiWindowFlags_NoScrollbar);
 				ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
-				ImGui::Image(font->render_tex);
+				ImGui::Image(pair.second->render_tex);
 				ImGui::End();
 			}
 		}
@@ -64,7 +66,7 @@ public:
 
 private:
 	FontViwers() {}
-	static std::vector<FontData*> s_fonts;
+	static std::map<long long, FontData*> s_fonts;
 
 
 };

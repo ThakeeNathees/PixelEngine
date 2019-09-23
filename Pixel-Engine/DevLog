@@ -3,6 +3,8 @@
 ## TODO ########################################################################
 	
 HIGHT PRIORITY
+	editor font
+	popup editor
 	pybind
 		window, application
 

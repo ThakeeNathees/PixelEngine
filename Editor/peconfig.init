@@ -4,6 +4,11 @@ py_path="..\..\..\../Editor/src/pyutils"
 py_path="..\..\..\../Editor/src/core/cli/proj_init"
 py_path="..\..\..\../Editor/src/windows"
 
+fonts:
+	programming = "..\..\..\../Editor/res/fonts/ProFont/ProFontWindows.ttf","20"
+	
+end
+
 file_format_icons:
 	dir_close="..\..\..\../Editor/res/icons/file_format/dir_closed.png"
 	dir_open="..\..\..\../Editor/res/icons/file_format/dir_open.png"
@@ -21,4 +26,15 @@ file_format_icons:
 	file_bin="..\..\..\../Editor/res/icons/file_format/file_bin.png"
 	file_dll="..\..\..\../Editor/res/icons/file_format/file_dll.png"
 	file_obj="..\..\..\../Editor/res/icons/file_format/file_obj.png"
+end
+
+menu_icons:
+	none="..\..\..\../Editor/res/icons/menu_icons/none.png"
+	rename="..\..\..\../Editor/res/icons/menu_icons/rename.png"
+	delete="..\..\..\../Editor/res/icons/menu_icons/delete.png"
+	open_in_explorer="..\..\..\../Editor/res/icons/menu_icons/open_in_explorer.png"
+end
+
+other_icons:
+	icon_warning="..\..\..\../Editor/res/icons/other_icons/warning.png"
 end

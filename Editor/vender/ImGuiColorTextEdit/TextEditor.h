@@ -362,7 +362,7 @@ private:
 	void Render();
 
 	/* modified by https://github.com/ThakeeNathees/ */
-	float m_font_scale = 1.5;
+	float m_font_scale = 1;
 	bool m_is_window_focus = false;
 	/*==============================================*/
 

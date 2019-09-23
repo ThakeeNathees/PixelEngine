@@ -66,12 +66,16 @@ void CLI::parseArgs(int argc, char** argv){
 
 //////////////////////////////////////////////////////////////////////////
 
-std::pair<std::string, std::string> CLI::getKeyValue(const std::string& line) {
+std::pair<std::string, std::vector<std::string>> CLI::getKeyValue(const std::string& line) {
 	auto dict = pe::split(line, '=');
-	if (dict.size() < 2) return std::make_pair("","");
+	std::vector<std::string> values;
+	if (dict.size() < 2) return std::make_pair("",values);
 	std::string key = pe::__removeWiteSpace(dict[0]);
-	std::string value = pe::__getValueString(dict[1]);
-	return std::make_pair(key, value);
+	std::vector<std::string> __values = pe::split(dict[1], ',');
+	for (int i = 0; i < __values.size(); i++) {
+		values.push_back(pe::__getValueString(__values[i]));
+	}
+	return std::make_pair(key, values);
 }
 
 void CLI::save(const std::string& text_to_save, const std::string& file_path)
@@ -82,6 +86,7 @@ void CLI::save(const std::string& text_to_save, const std::string& file_path)
 	save_file.close();
 }
 
+
 void CLI::readPeConfigFile() {
 	
 	std::ifstream init_file(CLI::getExecPath().append("/peconfig.init"));
@@ -90,35 +95,68 @@ void CLI::readPeConfigFile() {
 		while (std::getline(init_file, line)) {
 			if (line[0] == '#') continue;
 
-			if (pe::__removeWiteSpace(line) == std::string("file_format_icons:")) {
+			if (pe::__removeWiteSpace(line) == std::string("fonts:")) {
 				while (std::getline(init_file, line)) {
-					if (pe::__removeWiteSpace(line)== std::string("end")) break;
+					if (pe::__removeWiteSpace(line) == std::string("end")) break;
 					auto key_value = CLI::getKeyValue(line);
-					if (key_value.first == std::string("dir_close"))	{ Resources::Icons::DIR_CLOSED.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
-					if (key_value.first == std::string("dir_open"))		{ Resources::Icons::DIR_OPEN.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
-					if (key_value.first == std::string("file_unknown")) { Resources::Icons::_FILE_UNKNOWN.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
-					if (key_value.first == std::string("file_peproj"))	{ Resources::Icons::FILE_PEPROJ.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
-					if (key_value.first == std::string("file_text"))	{ Resources::Icons::FILE_TEXT.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
-					if (key_value.first == std::string("file_xml"))		{ Resources::Icons::FILE_XML.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
-					if (key_value.first == std::string("file_py"))		{ Resources::Icons::FILE_PY.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
-					if (key_value.first == std::string("file_pyc"))		{ Resources::Icons::FILE_PYC.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
-					if (key_value.first == std::string("file_cpp"))		{ Resources::Icons::FILE_CPP.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
-					if (key_value.first == std::string("file_h"))		{ Resources::Icons::FILE_H.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
-					if (key_value.first == std::string("file_hpp"))		{ Resources::Icons::FILE_HPP.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
-					if (key_value.first == std::string("file_png"))		{ Resources::Icons::FILE_PNG.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
-					if (key_value.first == std::string("file_ttf"))		{ Resources::Icons::FILE_TTF.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
-					if (key_value.first == std::string("file_bin"))		{ Resources::Icons::FILE_BIN.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
-					if (key_value.first == std::string("file_dll"))		{ Resources::Icons::FILE_DLL.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
-					if (key_value.first == std::string("file_obj"))		{ Resources::Icons::FILE_OBJ.loadFromFile(CLI::getExecPath().append(key_value.second)); continue; }
+					if (key_value.first == std::string("programming")) {
+						auto font = ImGui::GetIO().Fonts->AddFontFromFileTTF(CLI::getExecPath().append(key_value.second[0]).c_str(), std::stof(key_value.second[1]));
+						ImGui::SFML::UpdateFontTexture();
+						Resources::Fonts::PROGRAMMING = font; continue;
+					}
 				}
 				continue;
 			}
 
+			if (pe::__removeWiteSpace(line) == std::string("file_format_icons:")) {
+				while (std::getline(init_file, line)) {
+					if (pe::__removeWiteSpace(line)== std::string("end")) break;
+					auto key_value = CLI::getKeyValue(line);
+					if (key_value.first == std::string("dir_close"))	{ Resources::FileFormatIcons::DIR_CLOSED.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first == std::string("dir_open"))		{ Resources::FileFormatIcons::DIR_OPEN.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first == std::string("file_unknown")) { Resources::FileFormatIcons::_FILE_UNKNOWN.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first == std::string("file_peproj"))	{ Resources::FileFormatIcons::FILE_PEPROJ.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first == std::string("file_text"))	{ Resources::FileFormatIcons::FILE_TEXT.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first == std::string("file_xml"))		{ Resources::FileFormatIcons::FILE_XML.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first == std::string("file_py"))		{ Resources::FileFormatIcons::FILE_PY.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first == std::string("file_pyc"))		{ Resources::FileFormatIcons::FILE_PYC.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first == std::string("file_cpp"))		{ Resources::FileFormatIcons::FILE_CPP.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first == std::string("file_h"))		{ Resources::FileFormatIcons::FILE_H.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first == std::string("file_hpp"))		{ Resources::FileFormatIcons::FILE_HPP.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first == std::string("file_png"))		{ Resources::FileFormatIcons::FILE_PNG.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first == std::string("file_ttf"))		{ Resources::FileFormatIcons::FILE_TTF.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first == std::string("file_bin"))		{ Resources::FileFormatIcons::FILE_BIN.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first == std::string("file_dll"))		{ Resources::FileFormatIcons::FILE_DLL.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first == std::string("file_obj"))		{ Resources::FileFormatIcons::FILE_OBJ.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+				}
+				continue;
+			}
+
+			if (pe::__removeWiteSpace(line) == std::string("menu_icons:")) {
+				while (std::getline(init_file, line)) {
+					if (pe::__removeWiteSpace(line) == std::string("end")) break;
+					auto key_value = CLI::getKeyValue(line);
+					if (key_value.first == std::string("none")) { Resources::MenuIcons::NONE.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first == std::string("rename")) { Resources::MenuIcons::RENAME.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first == std::string("delete")) { Resources::MenuIcons::_DELETE.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first == std::string("open_in_explorer")) { Resources::MenuIcons::OPEN_IN_EXPLORER.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+				}
+				continue;
+			}
+
+			if (pe::__removeWiteSpace(line) == std::string("other_icons:")) {
+				while (std::getline(init_file, line)) {
+					if (pe::__removeWiteSpace(line) == std::string("end")) break;
+					auto key_value = CLI::getKeyValue(line);
+					if (key_value.first == std::string("icon_warning")) { Resources::OtherIcons::WARNING.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+				}
+				continue;
+			}
 			auto key_value = CLI::getKeyValue(line);
 			if (key_value.first != std::string("")) {
 				if (key_value.first == std::string("py_path")) {
 					py::exec(std::string("sys.path.append('").append(
-						m_py_os.attr("path").attr("abspath")(CLI::getExecPath().append(key_value.second)).cast<std::string>()
+						m_py_os.attr("path").attr("abspath")(CLI::getExecPath().append(key_value.second[0])).cast<std::string>()
 					).append("')"));
 				}
 			}

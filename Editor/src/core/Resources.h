@@ -5,7 +5,8 @@
 class Resources
 {
 public:
-	struct Icons {
+	struct FileFormatIcons 
+	{
 		static sf::Texture DIR_CLOSED;
 		static sf::Texture DIR_OPEN;
 		static sf::Texture _FILE_UNKNOWN; // FILE_UNKNOWN is a macro
@@ -22,6 +23,24 @@ public:
 		static sf::Texture FILE_BIN;
 		static sf::Texture FILE_DLL;
 		static sf::Texture FILE_OBJ;
+	};
+
+	struct MenuIcons
+	{
+		static sf::Texture NONE;
+		static sf::Texture RENAME;
+		static sf::Texture _DELETE; // DELETE is a macro
+		static sf::Texture OPEN_IN_EXPLORER;
+	};
+
+	struct OtherIcons 
+	{
+		static sf::Texture WARNING;
+	};
+
+	struct Fonts
+	{
+		static ImFont* PROGRAMMING;
 	};
 
 

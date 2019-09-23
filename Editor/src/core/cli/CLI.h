@@ -25,7 +25,7 @@ private:
 	CLI() {
 		m_py_os = py::module::import("os");
 	}
-	static std::pair<std::string, std::string> getKeyValue(const std::string& line);
+	static std::pair<std::string,std::vector<std::string>> getKeyValue(const std::string& line);
 	static CLI* s_instance;
 	static std::string s_exec_path;
 

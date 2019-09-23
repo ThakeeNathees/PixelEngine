@@ -29,19 +29,34 @@ public:
 	};
 
 	static void openTextEditor(const std::string& title, const std::string& path, long long id, const TextEditor::LanguageDefinition& _lang = TextEditor::LanguageDefinition::Python()) {
-		if (s_text_editors.find(id) == s_text_editors.end())
+
+		if (s_text_editors.find(id) == s_text_editors.end()){
 			s_text_editors[id] = new TextEditorData(title, path, id, _lang);
-		else s_text_editors[id]->p_open = true;
+			s_text_editors[id]->saved = true;
+		}
+		else {
+			if (s_text_editors[id]->p_open) return;
+			s_text_editors[id]->p_open = true;
+			std::string text;
+			if (!CLI::readTextFile(text, path)) {
+				s_text_editors[id]->editor.SetText(text);
+			}
+			s_text_editors[id]->saved = true;
+
+		}
+
 	}
 
 	static void renderEditors() {
 		for (auto pair : s_text_editors) {
-			if (pair.second->p_open) {
+			if (  pair.second->p_open ) {
 				ImGui::Begin(pair.second->title.c_str(), &pair.second->p_open, ImGuiWindowFlags_MenuBar);
 				ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
 				handleShortcuts(pair.second);
 				renderMenubar(pair.second);
+				ImGui::PushFont(Resources::Fonts::PROGRAMMING);
 				pair.second->editor.Render(pair.second->title.c_str());
+				ImGui::PopFont();
 				ImGui::End();
 			}
 		}

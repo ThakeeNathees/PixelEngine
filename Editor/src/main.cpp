@@ -8,20 +8,18 @@ namespace py = pybind11;
 #include "core/Resources.h"
 #include "windows/FileTree.h"
 
+#include "windows/Popups.h"
+
 // forward declaration
 void show_dock_space();
+
+void newWindow(sf::RenderWindow&);
 
 int main(int argc, char** argv)
 {
 
 	py::scoped_interpreter intrp;
 	py::exec("import sys, os");
-
-	CLI::getInstance()->init();
-	CLI::chDir("E:/__test/test/SlrcPlot");
-
-	// process command lne arguments
-	CLI::parseArgs(argc, argv);
 	
 
 	unsigned int w = sf::VideoMode::getDesktopMode().width - 600;
@@ -37,6 +35,14 @@ int main(int argc, char** argv)
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
+	CLI::getInstance()->init();
+	CLI::chDir("E:/__test/test/SlrcPlot");
+
+	// process command lne arguments
+	CLI::parseArgs(argc, argv);
+	newWindow(window);
+
+
 	sf::Event event; sf::Clock clock;
 	while (window.isOpen()) {
 		// event handle
@@ -49,10 +55,12 @@ int main(int argc, char** argv)
 
 		// render
 		show_dock_space();
-		TextEditors::renderEditors();
 		FileTree::getInstance()->render();
+		TextEditors::renderEditors();
 		HexEditors::renderEditors();
 		FontViwers::renderFontViwers();
+
+		Popups::render();
 
 		ImGui::ShowTestWindow();
 
@@ -93,4 +101,27 @@ void show_dock_space()
 	ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 	ImGui::End();
 
+}
+/////////////////////////////////////////////////////
+
+void newWindow(sf::RenderWindow& window)
+{
+	sf::Event event; sf::Clock clock;
+	while (window.isOpen()) {
+		// event handle
+		while (window.pollEvent(event)) {
+			ImGui::SFML::ProcessEvent(event);
+			if (event.type == sf::Event::Closed) window.close();
+			if (event.type == sf::Event::GainedFocus) { FileTree::getInstance()->reload(); }
+		}
+		ImGui::SFML::Update(window, clock.restart());
+		show_dock_space();
+		ImGui::Begin("new Window");
+		ImGui::Text("This is a new window");
+		ImGui::End();
+
+		ImGui::SFML::Render(window);
+		window.display();
+
+	}
 }

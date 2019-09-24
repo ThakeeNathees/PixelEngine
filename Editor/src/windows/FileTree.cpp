@@ -58,7 +58,7 @@ void FileTree::renderTreeRecursive(py::object& tree, bool next_item_open) {
 /////////////////////////////////////////////////////////////
 
 void FileTree::drawFileIcon(const std::string& path) {
-	std::string format = m_py_filetree.attr("getFileFormat")(path).cast<std::string>();
+	std::string format = getInstance()->getPyFileTree().attr("getFileFormat")(path).cast<std::string>();
 	if (format == std::string("py")) { ImGui::Image(Resources::FileFormatIcons::FILE_PY); ImGui::SameLine(); return; }
 	if (format == std::string("peproj")) { ImGui::Image(Resources::FileFormatIcons::FILE_PEPROJ); ImGui::SameLine(); return; }
 	if (format == std::string("txt")) { ImGui::Image(Resources::FileFormatIcons::FILE_TEXT); ImGui::SameLine(); return; }

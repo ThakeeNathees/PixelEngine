@@ -7,6 +7,7 @@ namespace py = pybind11;
 #include "core/cli/CLI.h"
 #include "core/Resources.h"
 #include "windows/FileTree.h"
+#include "windows/Explorer.h"
 
 #include "windows/Popups.h"
 
@@ -106,6 +107,7 @@ void show_dock_space()
 
 void newWindow(sf::RenderWindow& window)
 {
+	Explorer explorer(".");
 	sf::Event event; sf::Clock clock;
 	while (window.isOpen()) {
 		// event handle
@@ -116,9 +118,11 @@ void newWindow(sf::RenderWindow& window)
 		}
 		ImGui::SFML::Update(window, clock.restart());
 		show_dock_space();
-		ImGui::Begin("new Window");
-		ImGui::Text("This is a new window");
-		ImGui::End();
+		
+		//ImGui::SetNextWindowDockID(5);
+		
+		Popups::render();
+		explorer.render();
 
 		ImGui::SFML::Render(window);
 		window.display();

@@ -5,6 +5,7 @@
 class Resources
 {
 public:
+
 	struct FileFormatIcons 
 	{
 		static sf::Texture DIR_CLOSED;
@@ -36,13 +37,13 @@ public:
 	struct OtherIcons 
 	{
 		static sf::Texture WARNING;
+		static sf::Texture EXPLORER_UP;
 	};
 
 	struct Fonts
 	{
 		static ImFont* PROGRAMMING;
 	};
-
 
 private:
 	Resources() {}

@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\core\cli\CLI.h" />
+    <ClInclude Include="src\windows\Explorer.h" />
     <ClInclude Include="src\windows\FileTree.h" />
     <ClInclude Include="src\core\Resources.h" />
     <ClInclude Include="src\pch.h" />
@@ -148,6 +149,7 @@
     <ResourceCompile Include="Editor.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="src\windows\explorer.py" />
     <None Include="src\windows\file_tree.py" />
     <None Include="src\cli\proj_init\assets_loader.py" />
     <None Include="src\core\cli\proj_init\assets_updater.py" />

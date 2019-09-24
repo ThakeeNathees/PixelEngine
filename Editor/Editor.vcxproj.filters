@@ -116,6 +116,9 @@
     <ClInclude Include="src\windows\Popups.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\windows\Explorer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\logo.png">
@@ -143,5 +146,6 @@
     <None Include="src\core\cli\proj_init\register_updater.py" />
     <None Include="src\core\cli\proj_init\assets_updater.py" />
     <None Include="src\windows\file_tree.py" />
+    <None Include="src\windows\explorer.py" />
   </ItemGroup>
 </Project>

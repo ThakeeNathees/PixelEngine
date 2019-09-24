@@ -25,5 +25,6 @@ sf::Texture Resources::MenuIcons::_DELETE;
 sf::Texture Resources::MenuIcons::OPEN_IN_EXPLORER;
 
 sf::Texture Resources::OtherIcons::WARNING;
+sf::Texture Resources::OtherIcons::EXPLORER_UP;
 
 ImFont* Resources::Fonts::PROGRAMMING=nullptr;

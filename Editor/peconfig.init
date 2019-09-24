@@ -36,5 +36,6 @@ menu_icons:
 end
 
 other_icons:
-	icon_warning="..\..\..\../Editor/res/icons/other_icons/warning.png"
+	warning="..\..\..\../Editor/res/icons/other_icons/warning.png"
+	explorer_up="..\..\..\../Editor/res/icons/other_icons/explorer_up.png"
 end

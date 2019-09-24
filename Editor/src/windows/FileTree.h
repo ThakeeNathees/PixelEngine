@@ -47,13 +47,17 @@ public:
 		int dir_ind = 0;
 		renderTreeRecursive(m_py_filetree, true);
 		ImGui::End();
+	}
 
+
+	py::object& getPyFileTree() {
+		return m_py_filetree;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	static void drawFileIcon(const std::string& path);
 private:
 	void renderTreeRecursive(py::object& tree, bool next_item_open = false);
-	void drawFileIcon(const std::string& path);
 	void nodeClickedEvent(const std::string& title, const std::string& path, long long id=-1);
 	void renderRightMouseMenu(const std::string& path);
 

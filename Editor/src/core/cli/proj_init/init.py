@@ -200,7 +200,7 @@ def init(__proj_name, __dst_path=None):
 
 
 
-if __name__ == "__main__" and 1:
+if __name__ == "__main__" and 0:
     if 1:
         init("testproj1","E:/__test/test")
     else:

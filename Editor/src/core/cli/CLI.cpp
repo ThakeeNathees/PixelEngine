@@ -19,11 +19,13 @@ void CLI::init()
 	if (bytes >= 0)
 		pBuf[bytes] = '\0';
 #endif
-	auto os = py::module::import("os");
-	s_exec_path = os.attr("path").attr("dirname")(pe::__fixPath(pBuf)).cast<std::string>();
+	m_py_os = py::module::import("os");
+	s_exec_path = m_py_os.attr("path").attr("dirname")(pe::__fixPath(pBuf)).cast<std::string>();
 	py::exec(std::string("sys.path.append('").append(s_exec_path).append("')"));
 
 	readPeConfigFile();
+
+	m_py_proj_init = py::module::import("init");
 }
 
 const std::string CLI::getCwd() {
@@ -95,6 +97,19 @@ void CLI::readPeConfigFile() {
 		while (std::getline(init_file, line)) {
 			if (line[0] == '#') continue;
 
+			if (pe::__removeWiteSpace(line) == std::string("paths:")) {
+				while (std::getline(init_file, line)) {
+					if (pe::__removeWiteSpace(line) == std::string("end")) break;
+					auto key_value = CLI::getKeyValue(line);
+					if (key_value.first == std::string("py_path")) {
+						py::exec(std::string("sys.path.append('").append(
+							m_py_os.attr("path").attr("abspath")(CLI::getExecPath().append(key_value.second[0])).cast<std::string>()
+						).append("')"));
+					}
+				}
+				continue;
+			}
+
 			if (pe::__removeWiteSpace(line) == std::string("fonts:")) {
 				while (std::getline(init_file, line)) {
 					if (pe::__removeWiteSpace(line) == std::string("end")) break;
@@ -153,14 +168,8 @@ void CLI::readPeConfigFile() {
 				}
 				continue;
 			}
-			auto key_value = CLI::getKeyValue(line);
-			if (key_value.first != std::string("")) {
-				if (key_value.first == std::string("py_path")) {
-					py::exec(std::string("sys.path.append('").append(
-						m_py_os.attr("path").attr("abspath")(CLI::getExecPath().append(key_value.second[0])).cast<std::string>()
-					).append("')"));
-				}
-			}
+
+
 		}
 	}
 }

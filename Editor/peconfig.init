@@ -1,12 +1,13 @@
 ## all paths are relative to .exe file
 
-py_path="..\..\..\../Editor/src/pyutils"
-py_path="..\..\..\../Editor/src/core/cli/proj_init"
-py_path="..\..\..\../Editor/src/windows"
+paths:
+	py_path="..\..\..\../Editor/src/pyutils"
+	py_path="..\..\..\../Editor/src/core/cli/proj_init"
+	py_path="..\..\..\../Editor/src/windows"
+end
 
 fonts:
 	programming = "..\..\..\../Editor/res/fonts/ProFont/ProFontWindows.ttf","20"
-	
 end
 
 file_format_icons:

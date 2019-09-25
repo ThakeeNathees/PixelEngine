@@ -120,8 +120,9 @@ void newWindow(sf::RenderWindow& window)
 		show_dock_space();
 		
 		//ImGui::SetNextWindowDockID(5);
-		
+		//ImGui::ShowTestWindow();
 		Popups::render();
+		ImGui::OpenPopup("Explorer");
 		explorer.render();
 
 		ImGui::SFML::Render(window);

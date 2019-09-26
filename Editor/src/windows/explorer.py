@@ -38,6 +38,10 @@ class Explorer:
     def getPath(self):
         return self.path
 
+    def setPath(self, path):
+        if os.path.isdir(path):
+            self.path = path
+
     def reload(self):
         self.listdir = Explorer.listDir(self.path)
 

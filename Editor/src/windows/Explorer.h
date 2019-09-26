@@ -7,14 +7,24 @@ namespace py = pybind11;
 #include "Popups.h"
 
 
-class Explorer
+class ExplorerPopup
 {
 private:
+	bool m_is_path_selected = false;
+	std::string m_selected_path = "";
 	py::object m_py_explorer;
 	
 
 public:
-	Explorer( const std::string& path) {
+
+	bool isPathSelected() {
+		return m_is_path_selected;
+	}
+	const std::string& getSelectedPath() {
+		return m_selected_path;
+	}
+
+	ExplorerPopup( const std::string& path) {
 		py::module explorer_py = py::module::import("explorer");
 		m_py_explorer = explorer_py.attr("Explorer")(path);
 	}
@@ -32,9 +42,18 @@ public:
 				m_py_explorer.attr("pathUp")();
 			}
 			ImGui::SameLine();
-			if (ImGui::Button("Refresh")) {
+			if (ImGui::ImageButton(Resources::OtherIcons::EXPLORER_REFRESH)) {
 				m_py_explorer.attr("reload")();
 			}
+			ImGui::SameLine();
+			const char* drives[] = {"C:/","D:/","E:/"};
+			static int current_drive = 2; // E:/
+			if (ImGui::Combo("drive", &current_drive, drives, (int)(sizeof(drives) / sizeof(const char*)))) {
+				//CLI::chDir(drives[current_drive]);
+				m_py_explorer.attr("setPath")( std::string(drives[current_drive]) );
+				m_py_explorer.attr("reload")();
+			}
+
 
 			// path text
 			std::string path = m_py_explorer.attr("getPath")().cast<std::string>();
@@ -65,7 +84,9 @@ public:
 			ImGui::PopStyleVar();
 
 			if (ImGui::Button("Select this folder")) {
-				CLI::getInstance()->projInit(m_py_explorer.attr("getPath")().cast<std::string>());
+				m_is_path_selected = true;
+				m_selected_path = m_py_explorer.attr("getPath")().cast<std::string>();
+				ImGui::CloseCurrentPopup();
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("Cencel")) {

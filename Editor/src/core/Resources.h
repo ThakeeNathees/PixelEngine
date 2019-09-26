@@ -38,6 +38,7 @@ public:
 	{
 		static sf::Texture WARNING;
 		static sf::Texture EXPLORER_UP;
+		static sf::Texture EXPLORER_REFRESH;
 	};
 
 	struct Fonts

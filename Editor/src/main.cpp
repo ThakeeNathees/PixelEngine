@@ -14,7 +14,7 @@ namespace py = pybind11;
 // forward declaration
 void show_dock_space();
 
-void newWindow(sf::RenderWindow&);
+void startWindow(sf::RenderWindow&);
 
 int main(int argc, char** argv)
 {
@@ -37,11 +37,11 @@ int main(int argc, char** argv)
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
 	CLI::getInstance()->init();
-	CLI::chDir("E:/__test/test/SlrcPlot");
+	CLI::chDir("C:/dev");
 
 	// process command lne arguments
-	CLI::parseArgs(argc, argv);
-	newWindow(window);
+	//CLI::parseArgs(argc, argv);
+	startWindow(window);
 
 
 	sf::Event event; sf::Clock clock;
@@ -105,9 +105,9 @@ void show_dock_space()
 }
 /////////////////////////////////////////////////////
 
-void newWindow(sf::RenderWindow& window)
+void startWindow(sf::RenderWindow& window)
 {
-	Explorer explorer(".");
+	ExplorerPopup explorer(".");
 	sf::Event event; sf::Clock clock;
 	while (window.isOpen()) {
 		// event handle
@@ -119,11 +119,51 @@ void newWindow(sf::RenderWindow& window)
 		ImGui::SFML::Update(window, clock.restart());
 		show_dock_space();
 		
-		//ImGui::SetNextWindowDockID(5);
 		//ImGui::ShowTestWindow();
-		Popups::render();
-		ImGui::OpenPopup("Explorer");
+		ImGui::Begin("Start");
+		ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
+
+		static char proj_name[1024];
+		ImGui::InputText("proj_name", proj_name, sizeof(proj_name));
+
+		static char proj_path[1024];
+		ImGui::InputText("proj_path", proj_path, sizeof(proj_path));
+		ImGui::SameLine();
+		if (ImGui::ImageButton(Resources::OtherIcons::EXPLORER_UP)) {
+			ImGui::OpenPopup("Explorer");
+		}
+
+		if (ImGui::Button("Create A New Project")) {
+			if (proj_name[0] == '\0') ImGui::OpenPopup("Error!");
+			else {
+				CLI::getInstance()->projInit(explorer.getSelectedPath(), proj_name);
+				ImGui::End();
+				ImGui::SFML::Render(window);
+				CLI::chDir( std::string(proj_path).append("/").append(proj_name) );
+				return;
+			}
+		}
+
+		if (ImGui::BeginPopupModal("Error!")) {
+			ImGui::Text("Error! enter a Project Name!");
+			if (ImGui::Button("OK")) {
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::EndPopup();
+		}
+		
+
 		explorer.render();
+
+		if (explorer.isPathSelected()) {
+			const char* c = explorer.getSelectedPath().c_str();
+			int i = 0;
+			while (c[i]) {
+				proj_path[i] = c[i++];
+			}
+		}
+		ImGui::End();
+
 
 		ImGui::SFML::Render(window);
 		window.display();

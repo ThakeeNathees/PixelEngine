@@ -8,7 +8,7 @@ class CLI
 public:
 
 	void init();
-	void projInit(const std::string& path, const std::string& name = "proj_test") {
+	void projInit(const std::string& path, const std::string& name ) {
 		m_py_proj_init.attr("init")(name, path);
 	}
 

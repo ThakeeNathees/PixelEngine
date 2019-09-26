@@ -29,8 +29,3 @@ class FileTree:
         ret = self.path+'\n'
         ret += FileTree.makeStr(self)
         return ret
-        
-if __name__ == "__main__" and 0:
-    ft = FileTree('c:/dev/Pixel-Engine/')
-    print(ft)
-    

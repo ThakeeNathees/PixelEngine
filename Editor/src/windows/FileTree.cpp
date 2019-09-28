@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "FileTree.h"
 
-#include "Popups.h"
 
 FileTree* FileTree::s_instance = nullptr;
 
@@ -163,8 +162,9 @@ void FileTree::renderRightMouseMenu(const std::string& path) {
 
 			ImGui::Image(Resources::MenuIcons::_DELETE); ImGui::SameLine();
 			if (ImGui::Selectable("Delete")) {
-				Popups::PopupData data; data.path = path; data.is_path_dir = true;
-				Popups::openPopup("Delete Conformation",data);
+				m_delete_path = path;
+				m_is_deletepathdir = true;
+				m_open_popup = true;
 			}
 			
 			ImGui::Image(Resources::MenuIcons::OPEN_IN_EXPLORER); ImGui::SameLine();
@@ -191,8 +191,9 @@ void FileTree::renderRightMouseMenu(const std::string& path) {
 
 			ImGui::Image(Resources::MenuIcons::_DELETE); ImGui::SameLine();
 			if (ImGui::Selectable("Delete")) {
-				Popups::PopupData data; data.path = path; data.is_path_dir = false;
-				Popups::openPopup("Delete Conformation", data);
+				m_delete_path = path;
+				m_is_deletepathdir = false;
+				m_open_popup = true;
 			}
 
 			ImGui::Image(Resources::MenuIcons::OPEN_IN_EXPLORER); ImGui::SameLine();
@@ -207,3 +208,41 @@ void FileTree::renderRightMouseMenu(const std::string& path) {
 	}
 }
 /////////////////////////////////////////////////////////////
+
+void FileTree::renderPopup() {
+
+	if (m_open_popup) ImGui::OpenPopup("Delete Conformation");
+
+	if (ImGui::BeginPopupModal("Delete Conformation", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+
+		auto py_os = py::module::import("os");
+		// folder
+		if (m_is_deletepathdir) {
+			ImGui::Image(Resources::OtherIcons::WARNING); ImGui::SameLine();
+			ImGui::Text("All the files and It's contents \nwill be deleted permenently.\nThis operation cannot be undone!\n\n");
+			ImGui::Separator();
+			if (ImGui::Button("OK", ImVec2(120, 0))) {
+				py_os.attr("system")(std::string("RD /S /Q \"").append(m_delete_path).append("\"")); FileTree::getInstance()->reload();
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+		}
+		else {
+			ImGui::Image(Resources::OtherIcons::WARNING); ImGui::SameLine();
+			ImGui::Text("The file will be deleted permenently.\nThis operation cannot be undone!\n\n");
+			ImGui::Separator();
+			if (ImGui::Button("OK", ImVec2(120, 0))) {
+				py_os.attr("system")(std::string("del \"").append(m_delete_path).append("\"")); FileTree::getInstance()->reload();
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+		}
+
+		ImGui::SetItemDefaultFocus();
+		ImGui::EndPopup();
+
+		if (!ImGui::IsPopupOpen("Delete Conformation")) m_open_popup = false;
+	}
+}

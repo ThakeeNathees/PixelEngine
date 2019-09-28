@@ -30,6 +30,10 @@ private:
 	long long m_selected_id = -1;
 	long long m_selected_menu_id = -1;
 
+	bool m_open_popup = false;
+	std::string m_delete_path = "";
+	bool m_is_deletepathdir = false;
+
 
 public:
 	static FileTree* getInstance() {
@@ -46,6 +50,7 @@ public:
 		ImGui::Begin(m_title.c_str());
 		int dir_ind = 0;
 		renderTreeRecursive(m_py_filetree, true);
+		renderPopup();
 		ImGui::End();
 	}
 
@@ -57,6 +62,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	static void drawFileIcon(const std::string& path);
 private:
+	void renderPopup();
 	void renderTreeRecursive(py::object& tree, bool next_item_open = false);
 	void nodeClickedEvent(const std::string& title, const std::string& path, long long id=-1);
 	void renderRightMouseMenu(const std::string& path);

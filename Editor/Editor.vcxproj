@@ -108,7 +108,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\windows\FileTree.cpp" />
-    <ClCompile Include="src\windows\Popups.cpp" />
     <ClCompile Include="src\windows\static_initialize.cpp" />
     <ClCompile Include="vender\ImGuiColorTextEdit\TextEditor.cpp" />
     <ClCompile Include="vender\ImGui\imgui.cpp" />
@@ -126,7 +125,6 @@
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\windows\FontViwers.h" />
     <ClInclude Include="src\windows\HexEditors.h" />
-    <ClInclude Include="src\windows\Popups.h" />
     <ClInclude Include="src\windows\TextEditors.h" />
     <ClInclude Include="vender\ImGuiColorTextEdit\TextEditor.h" />
     <ClInclude Include="vender\ImGui\imconfig.h" />

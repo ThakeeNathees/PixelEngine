@@ -4,7 +4,6 @@
 namespace py = pybind11;
 
 #include "FileTree.h"
-#include "Popups.h"
 
 
 class ExplorerPopup

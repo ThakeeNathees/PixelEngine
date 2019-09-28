@@ -9,8 +9,6 @@ namespace py = pybind11;
 #include "windows/FileTree.h"
 #include "windows/Explorer.h"
 
-#include "windows/Popups.h"
-
 // forward declaration
 void show_dock_space();
 
@@ -61,7 +59,6 @@ int main(int argc, char** argv)
 		HexEditors::renderEditors();
 		FontViwers::renderFontViwers();
 
-		Popups::render();
 
 		ImGui::ShowTestWindow();
 
@@ -140,6 +137,7 @@ void startWindow(sf::RenderWindow& window)
 				ImGui::End();
 				ImGui::SFML::Render(window);
 				CLI::chDir( std::string(proj_path).append("/").append(proj_name) );
+				FileTree::getInstance()->reload();
 				return;
 			}
 		}

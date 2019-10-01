@@ -1,8 +1,11 @@
 ## all paths are relative to .exe file
 
+logo_path = "..\..\..\../Editor/res/logo/logo.png"
+
 paths:
 	py_path="..\..\..\../Editor/src/pyutils"
 	py_path="..\..\..\../Editor/src/core/cli/proj_init"
+	py_path="..\..\..\../Editor/src/core/cli"
 	py_path="..\..\..\../Editor/src/windows"
 end
 

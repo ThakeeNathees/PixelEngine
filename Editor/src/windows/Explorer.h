@@ -31,7 +31,7 @@ public:
 	void render() {
 		if (ImGui::BeginPopupModal("Explorer")) {
 
-			ImGui::SetWindowSize(ImVec2(800, 400), ImGuiCond_FirstUseEver);
+			ImGui::SetWindowSize(ImVec2(800, 400), ImGuiCond_Once);
 
 			ImGui::BeginGroup();
 			ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
@@ -46,7 +46,7 @@ public:
 			}
 			ImGui::SameLine();
 			const char* drives[] = {"C:/","D:/","E:/"};
-			static int current_drive = 2; // E:/
+			static int current_drive = 0; // C:/
 			if (ImGui::Combo("drive", &current_drive, drives, (int)(sizeof(drives) / sizeof(const char*)))) {
 				//CLI::chDir(drives[current_drive]);
 				m_py_explorer.attr("setPath")( std::string(drives[current_drive]) );
@@ -58,7 +58,7 @@ public:
 			std::string path = m_py_explorer.attr("getPath")().cast<std::string>();
 			ImGui::Text(path.c_str());
 
-			ImGui::BeginChild("Child2", ImVec2(ImGui::GetWindowSize().x - 15, ImGui::GetWindowSize().y*.7), true);
+			ImGui::BeginChild("Child2", ImVec2(ImGui::GetWindowSize().x - 15, ImGui::GetWindowSize().y - ImGui::GetCursorPosY() - 50), true);
 
 
 			for (int i = 0; i < m_py_explorer.attr("getItemCount")().cast<int>(); i++)

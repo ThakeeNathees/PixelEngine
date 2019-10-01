@@ -6,6 +6,8 @@ class Resources
 {
 public:
 
+	static sf::Texture LOGO;
+
 	struct FileFormatIcons 
 	{
 		static sf::Texture DIR_CLOSED;

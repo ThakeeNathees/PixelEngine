@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Resources.h"
 
+sf::Texture Resources::LOGO;
+
 // texture's load from file in CLI::init()
 sf::Texture Resources::FileFormatIcons::DIR_CLOSED;
 sf::Texture Resources::FileFormatIcons::DIR_OPEN;

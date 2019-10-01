@@ -172,7 +172,14 @@ def updateProj(proj_name, proj_dir):
     proj_updater.updateProj(proj_name, proj_dir)
     register_updater.updateRegister( proj_dir)
 
+## if init success return 0
 def init(__proj_name, __dst_path=None):
+    if __proj_name[0].isnumeric():
+        return 1
+    for illegal in [' ','\t','\n']:
+        if illegal in __proj_name:
+            return 1
+        
     proj_name = __proj_name
     dst_path = __dst_path if __dst_path else '.'
     proj_dir = os.path.join(dst_path, proj_name)
@@ -198,6 +205,7 @@ def init(__proj_name, __dst_path=None):
     makeInit( os.path.join( proj_dir, 'bin/x64-debug'), "debug", '../../', 'bin/x64-debug/log.txt' )
     makeInit( os.path.join( proj_dir, 'bin/x64-release'), "release", '../../', 'bin/x64-release/log.txt' )
 
+    return 0
 
 
 if __name__ == "__main__" and 0:

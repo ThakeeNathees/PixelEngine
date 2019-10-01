@@ -96,11 +96,14 @@ void CLI::readPeConfigFile() {
 		std::string line;
 		while (std::getline(init_file, line)) {
 			if (line[0] == '#') continue;
+			auto key_value = CLI::getKeyValue(line);
+
+			if (key_value.first == std::string("logo_path")) { Resources::LOGO.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
 
 			if (pe::__removeWiteSpace(line) == std::string("paths:")) {
 				while (std::getline(init_file, line)) {
 					if (pe::__removeWiteSpace(line) == std::string("end")) break;
-					auto key_value = CLI::getKeyValue(line);
+					key_value = CLI::getKeyValue(line);
 					if (key_value.first == std::string("py_path")) {
 						py::exec(std::string("sys.path.append('").append(
 							m_py_os.attr("path").attr("abspath")(CLI::getExecPath().append(key_value.second[0])).cast<std::string>()
@@ -113,7 +116,7 @@ void CLI::readPeConfigFile() {
 			if (pe::__removeWiteSpace(line) == std::string("fonts:")) {
 				while (std::getline(init_file, line)) {
 					if (pe::__removeWiteSpace(line) == std::string("end")) break;
-					auto key_value = CLI::getKeyValue(line);
+					key_value = CLI::getKeyValue(line);
 					if (key_value.first == std::string("programming")) {
 						auto font = ImGui::GetIO().Fonts->AddFontFromFileTTF(CLI::getExecPath().append(key_value.second[0]).c_str(), std::stof(key_value.second[1]));
 						ImGui::SFML::UpdateFontTexture();
@@ -126,7 +129,7 @@ void CLI::readPeConfigFile() {
 			if (pe::__removeWiteSpace(line) == std::string("file_format_icons:")) {
 				while (std::getline(init_file, line)) {
 					if (pe::__removeWiteSpace(line)== std::string("end")) break;
-					auto key_value = CLI::getKeyValue(line);
+					key_value = CLI::getKeyValue(line);
 					if (key_value.first == std::string("dir_close"))	{ Resources::FileFormatIcons::DIR_CLOSED.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
 					if (key_value.first == std::string("dir_open"))		{ Resources::FileFormatIcons::DIR_OPEN.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
 					if (key_value.first == std::string("file_unknown")) { Resources::FileFormatIcons::_FILE_UNKNOWN.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
@@ -150,7 +153,7 @@ void CLI::readPeConfigFile() {
 			if (pe::__removeWiteSpace(line) == std::string("menu_icons:")) {
 				while (std::getline(init_file, line)) {
 					if (pe::__removeWiteSpace(line) == std::string("end")) break;
-					auto key_value = CLI::getKeyValue(line);
+					key_value = CLI::getKeyValue(line);
 					if (key_value.first == std::string("none")) { Resources::MenuIcons::NONE.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
 					if (key_value.first == std::string("rename")) { Resources::MenuIcons::RENAME.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
 					if (key_value.first == std::string("delete")) { Resources::MenuIcons::_DELETE.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
@@ -162,7 +165,7 @@ void CLI::readPeConfigFile() {
 			if (pe::__removeWiteSpace(line) == std::string("other_icons:")) {
 				while (std::getline(init_file, line)) {
 					if (pe::__removeWiteSpace(line) == std::string("end")) break;
-					auto key_value = CLI::getKeyValue(line);
+					key_value = CLI::getKeyValue(line);
 					if (key_value.first == std::string("warning")) { Resources::OtherIcons::WARNING.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
 					if (key_value.first == std::string("explorer_up")) { Resources::OtherIcons::EXPLORER_UP.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
 					if (key_value.first == std::string("explorer_refresh")) { Resources::OtherIcons::EXPLORER_REFRESH.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }

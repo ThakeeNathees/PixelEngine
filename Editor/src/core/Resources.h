@@ -38,6 +38,7 @@ public:
 
 	struct OtherIcons 
 	{
+		static sf::Texture _ERROR; // ERROR is a macro
 		static sf::Texture WARNING;
 		static sf::Texture EXPLORER_UP;
 		static sf::Texture EXPLORER_REFRESH;

@@ -145,5 +145,6 @@
     <None Include="src\windows\file_tree.py" />
     <None Include="src\windows\explorer.py" />
     <None Include="peconfig.init" />
+    <None Include="src\core\cli\conf_projupdater.py" />
   </ItemGroup>
 </Project>

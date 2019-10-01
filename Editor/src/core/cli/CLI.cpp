@@ -166,6 +166,7 @@ void CLI::readPeConfigFile() {
 				while (std::getline(init_file, line)) {
 					if (pe::__removeWiteSpace(line) == std::string("end")) break;
 					key_value = CLI::getKeyValue(line);
+					if (key_value.first == std::string("error")) { Resources::OtherIcons::_ERROR.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
 					if (key_value.first == std::string("warning")) { Resources::OtherIcons::WARNING.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
 					if (key_value.first == std::string("explorer_up")) { Resources::OtherIcons::EXPLORER_UP.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
 					if (key_value.first == std::string("explorer_refresh")) { Resources::OtherIcons::EXPLORER_REFRESH.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }

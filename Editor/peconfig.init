@@ -2,6 +2,10 @@
 
 logo_path = "..\..\..\../Editor/res/logo/logo.png"
 
+projects:
+	porj="PeProjTest","C:\dev\__test_env/PeProjTest"
+end
+
 paths:
 	py_path="..\..\..\../Editor/src/pyutils"
 	py_path="..\..\..\../Editor/src/core/cli/proj_init"
@@ -40,6 +44,7 @@ menu_icons:
 end
 
 other_icons:
+	error="..\..\..\../Editor/res/icons/other_icons/error.png"
 	warning="..\..\..\../Editor/res/icons/other_icons/warning.png"
 	explorer_up="..\..\..\../Editor/res/icons/other_icons/explorer_up.png"
 	explorer_refresh="..\..\..\../Editor/res/icons/other_icons/explorer_refresh.png"

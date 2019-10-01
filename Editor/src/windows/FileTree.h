@@ -6,10 +6,6 @@
 #include "HexEditors.h"
 #include "FontViwers.h"
 
-#include <pybind11/stl.h>
-#include "pybind11/embed.h"
-namespace py = pybind11;
-
 class FileTree
 {
 private:

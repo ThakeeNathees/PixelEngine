@@ -23,6 +23,14 @@
 #include <string>
 #include <vector>
 
+/*
+*/
+#include <pybind11/stl.h>
+#include "pybind11/embed.h"
+namespace py = pybind11;
+
+#define snprintf _snprintf_s
+
 
 
 /* logo color bottom left to top right

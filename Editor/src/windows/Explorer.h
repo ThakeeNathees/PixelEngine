@@ -1,7 +1,5 @@
 #pragma once
 
-#include <pybind11/embed.h>
-namespace py = pybind11;
 
 #include "FileTree.h"
 
@@ -15,7 +13,9 @@ private:
 	
 
 public:
-
+	void setPathSelectedFalse() {
+		m_is_path_selected = false;
+	}
 	bool isPathSelected() {
 		return m_is_path_selected;
 	}

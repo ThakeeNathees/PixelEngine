@@ -1,9 +1,5 @@
 #include "pch.h"
 
-#include <pybind11/stl.h>
-#include "pybind11/embed.h"
-namespace py = pybind11;
-
 #include "core/cli/CLI.h"
 #include "windows/StartWindow.h"
 #include "core/Resources.h"
@@ -29,13 +25,11 @@ int main(int argc, char** argv)
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
 	CLI::getInstance()->init();
-	//CLI::chDir("C:/dev");
 
 	window.setIcon( Resources::LOGO.getSize().x, Resources::LOGO.getSize().y, Resources::LOGO.copyToImage().getPixelsPtr());
-	// process command lne arguments
-	//CLI::parseArgs(argc, argv);
 
 
+	StartWindow::getInstance()->init();
 	StartWindow::getInstance()->dispStartWindow(window);
 
 
@@ -60,7 +54,6 @@ int main(int argc, char** argv)
 		ImGui::ShowTestWindow();
 
 
-		//window.clear();
 		ImGui::SFML::Render(window);
 		window.display();
 

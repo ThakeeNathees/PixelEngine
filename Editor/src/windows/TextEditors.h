@@ -54,9 +54,10 @@ public:
 				ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
 				handleShortcuts(pair.second);
 				renderMenubar(pair.second);
-				ImGui::PushFont(Resources::Fonts::PROGRAMMING);
+				//ImGui::PushFont(Resources::Fonts::PROGRAMMING);
+				pair.second->editor.setFontScale(1.5);
 				pair.second->editor.Render(pair.second->title.c_str());
-				ImGui::PopFont();
+				//ImGui::PopFont();
 				ImGui::End();
 			}
 		}

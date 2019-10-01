@@ -26,6 +26,7 @@ sf::Texture Resources::MenuIcons::RENAME;
 sf::Texture Resources::MenuIcons::_DELETE;
 sf::Texture Resources::MenuIcons::OPEN_IN_EXPLORER;
 
+sf::Texture Resources::OtherIcons::_ERROR;
 sf::Texture Resources::OtherIcons::WARNING;
 sf::Texture Resources::OtherIcons::EXPLORER_UP;
 sf::Texture Resources::OtherIcons::EXPLORER_REFRESH;

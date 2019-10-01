@@ -51,6 +51,12 @@ def _clearPorj(lines):
     lines[ lrange[0]+1 : lrange[1]-1 ] = []
     return lines
 
+def getProjects(conf_file_path):
+    file = open(conf_file_path, 'r')
+    lines = file.readlines()
+    file.close()
+    return _getProjects(lines)
+
 def insertNewProj(proj_name, proj_path, file_path):
     file = open(file_path, 'r')
     lines = file.readlines()
@@ -78,7 +84,7 @@ def updateProj(path):
         
     
 
-if __name__ == '__main__':
+if __name__ == '__main__' and 0:
     ##insertNewProj("newProj", "path/to/proj", "E:\\__test\\test\\test.txt")
     updateProj("E:\\__test\\test\\test.txt")
         

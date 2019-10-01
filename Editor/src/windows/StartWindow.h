@@ -1,6 +1,7 @@
 #pragma once
 #include "Explorer.h"
 
+
 // TODO: move this
 inline void show_dock_space()
 {
@@ -33,25 +34,46 @@ inline void show_dock_space()
 class StartWindow
 {
 private:
+	py::module m_conf_projupdater;
+	py::object m_proj_list;
 	static StartWindow* s_instance;
 
-	void renderProjectsList() {
+	// return true if any project is selected?
+	bool renderProjectsList(sf::RenderWindow& window) {
 		ImGui::BeginGroup();
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		
 		ImGui::BeginChild("ProjList", ImVec2(ImGui::GetWindowSize().x - 15, ImGui::GetWindowSize().y - ImGui::GetCursorPosY() -15 ), true);
-		for (int i = 0; i < 10; i++) {
-			break;
-			ImGui::Text(std::to_string(i).c_str());
-		}
-		ImGui::EndChild();
+		for (int i = 0; i < m_proj_list.attr("__len__")().cast<int>(); i++) {
+			if (ImGui::Selectable( m_proj_list.attr("__getitem__")(i).attr("__getitem__")(0).cast<std::string>().c_str() , false, ImGuiSelectableFlags_AllowDoubleClick)) {
+				if (ImGui::IsMouseDoubleClicked(0)) {
+					ImGui::EndChild();
+					ImGui::PopStyleVar();
+					ImGui::EndGroup();
 
+					ImGui::End();
+					ImGui::SFML::Render(window);
+					CLI::chDir(m_proj_list.attr("__getitem__")(i).attr("__getitem__")(1).cast<std::string>().c_str());
+					FileTree::getInstance()->reload();
+					return true;
+				}
+			}
+		}
+
+		ImGui::EndChild();
 		ImGui::PopStyleVar();
 		ImGui::EndGroup();
+		return false;
 		
 	}
 
 public:
+	void init() {
+		m_conf_projupdater = py::module::import("conf_projupdater");
+		m_proj_list = m_conf_projupdater.attr("getProjects")(CLI::getExecPath().append("/peconfig.init"));
+
+	}
+
 	static StartWindow* getInstance() {
 		if (s_instance == nullptr) s_instance = new StartWindow();
 		return s_instance;
@@ -94,6 +116,7 @@ public:
 					ImGui::End();
 					ImGui::SFML::Render(window);
 					CLI::chDir(std::string(proj_path).append("/").append(proj_name));
+					m_conf_projupdater.attr("insertNewProj")(proj_name, std::string(proj_path).append("/").append(proj_name), CLI::getExecPath().append("/peconfig.init"));
 					FileTree::getInstance()->reload();
 					return;
 				}
@@ -104,10 +127,11 @@ public:
 			ImGui::Separator();
 
 			ImGui::Text("Open Project"); ImGui::Text("");
-			renderProjectsList();
+			if (renderProjectsList(window)) return;
 
 
 			if (ImGui::BeginPopupModal("Error!")) {
+				ImGui::Image(Resources::OtherIcons::_ERROR); ImGui::SameLine();
 				if (proj_name[0] == '\0') ImGui::Text("Error! enter a Project Name!");
 				else ImGui::Text("Error! enter the Project Path!");
 				if (ImGui::Button("OK")) {
@@ -126,6 +150,7 @@ public:
 					proj_path[i] = c[i++];
 				}
 				proj_path[i] = 0;
+				explorer.setPathSelectedFalse();
 			}
 			ImGui::End();
 

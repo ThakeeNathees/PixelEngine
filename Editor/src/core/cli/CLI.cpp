@@ -5,6 +5,7 @@
 
 CLI* CLI::s_instance = nullptr;
 std::string CLI::s_exec_path;
+Console CLI::s_console;
 
 void CLI::init()
 {

@@ -1,5 +1,5 @@
 #pragma once
-
+#include "..//Console.h"
 
 class CLI
 {
@@ -22,11 +22,16 @@ public:
 	static int readTextFile(std::string& out, const std::string& path);
 	static int readBinaryFile(std::vector<unsigned char>& buffer, const std::string& path);
 
+	static Console& getConsole() {
+		return s_console;
+	}
+
 private:
 	CLI() {}
 	static std::pair<std::string,std::vector<std::string>> getKeyValue(const std::string& line);
 	static CLI* s_instance;
 	static std::string s_exec_path;
+	static Console s_console;
 
 	void readPeConfigFile();
 	py::module m_py_os;

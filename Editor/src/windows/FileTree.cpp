@@ -36,10 +36,11 @@ void FileTree::renderTreeRecursive(py::object& tree, bool next_item_open) {
 			ImGui::TreeNodeEx((void*)(intptr_t)(id), node_flags, title.c_str());
 
 			// click node
-			if (ImGui::IsItemClicked()) {
+			if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0)) {
 				m_selected_id = id;
 				nodeClickedEvent(title, path, id);
 			}
+			if (ImGui::IsItemClicked(0)) m_selected_id = id;
 			if (ImGui::IsItemClicked(1)) m_selected_menu_id = id;
 			if (id == m_selected_menu_id) renderRightMouseMenu(path);
 

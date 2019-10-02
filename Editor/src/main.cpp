@@ -5,6 +5,14 @@
 #include "core/Resources.h"
 #include "windows/FileTree.h"
 
+#include "core/Console.h"
+PYBIND11_EMBEDDED_MODULE(console, m) {
+	py::class_<Console>(m, "Console")
+		.def("addLog", [](Console& cons, const std::string& msg, int level = 0) {cons.addLog(msg, level); })
+		;
+}
+
+
 
 int main(int argc, char** argv)
 {
@@ -12,26 +20,27 @@ int main(int argc, char** argv)
 	py::scoped_interpreter intrp;
 	py::exec("import sys, os");
 	
-
+	// create window
 	unsigned int w = sf::VideoMode::getDesktopMode().width - 600;
 	unsigned int h = sf::VideoMode::getDesktopMode().height - 300;
-
 	sf::RenderWindow window(sf::VideoMode(w, h), "Pixel-Engine");//, sf::Style::None);
 
 
+	// initialize
 	window.setFramerateLimit(60);
 	ImGui::SFML::Init(window);
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
 	CLI::getInstance()->init();
-
+	StartWindow::getInstance()->init();
 	window.setIcon( Resources::LOGO.getSize().x, Resources::LOGO.getSize().y, Resources::LOGO.copyToImage().getPixelsPtr());
 
-
-	StartWindow::getInstance()->init();
+	// start window render loop
 	StartWindow::getInstance()->dispStartWindow(window);
 
+
+	/**********************     MAIN LOOP     **********************/
 
 	sf::Event event; sf::Clock clock;
 	while (window.isOpen()) {
@@ -50,14 +59,22 @@ int main(int argc, char** argv)
 		HexEditors::renderEditors();
 		FontViwers::renderFontViwers();
 
-
 		ImGui::ShowTestWindow();
+
+		// temp
+		ImGui::Begin("Console");
+		ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_Once);
+		CLI::getConsole().render();
+		ImGui::End();
 
 
 		ImGui::SFML::Render(window);
 		window.display();
 
 	}
+
+	/***************************************************************/
+
 	ImGui::SFML::Shutdown();
 	return 0;
 }

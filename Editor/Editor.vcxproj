@@ -119,6 +119,7 @@
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\core\cli\CLI.h" />
+    <ClInclude Include="src\core\Console.h" />
     <ClInclude Include="src\windows\Explorer.h" />
     <ClInclude Include="src\windows\FileTree.h" />
     <ClInclude Include="src\core\Resources.h" />

@@ -42,7 +42,6 @@ private:
 	bool renderProjectsList(sf::RenderWindow& window) {
 		ImGui::BeginGroup();
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
-		
 		ImGui::BeginChild("ProjList", ImVec2(ImGui::GetWindowSize().x - 15, ImGui::GetWindowSize().y - ImGui::GetCursorPosY() -15 ), true);
 		for (int i = 0; i < m_proj_list.attr("__len__")().cast<int>(); i++) {
 			if (ImGui::Selectable( m_proj_list.attr("__getitem__")(i).attr("__getitem__")(0).cast<std::string>().c_str() , false, ImGuiSelectableFlags_AllowDoubleClick)) {
@@ -87,13 +86,12 @@ public:
 			while (window.pollEvent(event)) {
 				ImGui::SFML::ProcessEvent(event);
 				if (event.type == sf::Event::Closed) window.close();
-				if (event.type == sf::Event::GainedFocus) { FileTree::getInstance()->reload(); }
 			}
 			ImGui::SFML::Update(window, clock.restart());
 			show_dock_space();
 
 			ImGui::Begin("Start");
-			ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
+			ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_Once);
 
 			// start title
 			ImGui::Text("Create a new project Here"); ImGui::Text("");
@@ -131,10 +129,11 @@ public:
 
 
 			if (ImGui::BeginPopupModal("Error!")) {
+				ImGui::SetWindowSize(ImVec2(300, 120), ImGuiCond_Once);
 				ImGui::Image(Resources::OtherIcons::_ERROR); ImGui::SameLine();
 				if (proj_name[0] == '\0') ImGui::Text("Error! enter a Project Name!");
 				else ImGui::Text("Error! enter the Project Path!");
-				if (ImGui::Button("OK")) {
+				if (ImGui::Button("OK",ImVec2(280, 20))) {
 					ImGui::CloseCurrentPopup();
 				}
 				ImGui::EndPopup();

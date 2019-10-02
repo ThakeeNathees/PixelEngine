@@ -40,6 +40,8 @@ public:
 	}
 
 	void render() {
+		//ImGui::SetNextWindowSize(ImVec2(700, 300), ImGuiCond_Once);
+		ImGui::Begin("ConsoleWindow");
 		ImGui::BeginChild("ScrollingRegion", ImVec2(0, 0), true); // Leave room for 1 separator + 1 InputText
 		
 		for (auto& log : m_logs) {
@@ -67,6 +69,8 @@ public:
 		m_scroll_to_bottom = false;
 
 		ImGui::EndChild();
+		ImGui::End();
+
 	}
 };
 

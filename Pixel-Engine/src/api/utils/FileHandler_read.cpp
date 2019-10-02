@@ -88,30 +88,24 @@ namespace pe
 	void FileHandler::readObject(const char* path, Application* app) {
 		m_doc->LoadFile(path);
 		auto obj_tag = m_doc->FirstChildElement("object");
-		/*
-		std::string type = obj_tag->Attribute("type");
-		std::string class_name = obj_tag->Attribute("class_name");
-
-		Object* obj = nullptr;
-		if (type == std::string("CPP_OBJECT"))
-			obj = Assets::newObject(class_name); // TODO: assert here
-		else if (type == std::string("PYTHON_OBJECT")) {
-			obj = new PythonObject(class_name);
-			Assets::addAsset(obj);
-		}
-		*/
-
 
 		auto class_tag = obj_tag->FirstChildElement("class");
 		std::string class_name = class_tag->Attribute("name");
 		std::string type = class_tag->Attribute("type");
 		Object* obj = nullptr;
-		if (type == std::string("CPP_OBJECT"))
-			obj = Assets::newObject(class_name); // TODO: assert here
-		else if (type == std::string("PYTHON_OBJECT")) {
-			obj = new PythonObject(class_name);
-			Assets::addAsset(obj);
-			obj->m_class_path = class_tag->GetText();
+
+		// object has no logics
+		if (class_name == std::string("")) {
+			obj = Assets::newObject();
+		}
+		else {
+			if (type == std::string("CPP_OBJECT"))
+				obj = Assets::newObject(class_name); // TODO: assert here
+			else if (type == std::string("PYTHON_OBJECT")) {
+				obj = new PythonObject(class_name);
+				Assets::addAsset(obj);
+				obj->m_class_path = class_tag->GetText();
+			}
 		}
 
 

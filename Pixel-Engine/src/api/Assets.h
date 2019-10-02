@@ -22,6 +22,7 @@ namespace pe
 		template <typename T>
 		static T* newAsset(const std::string& name) { Asset* asset = new T(name); addAsset(asset); return static_cast<T*>(asset); }
 		static Object* newObject(const std::string& class_name);
+		static Object* newObject();
 
 
 		// class register

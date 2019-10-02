@@ -25,10 +25,10 @@ inline void show_dock_space()
 	ImGui::PopStyleVar(3);
 
 	ImGuiIO& io = ImGui::GetIO();
-	ImGuiID dockspace_id = ImGui::GetID("DockSpace");
+	ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
 	ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+	
 	ImGui::End();
-
 }
 
 class StartWindow
@@ -63,7 +63,7 @@ private:
 		ImGui::PopStyleVar();
 		ImGui::EndGroup();
 		return false;
-		
+
 	}
 
 public:
@@ -91,7 +91,6 @@ public:
 			show_dock_space();
 
 			ImGui::Begin("Start");
-			ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_Once);
 
 			// start title
 			ImGui::Text("Create a new project Here"); ImGui::Text("");

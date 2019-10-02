@@ -119,6 +119,9 @@
     <ClInclude Include="src\core\Console.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\MainMenuBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\logo.png">

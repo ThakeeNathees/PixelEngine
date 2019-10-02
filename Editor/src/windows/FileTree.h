@@ -43,8 +43,9 @@ public:
 	}
 	
 	void render() {
+
 		ImGui::Begin(m_title.c_str());
-		int dir_ind = 0;
+		//int dir_ind = 0;
 		renderTreeRecursive(m_py_filetree, true);
 		renderPopup();
 		ImGui::End();

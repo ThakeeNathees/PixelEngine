@@ -5,6 +5,9 @@
 #include "core/Resources.h"
 #include "windows/FileTree.h"
 
+#include "core/MainMenuBar.h"
+MainMenuBar* MainMenuBar::s_instance = nullptr;
+
 #include "core/Console.h"
 PYBIND11_EMBEDDED_MODULE(console, m) {
 	py::class_<Console>(m, "Console")
@@ -54,18 +57,17 @@ int main(int argc, char** argv)
 
 		// render
 		show_dock_space();
+		MainMenuBar::getInstance()->render();
+
 		FileTree::getInstance()->render();
 		TextEditors::renderEditors();
 		HexEditors::renderEditors();
 		FontViwers::renderFontViwers();
+		CLI::getConsole().render();
 
 		ImGui::ShowTestWindow();
 
-		// temp
-		ImGui::Begin("Console");
-		ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_Once);
-		CLI::getConsole().render();
-		ImGui::End();
+
 
 
 		ImGui::SFML::Render(window);

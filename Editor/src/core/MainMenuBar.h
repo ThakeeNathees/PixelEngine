@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Resources.h"
+#include "WindowManager.h"
+#include "windows/assets_create/ObjectCreater.h"
 
 class MainMenuBar
 {
@@ -24,27 +26,14 @@ private:
 	void renderMenuBar() {
 		if (ImGui::BeginMainMenuBar())
 		{
-
-			if (ImGui::BeginMenu("File"))
-			{
-				if (ImGui::MenuItem("Exit")) {
-					m_is_openpopup_exitconform = true;
-				}
-				ImGui::EndMenu();
-			}
-			if (ImGui::BeginMenu("Edit"))
-			{
-				if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
-				if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
-				ImGui::Separator();
-				if (ImGui::MenuItem("Cut", "CTRL+X")) {}
-				if (ImGui::MenuItem("Copy", "CTRL+C")) {}
-				if (ImGui::MenuItem("Paste", "CTRL+V")) {}
-				ImGui::EndMenu();
-			}
+			renderFileMenu();
+			renderEditMenu();
+			renderCreateMenu();
+			
 			ImGui::EndMainMenuBar();
 		}
 	}
+
 	void renderPopups() {
 		// open popups
 		if (m_is_openpopup_exitconform) {
@@ -62,6 +51,45 @@ private:
 			ImGui::SameLine();
 			if (ImGui::Button("No", ImVec2(90, 20) )) { ImGui::CloseCurrentPopup(); }
 			ImGui::EndPopup();
+		}
+	}
+
+	// render menus
+	void renderFileMenu() {
+		if (ImGui::BeginMenu("File"))
+		{
+			if (ImGui::MenuItem("Exit")) {
+				m_is_openpopup_exitconform = true;
+			}
+			ImGui::EndMenu();
+		}
+	}
+
+	void renderEditMenu() {
+		if (ImGui::BeginMenu("Edit"))
+		{
+			if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+			if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+			ImGui::Separator();
+			if (ImGui::MenuItem("Cut", "CTRL+X")) {}
+			if (ImGui::MenuItem("Copy", "CTRL+C")) {}
+			if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+			ImGui::EndMenu();
+		}
+	}
+
+	void renderCreateMenu() {
+		if (ImGui::BeginMenu("Create"))
+		{
+			ImGui::Image(Resources::MenuIcons::NEW_OBJ); ImGui::SameLine();
+			if (ImGui::MenuItem("New Object")) {
+				if (!ObjectCreater::getInstance()->isOpen()) {
+					ObjectCreater::getInstance()->clearValues();
+					ObjectCreater::getInstance()->open();
+				}
+			}
+
+			ImGui::EndMenu();
 		}
 	}
 };

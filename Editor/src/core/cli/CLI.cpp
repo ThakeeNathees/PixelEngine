@@ -5,7 +5,6 @@
 
 CLI* CLI::s_instance = nullptr;
 std::string CLI::s_exec_path;
-Console CLI::s_console;
 
 void CLI::init()
 {
@@ -27,6 +26,7 @@ void CLI::init()
 	readPeConfigFile();
 
 	m_py_proj_init = py::module::import("init");
+	m_console = new Console();
 }
 
 const std::string CLI::getCwd() {
@@ -159,6 +159,7 @@ void CLI::readPeConfigFile() {
 					if (key_value.first == std::string("rename")) { Resources::MenuIcons::RENAME.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
 					if (key_value.first == std::string("delete")) { Resources::MenuIcons::_DELETE.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
 					if (key_value.first == std::string("open_in_explorer")) { Resources::MenuIcons::OPEN_IN_EXPLORER.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first == std::string("new_obj")) { Resources::MenuIcons::NEW_OBJ.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
 				}
 				continue;
 			}

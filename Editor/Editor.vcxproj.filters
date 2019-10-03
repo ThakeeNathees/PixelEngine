@@ -51,6 +51,15 @@
     <ClCompile Include="src\windows\FileTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\pyutils\PyUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\WindowManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\windows\assets_create\ObjectCreater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -122,6 +131,15 @@
     <ClInclude Include="src\core\MainMenuBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\pyutils\PyUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\WindowManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\windows\assets_create\ObjectCreater.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\logo.png">
@@ -152,5 +170,8 @@
     <None Include="src\windows\explorer.py" />
     <None Include="peconfig.init" />
     <None Include="src\core\cli\conf_projupdater.py" />
+    <None Include="src\core\cli\obj_maker.py" />
+    <None Include="src\core\cli\scene_maker.py" />
+    <None Include="src\pyutils\file_util.py" />
   </ItemGroup>
 </Project>

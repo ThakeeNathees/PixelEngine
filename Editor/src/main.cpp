@@ -16,13 +16,18 @@ PYBIND11_EMBEDDED_MODULE(console, m) {
 }
 
 
+#include "windows/assets_create/ObjectCreater.h"
+
+
+/* ****************** end of includes  *****************  */
+
 
 int main(int argc, char** argv)
 {
 
 	py::scoped_interpreter intrp;
 	py::exec("import sys, os");
-	
+
 	// create window
 	unsigned int w = sf::VideoMode::getDesktopMode().width - 600;
 	unsigned int h = sf::VideoMode::getDesktopMode().height - 300;
@@ -36,11 +41,19 @@ int main(int argc, char** argv)
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
 	CLI::getInstance()->init();
-	StartWindow::getInstance()->init();
+	Logger::init(CLI::getExecPath().append("/log.txt")  );
+	PE_LOG("Pixel-Engine initialized");
 	window.setIcon( Resources::LOGO.getSize().x, Resources::LOGO.getSize().y, Resources::LOGO.copyToImage().getPixelsPtr());
+	StartWindow::getInstance()->init();
+	WindowManager::init();
 
 	// start window render loop
+	PE_LOG("start window loop started");
 	StartWindow::getInstance()->dispStartWindow(window);
+	PE_LOG("start window loop ended");
+
+	// Load applicaton's assets
+	int error = Resources::readProjFile();
 
 
 	/**********************     MAIN LOOP     **********************/
@@ -60,14 +73,15 @@ int main(int argc, char** argv)
 		MainMenuBar::getInstance()->render();
 
 		FileTree::getInstance()->render();
+		CLI::getInstance()->getConsole()->render();
+
 		TextEditors::renderEditors();
 		HexEditors::renderEditors();
 		FontViwers::renderFontViwers();
-		CLI::getConsole().render();
+
+		ObjectCreater::getInstance()->render();
 
 		ImGui::ShowTestWindow();
-
-
 
 
 		ImGui::SFML::Render(window);

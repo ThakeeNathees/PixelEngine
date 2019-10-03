@@ -60,6 +60,11 @@ namespace pe
 			if(! hasAsset(id)) return nullptr;
 			return static_cast<T*>(s_assets[id]);
 		}
+
+		/* ************ */
+		static std::map<int, Asset*>& getAssets() {
+			return s_assets;
+		}
 		
 		// TODO: delete queue, add text, object, scene, tilemap
 		// TODO: and remove s_assets with id, ...

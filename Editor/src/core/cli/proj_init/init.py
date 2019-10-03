@@ -164,10 +164,11 @@ def copyResDir(res_path, dst):
     
 #####################################################
 
-def updateProj(proj_name, proj_dir):
-    copyInclude(pe_api_path, os.path.join(proj_dir, 'include'))
-    copyPEOut(pe_debug_out, proj_dir, 'debug')
-    copyPEOut(pe_release_out, proj_dir, 'release')
+def updateProj(proj_name="", proj_dir='.', include_pe=True):
+    if include_pe:
+        copyInclude(pe_api_path, os.path.join(proj_dir, 'include'))
+        copyPEOut(pe_debug_out, proj_dir, 'debug')
+        copyPEOut(pe_release_out, proj_dir, 'release')
     assets_updater.updateAssets(proj_dir)
     proj_updater.updateProj(proj_name, proj_dir)
     register_updater.updateRegister( proj_dir)

@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<assets>
+	<textures next_id="29">
+		<texture id="0" name="tex_0" repeat="false" smooth="true">res\icons\file_format\dir_closed.png</texture>
+		<texture id="1" name="tex_1" repeat="false" smooth="true">res\icons\file_format\dir_open.png</texture>
+		<texture id="2" name="tex_2" repeat="false" smooth="true">res\icons\file_format\file_bin.png</texture>
+		<texture id="3" name="tex_3" repeat="false" smooth="true">res\icons\file_format\file_cpp.png</texture>
+		<texture id="4" name="tex_4" repeat="false" smooth="true">res\icons\file_format\file_dll.png</texture>
+		<texture id="5" name="tex_5" repeat="false" smooth="true">res\icons\file_format\file_h.png</texture>
+		<texture id="6" name="tex_6" repeat="false" smooth="true">res\icons\file_format\file_hpp.png</texture>
+		<texture id="7" name="tex_7" repeat="false" smooth="true">res\icons\file_format\file_obj.png</texture>
+		<texture id="8" name="tex_8" repeat="false" smooth="true">res\icons\file_format\file_peproj.png</texture>
+		<texture id="9" name="tex_9" repeat="false" smooth="true">res\icons\file_format\file_png.png</texture>
+		<texture id="10" name="tex_10" repeat="false" smooth="true">res\icons\file_format\file_py.png</texture>
+		<texture id="11" name="tex_11" repeat="false" smooth="true">res\icons\file_format\file_pyc.png</texture>
+		<texture id="12" name="tex_12" repeat="false" smooth="true">res\icons\file_format\file_text.png</texture>
+		<texture id="13" name="tex_13" repeat="false" smooth="true">res\icons\file_format\file_ttf.png</texture>
+		<texture id="14" name="tex_14" repeat="false" smooth="true">res\icons\file_format\file_unknown.png</texture>
+		<texture id="15" name="tex_15" repeat="false" smooth="true">res\icons\file_format\file_xml.png</texture>
+		<texture id="16" name="tex_16" repeat="false" smooth="true">res\icons\menu_icons\delete.png</texture>
+		<texture id="17" name="tex_17" repeat="false" smooth="true">res\icons\menu_icons\new_obj.png</texture>
+		<texture id="18" name="tex_18" repeat="false" smooth="true">res\icons\menu_icons\none.png</texture>
+		<texture id="19" name="tex_19" repeat="false" smooth="true">res\icons\menu_icons\open_in_explorer.png</texture>
+		<texture id="20" name="tex_20" repeat="false" smooth="true">res\icons\menu_icons\rename.png</texture>
+		<texture id="21" name="tex_21" repeat="false" smooth="true">res\icons\other_icons\error.png</texture>
+		<texture id="22" name="tex_22" repeat="false" smooth="true">res\icons\other_icons\explorer_refresh.png</texture>
+		<texture id="23" name="tex_23" repeat="false" smooth="true">res\icons\other_icons\explorer_up.png</texture>
+		<texture id="24" name="tex_24" repeat="false" smooth="true">res\icons\other_icons\warning.png</texture>
+		<texture id="25" name="tex_25" repeat="false" smooth="true">res\logo\logo-0.png</texture>
+		<texture id="26" name="tex_26" repeat="false" smooth="true">res\logo\logo-1.png</texture>
+		<texture id="27" name="tex_27" repeat="false" smooth="true">res\logo\logo.png</texture>
+		<texture id="28" name="tex_28" repeat="false" smooth="true">res\logo\splash_screen.jpg</texture>
+	</textures>
+	<fonts next_id="10010">
+		<font id="10000" name="font_10000">res\fonts\AnonymousPro\Anonymous Pro B.ttf</font>
+		<font id="10001" name="font_10001">res\fonts\AnonymousPro\Anonymous Pro BI.ttf</font>
+		<font id="10002" name="font_10002">res\fonts\AnonymousPro\Anonymous Pro I.ttf</font>
+		<font id="10003" name="font_10003">res\fonts\AnonymousPro\Anonymous Pro.ttf</font>
+		<font id="10004" name="font_10004">res\fonts\Asap\Asap-Regular.ttf</font>
+		<font id="10005" name="font_10005">res\fonts\Asap\cour.ttf</font>
+		<font id="10006" name="font_10006">res\fonts\Asap\courbd.ttf</font>
+		<font id="10007" name="font_10007">res\fonts\Asap\courbi.ttf</font>
+		<font id="10008" name="font_10008">res\fonts\Asap\couri.ttf</font>
+		<font id="10009" name="font_10009">res\fonts\ProFont\ProFontWindows.ttf</font>
+	</fonts>
+</assets>

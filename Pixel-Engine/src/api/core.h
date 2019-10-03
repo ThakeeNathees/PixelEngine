@@ -36,7 +36,7 @@
 // for ctime_s
 	
 
-class Logger
+class PIXEL_ENGINE_API Logger
 {
 public:
 	Logger() = delete;
@@ -70,10 +70,13 @@ public:
 };
 
 #define PE_LOG( str, ... ) \
-{sprintf( Logger::s_buf, str, __VA_ARGS__); \
-Logger::log();}
+{\
+	sprintf( Logger::s_buf, str, __VA_ARGS__); \
+	Logger::log();\
+}
 
 #define PE_CONSOLE_LOG(x, ...) printf( x, __VA_ARGS__ ); printf("\n")
+
 # define PE_TRY(x) try \
 {\
 	x;\

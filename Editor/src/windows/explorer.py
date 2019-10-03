@@ -32,6 +32,9 @@ class Explorer:
     def isItemDir(self, ind):
         return os.path.isdir( os.path.join( self.path, self.listdir[ind] ) )
 
+    def getItemPath(self, ind):
+        return os.path.join( self.path, self.listdir[ind] )
+
     def getItemName(self, ind):
         return self.listdir[ind]
 
@@ -40,7 +43,7 @@ class Explorer:
 
     def setPath(self, path):
         if os.path.isdir(path):
-            self.path = path
+            self.path = os.path.abspath(path)
 
     def reload(self):
         self.listdir = Explorer.listDir(self.path)

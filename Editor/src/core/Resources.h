@@ -6,8 +6,9 @@ class Resources
 {
 public:
 
-	static sf::Texture LOGO;
 
+	// textures
+	static sf::Texture LOGO;
 	struct FileFormatIcons 
 	{
 		static sf::Texture DIR_CLOSED;
@@ -27,15 +28,14 @@ public:
 		static sf::Texture FILE_DLL;
 		static sf::Texture FILE_OBJ;
 	};
-
 	struct MenuIcons
 	{
 		static sf::Texture NONE;
 		static sf::Texture RENAME;
 		static sf::Texture _DELETE; // DELETE is a macro
 		static sf::Texture OPEN_IN_EXPLORER;
+		static sf::Texture NEW_OBJ;
 	};
-
 	struct OtherIcons 
 	{
 		static sf::Texture _ERROR; // ERROR is a macro
@@ -43,14 +43,16 @@ public:
 		static sf::Texture EXPLORER_UP;
 		static sf::Texture EXPLORER_REFRESH;
 	};
-
 	struct Fonts
 	{
 		static ImFont* PROGRAMMING;
 	};
 
+	static int readProjFile();
+
 private:
 	Resources() {}
+	static pe::_peproj s_proj;
 
 	
 };

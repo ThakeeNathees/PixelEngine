@@ -6,10 +6,17 @@ obj_format = ".obj.xml"
 scene_format = ".scn.xml"
 proj_format = ".peproj"
 
-def updateProj(proj_name = "SandBox", working_dir='.'):
+def updateProj(proj_name = "", working_dir='.'):
     proj_file_name= proj_name + proj_format
     working_dir = working_dir+'/' if working_dir[-1] !='/' else working_dir ## need below
     proj_file_path = os.path.join(working_dir , proj_file_name)
+
+    if (proj_name==""):
+        for file in os.listdir(working_dir):
+            if file.endswith(proj_format):
+                proj_file_path = os.path.join(working_dir, file)
+                break;
+
     if not os.path.isfile(proj_file_path):
         proj_file = open(proj_file_path, 'w')
         proj_file.write('<Project title="%s"><window_size x="640" y="480"/><pref frame_rate="30" begin_scene_id="70000" debug_mode="true" no_console="false"/><logo_texture id="-1"/><bg_color r="80" g="80" b="80" a="255"/><assets>assets.xml</assets><objects/><scenes/></Project>'%proj_name)

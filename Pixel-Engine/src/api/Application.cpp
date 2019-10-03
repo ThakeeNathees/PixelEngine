@@ -42,7 +42,7 @@ namespace pe
 		if ( !m_is_debug_mode ) FreeConsole();
 		else PE_CONSOLE_LOG( "this console window only apear in debug mode" );
 #endif
-
+		// TODO: set assets.xml as the defaule assets path and don't change the name for consistency
 		if (std::string(m_peproj.assets_path) != std::string("")) {
 			error = file.readAssets(m_peproj.assets_path.c_str()); // TODO: error handle
 			if (error) { PE_LOG("assets file reading error"); }

@@ -1,5 +1,6 @@
 #pragma once
 #include "Explorer.h"
+#include "pyutils/PyUtils.h"
 
 
 // TODO: move this
@@ -68,8 +69,14 @@ private:
 
 public:
 	void init() {
-		m_conf_projupdater = py::module::import("conf_projupdater");
-		m_proj_list = m_conf_projupdater.attr("getProjects")(CLI::getExecPath().append("/peconfig.init"));
+		try {
+			m_conf_projupdater = py::module::import("conf_projupdater");
+			m_proj_list = m_conf_projupdater.attr("getProjects")(CLI::getExecPath().append("/peconfig.init"));
+			PE_LOG("StartWindow init success");
+		}
+		catch (const std::exception& e){
+			PE_LOG("\nERROR: in method StartWindow::init \n%s\n", e.what());
+		}
 
 	}
 
@@ -79,7 +86,6 @@ public:
 	}
 
 	void dispStartWindow(sf::RenderWindow& window) {
-		ExplorerPopup explorer("C:/");
 		sf::Event event; sf::Clock clock;
 		while (window.isOpen()) {
 			// event handle
@@ -107,9 +113,12 @@ public:
 			}
 
 			if (ImGui::Button("Create")) {
-				if (proj_name[0] == '\0' || proj_path[0]=='\0') ImGui::OpenPopup("Error!");
+				if (proj_name[0] == '\0' || proj_path[0]=='\0')
+					ImGui::OpenPopup("Error!");
+				else if (!PyUtils::getInstance()->getStrUtil().attr("isValidName")(std::string(proj_name)).cast<bool>())
+					ImGui::OpenPopup("Invalid Project Name!");
 				else {
-					CLI::getInstance()->projInit(explorer.getSelectedPath(), proj_name);
+					CLI::getInstance()->projInit(ExplorerPopup::getInstance()->getSelectedPath(), proj_name);
 					ImGui::End();
 					ImGui::SFML::Render(window);
 					CLI::chDir(std::string(proj_path).append("/").append(proj_name));
@@ -126,7 +135,7 @@ public:
 			ImGui::Text("Open Project"); ImGui::Text("");
 			if (renderProjectsList(window)) return;
 
-
+			// popups render
 			if (ImGui::BeginPopupModal("Error!")) {
 				ImGui::SetWindowSize(ImVec2(300, 120), ImGuiCond_Once);
 				ImGui::Image(Resources::OtherIcons::_ERROR); ImGui::SameLine();
@@ -138,17 +147,27 @@ public:
 				ImGui::EndPopup();
 			}
 
+			if (ImGui::BeginPopupModal("Invalid Project Name!")) {
+				ImGui::SetWindowSize(ImVec2(300, 140), ImGuiCond_Once);
+				ImGui::Image(Resources::OtherIcons::_ERROR); ImGui::SameLine();
+				ImGui::TextWrapped("Error! project name is invalid. (project name must start with alphabatic character and doesn't contain any of the following \\ / : * ? \" < > | spacebar)");
+				if (ImGui::Button("OK", ImVec2(280, 20))) {
+					ImGui::CloseCurrentPopup();
+				}
+				ImGui::EndPopup();
+			}
 
-			explorer.render();
 
-			if (explorer.isPathSelected()) {
-				const char* c = explorer.getSelectedPath().c_str();
+			ExplorerPopup::getInstance()->render();
+
+			if (ExplorerPopup::getInstance()->isPathSelected()) {
+				const char* c = ExplorerPopup::getInstance()->getSelectedPath().c_str();
 				int i = 0;
 				while (c[i]) {
 					proj_path[i] = c[i++];
 				}
 				proj_path[i] = 0;
-				explorer.setPathSelectedFalse();
+				ExplorerPopup::getInstance()->setPathSelectedFalse();
 			}
 			ImGui::End();
 

@@ -5,3 +5,6 @@ def isValidName(name):
         if c in name: 
             return False
     return True
+
+def endswith(string, ends):
+    return string.endswith(ends)

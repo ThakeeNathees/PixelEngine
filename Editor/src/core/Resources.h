@@ -42,6 +42,7 @@ public:
 		static sf::Texture WARNING;
 		static sf::Texture EXPLORER_UP;
 		static sf::Texture EXPLORER_REFRESH;
+		static sf::Texture _CREATE_NEW; // macro
 	};
 	struct Fonts
 	{

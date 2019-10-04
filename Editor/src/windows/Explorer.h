@@ -5,6 +5,7 @@
 class ExplorerPopup
 {
 private:
+	bool m_p_open = true;
 	bool m_is_path_selected = false;
 	std::string m_selected_path = "";
 	py::object m_py_explorer;
@@ -40,7 +41,10 @@ public:
 	}
 
 	void render(bool is_select_dir = true) {
-		if (ImGui::BeginPopupModal("Explorer")) {
+		if (!ImGui::IsPopupOpen("Explorer")) m_p_open = true;
+		if (ImGui::BeginPopupModal("Explorer", &m_p_open)) {
+
+			if (!m_p_open) ImGui::CloseCurrentPopup();
 
 			ImGui::SetWindowSize(ImVec2(800, 400), ImGuiCond_Once);
 
@@ -97,7 +101,6 @@ public:
 							ImGui::CloseCurrentPopup();
 						}
 					}
-
 				}
 			}
 			ImGui::EndChild();
@@ -116,7 +119,9 @@ public:
 			}
 			else {
 				if (ImGui::Button("Select this file")) {
-					if (m_is_path_selected) {
+					if (m_selected > 0) {
+						m_is_path_selected = true;
+						m_selected_path = m_py_explorer.attr("getItemPath")(m_selected).cast<std::string>();
 						m_selected = -1;
 						ImGui::CloseCurrentPopup();
 					}

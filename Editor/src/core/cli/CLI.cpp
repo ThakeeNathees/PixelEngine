@@ -172,6 +172,7 @@ void CLI::readPeConfigFile() {
 					if (key_value.first == std::string("warning")) { Resources::OtherIcons::WARNING.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
 					if (key_value.first == std::string("explorer_up")) { Resources::OtherIcons::EXPLORER_UP.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
 					if (key_value.first == std::string("explorer_refresh")) { Resources::OtherIcons::EXPLORER_REFRESH.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first == std::string("create_new")) { Resources::OtherIcons::_CREATE_NEW.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
 				}
 				continue;
 			}

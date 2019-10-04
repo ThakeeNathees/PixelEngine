@@ -49,4 +49,5 @@ other_icons:
 	warning="..\..\..\../Editor/res/icons/other_icons/warning.png"
 	explorer_up="..\..\..\../Editor/res/icons/other_icons/explorer_up.png"
 	explorer_refresh="..\..\..\../Editor/res/icons/other_icons/explorer_refresh.png"
+	create_new="..\..\..\../Editor/res/icons/other_icons/create_new.png"
 end

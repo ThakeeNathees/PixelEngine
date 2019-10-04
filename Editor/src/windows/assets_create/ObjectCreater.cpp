@@ -8,19 +8,21 @@ void ObjectCreater::render()
 {
 	if (m_popen) {
 		ImGui::Begin("Create New Object", &m_popen);
-		ImGui::SetWindowSize(ImVec2(600, 450), ImGuiCond_Once);
+		ImGui::SetWindowSize(ImVec2(400, 320), ImGuiCond_Once);
 
+		static float witdh_frac = .6;
 		
 		// start title
+		ImGui::SetNextItemWidth( ImGui::GetWindowWidth() * witdh_frac);
 		ImGui::Text("Create a new Object Here"); ImGui::Text("");
 
 		// start body
-		static char obj_name[1024];
-		ImGui::InputText("obj_name", obj_name, sizeof(obj_name));
+		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * witdh_frac);
+		ImGui::InputText("obj_name", m_obj_name, sizeof(m_obj_name));
 
 		// object path select
-		static char obj_path[1024];
-		if (ImGui::InputText("obj_path", obj_path, sizeof(obj_path))) {
+		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * witdh_frac);
+		if (ImGui::InputText("obj_path   ", m_obj_path, sizeof(m_obj_path))) {
 		}
 		ImGui::SameLine();
 		static auto obj_path_button = Resources::FileFormatIcons::DIR_OPEN;
@@ -29,11 +31,11 @@ void ObjectCreater::render()
 			ExplorerPopup::getInstance()->setPath(".");
 			ImGui::OpenPopup("Explorer");
 		}
-		if (ImGui::IsItemHovered()) ImGui::SetTooltip("select in explorer");
+		//if (ImGui::IsItemHovered()) ImGui::SetTooltip("select in explorer");
 
 		// script path select
-		static char script_path[1024];
-		ImGui::InputText("scirpt_path", script_path, sizeof(script_path));
+		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * witdh_frac);
+		ImGui::InputText("scirpt_path", m_script_path, sizeof(m_script_path));
 		ImGui::SameLine();
 		static auto script_path_button = Resources::FileFormatIcons::DIR_OPEN;
 		if (ImGui::ImageButton(script_path_button)) {
@@ -41,32 +43,56 @@ void ObjectCreater::render()
 			ExplorerPopup::getInstance()->setPath(".");
 			ImGui::OpenPopup("Explorer");
 		}
-		if (ImGui::IsItemHovered()) ImGui::SetTooltip("select in explorer");
-
-		static std::string class_name = "";
-		ImGui::Text( std::string("class name : ").append(class_name).c_str() );
+		ImGui::SameLine();
+		if (ImGui::ImageButton(Resources::OtherIcons::_CREATE_NEW)) {}
+		if (ImGui::IsItemHovered()) ImGui::SetTooltip("create a new script");
 		
-		static std::string class_type = "PYTHON_OBJECT";
-		ImGui::Text( std::string("class type : ").append(class_type).c_str() );
-		
+		// class name
+		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * witdh_frac);
+		ImGui::InputText("class_name", m_class_name, sizeof(m_class_name));
 
-		////////
+		// class type
+		const char* _obj_types[] = { "UNKNOWN","PYTHON_OBJECT", "CPP_OBJECT" };
+		static int obj_type = 0;
+		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * witdh_frac);
+		if (ImGui::Combo("class_type", &obj_type, _obj_types, (int)(sizeof(_obj_types) / sizeof(const char*)))) {
+			m_obj_type = obj_type;
+		}
+		//ImGui::InputText("class_type", m_class_type, sizeof(m_class_type));
+		
+		// zindex, visible, persistence
+		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * witdh_frac);
+		ImGui::InputInt("z index", &m_z_index);
+
+		const char* _bool[] = { "false","true"};
+		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * witdh_frac);
+		if (ImGui::Combo("visible", &m_visible, _bool, (int)(sizeof(_bool) / sizeof(const char*)))) {}
+		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * witdh_frac);
+		if (ImGui::Combo("persistence", &m_persistance, _bool, (int)(sizeof(_bool) / sizeof(const char*)))) {}
+
+		/************************		end of input fields		********************/
 
 		// create button
-		if (ImGui::Button("Create")) {
-			auto str_scr_path = std::string(script_path); // char array to string
+		ImGui::SetCursorPosY( ImGui::GetCursorPosY()+20 );
+		if (ImGui::Button("Create", ImVec2(-1, 20))) {
+			auto str_scr_path = std::string(m_script_path); // char array to string
 
-			if (obj_name[0] == '\0' || obj_path[0] == '\0')
+			if (m_obj_name[0] == '\0' || m_obj_path[0] == '\0')
 				ImGui::OpenPopup("Error!");
-			else if ( ! PyUtils::getInstance()->getStrUtil().attr("isValidName")(std::string(obj_name)).cast<bool>() )
+			else if ( ! PyUtils::getInstance()->getStrUtil().attr("isValidName")(std::string(m_obj_name)).cast<bool>() )
 				ImGui::OpenPopup("Invalid Object Name!");
-			else if( ! PyUtils::getInstance()->getOs().attr("path").attr("isdir")(std::string(obj_path)).cast<bool>() )
+			else if( ! PyUtils::getInstance()->getOs().attr("path").attr("isdir")(std::string(m_obj_path)).cast<bool>() )
 				ImGui::OpenPopup("Invalid Object Path!");
 
 			else if (str_scr_path != std::string("") && !PyUtils::getInstance()->getFileUtil().attr("isPathScript")(str_scr_path).cast<bool>())
 				ImGui::OpenPopup("Invalid Script Path!");
 			else {
-				// TODO: create obj
+				if (m_class_name[0]!='\0') m_object = pe::Assets::newObject(std::string(m_class_name));
+				else m_object = pe::Assets::newObject();
+
+
+				//m_py_objmaker.attr("newObject")(...);
+
 				FileTree::getInstance()->reload();
 				// end and return;
 			}
@@ -81,7 +107,7 @@ void ObjectCreater::render()
 		if (ImGui::BeginPopupModal("Error!")) {
 			ImGui::SetWindowSize(ImVec2(300, 120), ImGuiCond_Once);
 			ImGui::Image(Resources::OtherIcons::_ERROR); ImGui::SameLine();
-			if (obj_name[0] == '\0') ImGui::TextWrapped("Error! enter an Object Name!");
+			if (m_obj_name[0] == '\0') ImGui::TextWrapped("Error! enter an Object Name!");
 			else ImGui::TextWrapped("Error! enter the Object's Path!");
 			if (ImGui::Button("OK", ImVec2(280, 20))) {
 				ImGui::CloseCurrentPopup();
@@ -116,22 +142,43 @@ void ObjectCreater::render()
 			ImGui::EndPopup();
 		}
 
+
 		// capture selected path to inputs
 		if (ExplorerPopup::getInstance()->isPathSelected()) {
 			const char* c = ExplorerPopup::getInstance()->getSelectedPath().c_str();
 			int i = 0; // to copy string
 			if (m_path_dst_ind == 0) {
-				while (c[i])  obj_path[i] = c[i++]; obj_path[i] = 0;
+				while (c[i])  m_obj_path[i] = c[i++]; m_obj_path[i] = 0;
 			}
 			else if (m_path_dst_ind == 1) {
-					while (c[i])  script_path[i] = c[i++]; script_path[i] = 0;
+				// set script path to input area
+				while (c[i])  m_script_path[i] = c[i++]; m_script_path[i] = 0;
 			}
 			ExplorerPopup::getInstance()->setPathSelectedFalse();
 		}
 
 		// find class name
-		class_name = "test";
-		class_type = "CPP_OBJECT";
+		if (m_script_path[0] != '\0') {
+
+			if (PyUtils::getInstance()->getStrUtil().attr("endswith")(std::string(m_script_path), std::string(".py")).cast<bool>()) {
+				m_obj_type = obj_type = 1; // python obj
+
+				// if type python class_name cant be changed (it's file name of path *.py)
+				std::string _class_name = PyUtils::getInstance()->getFileUtil().attr("getPyFileName")(std::string(m_script_path)).cast<std::string>();
+				int i = 0;
+				while (_class_name.c_str()[i])  m_class_name[i] = _class_name.c_str()[i++]; m_class_name[i] = 0;
+			}
+			else if (PyUtils::getInstance()->getStrUtil().attr("endswith")(std::string(m_script_path), std::string(".h")).cast<bool>()
+				|| PyUtils::getInstance()->getStrUtil().attr("endswith")(std::string(m_script_path), std::string(".hpp")).cast<bool>())
+			{
+				m_obj_type = obj_type = 2; // cpp obj
+			}
+			else {
+				m_obj_type = obj_type = 0; // unknown obj
+			}
+
+
+		}
 		//str_scr_path
 
 		ImGui::End();

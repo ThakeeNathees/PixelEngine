@@ -35,6 +35,7 @@ sf::Texture Resources::OtherIcons::_ERROR;
 sf::Texture Resources::OtherIcons::WARNING;
 sf::Texture Resources::OtherIcons::EXPLORER_UP;
 sf::Texture Resources::OtherIcons::EXPLORER_REFRESH;
+sf::Texture Resources::OtherIcons::_CREATE_NEW;
 
 ImFont* Resources::Fonts::PROGRAMMING=nullptr;
 

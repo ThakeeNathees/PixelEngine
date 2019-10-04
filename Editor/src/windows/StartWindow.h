@@ -45,7 +45,7 @@ private:
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::BeginChild("ProjList", ImVec2(ImGui::GetWindowSize().x - 15, ImGui::GetWindowSize().y - ImGui::GetCursorPosY() -15 ), true);
 		for (int i = 0; i < m_proj_list.attr("__len__")().cast<int>(); i++) {
-			if (ImGui::Selectable( m_proj_list.attr("__getitem__")(i).attr("__getitem__")(0).cast<std::string>().c_str() , false, ImGuiSelectableFlags_AllowDoubleClick)) {
+			if (ImGui::Selectable( m_proj_list.attr("__getitem__")(i).attr("__getitem__")(0).cast<std::string>().c_str() , false, ImGuiSelectableFlags_AllowDoubleClick, ImVec2(0,20))) {
 				if (ImGui::IsMouseDoubleClicked(0)) {
 					ImGui::EndChild();
 					ImGui::PopStyleVar();

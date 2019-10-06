@@ -22,7 +22,6 @@ PYBIND11_EMBEDDED_MODULE(console, m) {
 
 /* ****************** end of includes  *****************  */
 
-
 int main(int argc, char** argv)
 {
 
@@ -58,16 +57,22 @@ int main(int argc, char** argv)
 
 
 	/**********************     MAIN LOOP     **********************/
+	sf::Clock clock;
+	pe::Event event; 
+	double dt =0;
+	//std::thread application_thread(runApplicationThread, Resources::getApplication(), &event, &poll_event_ended, &have_new_event);
 
-	sf::Event event; sf::Clock clock;
 	while (window.isOpen()) {
 		// event handle
 		while (window.pollEvent(event)) {
 			ImGui::SFML::ProcessEvent(event);
 			if (event.type == sf::Event::Closed) window.close();
 			if (event.type == sf::Event::GainedFocus) { FileTree::getInstance()->reload(); }
+			if (Resources::getApplication()) Resources::getApplication()->__handleEvent(&event);
 		}
 		ImGui::SFML::Update(window, clock.restart());
+
+		if (Resources::getApplication()) Resources::getApplication()->__process(&dt);
 
 		// render
 		show_dock_space();
@@ -82,6 +87,11 @@ int main(int argc, char** argv)
 
 		ObjectCreater::getInstance()->render();
 		ScriptCreator::getInstance()->render();
+		ImGui::Begin("Applicaton window");
+		ImGui::Image(Resources::getRenderTexture());
+		ImGui::End();
+		/*
+		*/
 
 		ImGui::ShowTestWindow();
 

@@ -26,7 +26,7 @@ namespace pe
 	sf::Keyboard::Key Application::s_kill_switch = sf::Keyboard::Unknown;
 
 
-	Application::Application(const char* proj_path)
+	Application::Application(const char* proj_path, bool create_window, sf::RenderTarget* render_target)
 	{
 		setDebugMode( s_conf == 0 ); // TODO: make applicatin static class
 		FileHandler file;
@@ -34,10 +34,16 @@ namespace pe
 		if (error) { PE_LOG("project file reading error"); }
 		else { PE_LOG("project file reading success"); }
 		m_peproj = file.getProject();
-		m_window = new sf::RenderWindow(sf::VideoMode(m_peproj.window_size.x, m_peproj.window_size.y), m_peproj.title);
-		s_window_size = static_cast<sf::Vector2i>(m_window->getSize());
+		if (create_window) {
+			m_window = new sf::RenderWindow(sf::VideoMode(m_peproj.window_size.x, m_peproj.window_size.y), m_peproj.title);
+			m_render_target = m_window;
+		}
+		else {
+			m_render_target = render_target;
+		}
+		s_window_size = sf::Vector2i(m_peproj.window_size.x, m_peproj.window_size.y);
 		setFrameRate(m_peproj.frame_rate );
-		m_window->setFramerateLimit(1/ m_peproj.frame_rate);
+		if (m_window) m_window->setFramerateLimit(1/ m_peproj.frame_rate);
 #ifdef _WIN32
 		if ( !m_is_debug_mode ) FreeConsole();
 		else PE_CONSOLE_LOG( "this console window only apear in debug mode" );
@@ -67,7 +73,7 @@ namespace pe
 		if (texture_id >= 0) {
 			if (Assets::hasAsset(texture_id)) {
 				auto tex = Assets::getAsset<Texture>(texture_id);
-				m_window->setIcon(tex->getSize().x, tex->getSize().y, tex->copyToImage().getPixelsPtr());
+				if (m_window) m_window->setIcon(tex->getSize().x, tex->getSize().y, tex->copyToImage().getPixelsPtr());
 			}
 			else { PE_LOG("project logo not found in assets : texture id = %i", texture_id); }
 		}
@@ -141,68 +147,70 @@ namespace pe
 	/// main loop
 	void Application::update()
 	{
-		sf::Clock clock;
-		sf::Int64 last_time = clock.getElapsedTime().asMicroseconds();
+
+		//sf::Int64 last_time = m_clock.getElapsedTime().asMicroseconds();
 		double dt = 0;
-
-		while (m_window->isOpen()) {
-
-			Event event;
-			while (m_window->pollEvent(event)) {
-				if (!m_current_scene) { PE_LOG("\nERROR: in pe::Application::update() current scene is NULL"); }
-				if (isEventKillSwitch(event)) m_window->close();
-				assert( m_current_scene );
-				for (Object* object : m_current_scene->getObjects()) {
-					try{ object->handleEvent(event); }
-					catch (const std::exception& err) { PE_CONSOLE_LOG(err.what()); }
-					if (event.isHandled()) continue;
+		while (m_running) {
+			if (m_window && !m_window->isOpen()) m_running = false;
+			
+			if (m_window) {
+				while (m_window->pollEvent(m_event)) {
+					if (isEventKillSwitch(m_event)) m_window->close();
+					if (!m_current_scene) { PE_LOG("\nERROR: in pe::Application::update() current scene is NULL"); }
+					assert(m_current_scene);
+					for (Object* object : m_current_scene->getObjects()) {
+						try { object->handleEvent(m_event); }
+						catch (const std::exception & err) { PE_CONSOLE_LOG(err.what()); }
+						if (m_event.isHandled()) continue;
+					}
 				}
 			}
 			// process
-			dt += clock.getElapsedTime().asMicroseconds() / 1000000.0;
-			if (dt >= 1 / m_frame_rate) {
-				if (m_is_debug_mode) m_window->setTitle(m_peproj.title + std::string(" | DebugMode | fps : ").append(std::to_string(1 / dt)));
+
+			dt += m_clock.getElapsedTime().asMicroseconds() / 1000000.0;
+			if ( dt >= 1 / m_frame_rate) {
+				if (m_is_debug_mode && m_window) m_window->setTitle(m_peproj.title + std::string(" | DebugMode | fps : ").append(std::to_string(1 / dt)));
 				for (Timer* timer : m_current_scene->m_timers) {
 					timer->update();
 				}
 
 				for (Signal* signal : m_current_scene->m_signals) {
 					for (Object* object : signal->getRecievers()) {
-						if (object != nullptr) { 
-							try{ object->recieveSignal(*signal); }
-							catch (const std::exception& err) { PE_CONSOLE_LOG(err.what()); }
+						if (object != nullptr) {
+							try { object->recieveSignal(*signal); }
+							catch (const std::exception & err) { PE_CONSOLE_LOG(err.what()); }
 						}
 					}
 				}
 				m_current_scene->m_signals.clear();
 
 				for (Object* object : m_current_scene->getObjects()) {
-					dt += clock.getElapsedTime().asMicroseconds() / 1000000.0;
+					dt += m_clock.getElapsedTime().asMicroseconds() / 1000000.0;
 					try { object->process(dt); }
-					catch (const std::exception& err) { PE_CONSOLE_LOG(err.what()); }
+					catch (const std::exception & err) { PE_CONSOLE_LOG(err.what()); }
 				}
 
 				if (m_current_scene->getBackground()) { m_current_scene->getBackground()->move(dt); }
 				//dt -=  (1 / m_frame_rate);
-				dt =  0;
+				dt = 0;
 			}
-			clock.restart();
+			m_clock.restart();
 			double interpolation = dt / (1 / m_frame_rate);
 
 			// draw
-			m_window->clear(s_background_color);
-			if (m_current_scene->getBackground()){
+			m_render_target->clear(s_background_color);
+			if (m_current_scene->getBackground()) {
 				Background* bg = m_current_scene->getBackground();
-				if (bg->isVisible()) m_window->draw( *bg );
+				if (bg->isVisible()) m_render_target->draw(*bg);
 			}
 
 			for (pe::Drawable* drawable : m_current_scene->getDrawables()) {
 				if (drawable->isVisible()) {
-					try { m_window->draw(*drawable); }
-					catch (const std::exception& err) { PE_CONSOLE_LOG(err.what()); }
+					try { m_render_target->draw(*drawable); }
+					catch (const std::exception & err) { PE_CONSOLE_LOG(err.what()); }
 				}
 			}
-			m_window->display();
+			if (m_window) m_window->display();
 
 			if (m_is_debug_mode && sf::Keyboard::isKeyPressed(sf::Keyboard::F4)) {
 				for (auto obj : m_current_scene->getObjects()) obj->scriptReload();
@@ -210,6 +218,67 @@ namespace pe
 		}
 	}
 
+	void Application::__process(double* dt) {
+		// process
+		*dt += m_clock.getElapsedTime().asMicroseconds() / 1000000.0;
+		if (*dt >= 1 / m_frame_rate) {
+			for (Timer* timer : m_current_scene->m_timers) {
+				timer->update();
+			}
+
+			for (Signal* signal : m_current_scene->m_signals) {
+				for (Object* object : signal->getRecievers()) {
+					if (object != nullptr) {
+						try { object->recieveSignal(*signal); }
+						catch (const std::exception & err) { PE_CONSOLE_LOG(err.what()); }
+					}
+				}
+			}
+			m_current_scene->m_signals.clear();
+
+			for (Object* object : m_current_scene->getObjects()) {
+				*dt += m_clock.getElapsedTime().asMicroseconds() / 1000000.0;
+				try { object->process(*dt); }
+				catch (const std::exception & err) { PE_CONSOLE_LOG(err.what()); }
+			}
+
+			if (m_current_scene->getBackground()) { m_current_scene->getBackground()->move(*dt); }
+			*dt = 0;
+		}
+		m_clock.restart();
+		double interpolation = *dt / (1 / m_frame_rate);
+
+		// draw
+		m_render_target->clear(s_background_color);
+		if (m_current_scene->getBackground()) {
+			Background* bg = m_current_scene->getBackground();
+			if (bg->isVisible()) m_render_target->draw(*bg);
+		}
+
+		for (pe::Drawable* drawable : m_current_scene->getDrawables()) {
+			if (drawable->isVisible()) {
+				try { m_render_target->draw(*drawable); }
+				catch (const std::exception & err) { PE_CONSOLE_LOG(err.what()); }
+			}
+		}
+		if (m_window) m_window->display();
+
+		if (m_is_debug_mode && sf::Keyboard::isKeyPressed(sf::Keyboard::F4)) {
+			for (auto obj : m_current_scene->getObjects()) obj->scriptReload();
+		}
+	}
+
+	void Application::__handleEvent(pe::Event* event) {
+		if (isEventKillSwitch(*event)) m_window->close();
+		if (!m_current_scene) { PE_LOG("\nERROR: in pe::Application::update() current scene is NULL"); }
+		assert(m_current_scene);
+		for (Object* object : m_current_scene->getObjects()) {
+			try { object->handleEvent(*event); }
+			catch (const std::exception & err) { PE_CONSOLE_LOG(err.what()); }
+			if (event->isHandled()) continue;
+
+		}
+	}
 
 	// private functions ///////////////
 

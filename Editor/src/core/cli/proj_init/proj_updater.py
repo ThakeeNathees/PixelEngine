@@ -46,12 +46,12 @@ def updateProj(proj_name = "", working_dir='.'):
 
     for path, folders, files in os.walk(working_dir):
         for file in files:
-            asset_path = os.path.join(path, file)[len(working_dir):]
-
-            if isPathObject(asset_path):
-                if not objectHasPaht(objects, asset_path, obj_to_delete):
+            asset_path = os.path.join(path, file)
+            asset_rel_path = asset_path[len(working_dir):]
+            if isPathObject(asset_rel_path):
+                if not objectHasPaht(objects, asset_rel_path, obj_to_delete):
                     new_obj = ET.Element('path')
-                    new_obj.text = asset_path
+                    new_obj.text = asset_rel_path
                     objects.insert(len(objects), new_obj)
                 
                 obj_doc = ET.parse(asset_path)
@@ -62,10 +62,10 @@ def updateProj(proj_name = "", working_dir='.'):
                     new_pypath.text = cls.text
                     pypaths.insert(len(pypaths), new_pypath)
 
-            if isPathScene(asset_path):
-                if not sceneHasPaht(scenes, asset_path, scn_to_delete):
+            if isPathScene(asset_rel_path):
+                if not sceneHasPaht(scenes, asset_rel_path, scn_to_delete):
                         new_scn = ET.Element('path')
-                        new_scn.text = asset_path
+                        new_scn.text = asset_rel_path
                         scenes.insert(len(scenes), new_scn)
 
     for obj, is_delete in obj_to_delete.items():

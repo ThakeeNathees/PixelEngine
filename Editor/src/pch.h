@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include <memory>
+#include <thread>
 #include <iostream>
 #include <fstream>
 #include <sstream>

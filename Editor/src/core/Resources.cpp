@@ -5,6 +5,9 @@
 
 
 pe::_peproj Resources::s_proj;
+pe::Application* Resources::s_application;
+sf::RenderTexture Resources::s_render_texture;
+
 std::map<std::string, sf::Texture> Resources::s_file_format_icons;
 std::map<std::string, sf::Texture> Resources::s_menu_icons;
 std::map<std::string, sf::Texture> Resources::s_other_icons;
@@ -24,6 +27,10 @@ int Resources::readProjFile() {
 		return 1; 
 	} else PE_LOG("project file found : %s", proj_file_name.c_str());
 
+	s_application = new pe::Application(proj_file_name.c_str(), false, &s_render_texture);
+	s_render_texture.create(s_application->getWindowSize().x, s_application->getWindowSize().y );
+
+	/*
 	pe::FileHandler file_handler;
 	int error = file_handler.readProject(proj_file_name.c_str());
 	if (error) { 
@@ -49,4 +56,5 @@ int Resources::readProjFile() {
 		PE_LOG("\tscene read success : %s", path.c_str());
 	}
 	PE_LOG("\n");
+	*/
 }

@@ -209,11 +209,11 @@ def init(__proj_name, __dst_path=None):
     return 0
 
 
-if __name__ == "__main__" and 0:
-    if 1:
+if __name__ == "__main__" and 1:
+    if 0:
         init("testproj1","E:/__test/test")
     else:
-        updateProj("SlrcPlot","E:/__test/test/SlrcPlot")
+        updateProj("PeProjTest","C:/dev/__test_env/PeProjTest")
     
     
     

@@ -23,11 +23,16 @@ namespace pe {
 	class PIXEL_ENGINE_API Application
 	{
 	public:
-		Application(const char* proj_path);
+		Application(const char* proj_path, bool create_window = true, sf::RenderTarget* render_target = nullptr); // if create_window == false render target
 		Application(const Application& other) = delete;
 		~Application();
 
+		// these parameters are for multhread of the editor window -> use as application.update(); without any args
 		void update();
+
+		// never use this
+		void __process(double* dt);
+		void __handleEvent(pe::Event* event);
 
 		// setters
 		void addScene(Scene* scene);
@@ -57,6 +62,7 @@ namespace pe {
 		bool isEventKillSwitch(sf::Event& event);
 
 		void setCurrentScene(Scene* scene);
+		bool m_running = true;
 		double m_frame_rate = 30.0;
 		bool m_is_debug_mode = true;
 		bool m_is_debug_draw_area = true;
@@ -64,8 +70,16 @@ namespace pe {
 		Signal m_scene_changed_signal = Signal("scene_changed", Signal::Type::SCENE_CHANGE);
 		Scene* m_current_scene = nullptr;
 		sf::RenderWindow* m_window = nullptr;
+		sf::RenderTarget* m_render_target = nullptr;
+		pe::Event m_event;
+		sf::Clock m_clock;
 		std::vector<Object*> m_persistent_objects;
 		std::vector<Scene*> m_scenes;
+
+		//// VARIABLES FOR APPLICATION WHEN RUNNING AS A SUB THREAD IN EDITOR WINNDOW
+		bool* m_poll_event_ended = nullptr; // end event handle loop
+		bool* m_have_new_event = nullptr;   // process new event
+		pe::Event* m_shared_event = nullptr;
 
 		static sf::Vector2i s_window_size;
 		static sf::Color s_background_color;

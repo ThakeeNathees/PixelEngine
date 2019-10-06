@@ -2,7 +2,9 @@
 
 #include "Resources.h"
 #include "WindowManager.h"
-#include "windows/assets_create/ObjectCreater.h"
+
+#include "windows/assets_create/ObjectCreator.h"
+#include "windows/assets_create/ScriptsCreator.h"
 
 class MainMenuBar
 {
@@ -45,7 +47,7 @@ private:
 		if (ImGui::BeginPopupModal("Exit Conformation")) {
 			static ImVec2 size = ImVec2(220,120);
 			ImGui::SetWindowSize(size, ImGuiCond_Once);
-			ImGui::Image(Resources::OtherIcons::WARNING); ImGui::SameLine();
+			ImGui::Image(Resources::getOtherIcon("warning")); ImGui::SameLine();
 			ImGui::Text("Are you sure?");
 			if (ImGui::Button("Yes", ImVec2(90, 20)) ) { ImGui::CloseCurrentPopup(); } // TODO: exit the programme
 			ImGui::SameLine();
@@ -81,11 +83,19 @@ private:
 	void renderCreateMenu() {
 		if (ImGui::BeginMenu("Create"))
 		{
-			ImGui::Image(Resources::MenuIcons::NEW_OBJ); ImGui::SameLine();
+			ImGui::Image(Resources::getMenuIcon("new_object")); ImGui::SameLine();
 			if (ImGui::MenuItem("New Object")) {
 				if (!ObjectCreater::getInstance()->isOpen()) {
 					ObjectCreater::getInstance()->clearValues();
 					ObjectCreater::getInstance()->open();
+				}
+			}
+
+			ImGui::Image(Resources::getMenuIcon("new_script")); ImGui::SameLine();
+			if (ImGui::MenuItem("New Script")) {
+				if (!ScriptCreator::getInstance()->isOpen()) {
+					ScriptCreator::getInstance()->clearValues();
+					ScriptCreator::getInstance()->open();
 				}
 			}
 

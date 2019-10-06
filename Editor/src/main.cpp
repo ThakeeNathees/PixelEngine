@@ -16,7 +16,8 @@ PYBIND11_EMBEDDED_MODULE(console, m) {
 }
 
 
-#include "windows/assets_create/ObjectCreater.h"
+#include "windows/assets_create/ObjectCreator.h"
+#include "windows/assets_create/ScriptsCreator.h"
 
 
 /* ****************** end of includes  *****************  */
@@ -80,6 +81,7 @@ int main(int argc, char** argv)
 		FontViwers::renderFontViwers();
 
 		ObjectCreater::getInstance()->render();
+		ScriptCreator::getInstance()->render();
 
 		ImGui::ShowTestWindow();
 

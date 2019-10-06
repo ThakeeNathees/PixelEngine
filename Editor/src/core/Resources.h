@@ -9,51 +9,48 @@ public:
 
 	// textures
 	static sf::Texture LOGO;
-	struct FileFormatIcons 
-	{
-		static sf::Texture DIR_CLOSED;
-		static sf::Texture DIR_OPEN;
-		static sf::Texture _FILE_UNKNOWN; // FILE_UNKNOWN is a macro
-		static sf::Texture FILE_PEPROJ;
-		static sf::Texture FILE_TEXT;
-		static sf::Texture FILE_XML;
-		static sf::Texture FILE_PY;
-		static sf::Texture FILE_PYC;
-		static sf::Texture FILE_CPP;
-		static sf::Texture FILE_H;
-		static sf::Texture FILE_HPP;
-		static sf::Texture FILE_PNG;
-		static sf::Texture FILE_TTF;
-		static sf::Texture FILE_BIN;
-		static sf::Texture FILE_DLL;
-		static sf::Texture FILE_OBJ;
-	};
-	struct MenuIcons
-	{
-		static sf::Texture NONE;
-		static sf::Texture RENAME;
-		static sf::Texture _DELETE; // DELETE is a macro
-		static sf::Texture OPEN_IN_EXPLORER;
-		static sf::Texture NEW_OBJ;
-	};
-	struct OtherIcons 
-	{
-		static sf::Texture _ERROR; // ERROR is a macro
-		static sf::Texture WARNING;
-		static sf::Texture EXPLORER_UP;
-		static sf::Texture EXPLORER_REFRESH;
-		static sf::Texture _CREATE_NEW; // macro
-	};
-	struct Fonts
-	{
-		static ImFont* PROGRAMMING;
-	};
 
 	static int readProjFile();
+
+	static sf::Texture& getFileFormatIcon(const std::string& name) {
+		assert( s_file_format_icons.find(name) != s_file_format_icons.end() && name.c_str() );
+		return s_file_format_icons[name];
+	}
+	static sf::Texture& getMenuIcon(const std::string& name) {
+		assert(s_menu_icons.find(name) != s_menu_icons.end() && name.c_str() );
+		return s_menu_icons[name];
+	}
+	static sf::Texture& getOtherIcon(const std::string& name) {
+		assert(s_other_icons.find(name) != s_other_icons.end() && name.c_str() );
+		return s_other_icons[name];
+	}
+	static ImFont* getFont(const std::string& name) {
+		assert(s_fonts.find(name) != s_fonts.end() && name.c_str());
+		return s_fonts[name];
+	}
+
+
+	static void addFileFormatIcon(const std::string& name, const sf::Texture& tex) {
+		s_file_format_icons[name] = tex;
+	}
+	static void addMenuIcon(const std::string& name, const sf::Texture& tex) {
+		s_menu_icons[name] = tex;
+	}
+	static void addOtherIcon(const std::string& name, const sf::Texture& tex) {
+		s_other_icons[name] = tex;
+	}
+	static void addFont(const std::string& name, ImFont* font) {
+		s_fonts[name] = font;
+	}
+
 
 private:
 	Resources() {}
 	static pe::_peproj s_proj;
+	static std::map<std::string, sf::Texture> s_file_format_icons;
+	static std::map<std::string, sf::Texture> s_menu_icons;
+	static std::map<std::string, sf::Texture> s_other_icons;
+	static std::map<std::string, ImFont*> s_fonts;
 
 	
 };

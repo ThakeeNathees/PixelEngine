@@ -1,6 +1,7 @@
 #include "pch.h"
-#include "ObjectCreater.h"
 #include "pyutils/PyUtils.h"
+#include "ObjectCreator.h"
+#include "ScriptsCreator.h"
 
 ObjectCreater* ObjectCreater::s_instance;
 
@@ -13,10 +14,9 @@ void ObjectCreater::render()
 		static float witdh_frac = .6;
 		
 		// start title
-		ImGui::SetNextItemWidth( ImGui::GetWindowWidth() * witdh_frac);
 		ImGui::Text("Create a new Object Here"); ImGui::Text("");
 
-		// start body
+		// object name
 		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * witdh_frac);
 		ImGui::InputText("obj_name", m_obj_name, sizeof(m_obj_name));
 
@@ -25,26 +25,28 @@ void ObjectCreater::render()
 		if (ImGui::InputText("obj_path   ", m_obj_path, sizeof(m_obj_path))) {
 		}
 		ImGui::SameLine();
-		static auto obj_path_button = Resources::FileFormatIcons::DIR_OPEN;
+		static auto obj_path_button = Resources::getFileFormatIcon("dir_open");
 		if (ImGui::ImageButton(obj_path_button)) {
 			m_path_dst_ind = 0;
 			ExplorerPopup::getInstance()->setPath(".");
 			ImGui::OpenPopup("Explorer");
 		}
-		//if (ImGui::IsItemHovered()) ImGui::SetTooltip("select in explorer");
 
 		// script path select
 		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * witdh_frac);
 		ImGui::InputText("scirpt_path", m_script_path, sizeof(m_script_path));
 		ImGui::SameLine();
-		static auto script_path_button = Resources::FileFormatIcons::DIR_OPEN;
+		static auto script_path_button = Resources::getFileFormatIcon("dir_open");
 		if (ImGui::ImageButton(script_path_button)) {
 			m_path_dst_ind = 1;
 			ExplorerPopup::getInstance()->setPath(".");
 			ImGui::OpenPopup("Explorer");
 		}
 		ImGui::SameLine();
-		if (ImGui::ImageButton(Resources::OtherIcons::_CREATE_NEW)) {}
+		if (ImGui::ImageButton(Resources::getOtherIcon("create_new"))) {
+			ScriptCreator::getInstance()->m_is_script_created = false;
+			ScriptCreator::getInstance()->open();
+		}
 		if (ImGui::IsItemHovered()) ImGui::SetTooltip("create a new script");
 		
 		// class name
@@ -58,7 +60,6 @@ void ObjectCreater::render()
 		if (ImGui::Combo("class_type", &obj_type, _obj_types, (int)(sizeof(_obj_types) / sizeof(const char*)))) {
 			m_obj_type = obj_type;
 		}
-		//ImGui::InputText("class_type", m_class_type, sizeof(m_class_type));
 		
 		// zindex, visible, persistence
 		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * witdh_frac);
@@ -83,7 +84,6 @@ void ObjectCreater::render()
 				ImGui::OpenPopup("Invalid Object Name!");
 			else if( ! PyUtils::getInstance()->getOs().attr("path").attr("isdir")(std::string(m_obj_path)).cast<bool>() )
 				ImGui::OpenPopup("Invalid Object Path!");
-
 			else if (str_scr_path != std::string("") && !PyUtils::getInstance()->getFileUtil().attr("isPathScript")(str_scr_path).cast<bool>())
 				ImGui::OpenPopup("Invalid Script Path!");
 			else {
@@ -128,7 +128,7 @@ void ObjectCreater::render()
 
 		if (ImGui::BeginPopupModal("Error!")) {
 			ImGui::SetWindowSize(ImVec2(300, 120), ImGuiCond_Once);
-			ImGui::Image(Resources::OtherIcons::_ERROR); ImGui::SameLine();
+			ImGui::Image(Resources::getOtherIcon("error")); ImGui::SameLine();
 			if (m_obj_name[0] == '\0') ImGui::TextWrapped("Error! enter an Object Name!");
 			else ImGui::TextWrapped("Error! enter the Object's Path!");
 			if (ImGui::Button("OK", ImVec2(280, 20))) {
@@ -138,7 +138,7 @@ void ObjectCreater::render()
 		}
 		if (ImGui::BeginPopupModal("Invalid Script Path!")) {
 			ImGui::SetWindowSize(ImVec2(300, 120), ImGuiCond_Once);
-			ImGui::Image(Resources::OtherIcons::_ERROR); ImGui::SameLine();
+			ImGui::Image(Resources::getOtherIcon("error")); ImGui::SameLine();
 			ImGui::TextWrapped("Error! script path is invalid only supported for *.py, *.h, *.hpp");
 			if (ImGui::Button("OK", ImVec2(280, 20))) {
 				ImGui::CloseCurrentPopup();
@@ -147,7 +147,7 @@ void ObjectCreater::render()
 		}
 		if (ImGui::BeginPopupModal("Invalid Object Path!")) {
 			ImGui::SetWindowSize(ImVec2(300, 120), ImGuiCond_Once);
-			ImGui::Image(Resources::OtherIcons::_ERROR); ImGui::SameLine();
+			ImGui::Image(Resources::getOtherIcon("error")); ImGui::SameLine();
 			ImGui::TextWrapped("Error! object path is invalid");
 			if (ImGui::Button("OK", ImVec2(280, 20))) {
 				ImGui::CloseCurrentPopup();
@@ -156,7 +156,7 @@ void ObjectCreater::render()
 		}
 		if (ImGui::BeginPopupModal("Invalid Object Name!")) {
 			ImGui::SetWindowSize(ImVec2(300, 140), ImGuiCond_Once);
-			ImGui::Image(Resources::OtherIcons::_ERROR); ImGui::SameLine();
+			ImGui::Image(Resources::getOtherIcon("error")); ImGui::SameLine();
 			ImGui::TextWrapped("Error! object name is invalid. (object name must start with alphabatic character and doesn't contain any of the following \\ / : * ? \" < > | spacebar)");
 			if (ImGui::Button("OK", ImVec2(280, 20))) {
 				ImGui::CloseCurrentPopup();
@@ -178,6 +178,18 @@ void ObjectCreater::render()
 				while (c[i])  m_script_path[i] = c[i++]; m_script_path[i] = 0;
 			}
 			ExplorerPopup::getInstance()->setPathSelectedFalse();
+		}
+
+		if (ScriptCreator::getInstance()->m_is_script_created) {
+			ScriptCreator::getInstance()->m_is_script_created = false;
+			auto _scr_path = std::string(ScriptCreator::getInstance()->m_script_name);
+			auto _scr_name = std::string(ScriptCreator::getInstance()->m_script_name);
+
+			auto& c = ScriptCreator::getInstance()->m_script_path_name;
+			int i = 0;
+			while (c.c_str()[i])  m_script_path[i] = c.c_str()[i++]; m_script_path[i] = 0;
+			i = 0;
+			while (ScriptCreator::getInstance()->m_script_name[i])  m_class_name[i] = ScriptCreator::getInstance()->m_script_name[i++]; m_class_name[i] = 0;
 		}
 
 		// find class name and type

@@ -5,39 +5,12 @@
 
 
 pe::_peproj Resources::s_proj;
+std::map<std::string, sf::Texture> Resources::s_file_format_icons;
+std::map<std::string, sf::Texture> Resources::s_menu_icons;
+std::map<std::string, sf::Texture> Resources::s_other_icons;
+std::map<std::string, ImFont*> Resources::s_fonts;
 
 sf::Texture Resources::LOGO;
-
-sf::Texture Resources::FileFormatIcons::DIR_CLOSED;
-sf::Texture Resources::FileFormatIcons::DIR_OPEN;
-sf::Texture Resources::FileFormatIcons::_FILE_UNKNOWN;
-sf::Texture Resources::FileFormatIcons::FILE_PEPROJ;
-sf::Texture Resources::FileFormatIcons::FILE_TEXT;
-sf::Texture Resources::FileFormatIcons::FILE_XML;
-sf::Texture Resources::FileFormatIcons::FILE_PY;
-sf::Texture Resources::FileFormatIcons::FILE_PYC;
-sf::Texture Resources::FileFormatIcons::FILE_CPP;
-sf::Texture Resources::FileFormatIcons::FILE_H;
-sf::Texture Resources::FileFormatIcons::FILE_HPP;
-sf::Texture Resources::FileFormatIcons::FILE_PNG;
-sf::Texture Resources::FileFormatIcons::FILE_TTF;
-sf::Texture Resources::FileFormatIcons::FILE_BIN;
-sf::Texture Resources::FileFormatIcons::FILE_DLL;
-sf::Texture Resources::FileFormatIcons::FILE_OBJ;
-
-sf::Texture Resources::MenuIcons::NONE;
-sf::Texture Resources::MenuIcons::RENAME;
-sf::Texture Resources::MenuIcons::_DELETE;
-sf::Texture Resources::MenuIcons::OPEN_IN_EXPLORER;
-sf::Texture Resources::MenuIcons::NEW_OBJ;
-
-sf::Texture Resources::OtherIcons::_ERROR;
-sf::Texture Resources::OtherIcons::WARNING;
-sf::Texture Resources::OtherIcons::EXPLORER_UP;
-sf::Texture Resources::OtherIcons::EXPLORER_REFRESH;
-sf::Texture Resources::OtherIcons::_CREATE_NEW;
-
-ImFont* Resources::Fonts::PROGRAMMING=nullptr;
 
 // TODO: log everything
 /* this will find and read the proj file and load the assets */

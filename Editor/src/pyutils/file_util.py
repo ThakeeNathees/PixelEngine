@@ -38,3 +38,93 @@ def relPath(path):
 ## convert "C:/dev/proj/src/pyobj1.py" -> "src/"
 def relPyObjDirPath(py_obj_path):
     return os.path.dirname( os.path.relpath(py_obj_path) )
+
+## ========================================================================================= pyfile create
+default_template_py = '''\
+import pixel_engine as pe
+
+## called when the object enters a new scene
+def sceneEntered(self, scene):
+    pass
+
+## called every frame. 'dt' is the elapsed time since the previous frame
+def process(self, dt):
+    pass
+'''
+
+default_template_cpp = '''\
+#pragma once
+
+#include "Pixel-Engine.h"
+
+class %s : public pe::Object
+{
+public:
+	// called when the object enters a new scene
+	inline void sceneEntered(pe::Scene* scene) override {
+	}
+
+	// called every frame. 'dt' is the elapsed time since the previous frame
+	inline void process(double dt) override {
+	}
+
+};
+'''
+
+no_comment_template_py = '''\
+import pixel_engine as pe
+
+def sceneEntered(self, scene):
+    pass
+
+def process(self, dt):
+    pass
+'''
+no_comment_template_cpp = '''\
+#pragma once
+
+#include "Pixel-Engine.h"
+
+class %s : public pe::Object
+{
+public:
+	inline void sceneEntered(pe::Scene* scene) override {
+	}
+
+	inline void process(double dt) override {
+	}
+
+};
+'''
+
+empty_template_py = '''\
+import pixel_engine as pe
+'''
+
+empty_template_cpp = '''\
+#pragma once
+
+#include "Pixel-Engine.h"
+'''
+
+## script type == 0:python, 1:cpp
+## template == 0:default, 1:no_comment, 2:empty
+def createScript(dir_path, file_name, script_type =0, template=0): 
+    file_path = os.path.join(dir_path, file_name) + ('.py' if script_type == 0 else '.h')
+    if os.path.exists(file_path) :
+        print(file_path, 'already exist')
+        return ""
+    file = open( file_path, 'w' )
+    if template == 0: 
+        if script_type == 0: file.write(default_template_py)
+        else : file.write(default_template_cpp%file_name)
+    elif template == 1: 
+        if script_type == 0: file.write(no_comment_template_py)
+        else : file.write(no_comment_template_cpp%file_name)
+    else : 
+        if script_type == 0: file.write(empty_template_py)
+        else: file.write(empty_template_cpp)
+    file.close()
+    return  os.path.relpath(file_path)
+
+## =========================================================================================

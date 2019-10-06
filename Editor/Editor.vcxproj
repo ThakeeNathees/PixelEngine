@@ -109,7 +109,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\pyutils\PyUtils.cpp" />
-    <ClCompile Include="src\windows\assets_create\ObjectCreater.cpp" />
+    <ClCompile Include="src\windows\assets_create\ObjectCreator.cpp" />
+    <ClCompile Include="src\windows\assets_create\ScriptCreator.cpp" />
     <ClCompile Include="src\windows\FileTree.cpp" />
     <ClCompile Include="src\windows\static_initialize.cpp" />
     <ClCompile Include="vender\ImGuiColorTextEdit\TextEditor.cpp" />
@@ -126,7 +127,8 @@
     <ClInclude Include="src\core\MainMenuBar.h" />
     <ClInclude Include="src\core\WindowManager.h" />
     <ClInclude Include="src\pyutils\PyUtils.h" />
-    <ClInclude Include="src\windows\assets_create\ObjectCreater.h" />
+    <ClInclude Include="src\windows\assets_create\ObjectCreator.h" />
+    <ClInclude Include="src\windows\assets_create\ScriptsCreator.h" />
     <ClInclude Include="src\windows\Explorer.h" />
     <ClInclude Include="src\windows\FileTree.h" />
     <ClInclude Include="src\core\Resources.h" />

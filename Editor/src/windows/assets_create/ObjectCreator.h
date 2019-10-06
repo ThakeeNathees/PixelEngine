@@ -1,5 +1,4 @@
 #pragma once
-#include "core/WindowManager.h"
 #include "windows/Explorer.h"
 
 class ObjectCreater

@@ -108,7 +108,7 @@ public:
 			static char proj_path[1024];
 			ImGui::InputText("proj_path", proj_path, sizeof(proj_path));
 			ImGui::SameLine();
-			if (ImGui::ImageButton(Resources::FileFormatIcons::DIR_OPEN)) {
+			if (ImGui::ImageButton(Resources::getFileFormatIcon("dir_open"))) {
 				ImGui::OpenPopup("Explorer");
 			}
 
@@ -138,7 +138,7 @@ public:
 			// popups render
 			if (ImGui::BeginPopupModal("Error!")) {
 				ImGui::SetWindowSize(ImVec2(300, 120), ImGuiCond_Once);
-				ImGui::Image(Resources::OtherIcons::_ERROR); ImGui::SameLine();
+				ImGui::Image(Resources::getOtherIcon("error")); ImGui::SameLine();
 				if (proj_name[0] == '\0') ImGui::Text("Error! enter a Project Name!");
 				else ImGui::Text("Error! enter the Project Path!");
 				if (ImGui::Button("OK",ImVec2(280, 20))) {
@@ -149,7 +149,7 @@ public:
 
 			if (ImGui::BeginPopupModal("Invalid Project Name!")) {
 				ImGui::SetWindowSize(ImVec2(300, 140), ImGuiCond_Once);
-				ImGui::Image(Resources::OtherIcons::_ERROR); ImGui::SameLine();
+				ImGui::Image(Resources::getOtherIcon("error")); ImGui::SameLine();
 				ImGui::TextWrapped("Error! project name is invalid. (project name must start with alphabatic character and doesn't contain any of the following \\ / : * ? \" < > | spacebar)");
 				if (ImGui::Button("OK", ImVec2(280, 20))) {
 					ImGui::CloseCurrentPopup();

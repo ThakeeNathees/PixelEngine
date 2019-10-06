@@ -16,7 +16,8 @@ void FileTree::renderTreeRecursive(py::object& tree, bool next_item_open) {
 		if (ImGui::IsItemClicked(1)) m_selected_menu_id = id;
 		if (id == m_selected_menu_id) renderRightMouseMenu(path);
 		// draw folder icon
-		ImGui::SameLine(); ImGui::SetCursorPosX(dir_icon_pos); ImGui::Image(Resources::FileFormatIcons::DIR_OPEN);
+		//ImGui::SameLine(); ImGui::SetCursorPosX(dir_icon_pos); ImGui::Image(Resources::FileFormatIcons::DIR_OPEN);
+		ImGui::SameLine(); ImGui::SetCursorPosX(dir_icon_pos); ImGui::Image(Resources::getFileFormatIcon("dir_open"));
 		// loop for dirs
 		for (int i = 0; i < tree.attr("dirs").attr("__len__")().cast<int>(); i++) {
 			auto sub_tree = tree.attr("dirs").attr("__getitem__")(i);
@@ -52,31 +53,33 @@ void FileTree::renderTreeRecursive(py::object& tree, bool next_item_open) {
 		if (ImGui::IsItemClicked(1)) m_selected_menu_id = id;
 		if (id == m_selected_menu_id) renderRightMouseMenu(path);
 
-		ImGui::SameLine(); ImGui::SetCursorPosX(dir_icon_pos); ImGui::Image(Resources::FileFormatIcons::DIR_CLOSED);
+		//ImGui::SameLine(); ImGui::SetCursorPosX(dir_icon_pos); ImGui::Image(Resources::FileFormatIcons::DIR_CLOSED);
+		ImGui::SameLine(); ImGui::SetCursorPosX(dir_icon_pos); ImGui::Image(Resources::getFileFormatIcon("dir_close"));
 	}
 }
 /////////////////////////////////////////////////////////////
 
 void FileTree::drawFileIcon(const std::string& file_name) {
 	std::string format = getInstance()->getPyFileTree().attr("getFileFormat")(file_name).cast<std::string>();
-	if (format == std::string("py")) { ImGui::Image(Resources::FileFormatIcons::FILE_PY); ImGui::SameLine(); return; }
-	if (format == std::string("peproj")) { ImGui::Image(Resources::FileFormatIcons::FILE_PEPROJ); ImGui::SameLine(); return; }
-	if (format == std::string("txt")) { ImGui::Image(Resources::FileFormatIcons::FILE_TEXT); ImGui::SameLine(); return; }
-	if (format == std::string("ini")) { ImGui::Image(Resources::FileFormatIcons::FILE_TEXT); ImGui::SameLine(); return; }
-	if (format == std::string("xml")) { ImGui::Image(Resources::FileFormatIcons::FILE_XML); ImGui::SameLine(); return; }
-	if (format == std::string("pyc")) { ImGui::Image(Resources::FileFormatIcons::FILE_PYC); ImGui::SameLine(); return; }
-	if (format == std::string("cpp")) { ImGui::Image(Resources::FileFormatIcons::FILE_CPP); ImGui::SameLine(); return; }
-	if (format == std::string("h")) { ImGui::Image(Resources::FileFormatIcons::FILE_H); ImGui::SameLine(); return; }
-	if (format == std::string("hpp")) { ImGui::Image(Resources::FileFormatIcons::FILE_HPP); ImGui::SameLine(); return; }
-	if (format == std::string("png")) { ImGui::Image(Resources::FileFormatIcons::FILE_PNG); ImGui::SameLine(); return; }
-	if (format == std::string("ttf")) { ImGui::Image(Resources::FileFormatIcons::FILE_TTF); ImGui::SameLine(); return; }
+	if (format == std::string("py"))		{ ImGui::Image(Resources::getFileFormatIcon("file_py")); ImGui::SameLine(); return; }
+	if (format == std::string("peproj"))	{ ImGui::Image(Resources::getFileFormatIcon("file_peproj")); ImGui::SameLine(); return; }
+	if (format == std::string("txt"))		{ ImGui::Image(Resources::getFileFormatIcon("file_text")); ImGui::SameLine(); return; }
+	if (format == std::string("ini"))		{ ImGui::Image(Resources::getFileFormatIcon("file_text")); ImGui::SameLine(); return; }
+	if (format == std::string("xml"))		{ ImGui::Image(Resources::getFileFormatIcon("file_xml")); ImGui::SameLine(); return; }
+	if (format == std::string("pyc"))		{ ImGui::Image(Resources::getFileFormatIcon("file_pyc")); ImGui::SameLine(); return; }
+	if (format == std::string("cpp"))		{ ImGui::Image(Resources::getFileFormatIcon("file_cpp")); ImGui::SameLine(); return; }
+	if (format == std::string("h"))			{ ImGui::Image(Resources::getFileFormatIcon("file_h")); ImGui::SameLine(); return; }
+	if (format == std::string("hpp"))		{ ImGui::Image(Resources::getFileFormatIcon("file_hpp")); ImGui::SameLine(); return; }
+	if (format == std::string("png"))		{ ImGui::Image(Resources::getFileFormatIcon("file_png")); ImGui::SameLine(); return; }
+	if (format == std::string("ttf"))		{ ImGui::Image(Resources::getFileFormatIcon("file_ttf")); ImGui::SameLine(); return; }
 	// binary files
-	if (format == std::string("exe")) { ImGui::Image(Resources::FileFormatIcons::FILE_BIN); ImGui::SameLine(); return; }
-	if (format == std::string("lib")) { ImGui::Image(Resources::FileFormatIcons::FILE_BIN); ImGui::SameLine(); return; }
-	if (format == std::string("dll")) { ImGui::Image(Resources::FileFormatIcons::FILE_DLL); ImGui::SameLine(); return; }
-	if (format == std::string("obj")) { ImGui::Image(Resources::FileFormatIcons::FILE_OBJ); ImGui::SameLine(); return; }
+	if (format == std::string("exe"))		{ ImGui::Image(Resources::getFileFormatIcon("file_bin")); ImGui::SameLine(); return; }
+	if (format == std::string("lib"))		{ ImGui::Image(Resources::getFileFormatIcon("file_bin")); ImGui::SameLine(); return; }
+	if (format == std::string("dll"))		{ ImGui::Image(Resources::getFileFormatIcon("file_dll")); ImGui::SameLine(); return; }
+	if (format == std::string("obj"))		{ ImGui::Image(Resources::getFileFormatIcon("file_obj")); ImGui::SameLine(); return; }
 
-	ImGui::Image(Resources::FileFormatIcons::_FILE_UNKNOWN); ImGui::SameLine();
+	ImGui::Image(Resources::getFileFormatIcon("file_unknown")); ImGui::SameLine();
+
 }
 /////////////////////////////////////////////////////////////
 
@@ -114,9 +117,10 @@ void FileTree::renderRightMouseMenu(const std::string& path) {
 		// for folder
 		if (PyUtils::getInstance()->getOs().attr("path").attr("isdir")(path).cast<bool>()) {
 
-			ImGui::Image(Resources::MenuIcons::NONE); ImGui::SameLine();
+			ImGui::Image(Resources::getMenuIcon("none")); ImGui::SameLine();
 			if (ImGui::BeginMenu("New")) {
-				ImGui::Image(Resources::FileFormatIcons::_FILE_UNKNOWN); ImGui::SameLine();
+				//ImGui::Image(Resources::FileFormatIcons::_FILE_UNKNOWN); ImGui::SameLine();
+				ImGui::Image(Resources::getFileFormatIcon("file_unknown")); ImGui::SameLine();
 				if (ImGui::BeginMenu("File")) {
 					ImGui::Text("Create a new file"); ImGui::Separator();
 					static char file_name[1024];
@@ -130,7 +134,7 @@ void FileTree::renderRightMouseMenu(const std::string& path) {
 					}
 					ImGui::EndMenu();
 				}
-				ImGui::Image(Resources::FileFormatIcons::DIR_CLOSED); ImGui::SameLine();
+				ImGui::Image(Resources::getFileFormatIcon("dir_close")); ImGui::SameLine();
 				if (ImGui::BeginMenu("Folder")) {
 					ImGui::Text("Create a new folder"); ImGui::Separator();
 					static char dir_name[1024];
@@ -147,7 +151,7 @@ void FileTree::renderRightMouseMenu(const std::string& path) {
 				ImGui::EndMenu();
 			}
 			
-			ImGui::Image(Resources::MenuIcons::RENAME); ImGui::SameLine();
+			ImGui::Image(Resources::getMenuIcon("rename")); ImGui::SameLine();
 			if (ImGui::BeginMenu("Rename")) {
 				ImGui::Text("rename folder"); ImGui::Separator();
 				static char new_name[1024];
@@ -161,14 +165,14 @@ void FileTree::renderRightMouseMenu(const std::string& path) {
 				ImGui::EndMenu();
 			}
 
-			ImGui::Image(Resources::MenuIcons::_DELETE); ImGui::SameLine();
+			ImGui::Image(Resources::getMenuIcon("delete")); ImGui::SameLine();
 			if (ImGui::Selectable("Delete")) {
 				m_delete_path = path;
 				m_is_deletepathdir = true;
 				m_open_popup = true;
 			}
 			
-			ImGui::Image(Resources::MenuIcons::OPEN_IN_EXPLORER); ImGui::SameLine();
+			ImGui::Image(Resources::getMenuIcon("open_in_explorer")); ImGui::SameLine();
 			if (ImGui::Selectable("Open in explorer")) {
 				PyUtils::getInstance()->getOs().attr("system")(std::string("explorer \"").append(path).append("\""));
 			}
@@ -176,7 +180,7 @@ void FileTree::renderRightMouseMenu(const std::string& path) {
 		// for files
 		else {
 
-			ImGui::Image(Resources::MenuIcons::RENAME); ImGui::SameLine();
+			ImGui::Image(Resources::getMenuIcon("rename")); ImGui::SameLine();
 			if (ImGui::BeginMenu("Rename")) {
 				ImGui::Text("rename folder"); ImGui::Separator();
 				static char new_name[1024];
@@ -190,14 +194,14 @@ void FileTree::renderRightMouseMenu(const std::string& path) {
 				ImGui::EndMenu();
 			}
 
-			ImGui::Image(Resources::MenuIcons::_DELETE); ImGui::SameLine();
+			ImGui::Image(Resources::getMenuIcon("delete")); ImGui::SameLine();
 			if (ImGui::Selectable("Delete")) {
 				m_delete_path = path;
 				m_is_deletepathdir = false;
 				m_open_popup = true;
 			}
 
-			ImGui::Image(Resources::MenuIcons::OPEN_IN_EXPLORER); ImGui::SameLine();
+			ImGui::Image(Resources::getMenuIcon("open_in_explorer")); ImGui::SameLine();
 			if (ImGui::Selectable("Open in explorer")) {
 				PyUtils::getInstance()->getOs().attr("system")(std::string("explorer \"").append(
 					PyUtils::getInstance()->getOs().attr("path").attr("dirname")(path).cast<std::string>()
@@ -219,7 +223,7 @@ void FileTree::renderPopup() {
 		auto py_os = py::module::import("os");
 		// folder
 		if (m_is_deletepathdir) {
-			ImGui::Image(Resources::OtherIcons::WARNING); ImGui::SameLine();
+			ImGui::Image(Resources::getOtherIcon("warning")); ImGui::SameLine();
 			ImGui::Text("All the files and It's contents \nwill be deleted permenently.\nThis operation cannot be undone!\n\n");
 			ImGui::Separator();
 			if (ImGui::Button("OK", ImVec2(120, 0))) {
@@ -230,7 +234,7 @@ void FileTree::renderPopup() {
 			if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
 		}
 		else {
-			ImGui::Image(Resources::OtherIcons::WARNING); ImGui::SameLine();
+			ImGui::Image(Resources::getOtherIcon("warning")); ImGui::SameLine();
 			ImGui::Text("The file will be deleted permenently.\nThis operation cannot be undone!\n\n");
 			ImGui::Separator();
 			if (ImGui::Button("OK", ImVec2(120, 0))) {

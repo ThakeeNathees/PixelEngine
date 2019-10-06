@@ -118,10 +118,10 @@ void CLI::readPeConfigFile() {
 				while (std::getline(init_file, line)) {
 					if (pe::__removeWiteSpace(line) == std::string("end")) break;
 					key_value = CLI::getKeyValue(line);
-					if (key_value.first == std::string("programming")) {
+					if (key_value.first != std::string("")) {
 						auto font = ImGui::GetIO().Fonts->AddFontFromFileTTF(CLI::getExecPath().append(key_value.second[0]).c_str(), std::stof(key_value.second[1]));
 						ImGui::SFML::UpdateFontTexture();
-						Resources::Fonts::PROGRAMMING = font; continue;
+						Resources::addFont(key_value.first, font); continue;
 					}
 				}
 				continue;
@@ -131,22 +131,9 @@ void CLI::readPeConfigFile() {
 				while (std::getline(init_file, line)) {
 					if (pe::__removeWiteSpace(line)== std::string("end")) break;
 					key_value = CLI::getKeyValue(line);
-					if (key_value.first == std::string("dir_close"))	{ Resources::FileFormatIcons::DIR_CLOSED.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("dir_open"))		{ Resources::FileFormatIcons::DIR_OPEN.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("file_unknown")) { Resources::FileFormatIcons::_FILE_UNKNOWN.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("file_peproj"))	{ Resources::FileFormatIcons::FILE_PEPROJ.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("file_text"))	{ Resources::FileFormatIcons::FILE_TEXT.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("file_xml"))		{ Resources::FileFormatIcons::FILE_XML.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("file_py"))		{ Resources::FileFormatIcons::FILE_PY.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("file_pyc"))		{ Resources::FileFormatIcons::FILE_PYC.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("file_cpp"))		{ Resources::FileFormatIcons::FILE_CPP.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("file_h"))		{ Resources::FileFormatIcons::FILE_H.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("file_hpp"))		{ Resources::FileFormatIcons::FILE_HPP.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("file_png"))		{ Resources::FileFormatIcons::FILE_PNG.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("file_ttf"))		{ Resources::FileFormatIcons::FILE_TTF.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("file_bin"))		{ Resources::FileFormatIcons::FILE_BIN.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("file_dll"))		{ Resources::FileFormatIcons::FILE_DLL.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("file_obj"))		{ Resources::FileFormatIcons::FILE_OBJ.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first != std::string("")) {
+						sf::Texture tex; tex.loadFromFile(CLI::getExecPath().append(key_value.second[0])); Resources::addFileFormatIcon(key_value.first, tex); continue;
+					}
 				}
 				continue;
 			}
@@ -155,11 +142,9 @@ void CLI::readPeConfigFile() {
 				while (std::getline(init_file, line)) {
 					if (pe::__removeWiteSpace(line) == std::string("end")) break;
 					key_value = CLI::getKeyValue(line);
-					if (key_value.first == std::string("none")) { Resources::MenuIcons::NONE.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("rename")) { Resources::MenuIcons::RENAME.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("delete")) { Resources::MenuIcons::_DELETE.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("open_in_explorer")) { Resources::MenuIcons::OPEN_IN_EXPLORER.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("new_obj")) { Resources::MenuIcons::NEW_OBJ.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first != std::string("")) {
+						sf::Texture tex; tex.loadFromFile(CLI::getExecPath().append(key_value.second[0])); Resources::addMenuIcon(key_value.first, tex); continue;
+					}
 				}
 				continue;
 			}
@@ -168,11 +153,9 @@ void CLI::readPeConfigFile() {
 				while (std::getline(init_file, line)) {
 					if (pe::__removeWiteSpace(line) == std::string("end")) break;
 					key_value = CLI::getKeyValue(line);
-					if (key_value.first == std::string("error")) { Resources::OtherIcons::_ERROR.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("warning")) { Resources::OtherIcons::WARNING.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("explorer_up")) { Resources::OtherIcons::EXPLORER_UP.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("explorer_refresh")) { Resources::OtherIcons::EXPLORER_REFRESH.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-					if (key_value.first == std::string("create_new")) { Resources::OtherIcons::_CREATE_NEW.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+					if (key_value.first != std::string("")) {
+						sf::Texture tex; tex.loadFromFile(CLI::getExecPath().append(key_value.second[0])); Resources::addOtherIcon(key_value.first, tex); continue;
+					}
 				}
 				continue;
 			}

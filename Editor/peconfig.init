@@ -41,7 +41,8 @@ menu_icons:
 	rename="..\..\..\../Editor/res/icons/menu_icons/rename.png"
 	delete="..\..\..\../Editor/res/icons/menu_icons/delete.png"
 	open_in_explorer="..\..\..\../Editor/res/icons/menu_icons/open_in_explorer.png"
-	new_obj="..\..\..\../Editor/res/icons/menu_icons/new_obj.png"
+	new_object="..\..\..\../Editor/res/icons/menu_icons/new_obj.png"
+	new_script="..\..\..\../Editor/res/icons/menu_icons/new_script.png"
 end
 
 other_icons:

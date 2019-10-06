@@ -52,12 +52,12 @@ public:
 			ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 
 			// path up button
-			if (ImGui::ImageButton(Resources::OtherIcons::EXPLORER_UP)) {
+			if (ImGui::ImageButton(Resources::getOtherIcon("explorer_up"))) {
 				m_py_explorer.attr("pathUp")();
 			}
 			// refresh button
 			ImGui::SameLine();
-			if (ImGui::ImageButton(Resources::OtherIcons::EXPLORER_REFRESH)) {
+			if (ImGui::ImageButton(Resources::getOtherIcon("explorer_refresh"))) {
 				m_py_explorer.attr("reload")();
 			}
 			// drive select
@@ -82,7 +82,8 @@ public:
 				// icon
 				std::string item_name = m_py_explorer.attr("getItemName")(i).cast<std::string>();
 				if (m_py_explorer.attr("isItemDir")(i).cast<bool>()) {
-					ImGui::Image(Resources::FileFormatIcons::DIR_CLOSED); ImGui::SameLine();
+					//ImGui::Image(Resources::FileFormatIcons::DIR_CLOSED); ImGui::SameLine();
+					ImGui::Image(Resources::getFileFormatIcon("dir_close")); ImGui::SameLine();
 				}
 				else {
 					FileTree::drawFileIcon(item_name);

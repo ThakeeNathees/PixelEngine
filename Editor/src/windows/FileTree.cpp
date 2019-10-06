@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "FileTree.h"
-
+#include "pyutils/PyUtils.h"
 
 FileTree* FileTree::s_instance = nullptr;
 
 void FileTree::renderTreeRecursive(py::object& tree, bool next_item_open) {
 	std::string path = tree.attr("path").cast<std::string>();
 	long long id = m_math_util.attr("md5Hash")(path, "long").cast<long long>();
-	std::string dir_name = m_py_os.attr("path").attr("basename")(path).cast<std::string>();
+	std::string dir_name = PyUtils::getInstance()->getOs().attr("path").attr("basename")(path).cast<std::string>();
 
 	float dir_icon_pos = ImGui::GetCursorPosX();
 	if (next_item_open) ImGui::SetNextItemOpen(true, ImGuiCond_Once);
@@ -32,7 +32,7 @@ void FileTree::renderTreeRecursive(py::object& tree, bool next_item_open) {
 			// draw file icon
 			drawFileIcon(path);
 			ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 20);
-			std::string title = m_py_os.attr("path").attr("basename")(path).cast<std::string>();
+			std::string title = PyUtils::getInstance()->getOs().attr("path").attr("basename")(path).cast<std::string>();
 			ImGui::TreeNodeEx((void*)(intptr_t)(id), node_flags, title.c_str());
 
 			// click node
@@ -112,7 +112,7 @@ void FileTree::nodeClickedEvent(const std::string& title, const std::string& pat
 void FileTree::renderRightMouseMenu(const std::string& path) {
 	if (ImGui::BeginPopupContextItem("right mouse menu")) {
 		// for folder
-		if (m_py_os.attr("path").attr("isdir")(path).cast<bool>()) {
+		if (PyUtils::getInstance()->getOs().attr("path").attr("isdir")(path).cast<bool>()) {
 
 			ImGui::Image(Resources::MenuIcons::NONE); ImGui::SameLine();
 			if (ImGui::BeginMenu("New")) {
@@ -123,8 +123,8 @@ void FileTree::renderRightMouseMenu(const std::string& path) {
 					ImGui::Text("Name"); ImGui::SameLine();
 					ImGui::InputText("", file_name, sizeof(file_name));
 					if (ImGui::IsKeyPressed(sf::Keyboard::Key::Enter)) {
-						m_py_os.attr("system")(std::string("copy NUL \"").append(
-							m_py_os.attr("path").attr("join")(path, file_name).cast<std::string>()
+						PyUtils::getInstance()->getOs().attr("system")(std::string("copy NUL \"").append(
+							PyUtils::getInstance()->getOs().attr("path").attr("join")(path, file_name).cast<std::string>()
 						).append("\"")); reload();file_name[0] = 0;
 						ImGui::CloseCurrentPopup();
 					}
@@ -137,8 +137,8 @@ void FileTree::renderRightMouseMenu(const std::string& path) {
 					ImGui::Text("Name"); ImGui::SameLine();
 					ImGui::InputText("", dir_name, sizeof(dir_name));
 					if (ImGui::IsKeyPressed(sf::Keyboard::Key::Enter)) {
-						m_py_os.attr("system")(std::string("mkdir \"").append(
-							m_py_os.attr("path").attr("join")(path, dir_name).cast<std::string>()
+						PyUtils::getInstance()->getOs().attr("system")(std::string("mkdir \"").append(
+							PyUtils::getInstance()->getOs().attr("path").attr("join")(path, dir_name).cast<std::string>()
 						).append("\"")); reload(); dir_name[0] = 0;
 						ImGui::CloseCurrentPopup();
 					}
@@ -154,7 +154,7 @@ void FileTree::renderRightMouseMenu(const std::string& path) {
 				ImGui::Text("Name"); ImGui::SameLine();
 				ImGui::InputText("", new_name, sizeof(new_name));
 				if (ImGui::IsKeyPressed(sf::Keyboard::Key::Enter)) {
-					m_py_os.attr("system")( std::string("rename \"").append(path).append("\" \"").append(new_name).append("\"") );
+					PyUtils::getInstance()->getOs().attr("system")( std::string("rename \"").append(path).append("\" \"").append(new_name).append("\"") );
 					reload(); new_name[0] = 0;
 					ImGui::CloseCurrentPopup();
 				}
@@ -170,7 +170,7 @@ void FileTree::renderRightMouseMenu(const std::string& path) {
 			
 			ImGui::Image(Resources::MenuIcons::OPEN_IN_EXPLORER); ImGui::SameLine();
 			if (ImGui::Selectable("Open in explorer")) {
-				m_py_os.attr("system")(std::string("explorer \"").append(path).append("\""));
+				PyUtils::getInstance()->getOs().attr("system")(std::string("explorer \"").append(path).append("\""));
 			}
 		}
 		// for files
@@ -183,7 +183,7 @@ void FileTree::renderRightMouseMenu(const std::string& path) {
 				ImGui::Text("Name"); ImGui::SameLine();
 				ImGui::InputText("", new_name, sizeof(new_name));
 				if (ImGui::IsKeyPressed(sf::Keyboard::Key::Enter)) {
-					m_py_os.attr("system")(std::string("rename \"").append(path).append("\" \"").append(new_name).append("\""));
+					PyUtils::getInstance()->getOs().attr("system")(std::string("rename \"").append(path).append("\" \"").append(new_name).append("\""));
 					reload(); new_name[0] = 0;
 					ImGui::CloseCurrentPopup();
 				}
@@ -199,8 +199,8 @@ void FileTree::renderRightMouseMenu(const std::string& path) {
 
 			ImGui::Image(Resources::MenuIcons::OPEN_IN_EXPLORER); ImGui::SameLine();
 			if (ImGui::Selectable("Open in explorer")) {
-				m_py_os.attr("system")(std::string("explorer \"").append(
-					m_py_os.attr("path").attr("dirname")(path).cast<std::string>()
+				PyUtils::getInstance()->getOs().attr("system")(std::string("explorer \"").append(
+					PyUtils::getInstance()->getOs().attr("path").attr("dirname")(path).cast<std::string>()
 				).append("\""));
 			}
 		}

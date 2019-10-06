@@ -44,11 +44,12 @@ def updateRegister(working_dir = '.'):
                     cpp_register_list.append(class_tag.attrib['name'])
                 elif class_tag.attrib['type'] == 'PYTHON_OBJECT':
                     python_path_list.append(class_tag.text)
+    python_path_list = list(set(python_path_list))
     file = open(file_path, 'w')
     file.write( register_format %(
         '\n'.join( list(map(lambda path: include_format%path,include_lists))),
         '\n\t'.join(list(map(lambda path: register_class_format%path,cpp_register_list))),
-        '\n\t'.join(list(map(lambda path: pyobjpath_format%path,python_path_list)))
+        '\n\t'.join(list(map(lambda path: pyobjpath_format%path, python_path_list )))
         ) )
     file.close()
                 

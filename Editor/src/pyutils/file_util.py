@@ -31,3 +31,10 @@ def getPyFileName(path):
     if len(name) < 2: return "<UNKNOWN>"
     if name[1] != "py" : return "<UNKNOWN>"
     return name[0]
+
+def relPath(path):
+    return os.path.relpath(path)
+
+## convert "C:/dev/proj/src/pyobj1.py" -> "src/"
+def relPyObjDirPath(py_obj_path):
+    return os.path.dirname( os.path.relpath(py_obj_path) )

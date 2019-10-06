@@ -55,10 +55,12 @@ public:
 			if (ImGui::ImageButton(Resources::OtherIcons::EXPLORER_UP)) {
 				m_py_explorer.attr("pathUp")();
 			}
+			// refresh button
 			ImGui::SameLine();
 			if (ImGui::ImageButton(Resources::OtherIcons::EXPLORER_REFRESH)) {
 				m_py_explorer.attr("reload")();
 			}
+			// drive select
 			ImGui::SameLine();
 			const char* drives[] = {"C:/","D:/","E:/"};
 			static int current_drive = 0; // C:/

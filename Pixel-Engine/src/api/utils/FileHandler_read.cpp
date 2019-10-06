@@ -99,7 +99,9 @@ namespace pe
 			obj = Assets::newObject();
 		}
 		else {
-			if (type == std::string("CPP_OBJECT"))
+			if (app == nullptr)
+				obj = Assets::newObject(); // even obj_type is python editor project can't make python obj -> app == nullptr
+			else if (type == std::string("CPP_OBJECT")) 
 				obj = Assets::newObject(class_name); // TODO: assert here
 			else if (type == std::string("PYTHON_OBJECT")) {
 				obj = new PythonObject(class_name);

@@ -14,13 +14,13 @@ private:
 	{
 		auto m = py::module::import("file_tree");
 		m_py_filetree = m.attr("FileTree")(CLI::getCwd());
-		m_py_os = py::module::import("os");
+		//m_py_os = py::module::import("os");
 		m_math_util = py::module::import("math_util"); // make it static like
 	}
 
 	static FileTree* s_instance;
 	std::string m_title;
-	py::object m_py_os;
+	//py::object m_py_os;
 	py::object m_py_filetree;
 	py::object m_math_util;
 	long long m_selected_id = -1;

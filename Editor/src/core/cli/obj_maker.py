@@ -31,8 +31,10 @@ def writeObject(obj, path):
     file.write(pretty_xml)
     file.close()
 
-def newObject(name, obj_id, class_name="", obj_type="PYTHON_OBJECT",
+def newObject(name, obj_id, class_name="", obj_type=0, ## 1 -> PYTHON_OBJECT, else -> CPP_OBJECT
                 src_path="", z_index=0, visible=True, persistence=False):
+    if obj_type == 1: obj_type = "PYTHON_OBJECT"
+    else : obj_type = "CPP_OBJECT"
     obj_text = object_format%(name, obj_id, class_name, obj_type, src_path,
                 z_index, visible, "true" if persistence else "false" )
     

@@ -24,7 +24,6 @@ PIXEL_ENGINE_API void pe_mainLoop(const char* project_name, int argc, char** arg
 	PE_LOG("python interpriter initialized");
 	py::exec("import sys");
 	for (auto& path : pe::Assets::getPyobjectPaths()) {
-
 		py::exec(std::string("sys.path.append('").append(path).append("')"));
 	}
 

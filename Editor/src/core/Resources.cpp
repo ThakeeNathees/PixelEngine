@@ -65,12 +65,12 @@ int Resources::readProjFile() {
 		return 1; 
 	} else PE_LOG("assets file read success");
 
-	PE_LOG("objects reading begin (%s objects)", s_proj.objects_path.size());
+	PE_LOG("objects reading begin (%i objects)", s_proj.objects_path.size());
 	for (auto& path : s_proj.objects_path) {
 		file_handler.readObject(path.c_str(), nullptr);
 		PE_LOG("\tobject read success : %s", path.c_str());
 	}
-	PE_LOG("scene reading begin (%s scenes)", s_proj.scene_paths.size());
+	PE_LOG("scene reading begin (%i scenes)", s_proj.scene_paths.size());
 	for (auto& path : s_proj.scene_paths) {
 		file_handler.readScenes(path.c_str(), nullptr);
 		PE_LOG("\tscene read success : %s", path.c_str());

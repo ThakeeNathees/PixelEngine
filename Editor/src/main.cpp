@@ -83,7 +83,6 @@ int main(int argc, char** argv)
 
 		ImGui::ShowTestWindow();
 
-
 		ImGui::SFML::Render(window);
 		window.display();
 

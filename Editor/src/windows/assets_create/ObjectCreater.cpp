@@ -87,13 +87,35 @@ void ObjectCreater::render()
 			else if (str_scr_path != std::string("") && !PyUtils::getInstance()->getFileUtil().attr("isPathScript")(str_scr_path).cast<bool>())
 				ImGui::OpenPopup("Invalid Script Path!");
 			else {
-				if (m_class_name[0]!='\0') m_object = pe::Assets::newObject(std::string(m_class_name));
-				else m_object = pe::Assets::newObject();
+				m_object = pe::Assets::newObject();
+				
+				m_object->setName(m_obj_name);
+				m_object->setVisible(m_visible);
+				m_object->setZindex(m_z_index);
+				m_object->setPersistence(m_persistance);
+				if (m_script_path[0]) {
+					m_object->__setClassName(m_class_name);
+					switch (m_obj_type) {
+						case 1: 
+							m_object->__setObjectType(pe::Object::ObjectType::PYTHON_OBJECT); 
+							m_object->__setClassPath( PyUtils::getInstance()->getFileUtil().attr("relPyObjDirPath") (m_script_path).cast<std::string>() );
+							break;
+						case 2: 
+							m_object->__setObjectType(pe::Object::ObjectType::CPP_OBJECT); 
+							m_object->__setClassPath(m_script_path);
+							break;
+						default: 
+							m_object->__setObjectType(pe::Object::ObjectType::PYTHON_OBJECT); 
+							break;
+					}	
+				}
 
-
-				//m_py_objmaker.attr("newObject")(...);
-
+				auto obj_tag = m_py_objmaker.attr("newObject")(m_object->getName(), m_object->getId(), m_object->getClassName(), m_obj_type, m_object->getClassPath(),
+					m_object->getZindex(), m_object->isVisible(), m_object->isPersistence());
+				m_py_objmaker.attr("writeObject")(obj_tag, m_obj_path);
+				CLI::getInstance()->projUpdate(false);
 				FileTree::getInstance()->reload();
+				m_popen = false;
 				// end and return;
 			}
 
@@ -145,7 +167,8 @@ void ObjectCreater::render()
 
 		// capture selected path to inputs
 		if (ExplorerPopup::getInstance()->isPathSelected()) {
-			const char* c = ExplorerPopup::getInstance()->getSelectedPath().c_str();
+			auto rel_path = PyUtils::getInstance()->getFileUtil().attr("relPath")(ExplorerPopup::getInstance()->getSelectedPath()).cast<std::string>();
+			const char* c = rel_path.c_str();
 			int i = 0; // to copy string
 			if (m_path_dst_ind == 0) {
 				while (c[i])  m_obj_path[i] = c[i++]; m_obj_path[i] = 0;
@@ -157,7 +180,7 @@ void ObjectCreater::render()
 			ExplorerPopup::getInstance()->setPathSelectedFalse();
 		}
 
-		// find class name
+		// find class name and type
 		if (m_script_path[0] != '\0') {
 
 			if (PyUtils::getInstance()->getStrUtil().attr("endswith")(std::string(m_script_path), std::string(".py")).cast<bool>()) {

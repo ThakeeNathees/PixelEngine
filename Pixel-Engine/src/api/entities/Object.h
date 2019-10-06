@@ -121,7 +121,24 @@ namespace pe
 		bool hasAnimation(const std::string& anim_name);
 		bool hasTimer(const std::string& timer_name);
 
+		// dont use these methods
+		void __setClassName(const std::string& name) {
+			m_class_name = name;
+		}
+		void __setClassPath(const std::string& path) {
+			m_class_path = path;
+		}
+		void __setObjectType(ObjectType type) {
+			m_object_type = type;
+		}
 
+		static int __getNextId() {
+			return s_next_id;
+		}
+		static int __getObjCount() {
+			return s_object_count;
+		}
+		
 
 	protected:
 		ObjectType m_object_type = ObjectType::CPP_OBJECT;

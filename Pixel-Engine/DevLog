@@ -3,8 +3,9 @@
 ## TODO ########################################################################
 	
 HIGHT PRIORITY
-	editor font
-	popup editor
+	set python path runtime
+	create application drawable and window
+	create python object in editor too
 	pybind
 		window, application
 

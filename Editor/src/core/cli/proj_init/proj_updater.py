@@ -6,20 +6,25 @@ obj_format = ".obj.xml"
 scene_format = ".scn.xml"
 proj_format = ".peproj"
 
+
 def updateProj(proj_name = "", working_dir='.'):
     proj_file_name= proj_name + proj_format
     working_dir = working_dir+'/' if working_dir[-1] !='/' else working_dir ## need below
     proj_file_path = os.path.join(working_dir , proj_file_name)
 
+    ## search for proj file
     if (proj_name==""):
         for file in os.listdir(working_dir):
             if file.endswith(proj_format):
                 proj_file_path = os.path.join(working_dir, file)
                 break;
+        else:
+            proj_name = os.path.basename(os.path.abspath('.'))
+            proj_file_path = os.path.join(working_dir, proj_name) +proj_format
 
     if not os.path.isfile(proj_file_path):
         proj_file = open(proj_file_path, 'w')
-        proj_file.write('<Project title="%s"><window_size x="640" y="480"/><pref frame_rate="30" begin_scene_id="70000" debug_mode="true" no_console="false"/><logo_texture id="-1"/><bg_color r="80" g="80" b="80" a="255"/><assets>assets.xml</assets><objects/><scenes/></Project>'%proj_name)
+        proj_file.write('<Project title="%s"><window_size x="640" y="480"/><pref frame_rate="30" begin_scene_id="70000" debug_mode="true" no_console="false"/><logo_texture id="-1"/><bg_color r="80" g="80" b="80" a="255"/><assets>assets.xml</assets><objects/><pypaths/><scenes/></Project>'%proj_name)
         proj_file.close()
     doc = ET.parse( proj_file_path )
     root = doc.getroot()
@@ -28,6 +33,11 @@ def updateProj(proj_name = "", working_dir='.'):
     obj_to_delete = {}
     for tag in objects:
         obj_to_delete[tag] = True
+        
+    pypaths = root.find('pypaths')
+    pypath_to_delete = {}
+    for pypath in pypaths:
+        pypath_to_delete[pypath] = True
     
     scenes = root.find('scenes')
     scn_to_delete = {}
@@ -37,11 +47,21 @@ def updateProj(proj_name = "", working_dir='.'):
     for path, folders, files in os.walk(working_dir):
         for file in files:
             asset_path = os.path.join(path, file)[len(working_dir):]
+
             if isPathObject(asset_path):
                 if not objectHasPaht(objects, asset_path, obj_to_delete):
                     new_obj = ET.Element('path')
                     new_obj.text = asset_path
                     objects.insert(len(objects), new_obj)
+                
+                obj_doc = ET.parse(asset_path)
+                obj_doc_root = obj_doc.getroot()
+                cls = obj_doc_root.find('class')
+                if cls.attrib["type"] == "PYTHON_OBJECT" and not pypathHasPaht(pypaths, cls.text, pypath_to_delete):
+                    new_pypath = ET.Element('pypath')
+                    new_pypath.text = cls.text
+                    pypaths.insert(len(pypaths), new_pypath)
+
             if isPathScene(asset_path):
                 if not sceneHasPaht(scenes, asset_path, scn_to_delete):
                         new_scn = ET.Element('path')
@@ -51,6 +71,10 @@ def updateProj(proj_name = "", working_dir='.'):
     for obj, is_delete in obj_to_delete.items():
         if is_delete:
             objects.remove(obj)
+
+    for pypath, is_delete in pypath_to_delete.items():
+        if is_delete:
+            pypaths.remove(pypath)
             
     for scn, is_delete in scn_to_delete.items():
         if is_delete:
@@ -80,6 +104,13 @@ def objectHasPaht(objects, path, obj_to_delete):
             obj_to_delete[ obj ] = False
             return True
     return False
+
+def pypathHasPaht(pypaths, path, pypath_to_delete):
+    for pypath in pypaths:
+        if pypath.text == path:
+            pypath_to_delete[pypath] = False
+            return True
+        return False
 
 def sceneHasPaht(scenes, path, scn_to_delete):
     for scn in scenes:

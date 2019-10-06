@@ -7,6 +7,25 @@ def getProjFileName(path='.'):
             return file
     return ""
 
+## return paths of python files to update sys.path
+import xml.etree.ElementTree as ET
+def getPyPaths(working_dir='.', proj_file_name=""):
+    if proj_file_name == "":
+        for file in os.listdir(working_dir):
+            if file.endswith(".peproj"):
+                proj_file_name = file
+                break
+    doc = ET.parse(os.path.join(working_dir, proj_file_name))
+    root = doc.getroot()
+    pypaths = root.find('pypaths')
+    if pypaths is None : return []
+    ret = []
+    for pypath in pypaths:
+        ret.append(pypath.text)
+    return ret
+        
+    
+
 ## return true if path ends with .py, .h, .hpp else false
 def isPathScript(path):
     if (not os.path.exists(path)) : return False

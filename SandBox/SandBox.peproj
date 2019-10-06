@@ -8,6 +8,9 @@
     	<path>res/scene1/objects/60000.obj.xml</path>
     	<path>res/scene1/objects/60002.obj.xml</path>
     </objects>
+	<pypaths>
+		<pypath>src</pypath>
+	</pypaths>
     <scenes>
     	<path>res/scene1/70000.scn.xml</path>
     </scenes>

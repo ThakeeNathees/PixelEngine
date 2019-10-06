@@ -12,7 +12,7 @@
 #include <pybind11/stl.h>
 #include <pybind11/embed.h>
 namespace py = pybind11;
-// test
+
 #include "bindings/python/pybind.h"
 #include "bindings/python/PythonObject.h"
 
@@ -42,6 +42,10 @@ namespace pe
 		if ( !m_is_debug_mode ) FreeConsole();
 		else PE_CONSOLE_LOG( "this console window only apear in debug mode" );
 #endif
+
+		for (auto& path : m_peproj.pypaths) {
+			py::exec(std::string("sys.path.append('").append(path).append("')"));
+		}
 		// TODO: set assets.xml as the defaule assets path and don't change the name for consistency
 		if (std::string(m_peproj.assets_path) != std::string("")) {
 			error = file.readAssets(m_peproj.assets_path.c_str()); // TODO: error handle
@@ -92,7 +96,6 @@ namespace pe
 		if (scene == nullptr){ PE_LOG("\nERROR: pe::Application::addScene(pe::Scene*) called with nullptr"); }
 		assert( scene != nullptr );
 		m_scenes.push_back(scene);
-		//scene->setSceneWindowSize(sf::Vector2i(m_window->getSize().x, m_window->getSize().y) );
 		for (auto obj : m_persistent_objects) scene->addObject(obj);
 	}
 

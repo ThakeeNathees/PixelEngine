@@ -12,7 +12,4 @@ void register_classes()
 	// register cpp objects
 	REGISTER_CLASS(Player);
 	REGISTER_CLASS(Npc);
-
-	// add python object path
-	ADD_PYOBJECT_PATH("src");
 }

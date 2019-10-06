@@ -26,6 +26,11 @@ namespace pe
 		return s_assets.find(id) != s_assets.end();
 	}
 
+	bool Assets::isClassRegistered(const std::string& class_name) {
+		auto pair = s_object_registry.find(class_name);
+		return pair != s_object_registry.end();
+	}
+
 	Object* Assets::newObject(const std::string& class_name) {
 		auto pair = s_object_registry.find(class_name);
 		assert( pair != s_object_registry.end() && "unregistered class_name to construct use REGISTER_CLASS macro to register your classes" );

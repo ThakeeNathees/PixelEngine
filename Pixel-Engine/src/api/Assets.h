@@ -21,6 +21,7 @@ namespace pe
 		static T* newAsset() { Asset* asset = new T(); addAsset(asset); return static_cast<T*>(asset); }
 		template <typename T>
 		static T* newAsset(const std::string& name) { Asset* asset = new T(name); addAsset(asset); return static_cast<T*>(asset); }
+		static bool isClassRegistered(const std::string& class_name);
 		static Object* newObject(const std::string& class_name);
 		static Object* newObject();
 

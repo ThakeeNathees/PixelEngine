@@ -1,6 +1,7 @@
 #pragma once
 
 #include <pybind11/pybind11.h>
+#include "pybind11/embed.h"
 namespace py = pybind11;
 
 #include "api/Application.h"
@@ -9,7 +10,6 @@ class PythonObject : public pe::Object
 {
 public:
 	inline PythonObject( const std::string& module_name) {
-		this;
 		m_object_type = pe::Object::ObjectType::PYTHON_OBJECT;
 		m_module = py::module::import(module_name.c_str());
 		m_class_name = module_name;

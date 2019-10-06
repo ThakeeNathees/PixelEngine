@@ -46,6 +46,11 @@ namespace pe
 			m_peproj.objects_path.push_back(path_tag->GetText());
 		}
 
+		auto pypaths_tag = root->FirstChildElement("pypaths");
+		for (auto pypath_tag = pypaths_tag->FirstChildElement(); pypath_tag != NULL; pypath_tag = pypath_tag->NextSiblingElement()) {
+			m_peproj.pypaths.push_back(pypath_tag->GetText());
+		}
+
 		auto scenes_tag = root->FirstChildElement("scenes");
 		for (auto path_tag = scenes_tag->FirstChildElement(); path_tag != NULL; path_tag = path_tag->NextSiblingElement()) {
 			m_peproj.scene_paths.push_back(path_tag->GetText());
@@ -99,12 +104,17 @@ namespace pe
 			obj = Assets::newObject();
 		}
 		else {
-			if (app == nullptr)
-				obj = Assets::newObject(); // even obj_type is python editor project can't make python obj -> app == nullptr
-			else if (type == std::string("CPP_OBJECT")) 
-				obj = Assets::newObject(class_name); // TODO: assert here
+			//if (app == nullptr) obj = Assets::newObject(); // even obj_type is python editor project can't make python obj -> app == nullptr
+			if (type == std::string("CPP_OBJECT")) {
+				if (!Assets::isClassRegistered(class_name)) {
+					obj = Assets::newObject();
+					PE_LOG("\n WARNING: class not found in class registry: class_name=%s  object_id=%i name=%s \nusing default object", class_name.c_str(), obj->m_id, obj->m_name.c_str());
+					PE_CONSOLE_LOG("\nWARNING: class not found in class registry: class_name=%s  object_id=%i name=%s \nusing default object", class_name.c_str(), obj->m_id, obj->m_name.c_str());
+				}
+				else obj = Assets::newObject(class_name);
+			}
 			else if (type == std::string("PYTHON_OBJECT")) {
-				obj = new PythonObject(class_name);
+				obj = new PythonObject(class_name);  // TODO: assert here -> if class not found
 				Assets::addAsset(obj);
 				obj->m_class_path = class_tag->GetText();
 			}

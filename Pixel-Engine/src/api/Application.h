@@ -15,6 +15,7 @@ namespace pe {
 		sf::Color default_bg_color = sf::Color(80, 80, 80, 255);
 		std::string assets_path = "assets.xml";
 		std::vector<std::string> objects_path;
+		std::vector<std::string> pypaths;
 		std::vector<std::string> scene_paths;
 
 	};

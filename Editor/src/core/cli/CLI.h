@@ -1,5 +1,7 @@
 #pragma once
 #include "..//Console.h"
+#include "pybind11/stl.h"
+#include "pyutils/PyUtils.h"
 
 class CLI
 {
@@ -17,8 +19,13 @@ public:
 	}
 	void projUpdate(bool include_pe = true, const std::string& proj_name="", const std::string& proj_dir=".") {
 		try {
-			m_py_proj_init.attr("updateProj")(proj_name, proj_dir, include_pe);
+			auto ret = m_py_proj_init.attr("updateProj")(proj_name, proj_dir, include_pe);
 			PE_LOG("CLI::projUpdate success");
+			auto pypaths = PyUtils::getInstance()->getFileUtil().attr("getPyPaths")().cast<std::vector<std::string>>();
+			for (std::string& pypath : pypaths) {
+				py::exec(std::string("sys.path.append('").append(pypath).append("')"));
+			}
+			PE_LOG("CLI::projUpdate python paths append success");
 		}
 		catch (const std::exception&e){
 			PE_LOG("\nERROR: in method CLI::projUpdate\n%s\n",e.what());

@@ -1,5 +1,6 @@
 #pragma once
 
+// for general use cli instance console
 
 class Console
 {
@@ -37,6 +38,12 @@ public:
 	void addLog(Log log) {
 		m_logs.push_back(log);
 		m_scroll_to_bottom = true;
+
+		// maintain size
+		static int MAX_LOG_SIZE = 50;
+		if (m_logs.size() > MAX_LOG_SIZE) {
+			while(m_logs.size() > MAX_LOG_SIZE) m_logs.erase(m_logs.begin());
+		}
 	}
 
 	void render() {
@@ -47,18 +54,18 @@ public:
 		for (auto& log : m_logs) {
 			switch (log.m_level) {
 			case LogLevel::LOGLEVEL_INFO:
-				ImGui::TextUnformatted(log.m_log.c_str()); break;
+				ImGui::TextWrapped(log.m_log.c_str()); break;
 			case LogLevel::LOGLEVEL_SUCCESS:
 				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.4f, 1.0f, 0.4f, 1.0f));
-				ImGui::TextUnformatted(log.m_log.c_str());
+				ImGui::TextWrapped(log.m_log.c_str());
 				ImGui::PopStyleColor(); break;
 			case LogLevel::LOGLEVEL_WARNING:
 				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 0.4f, 1.0f));
-				ImGui::TextUnformatted(log.m_log.c_str());
+				ImGui::TextWrapped(log.m_log.c_str());
 				ImGui::PopStyleColor(); break;
 			case LogLevel::LOGLEVEL_ERROR:
 				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.4f, 0.4f, 1.0f));
-				ImGui::TextUnformatted(log.m_log.c_str());
+				ImGui::TextWrapped(log.m_log.c_str());
 				ImGui::PopStyleColor(); break;
 			}
 

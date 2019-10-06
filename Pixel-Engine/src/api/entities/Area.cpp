@@ -11,7 +11,6 @@ namespace pe
 	float Area::s_outline_thickness = 2;
 
 	Area::~Area() {
-		std::cout << "area distruct" << std::endl;
 		s_area_count--;
 	}
 

@@ -199,17 +199,15 @@ void register_event(py::module& m)
 		.def_readonly("hight", &pe::Event::SizeEvent::height)
 		;
 
-/*
-*/
 	///////////////////////////////////////////////////////////////////////
 
 	m
 		.def("isKeyPressed", &sf::Keyboard::isKeyPressed )
 		.def("isButtonPressed", &sf::Mouse::isButtonPressed )
-		.def("getMousePosition", (sf::Vector2i(*)())& sf::Mouse::getPosition)
-		.def("getMousePosition", (sf::Vector2i(*)(const sf::Window&))& sf::Mouse::getPosition)
-		.def("setMousePosition", (void(*)(const sf::Vector2i&))& sf::Mouse::setPosition)
-		.def("setMousePosition", (void(*)(const sf::Vector2i&, const sf::Window&))& sf::Mouse::setPosition)
+		.def("getMousePosition", []() { return static_cast<sf::Vector2f>( sf::Mouse::getPosition() ); } )//(sf::Vector2i(*)())& sf::Mouse::getPosition)
+		.def("getMousePosition", [](const sf::Window& window) { return static_cast<sf::Vector2f>(sf::Mouse::getPosition(window)); })//(sf::Vector2i(*)(const sf::Window&))& sf::Mouse::getPosition)
+		.def("setMousePosition", [](const sf::Vector2f& vec) { sf::Mouse::setPosition(static_cast<sf::Vector2i>(vec)); })//(void(*)(const sf::Vector2i&))& sf::Mouse::setPosition)
+		.def("setMousePosition", [](const sf::Vector2f& vec, const sf::Window& window) { sf::Mouse::setPosition(static_cast<sf::Vector2i>(vec), window); })//(void(*)(const sf::Vector2i&, const sf::Window&))& sf::Mouse::setPosition)
 		;
 
 	

@@ -34,6 +34,7 @@ namespace pe
 		if (error) { PE_LOG("project file reading error"); }
 		else { PE_LOG("project file reading success"); }
 		m_peproj = file.getProject();
+		//setDebugMode(m_peproj.is_debug_mode);
 		if (create_window) {
 			m_window = new sf::RenderWindow(sf::VideoMode(m_peproj.window_size.x, m_peproj.window_size.y), m_peproj.title);
 			m_render_target = m_window;
@@ -169,7 +170,8 @@ namespace pe
 
 			dt += m_clock.getElapsedTime().asMicroseconds() / 1000000.0;
 			if ( dt >= 1 / m_frame_rate) {
-				if (m_is_debug_mode && m_window) m_window->setTitle(m_peproj.title + std::string(" | DebugMode | fps : ").append(std::to_string(1 / dt)));
+				m_current_frame_rate = 1 / dt;
+				if (m_is_debug_mode && m_window) m_window->setTitle(m_peproj.title + std::string(" | DebugMode | fps : ").append(std::to_string(m_current_frame_rate)));
 				for (Timer* timer : m_current_scene->m_timers) {
 					timer->update();
 				}
@@ -222,6 +224,12 @@ namespace pe
 		// process
 		*dt += m_clock.getElapsedTime().asMicroseconds() / 1000000.0;
 		if (*dt >= 1 / m_frame_rate) {
+			m_current_frame_rate = 1 / *dt;
+			// reload
+			if (m_is_debug_mode && sf::Keyboard::isKeyPressed(sf::Keyboard::F4)) {
+				for (auto obj : m_current_scene->getObjects()) obj->scriptReload();
+			}
+
 			for (Timer* timer : m_current_scene->m_timers) {
 				timer->update();
 			}
@@ -230,7 +238,7 @@ namespace pe
 				for (Object* object : signal->getRecievers()) {
 					if (object != nullptr) {
 						try { object->recieveSignal(*signal); }
-						catch (const std::exception & err) { PE_CONSOLE_LOG(err.what()); }
+						catch (const std::exception & err) { throw err; }
 					}
 				}
 			}
@@ -239,7 +247,7 @@ namespace pe
 			for (Object* object : m_current_scene->getObjects()) {
 				*dt += m_clock.getElapsedTime().asMicroseconds() / 1000000.0;
 				try { object->process(*dt); }
-				catch (const std::exception & err) { PE_CONSOLE_LOG(err.what()); }
+				catch (const std::exception & err) { throw err; }
 			}
 
 			if (m_current_scene->getBackground()) { m_current_scene->getBackground()->move(*dt); }
@@ -258,7 +266,7 @@ namespace pe
 		for (pe::Drawable* drawable : m_current_scene->getDrawables()) {
 			if (drawable->isVisible()) {
 				try { m_render_target->draw(*drawable); }
-				catch (const std::exception & err) { PE_CONSOLE_LOG(err.what()); }
+				catch (const std::exception & err) { throw err; }
 			}
 		}
 		if (m_window) m_window->display();
@@ -274,7 +282,7 @@ namespace pe
 		assert(m_current_scene);
 		for (Object* object : m_current_scene->getObjects()) {
 			try { object->handleEvent(*event); }
-			catch (const std::exception & err) { PE_CONSOLE_LOG(err.what()); }
+			catch (const std::exception & err) { throw err; }
 			if (event->isHandled()) continue;
 
 		}

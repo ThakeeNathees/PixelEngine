@@ -46,8 +46,9 @@ namespace pe {
 		// getters
 		inline sf::RenderWindow& getWindow() const { assert(m_window != nullptr); return *m_window; }
 		inline Scene& getCurrentScene() const { assert(m_current_scene != nullptr); return *m_current_scene; }
-		inline bool isDebugMode() { return m_is_debug_mode; }
-		inline bool isDebugDrawArea() { return m_is_debug_draw_area; }
+		inline bool isDebugMode()  const { return m_is_debug_mode; }
+		inline bool isDebugDrawArea() const { return m_is_debug_draw_area; }
+		inline double getCurrentFrameRate() const { return m_current_frame_rate; }
 
 		inline bool hasWindow() const { return m_window != nullptr; }
 		inline bool hasScene() const { return m_current_scene != nullptr; }
@@ -76,10 +77,8 @@ namespace pe {
 		std::vector<Object*> m_persistent_objects;
 		std::vector<Scene*> m_scenes;
 
-		//// VARIABLES FOR APPLICATION WHEN RUNNING AS A SUB THREAD IN EDITOR WINNDOW
-		bool* m_poll_event_ended = nullptr; // end event handle loop
-		bool* m_have_new_event = nullptr;   // process new event
-		pe::Event* m_shared_event = nullptr;
+		// actual frame rate = 1/dt
+		double m_current_frame_rate = 0;
 
 		static sf::Vector2i s_window_size;
 		static sf::Color s_background_color;

@@ -2,8 +2,9 @@
 
 #include "core/cli/CLI.h"
 #include "windows/StartWindow.h"
+
 #include "core/Resources.h"
-#include "windows/FileTree.h"
+#include "core/ApplicationHolder.h"
 
 #include "core/MainMenuBar.h"
 MainMenuBar* MainMenuBar::s_instance = nullptr;
@@ -14,7 +15,14 @@ PYBIND11_EMBEDDED_MODULE(console, m) {
 		.def("addLog", [](Console& cons, const std::string& msg, int level = 0) {cons.addLog(msg, level); })
 		;
 }
+PYBIND11_EMBEDDED_MODULE(peio, m) {
+	m.def("print", []() { CLI::getInstance()->getConsole()-> addLog( "" , 0); });
+	m.def("print", [](const py::object& msg) { CLI::getInstance()->getConsole()-> addLog( msg.attr("__str__")().cast<std::string>() , 0); });
+}
 
+
+
+#include "windows/FileTree.h"
 
 #include "windows/assets_create/ObjectCreator.h"
 #include "windows/assets_create/ScriptsCreator.h"
@@ -60,7 +68,6 @@ int main(int argc, char** argv)
 	sf::Clock clock;
 	pe::Event event; 
 	double dt =0;
-	//std::thread application_thread(runApplicationThread, Resources::getApplication(), &event, &poll_event_ended, &have_new_event);
 
 	while (window.isOpen()) {
 		// event handle
@@ -68,13 +75,32 @@ int main(int argc, char** argv)
 			ImGui::SFML::ProcessEvent(event);
 			if (event.type == sf::Event::Closed) window.close();
 			if (event.type == sf::Event::GainedFocus) { FileTree::getInstance()->reload(); }
-			if (Resources::getApplication()) Resources::getApplication()->__handleEvent(&event);
-		}
+			
+			// event handle for applicaton
+			if (ApplicationHolder::isRunning()) {
+				try {
+					ApplicationHolder::getApplication()->__handleEvent(&event);
+				}
+				catch (const std::exception& e){
+					CLI::getInstance()->getConsole()->addLog(e.what(),3);
+				}
+			}
+		} // end of event handle
+
+		/* ***********************	process and render ********************** */
 		ImGui::SFML::Update(window, clock.restart());
 
-		if (Resources::getApplication()) Resources::getApplication()->__process(&dt);
+		// process application
+		if (ApplicationHolder::isRunning()){
+			try {
+				ApplicationHolder::getApplication()->__process(&dt);
+			}
+			catch (const std::exception& e){
+				CLI::getInstance()->getConsole()->addLog(e.what(),3);
+			}
+		}
 
-		// render
+		// render windows
 		show_dock_space();
 		MainMenuBar::getInstance()->render();
 
@@ -87,11 +113,8 @@ int main(int argc, char** argv)
 
 		ObjectCreater::getInstance()->render();
 		ScriptCreator::getInstance()->render();
-		ImGui::Begin("Applicaton window");
-		ImGui::Image(Resources::getRenderTexture());
-		ImGui::End();
-		/*
-		*/
+		
+		ApplicationHolder::render();
 
 		ImGui::ShowTestWindow();
 

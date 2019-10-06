@@ -42,24 +42,14 @@ public:
 	static void addFont(const std::string& name, ImFont* font) {
 		s_fonts[name] = font;
 	}
-
-
-	static pe::Application* getApplication() {
-		return s_application;
-	}
-	static sf::RenderTexture& getRenderTexture(){
-		return s_render_texture;
-	}
+	
 
 private:
 	Resources() {}
-	static pe::_peproj s_proj;
 	static std::map<std::string, sf::Texture> s_file_format_icons;
 	static std::map<std::string, sf::Texture> s_menu_icons;
 	static std::map<std::string, sf::Texture> s_other_icons;
 	static std::map<std::string, ImFont*> s_fonts;
 
-	static pe::Application* s_application;
-	static sf::RenderTexture s_render_texture;
 	
 };

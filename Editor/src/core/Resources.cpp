@@ -4,9 +4,13 @@
 #include "../pyutils/PyUtils.h"
 
 
-pe::_peproj Resources::s_proj;
-pe::Application* Resources::s_application;
-sf::RenderTexture Resources::s_render_texture;
+// applicaton holder static declarations
+#include "ApplicationHolder.h"
+bool ApplicationHolder::s_is_running = false;
+std::string ApplicationHolder::s_proj_file_name;
+pe::Application* ApplicationHolder::s_application;
+sf::RenderTexture ApplicationHolder::s_render_texture;
+
 
 std::map<std::string, sf::Texture> Resources::s_file_format_icons;
 std::map<std::string, sf::Texture> Resources::s_menu_icons;
@@ -27,34 +31,6 @@ int Resources::readProjFile() {
 		return 1; 
 	} else PE_LOG("project file found : %s", proj_file_name.c_str());
 
-	s_application = new pe::Application(proj_file_name.c_str(), false, &s_render_texture);
-	s_render_texture.create(s_application->getWindowSize().x, s_application->getWindowSize().y );
-
-	/*
-	pe::FileHandler file_handler;
-	int error = file_handler.readProject(proj_file_name.c_str());
-	if (error) { 
-		PE_LOG("\nERROR: in method Resources::readProjFile : file_handler.readProj(%s)\n", proj_file_name.c_str());
-		return 1; 
-	} else PE_LOG("project file read success");
-
-	s_proj = file_handler.getProject();
-	error = file_handler.readAssets( s_proj.assets_path.c_str() );
-	if (error) { 
-		PE_LOG("\nERROR: in method Resources::readProjFile : file_handler.readAssets(%s)\n", s_proj.assets_path.c_str());
-		return 1; 
-	} else PE_LOG("assets file read success");
-
-	PE_LOG("objects reading begin (%i objects)", s_proj.objects_path.size());
-	for (auto& path : s_proj.objects_path) {
-		file_handler.readObject(path.c_str(), nullptr);
-		PE_LOG("\tobject read success : %s", path.c_str());
-	}
-	PE_LOG("scene reading begin (%i scenes)", s_proj.scene_paths.size());
-	for (auto& path : s_proj.scene_paths) {
-		file_handler.readScenes(path.c_str(), nullptr);
-		PE_LOG("\tscene read success : %s", path.c_str());
-	}
-	PE_LOG("\n");
-	*/
+	ApplicationHolder::setProjFileName(proj_file_name);
+	ApplicationHolder::start();
 }

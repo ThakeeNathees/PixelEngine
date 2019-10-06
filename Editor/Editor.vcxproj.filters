@@ -146,6 +146,9 @@
     <ClInclude Include="src\windows\assets_create\ObjectCreator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\ApplicationHolder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\logo.png">

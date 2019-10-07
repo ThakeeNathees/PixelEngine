@@ -3,9 +3,7 @@
 ## TODO ########################################################################
 	
 HIGHT PRIORITY
-	set python path runtime
-	create application drawable and window
-	create python object in editor too
+	config.init -> optimize
 	pybind
 		window, application
 

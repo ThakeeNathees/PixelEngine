@@ -136,6 +136,7 @@
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\windows\FontViwers.h" />
     <ClInclude Include="src\windows\HexEditors.h" />
+    <ClInclude Include="src\windows\PyInterpriter.h" />
     <ClInclude Include="src\windows\StartWindow.h" />
     <ClInclude Include="src\windows\TextEditors.h" />
     <ClInclude Include="vender\ImGuiColorTextEdit\TextEditor.h" />

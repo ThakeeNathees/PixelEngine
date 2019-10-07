@@ -14,7 +14,7 @@ paths:
 end
 
 fonts:
-	programming = "..\..\..\../Editor/res/fonts/ProFont/ProFontWindows.ttf","18"
+	programming = "..\..\..\../Editor/res/fonts/ProFont/ProFontWindows.ttf","1"
 end
 
 file_format_icons:

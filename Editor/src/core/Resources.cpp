@@ -7,8 +7,11 @@
 /****** applicaton holder static declarations ********/
 #include "ApplicationHolder.h"
 bool ApplicationHolder::s_is_running = false;
+bool ApplicationHolder::s_has_error = false;
 bool ApplicationHolder::s_is_focus = false;
+bool ApplicationHolder::__s_is_application_reloaded = false;
 bool ApplicationHolder::s_reload_on_save = true;
+bool* ApplicationHolder::s_debug_mode = nullptr;
 
 std::string ApplicationHolder::s_proj_file_name;
 pe::Application* ApplicationHolder::s_application;

@@ -31,6 +31,7 @@ public:
 	py::module& getFileUtil() {
 		return m_file_util;
 	}
+
 	py::module& getOs() {
 		return m_py_os;
 	}

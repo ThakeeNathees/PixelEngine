@@ -51,6 +51,10 @@ void register_object(py::module m)
 
 		// draw methods
 		.def("draw", [](pe::Object& self, const sf::Drawable& drawable) { self.draw(drawable); })
+		.def("drawText", [](pe::Object& self, const std::string& str, const sf::Vector2f& position, const sf::Color& color, float scale) {
+				pe::Text text; text.setString(str); text.setPosition(position); text.setFillColor(color); text.setScale(scale, scale);
+				self.draw(text);
+			}, py::arg("string"), py::arg("position")=sf::Vector2f(0,0), py::arg("color")=sf::Color::White, py::arg("scale")=1)
 		.def("drawSelf", [](pe::Object& self) {self.drawSelf(); })
 
 		.def("drawRectangle", (void(pe::Object::*)(float, float, float, float, const sf::Color&, bool, int)const) & pe::Object::drawRectangle,

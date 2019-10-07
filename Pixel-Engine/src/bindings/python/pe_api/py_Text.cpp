@@ -21,7 +21,7 @@ void register_text(py::module& m)
 		.def(py::init<>())
 		.def(py::init<const std::string&, const pe::Font&, unsigned int>())
 		.def(py::init<const std::string&, unsigned int>())
-		.def("setFont", [](pe::Text& self, pe::Font& font) {self.setFont(font); })
+		.def("setFont", [](pe::Text& self, pe::Font* font) {self.setFont(font); })
 		.def("setCharacterSize", &pe::Text::setCharacterSize)
 		.def("setLineSpacing", &pe::Text::setLineSpacing)
 		.def("setLetterSpacing", &pe::Text::setLetterSpacing)
@@ -33,10 +33,10 @@ void register_text(py::module& m)
 		.def("setStyle", [](pe::Text& self)->int { return static_cast<int>(self.getStyle()); })
 		//.def("getString", [](pe::Text& self)->const std::string&  { return self.getString(); }) //TODO: create sf::String
 		.def("setString", [](pe::Text& self, const std::string& str) { self.setString(str); })
-		.def("getFont", [](pe::Text& self)->const pe::Font* 
+		.def("getFont", [](pe::Text& self)
 			{
-				return static_cast<const pe::Font*>(self.getFont());
-			})
+				return self.getFont();
+			}, py::return_value_policy::reference)
 
 		.def("getCharacterSize",&pe::Text::getCharacterSize)
 		.def("getLetterSpacing",&pe::Text::getLetterSpacing)

@@ -8,3 +8,10 @@ def isValidName(name):
 
 def endswith(string, ends):
     return string.endswith(ends)
+
+## for python interpriter window
+def getString(obj):
+    if obj.__class__ == ''.__class__ :
+        return obj
+    else :
+        return str(obj)

@@ -43,12 +43,15 @@ namespace pe {
 		inline void setBgColor(const sf::Color& color) { s_background_color = color; }
 		inline void setFrameRate(int rate) { m_frame_rate = rate; }
 
-		void reloadScritps() { m_reload_script = true; }
+		void reloadScritps() { 
+			for (auto obj : m_current_scene->getObjects()) obj->scriptReload();
+		}
 
 		// getters
 		inline sf::RenderWindow& getWindow() const { assert(m_window != nullptr); return *m_window; }
 		inline Scene& getCurrentScene() const { assert(m_current_scene != nullptr); return *m_current_scene; }
 		inline bool isDebugMode()  const { return m_is_debug_mode; }
+		bool* getDebugVar() { return &m_is_debug_mode; }
 		inline bool isDebugDrawArea() const { return m_is_debug_draw_area; }
 		inline double getCurrentFrameRate() const { return m_current_frame_rate; }
 
@@ -58,7 +61,6 @@ namespace pe {
 		inline static const sf::Vector2i& getWindowSize() { return s_window_size; }
 
 		static sf::Color s_default_color;
-		static int s_conf; // 0 = debug, 1 = release, default = debug
 		static sf::Keyboard::Key s_kill_switch;
 	private:
 		struct _peproj m_peproj;
@@ -69,7 +71,6 @@ namespace pe {
 		double m_frame_rate = 30.0;
 		bool m_is_debug_mode = true;
 		bool m_is_debug_draw_area = true;
-		bool m_reload_script = false;
 
 		Signal m_scene_changed_signal = Signal("scene_changed", Signal::Type::SCENE_CHANGE);
 		Scene* m_current_scene = nullptr;

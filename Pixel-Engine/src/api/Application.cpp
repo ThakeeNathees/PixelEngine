@@ -22,19 +22,17 @@ namespace pe
 	sf::Color Application::s_background_color = sf::Color(80, 80, 80, 255);
 	sf::Color Application::s_default_color = sf::Color(50, 75, 100, 255);
 	sf::Vector2i Application::s_window_size = sf::Vector2i(0,0);
-	int Application::s_conf = 0;
 	sf::Keyboard::Key Application::s_kill_switch = sf::Keyboard::Unknown;
 
 
 	Application::Application(const char* proj_path, bool create_window, sf::RenderTarget* render_target)
 	{
-		setDebugMode( s_conf == 0 ); // TODO: make applicatin static class
 		FileHandler file;
 		int error = file.readProject(proj_path); // TODO: error handle
 		if (error) { PE_LOG("project file reading error"); }
 		else { PE_LOG("project file reading success"); }
 		m_peproj = file.getProject();
-		//setDebugMode(m_peproj.is_debug_mode);
+		setDebugMode(m_peproj.is_debug_mode);
 		if (create_window) {
 			m_window = new sf::RenderWindow(sf::VideoMode(m_peproj.window_size.x, m_peproj.window_size.y), m_peproj.title);
 			m_render_target = m_window;
@@ -215,7 +213,7 @@ namespace pe
 			if (m_window) m_window->display();
 
 			if (m_is_debug_mode && sf::Keyboard::isKeyPressed(sf::Keyboard::F4)) {
-				for (auto obj : m_current_scene->getObjects()) obj->scriptReload();
+				reloadScritps();
 			}
 		}
 	}
@@ -271,9 +269,8 @@ namespace pe
 		}
 		if (m_window) m_window->display();
 
-		if ((m_is_debug_mode && sf::Keyboard::isKeyPressed(sf::Keyboard::F4)) || m_reload_script ) {
-			m_reload_script = false;
-			for (auto obj : m_current_scene->getObjects()) obj->scriptReload();
+		if ((m_is_debug_mode && sf::Keyboard::isKeyPressed(sf::Keyboard::F4)) ) {
+			reloadScritps();
 		}
 	}
 

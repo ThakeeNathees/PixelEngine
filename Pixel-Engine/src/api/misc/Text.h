@@ -10,16 +10,24 @@ namespace pe
 	{
 	public:
 		Text() : sf::Text() {
-			if (s_default_font) setFont(*s_default_font);
+			if (s_default_font) setFont(s_default_font);
 		}
 
 		Text(const std::string& string, const Font& font, unsigned int characterSize = 30) 
 			: sf::Text(string, font, characterSize) {}
 
 		Text(const std::string& string, unsigned int characterSize = 30): sf::Text() {
-			if (s_default_font) setFont(*s_default_font);
+			if (s_default_font) setFont(s_default_font);
 			setCharacterSize(characterSize);
 			setString(string);
+		}
+
+		void setFont(pe::Font* font) {
+			sf::Text::setFont(*font);
+			m_font = font;
+		}
+		pe::Font* getFont() {
+			return m_font;
 		}
 
 		static void setDefaultFont(Font* font) {
@@ -31,6 +39,7 @@ namespace pe
 
 	private:
 		static pe::Font* s_default_font;
+		pe::Font* m_font;
 	};
 }
 

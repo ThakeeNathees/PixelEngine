@@ -107,6 +107,7 @@ private:
 
 	void renderDebugMenu() {
 		if (ImGui::BeginMenu("Debug")) {
+			if (ImGui::MenuItem("Debug Mode", NULL, ApplicationHolder::s_debug_mode )) {}
 			if (ImGui::MenuItem("Reload Scripts")) { ApplicationHolder::reloadScripts(); }
 			if (ImGui::MenuItem("Reload On Save",NULL, &ApplicationHolder::s_reload_on_save)){}
 			if (ImGui::MenuItem("Reload Project")) { ApplicationHolder::reloadApplication(); }

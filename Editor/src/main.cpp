@@ -9,6 +9,7 @@
 #include "core/MainMenuBar.h"
 MainMenuBar* MainMenuBar::s_instance = nullptr;
 
+#include "windows/PyInterpriter.h"
 #include "core/Console.h"
 /*
 PYBIND11_EMBEDDED_MODULE(console, m) {
@@ -21,7 +22,7 @@ PYBIND11_EMBEDDED_MODULE(console, m) {
 PYBIND11_EMBEDDED_MODULE(peio, m) {
 	m
 		.def("print", []() { CLI::getInstance()->getConsole()-> addLog( "" , 0); })
-		.def("print", [](const py::object& msg) { CLI::getInstance()->getConsole()->addLog(msg.attr("__str__")().cast<std::string>(), 0); })
+		.def("print", [](const py::object& msg) { CLI::getInstance()->getConsole()->addLog( py::str(msg).cast<std::string>(), 0); })
 		.def("getMousePosition", []( bool relative) {
 			if (relative) return ApplicationHolder::getMousePosition();
 			else return ApplicationHolder::getMouseRelPosition();
@@ -46,6 +47,7 @@ int main(int argc, char** argv)
 
 	py::scoped_interpreter intrp;
 	py::exec("import sys, os");
+	py::exec("import pixel_engine as pe");
 
 	// create window
 	unsigned int w = sf::VideoMode::getDesktopMode().width - 600;
@@ -93,7 +95,10 @@ int main(int argc, char** argv)
 					ApplicationHolder::getApplication()->__handleEvent(&event);
 				}
 				catch (const std::exception& e){
-					CLI::getInstance()->getConsole()->addLog(e.what(),3);
+					if (!ApplicationHolder::hasError()) {
+						CLI::getInstance()->getConsole()->addLog(e.what(),3);
+						ApplicationHolder::setError(true);
+					}
 				}
 			}
 		} // end of event handle
@@ -107,7 +112,10 @@ int main(int argc, char** argv)
 				ApplicationHolder::getApplication()->__process(&dt);
 			}
 			catch (const std::exception& e){
-				CLI::getInstance()->getConsole()->addLog(e.what(),3);
+				if (!ApplicationHolder::hasError()) {
+					ApplicationHolder::setError(true);
+					CLI::getInstance()->getConsole()->addLog(e.what(), 3);
+				}
 			}
 		}
 
@@ -117,6 +125,7 @@ int main(int argc, char** argv)
 
 		FileTree::getInstance()->render();
 		CLI::getInstance()->getConsole()->render();
+		PyInterpriter::getInstance()->render();
 
 		TextEditors::renderEditors();
 		HexEditors::renderEditors();

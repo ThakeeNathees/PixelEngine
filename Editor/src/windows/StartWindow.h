@@ -96,8 +96,8 @@ public:
 			ImGui::SFML::Update(window, clock.restart());
 			show_dock_space();
 
+			ImGui::SetNextWindowPosCenter(ImGuiCond_Once);
 			ImGui::Begin("Start");
-
 			// start title
 			ImGui::Text("Create a new project Here"); ImGui::Text("");
 

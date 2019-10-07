@@ -43,6 +43,8 @@ namespace pe {
 		inline void setBgColor(const sf::Color& color) { s_background_color = color; }
 		inline void setFrameRate(int rate) { m_frame_rate = rate; }
 
+		void reloadScritps() { m_reload_script = true; }
+
 		// getters
 		inline sf::RenderWindow& getWindow() const { assert(m_window != nullptr); return *m_window; }
 		inline Scene& getCurrentScene() const { assert(m_current_scene != nullptr); return *m_current_scene; }
@@ -67,6 +69,7 @@ namespace pe {
 		double m_frame_rate = 30.0;
 		bool m_is_debug_mode = true;
 		bool m_is_debug_draw_area = true;
+		bool m_reload_script = false;
 
 		Signal m_scene_changed_signal = Signal("scene_changed", Signal::Type::SCENE_CHANGE);
 		Scene* m_current_scene = nullptr;

@@ -10,14 +10,25 @@
 MainMenuBar* MainMenuBar::s_instance = nullptr;
 
 #include "core/Console.h"
+/*
 PYBIND11_EMBEDDED_MODULE(console, m) {
 	py::class_<Console>(m, "Console")
 		.def("addLog", [](Console& cons, const std::string& msg, int level = 0) {cons.addLog(msg, level); })
 		;
 }
+*/
+
 PYBIND11_EMBEDDED_MODULE(peio, m) {
-	m.def("print", []() { CLI::getInstance()->getConsole()-> addLog( "" , 0); });
-	m.def("print", [](const py::object& msg) { CLI::getInstance()->getConsole()-> addLog( msg.attr("__str__")().cast<std::string>() , 0); });
+	m
+		.def("print", []() { CLI::getInstance()->getConsole()-> addLog( "" , 0); })
+		.def("print", [](const py::object& msg) { CLI::getInstance()->getConsole()->addLog(msg.attr("__str__")().cast<std::string>(), 0); })
+		.def("getMousePosition", []( bool relative) {
+			if (relative) return ApplicationHolder::getMousePosition();
+			else return ApplicationHolder::getMouseRelPosition();
+			}, py::arg("relative")=true)
+		.def("isWindowFocus", []() { return ApplicationHolder::isWindowFocus(); })
+		;
+	
 }
 
 

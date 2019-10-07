@@ -1,6 +1,7 @@
 #pragma once
 
 #include "..//core/cli/CLI.h"
+#include "core/ApplicationHolder.h"
 
 /* class to hold all text editors */
 class TextEditors
@@ -80,8 +81,11 @@ private:
 		if (data->editor.isFocus()) {
 			// Ctrl+s : save
 			if (!editor.IsReadOnly() && ctrl && !shift && !alt && sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-				data->saved = true;
 				CLI::save(editor.GetText(), data->path);
+				if ( !data->saved && data->editor.GetLanguageDefinition().mName == TextEditor::LanguageDefinition::Python().mName && ApplicationHolder::s_reload_on_save) 
+					ApplicationHolder::reloadScripts();
+				data->saved = true;
+				
 			}
 		}
 
@@ -100,7 +104,7 @@ private:
 					auto text_to_save = editor.GetText();
 					CLI::save(text_to_save, data->path);
 					data->saved = true;
-
+					if (ApplicationHolder::s_reload_on_save) ApplicationHolder::reloadScripts();
 				}
 				if (ImGui::MenuItem("Quit"))
 					data->p_open = false;

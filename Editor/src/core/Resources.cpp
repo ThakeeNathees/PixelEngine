@@ -4,13 +4,19 @@
 #include "../pyutils/PyUtils.h"
 
 
-// applicaton holder static declarations
+/****** applicaton holder static declarations ********/
 #include "ApplicationHolder.h"
 bool ApplicationHolder::s_is_running = false;
+bool ApplicationHolder::s_is_focus = false;
+bool ApplicationHolder::s_reload_on_save = true;
+
 std::string ApplicationHolder::s_proj_file_name;
 pe::Application* ApplicationHolder::s_application;
 sf::RenderTexture ApplicationHolder::s_render_texture;
+sf::Vector2f ApplicationHolder::s_mouse_pos;
+sf::Vector2f ApplicationHolder::s_mouse_rel_pos;
 
+/*********************************************/
 
 std::map<std::string, sf::Texture> Resources::s_file_format_icons;
 std::map<std::string, sf::Texture> Resources::s_menu_icons;

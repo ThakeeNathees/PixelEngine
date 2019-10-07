@@ -271,7 +271,8 @@ namespace pe
 		}
 		if (m_window) m_window->display();
 
-		if (m_is_debug_mode && sf::Keyboard::isKeyPressed(sf::Keyboard::F4)) {
+		if ((m_is_debug_mode && sf::Keyboard::isKeyPressed(sf::Keyboard::F4)) || m_reload_script ) {
+			m_reload_script = false;
 			for (auto obj : m_current_scene->getObjects()) obj->scriptReload();
 		}
 	}

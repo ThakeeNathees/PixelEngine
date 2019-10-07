@@ -2,6 +2,7 @@
 
 #include "Resources.h"
 #include "WindowManager.h"
+#include "core/ApplicationHolder.h"
 
 #include "windows/assets_create/ObjectCreator.h"
 #include "windows/assets_create/ScriptsCreator.h"
@@ -31,6 +32,7 @@ private:
 			renderFileMenu();
 			renderEditMenu();
 			renderCreateMenu();
+			renderDebugMenu();
 			
 			ImGui::EndMainMenuBar();
 		}
@@ -99,6 +101,15 @@ private:
 				}
 			}
 
+			ImGui::EndMenu();
+		}
+	}
+
+	void renderDebugMenu() {
+		if (ImGui::BeginMenu("Debug")) {
+			if (ImGui::MenuItem("Reload Scripts")) { ApplicationHolder::reloadScripts(); }
+			if (ImGui::MenuItem("Reload On Save",NULL, &ApplicationHolder::s_reload_on_save)){}
+			if (ImGui::MenuItem("Reload Project")) { ApplicationHolder::reloadApplication(); }
 			ImGui::EndMenu();
 		}
 	}

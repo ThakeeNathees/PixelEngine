@@ -34,6 +34,9 @@ file_format_icons:
 	file_bin="..\..\..\../Editor/res/icons/file_format/file_bin.png"
 	file_dll="..\..\..\../Editor/res/icons/file_format/file_dll.png"
 	file_obj="..\..\..\../Editor/res/icons/file_format/file_obj.png"
+	assets_file="..\..\..\../Editor/res/icons/file_format/assets_file.png"
+	asset_texture="..\..\..\../Editor/res/icons/file_format/asset_texture.png"
+	asset_font="..\..\..\../Editor/res/icons/file_format/asset_font.png"
 end
 
 menu_icons:

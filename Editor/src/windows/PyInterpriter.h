@@ -11,7 +11,6 @@ private:
 		m_logs.push_back(std::make_pair("Python 3.7.4 interpriter (only single line commands are supports)", 0));
 		m_logs.push_back(std::make_pair("Warning : Don't use print, help, other io related functions", 1));
 	}
-	bool m_open = true;
 	char m_input[1024] = {};
 	bool m_scroll_to_bottom = false;
 	bool m_enter_released = false;
@@ -19,6 +18,7 @@ private:
 	std::vector<std::pair<std::string, int>> m_logs; // int 0 - white ,  1 - yello, 2 - red
 
 public:
+	bool m_open = true; // for main menu bar check box -> public
 	static PyInterpriter* getInstance() {
 		if (s_instance == nullptr) s_instance = new PyInterpriter();
 		return s_instance;

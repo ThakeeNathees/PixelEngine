@@ -14,15 +14,11 @@ private:
 	{
 		auto m = py::module::import("file_tree");
 		m_py_filetree = m.attr("FileTree")(CLI::getCwd());
-		//m_py_os = py::module::import("os");
-		m_math_util = py::module::import("math_util"); // make it static like
 	}
 
 	static FileTree* s_instance;
 	std::string m_title;
-	//py::object m_py_os;
 	py::object m_py_filetree;
-	py::object m_math_util;
 	long long m_selected_id = -1;
 	long long m_selected_menu_id = -1;
 
@@ -32,6 +28,7 @@ private:
 
 
 public:
+	bool m_open = true; // main menu bar need &m_open
 	static FileTree* getInstance() {
 		if (!s_instance) s_instance = new FileTree("Project-Explorer");
 		return s_instance;
@@ -43,12 +40,12 @@ public:
 	}
 	
 	void render() {
-
-		ImGui::Begin(m_title.c_str());
-		//int dir_ind = 0;
-		renderTreeRecursive(m_py_filetree, true);
-		renderPopup();
-		ImGui::End();
+		if (m_open) {
+			ImGui::Begin(m_title.c_str(), &m_open);
+			renderTreeRecursive(m_py_filetree, true);
+			renderPopup();
+			ImGui::End();
+		}
 	}
 
 
@@ -59,9 +56,13 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	static void drawFileIcon(const std::string& path);
 private:
-	void renderPopup();
 	void renderTreeRecursive(py::object& tree, bool next_item_open = false);
+	void renderAssetsTree(const std::string& path);
+	void renderRightMouseMenuTexture(int texture_id);
+
+	void renderPopup();
 	void nodeClickedEvent(const std::string& title, const std::string& path, long long id=-1);
 	void renderRightMouseMenu(const std::string& path);
+	void renderRightMouseMenuAssets(const std::string& path, int id);
 
 };

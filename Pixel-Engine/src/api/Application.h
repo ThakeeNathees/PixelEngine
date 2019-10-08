@@ -64,7 +64,6 @@ namespace pe {
 			return *m_current_scene; 
 		}
 		inline bool isDebugMode()  const { return m_is_debug_mode; }
-		bool* getDebugVar() { return &m_is_debug_mode; }
 		inline bool isDebugDrawArea() const { return m_is_debug_draw_area; }
 		inline double getCurrentFrameRate() const { return m_current_frame_rate; }
 

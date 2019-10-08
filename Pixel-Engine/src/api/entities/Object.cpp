@@ -11,9 +11,10 @@ namespace pe
 	sf::RenderTarget* Object::s_render_target = nullptr;
 	sf::Color Object::s_default_color = sf::Color(50, 75, 100, 255);
 
-	Object::Object() {
+	Object::Object(int id) {
 		s_object_count++;
-		m_id = s_next_id++;
+		if (id < 0) m_id = s_next_id++;
+		else { m_id = id; s_next_id = m_id + 1; }
 		m_name = std::string( "obj_").append(std::to_string(m_id));
 		m_dbg_origin = new sf::CircleShape(3);
 		m_dbg_origin->setFillColor(sf::Color(150, 75, 150, 200));
@@ -162,6 +163,7 @@ namespace pe
 		if ( m_scene!= nullptr ) getScene().sortZIndex();
 	}
 	void Object::setSprite(Sprite* sprite) {
+		if (m_sprite) delete m_sprite;
 		m_sprite = sprite;
 		m_sprite->setPosition(getPosition());
 		m_sprite->setRotation(getRotation());
@@ -180,6 +182,7 @@ namespace pe
 			setArea(area);
 		}
 		else {
+			if (m_area) delete m_area;
 			m_area = area;
 			m_area->setPosition(getPosition());
 			m_area->setRotation(getRotation());
@@ -189,6 +192,9 @@ namespace pe
 	}
 
 	void Object::addAnimation(Animation* anim) {
+		if (m_animations.find(anim->getName()) != m_animations.end()) {
+			delete m_animations[anim->getName()];
+		}
 		m_animations[ anim->getName() ] = anim;
 		anim->setObject(this);
 		// timer added to scene after calling init() in Application

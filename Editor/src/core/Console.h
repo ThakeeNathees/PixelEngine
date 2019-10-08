@@ -22,8 +22,8 @@ public:
 
 	};
 
+	bool m_open = true; // main menu bar need &m_open 
 private:
-	bool m_open = true;
 	bool m_scroll_to_bottom = false;
 	std::vector<Log> m_logs;
 

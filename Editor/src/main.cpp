@@ -83,6 +83,7 @@ int main(int argc, char** argv)
 	double dt =0;
 
 	while (window.isOpen()) {
+		//std::cout <<  pe::Assets::getAssets().size() << std::endl;
 		// event handle
 		while (window.pollEvent(event)) {
 			ImGui::SFML::ProcessEvent(event);

@@ -13,7 +13,7 @@ namespace pe
 
 	// setters
 	void Assets::addAsset(Asset* asset) {
-		if (hasAsset(asset->getId())) return;
+		if (hasAsset(asset->getId())) delete s_assets[asset->getId()];
 		s_assets[asset->getId()] = asset;
 	}
 
@@ -38,9 +38,15 @@ namespace pe
 		addAsset(obj);
 		return obj;
 	}
-	Object* Assets::newObject() {
-		Object* obj = new pe::Object();
+	Object* Assets::newObject(int id) {
+		Object* obj = new pe::Object(id);
 		addAsset(obj);
 		return obj;
 	}
+	Scene* Assets::newScene(int id) {
+		Scene* scn = new pe::Scene(id);
+		addAsset(scn);
+		return scn;
+	}
+
 }

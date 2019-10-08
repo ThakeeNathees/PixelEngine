@@ -47,11 +47,11 @@ namespace pe
 		if ( !m_is_debug_mode ) FreeConsole();
 		else PE_CONSOLE_LOG( "this console window only apear in debug mode" );
 #endif
-
+		// adding python path
 		for (auto& path : m_peproj.pypaths) {
 			py::exec(std::string("sys.path.append('").append(path).append("')"));
 		}
-		// TODO: set assets.xml as the defaule assets path and don't change the name for consistency
+		//	assets.xml				TODO: set assets.xml as the defaule assets path and don't change the name for consistency
 		if (std::string(m_peproj.assets_path) != std::string("")) {
 			error = file.readAssets(m_peproj.assets_path.c_str()); // TODO: error handle
 			if (error) { PE_LOG("assets file reading error"); }
@@ -59,15 +59,18 @@ namespace pe
 		}
 		else; // TODO: create assets.xml file and add
 
+		// obj deserialize
 		for (auto& path : m_peproj.objects_path) {
 			PE_LOG("\nobject deserialization begin : %s", path.c_str());
 			file.readObject(path.c_str(), this);
 		}
+		// scene deserialize
 		for (auto& path : m_peproj.scene_paths) {
 			PE_LOG("\nscene deserialization begin : %s", path.c_str());
 			file.readScenes(path.c_str(), this);
 		}
 		
+		// logo
 		int texture_id = m_peproj.logo_texture_id;
 		if (texture_id >= 0) {
 			if (Assets::hasAsset(texture_id)) {
@@ -78,6 +81,7 @@ namespace pe
 		}
 		setBgColor(m_peproj.default_bg_color );
 
+		// begin secene
 		if (m_peproj.scene_paths.size() == 0) {
 			PE_LOG("\nNo scene found using default scene!\n");
 			auto scene = Assets::newAsset<Scene>();
@@ -89,6 +93,11 @@ namespace pe
 
 	Application::~Application() {
 		if ( m_window ) delete m_window;
+		/*
+		for (auto asset : Assets::getAssets()) {
+			if (asset.second->getType() == Asset::Type::)
+		}
+		*/
 	}
 
 	void Application::addPersistenceObject(Object* obj) {

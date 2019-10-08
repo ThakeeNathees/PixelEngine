@@ -11,11 +11,13 @@ bool ApplicationHolder::s_has_error = false;
 bool ApplicationHolder::s_is_focus = false;
 bool ApplicationHolder::__s_is_application_reloaded = false;
 bool ApplicationHolder::s_reload_on_save = true;
-bool* ApplicationHolder::s_debug_mode = nullptr;
+bool ApplicationHolder::s_open = true;
+//bool* ApplicationHolder::s_debug_mode = nullptr;
 
 std::string ApplicationHolder::s_proj_file_name;
 pe::Application* ApplicationHolder::s_application;
 sf::RenderTexture ApplicationHolder::s_render_texture;
+sf::RenderTexture ApplicationHolder::s_default_texture;
 sf::Vector2f ApplicationHolder::s_mouse_pos;
 sf::Vector2f ApplicationHolder::s_mouse_rel_pos;
 

@@ -21,7 +21,6 @@ namespace pe
 		inline ~Texture() { s_texture_count--; }
 
 		inline bool loadFromFile(const std::string& path, const sf::IntRect& area = sf::IntRect()) {
-
 			bool success = sf::Texture::loadFromFile(path, area);
 			if (success) m_path = path;
 			return success;
@@ -35,6 +34,7 @@ namespace pe
 
 		inline static int getCount() { return s_texture_count; }
 
+		//bool* _getSmoothPtr() {}
 
 	private:
 		friend class FileHandler;

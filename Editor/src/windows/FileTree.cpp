@@ -6,7 +6,7 @@ FileTree* FileTree::s_instance = nullptr;
 
 void FileTree::renderTreeRecursive(py::object& tree, bool next_item_open) {
 	std::string path = tree.attr("path").cast<std::string>();
-	long long id = m_math_util.attr("md5Hash")(path, "long").cast<long long>();
+	long long id = PyUtils::getInstance()->getMathUtil().attr("md5Hash")(path, "long").cast<long long>();
 	std::string dir_name = PyUtils::getInstance()->getOs().attr("path").attr("basename")(path).cast<std::string>();
 
 	float dir_icon_pos = ImGui::GetCursorPosX();
@@ -15,8 +15,7 @@ void FileTree::renderTreeRecursive(py::object& tree, bool next_item_open) {
 		// right click
 		if (ImGui::IsItemClicked(1)) m_selected_menu_id = id;
 		if (id == m_selected_menu_id) renderRightMouseMenu(path);
-		// draw folder icon
-		//ImGui::SameLine(); ImGui::SetCursorPosX(dir_icon_pos); ImGui::Image(Resources::FileFormatIcons::DIR_OPEN);
+
 		ImGui::SameLine(); ImGui::SetCursorPosX(dir_icon_pos); ImGui::Image(Resources::getFileFormatIcon("dir_open"));
 		// loop for dirs
 		for (int i = 0; i < tree.attr("dirs").attr("__len__")().cast<int>(); i++) {
@@ -26,37 +25,107 @@ void FileTree::renderTreeRecursive(py::object& tree, bool next_item_open) {
 		// loop for files
 		for (int i = 0; i < tree.attr("files").attr("__len__")().cast<int>(); i++) {
 			std::string path = tree.attr("files").attr("__getitem__")(i).cast<std::string>();
-			long long id = m_math_util.attr("md5Hash")(path, "long").cast<long long>();
-			ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
-			if (m_selected_id == id) node_flags |= ImGuiTreeNodeFlags_Selected;
 
-			// draw file icon
-			drawFileIcon(path);
-			ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 20);
-			std::string title = PyUtils::getInstance()->getOs().attr("path").attr("basename")(path).cast<std::string>();
-			ImGui::TreeNodeEx((void*)(intptr_t)(id), node_flags, title.c_str());
+			// pe special files like assets.xml, *.obj.xml, *.scn.xml, *.peproj
+			if ( tree.attr("isAssetFile")(i).cast<bool>() ) { 
+				renderAssetsTree(path);
+			} 
+			else {
+				long long id = PyUtils::getInstance()->getMathUtil().attr("md5Hash")(path, "long").cast<long long>();
+				ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+				if (m_selected_id == id) node_flags |= ImGuiTreeNodeFlags_Selected;
 
-			// click node
-			if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0)) {
-				m_selected_id = id;
-				nodeClickedEvent(title, path, id);
+
+				// draw file icon
+				drawFileIcon(path);
+				ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 20);
+				std::string title = PyUtils::getInstance()->getOs().attr("path").attr("basename")(path).cast<std::string>();
+				ImGui::TreeNodeEx((void*)(intptr_t)(id), node_flags, title.c_str());
+
+				// click node
+				if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0)) {
+					m_selected_id = id;
+					nodeClickedEvent(title, path, id);
+				}
+				if (ImGui::IsItemClicked(0)) m_selected_id = id;
+				if (ImGui::IsItemClicked(1)) m_selected_menu_id = id;
+				if (id == m_selected_menu_id) renderRightMouseMenu(path);
 			}
-			if (ImGui::IsItemClicked(0)) m_selected_id = id;
-			if (ImGui::IsItemClicked(1)) m_selected_menu_id = id;
-			if (id == m_selected_menu_id) renderRightMouseMenu(path);
-
 		}
 		ImGui::TreePop();
 	}
-	else {
+	else { // dir closed
 		// right click
 		if (ImGui::IsItemClicked(1)) m_selected_menu_id = id;
 		if (id == m_selected_menu_id) renderRightMouseMenu(path);
 
-		//ImGui::SameLine(); ImGui::SetCursorPosX(dir_icon_pos); ImGui::Image(Resources::FileFormatIcons::DIR_CLOSED);
 		ImGui::SameLine(); ImGui::SetCursorPosX(dir_icon_pos); ImGui::Image(Resources::getFileFormatIcon("dir_close"));
 	}
 }
+/////////////////////////////////////////////////////////////
+
+void FileTree::renderAssetsTree(const std::string& path) {
+	long long id = PyUtils::getInstance()->getMathUtil().attr("md5Hash")(path, "long").cast<long long>();
+	std::string dir_name = PyUtils::getInstance()->getOs().attr("path").attr("basename")(path).cast<std::string>();
+	
+	float dir_icon_pos = ImGui::GetCursorPosX();
+	if (ImGui::TreeNode(path.c_str(), dir_name.c_str())) { // tree begins
+		// right click
+		if (ImGui::IsItemClicked(1)) m_selected_menu_id = id;
+		if (id == m_selected_menu_id) renderRightMouseMenuAssets(path, id);
+
+		ImGui::SameLine(); ImGui::SetCursorPosX(dir_icon_pos); ImGui::Image(Resources::getFileFormatIcon("assets_file"));
+		
+		for (auto& asset : pe::Assets::getAssets()) {
+			ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+			//if (m_selected_id == id) node_flags |= ImGuiTreeNodeFlags_Selected;
+			
+			// texture
+			if (asset.second->getType() == pe::Asset::Type::Texture) {
+				long long id = PyUtils::getInstance()->getMathUtil().attr("md5Hash")(std::string(path).append(std::to_string(asset.first)), "long").cast<long long>();
+				if (m_selected_id == id) node_flags |= ImGuiTreeNodeFlags_Selected;
+				ImGui::Image(Resources::getFileFormatIcon("asset_texture")); ImGui::SameLine();
+				ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 20);
+				ImGui::TreeNodeEx(std::string(asset.second->getName()).c_str(), node_flags);
+
+				// click node
+				if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0)) {
+					// TODO: open texture editor with title asset.second->getName() + id
+				}
+				if (ImGui::IsItemClicked(0)) m_selected_id = id;
+				if (ImGui::IsItemClicked(1)) m_selected_menu_id = id;
+				if (id == m_selected_menu_id) renderRightMouseMenuTexture(asset.second->getId());
+
+			}// font
+			else if (asset.second->getType() == pe::Asset::Type::Font) {
+				long long id = PyUtils::getInstance()->getMathUtil().attr("md5Hash")(std::string(path).append(std::to_string(asset.first)), "long").cast<long long>();
+				if (m_selected_id == id) node_flags |= ImGuiTreeNodeFlags_Selected;
+				ImGui::Image(Resources::getFileFormatIcon("asset_font")); ImGui::SameLine();
+				ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 20);
+				ImGui::TreeNodeEx(std::string(asset.second->getName()).c_str(), node_flags);
+
+				// click node
+				if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0)) {
+					// TODO: open texture editor with title asset.second->getName() + id
+				}
+				if (ImGui::IsItemClicked(0)) m_selected_id = id;
+				if (ImGui::IsItemClicked(1)) m_selected_menu_id = id;
+				if (id == m_selected_menu_id) ; // TODO: render right menu for font
+			}
+
+		}
+
+		ImGui::TreePop();
+	}
+	else { // asset close
+		if (ImGui::IsItemClicked(1)) m_selected_menu_id = id;
+		if (id == m_selected_menu_id) renderRightMouseMenuAssets(path, id);
+		ImGui::SameLine(); ImGui::SetCursorPosX(dir_icon_pos); ImGui::Image(Resources::getFileFormatIcon("assets_file"));
+	}
+}
+
+
+
 /////////////////////////////////////////////////////////////
 
 void FileTree::drawFileIcon(const std::string& file_name) {
@@ -212,6 +281,52 @@ void FileTree::renderRightMouseMenu(const std::string& path) {
 
 	}
 }
+/////////////////////////////////////////////////////////////
+
+
+void FileTree::renderRightMouseMenuTexture(int texture_id) {
+	if (ImGui::BeginPopupContextItem("right mouse menu")) {
+		bool smooth = pe::Assets::getAsset<pe::Texture>(texture_id)->isSmooth();
+		if (ImGui::MenuItem("Smooth", NULL, &smooth)) {
+			pe::Assets::getAsset<pe::Texture>(texture_id)->setSmooth(smooth);
+			ImGui::CloseCurrentPopup();
+		}
+		bool repeated  = pe::Assets::getAsset<pe::Texture>(texture_id)->isRepeated();
+		if (ImGui::MenuItem("Repeated", NULL, &repeated)) {
+			pe::Assets::getAsset<pe::Texture>(texture_id)->setRepeated(repeated);
+			ImGui::CloseCurrentPopup();
+		}
+		
+		if (ImGui::BeginMenu("See Path")) {
+			ImGui::Text(pe::Assets::getAsset<pe::Texture>(texture_id)->getPath().c_str());
+			ImGui::EndMenu();
+		}
+
+
+		ImGui::EndPopup();
+	}
+}
+
+void FileTree::renderRightMouseMenuAssets(const std::string& path, int id) {
+	if (ImGui::BeginPopupContextItem("right mouse menu")) {
+
+		ImGui::Image(Resources::getMenuIcon("open_in_explorer")); ImGui::SameLine();
+		if (ImGui::Selectable("Open in Explorer")) {
+			PyUtils::getInstance()->getOs().attr("system")(std::string("explorer \"").append( 
+				PyUtils::getInstance()->getOs().attr("path").attr("dirname")(path).cast<std::string>()
+			).append("\""));
+		}
+		
+		//ImGui::Image(Resources::getMenuIcon("open_in_explorer")); ImGui::SameLine();
+		if (ImGui::Selectable("Open in TextEditor")) {
+			std::string title = PyUtils::getInstance()->getOs().attr("path").attr("basename")(path).cast<std::string>();
+			TextEditors::openTextEditor(title, path, id, TextEditor::LanguageDefinition::C());
+		}
+
+		ImGui::EndPopup();
+	}
+}
+
 /////////////////////////////////////////////////////////////
 
 void FileTree::renderPopup() {

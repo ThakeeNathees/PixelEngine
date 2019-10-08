@@ -23,8 +23,8 @@ namespace pe
 		static T* newAsset(const std::string& name) { Asset* asset = new T(name); addAsset(asset); return static_cast<T*>(asset); }
 		static bool isClassRegistered(const std::string& class_name);
 		static Object* newObject(const std::string& class_name);
-		static Object* newObject();
-
+		static Object* newObject(int id = -1);
+		static Scene* newScene(int id = -1);
 
 		// class register
 		template <typename T> // function to store in register map
@@ -43,7 +43,9 @@ namespace pe
 		static const std::vector<std::string>& getPyobjectPaths() { return s_pyobj_paths; }
 		// setters
 		static void addAsset(Asset* asset);
-
+		static void deleteAsset(int id) {
+			if (hasAsset(id)) delete s_assets[id];
+		}
 
 
 		// getters

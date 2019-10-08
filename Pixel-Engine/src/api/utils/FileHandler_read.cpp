@@ -61,25 +61,34 @@ namespace pe
 	int FileHandler::readAssets(const char* path) {
 		int error = m_doc->LoadFile(path);
 		if (error) return error;
-
 		auto textures = m_doc->FirstChildElement()->FirstChildElement("textures");
 		Texture::s_next_id = textures->IntAttribute("next_id");
+		
 		for (auto texture_tag = textures->FirstChildElement(); texture_tag != NULL; texture_tag = texture_tag->NextSiblingElement()) {
-			Texture* texture = new Texture();
+			int id = texture_tag->IntAttribute("id");
+			Texture* texture = nullptr;
+			std::string previous_path = "";
+			if (Assets::hasAsset(id)) { texture = Assets::getAsset<pe::Texture>(id); previous_path = texture->getPath(); }
+			else texture = new Texture();
+			
 			texture->setName(texture_tag->Attribute("name"));
-			texture->m_id = texture_tag->IntAttribute("id");
+			texture->m_id = id;
 			texture->setSmooth(texture_tag->BoolAttribute("smooth"));
 			texture->setRepeated(texture_tag->BoolAttribute("repeat"));
 			std::string  path = texture_tag->GetText();
-			texture->loadFromFile(path);
+
+			if(previous_path != path) texture->loadFromFile(path);
+			
 			Assets::s_assets[texture->m_id] = texture;
 		}
 
 		auto fonts = m_doc->FirstChildElement()->FirstChildElement("fonts");
 		for (auto font_tag = fonts->FirstChildElement(); font_tag != NULL; font_tag = font_tag->NextSiblingElement()) {
+			int id = font_tag->IntAttribute("id");
+			if (Assets::hasAsset(id)) return error;
 			Font* font = new Font();
 			font->setName(font_tag->Attribute("name"));
-			font->m_id = font_tag->IntAttribute("id");
+			font->m_id = id;
 			Font::s_next_id = std::max(font->m_id + 1, Font::s_next_id);
 			std::string path = font_tag->GetText();
 			font->loadFromFile(path);
@@ -93,35 +102,41 @@ namespace pe
 	void FileHandler::readObject(const char* path, Application* app) {
 		m_doc->LoadFile(path);
 		auto obj_tag = m_doc->FirstChildElement("object");
+		int id = obj_tag->IntAttribute("id");
+		
 
 		auto class_tag = obj_tag->FirstChildElement("class");
 		std::string class_name = class_tag->Attribute("name");
 		std::string type = class_tag->Attribute("type");
 		Object* obj = nullptr;
+		if (Assets::hasAsset(id))
+			obj = Assets::getAsset<pe::Object>(id);
 
 		// object has no logics
 		if (class_name == std::string("")) {
-			obj = Assets::newObject();
+			if (obj == nullptr) obj = Assets::newObject(id);
 		}
 		else {
 			if (type == std::string("CPP_OBJECT")) {
-				if (!Assets::isClassRegistered(class_name)) {
-					obj = Assets::newObject();
+				if (obj != nullptr){ /* don't create a new object */ }
+				else if (!Assets::isClassRegistered(class_name)) {
+					obj = Assets::newObject(id);
 					PE_LOG("\n WARNING: class not found in class registry: class_name=%s  object_id=%i name=%s \nusing default object", class_name.c_str(), obj->m_id, obj->m_name.c_str());
 					PE_CONSOLE_LOG("\nWARNING: class not found in class registry: class_name=%s  object_id=%i name=%s \nusing default object", class_name.c_str(), obj->m_id, obj->m_name.c_str());
 				}
 				else obj = Assets::newObject(class_name);
 			}
 			else if (type == std::string("PYTHON_OBJECT")) {
-				obj = new PythonObject(class_name);  // TODO: assert here -> if class not found or import error
-				Assets::addAsset(obj);
+				if (obj == nullptr) {
+					obj = new PythonObject(class_name, id);  // TODO: assert here -> if class not found or import error
+					Assets::addAsset(obj);
+				}
 				obj->m_class_path = class_tag->GetText();
 			}
 		}
 
-
+		obj->m_obj_file_path = path;
 		obj->setName(obj_tag->Attribute("name"));
-		obj->m_id = obj_tag->IntAttribute("id");
 		Object::s_next_id = std::max(obj->m_id + 1, Object::s_next_id);
 		PE_LOG("object created: type=%s  id=%i name=%s", type.c_str(), obj->m_id, obj->m_name.c_str());
 
@@ -140,6 +155,7 @@ namespace pe
 		auto origin_tag = transform_tag->FirstChildElement("origin");
 		obj->setOrigin(origin_tag->FloatAttribute("x"), origin_tag->FloatAttribute("y"));
 
+		// sprite
 		auto spr_tag = obj_tag->FirstChildElement("sprite");
 		if (spr_tag) {
 			Sprite* sprite = new Sprite();
@@ -179,6 +195,7 @@ namespace pe
 			PE_LOG("sprite created: id=%i", sprite->m_id);
 		} // sprite
 
+		// area
 		auto area_tag = obj_tag->FirstChildElement("area");
 		if (area_tag) {
 			Area* area = new Area();
@@ -204,6 +221,7 @@ namespace pe
 			PE_LOG("area created: id=%i", area->m_id);
 		} // area
 
+		// animation
 		auto anims_tag = obj_tag->FirstChildElement("animations");
 		for (auto anim_tag = anims_tag->FirstChildElement(); anim_tag != NULL; anim_tag = anim_tag->NextSiblingElement()) {
 			Animation* anim = new Animation();
@@ -279,10 +297,13 @@ namespace pe
 	void FileHandler::readScenes(const char* path, Application* app) {
 		m_doc->LoadFile(path);
 		auto scn_tag = m_doc->FirstChildElement("scene");
+		int id = scn_tag->IntAttribute("id");
 
-		Scene* scene = Assets::newAsset<Scene>();
+		Scene* scene = nullptr;
+		if (Assets::hasAsset(id)) scene = Assets::getAsset<Scene>(id);
+		else scene = Assets::newScene(id);
 		scene->setName(scn_tag->Attribute("name"));
-		scene->m_id = scn_tag->IntAttribute("id");
+		//scene->m_id = scn_tag->IntAttribute("id");
 		Scene::s_next_id = std::max(scene->m_id + 1, Scene::s_next_id);
 
 		auto bg_tag = scn_tag->FirstChildElement("background");

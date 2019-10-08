@@ -34,7 +34,7 @@ def updateAssets(working_dir='./', assets_file_name='assets.xml', default_tex_sm
                 if not texturesHasPaht(textures, asset_path, tex_to_delete):
                     next_id = int(textures.attrib['next_id'])
                     new_texture = ET.Element('texture', {
-                            'name':"tex_"+str(next_id), 
+                            'name':file.replace(" ", "_").split('.')[0], 
                             'id':str(next_id),
                             'smooth':'true' if default_tex_smooth else 'false',
                             'repeat':'true' if default_tex_repeat else 'false'
@@ -46,7 +46,10 @@ def updateAssets(working_dir='./', assets_file_name='assets.xml', default_tex_sm
             if isPathFont(asset_path):
                 if not fontsHasPaht(fonts, asset_path, font_to_delete):
                         next_id = int(fonts.attrib['next_id'])
-                        new_font = ET.Element('font', {'name':"font_"+str(next_id), 'id':str(next_id)})
+                        new_font = ET.Element('font', {
+                            'name':file.replace(' ','_').split(".")[0],
+                            'id':str(next_id)
+                            })
                         new_font.text = asset_path
                         fonts.insert(len(fonts), new_font)
                         fonts.set('next_id', str(next_id + 1))

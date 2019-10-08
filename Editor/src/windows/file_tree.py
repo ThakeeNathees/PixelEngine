@@ -29,3 +29,6 @@ class FileTree:
         ret = self.path+'\n'
         ret += FileTree.makeStr(self)
         return ret
+
+    def isAssetFile(self, ind):
+        return os.path.basename(self.files[ind]) == "assets.xml"

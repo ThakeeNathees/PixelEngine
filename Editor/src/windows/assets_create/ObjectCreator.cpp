@@ -88,6 +88,8 @@ void ObjectCreater::render()
 				ImGui::OpenPopup("Invalid Script Path!");
 			else {
 				m_object = pe::Assets::newObject();
+				std::string obj_file_path = std::string(m_obj_path).append("/").append(std::string(m_obj_name)).append(".obj.xml");
+				m_object->_setObjFilePath(obj_file_path);
 				
 				m_object->setName(m_obj_name);
 				m_object->setVisible(m_visible);
@@ -112,7 +114,7 @@ void ObjectCreater::render()
 
 				auto obj_tag = m_py_objmaker.attr("newObject")(m_object->getName(), m_object->getId(), m_object->getClassName(), m_obj_type, m_object->getClassPath(),
 					m_object->getZindex(), m_object->isVisible(), m_object->isPersistence());
-				m_py_objmaker.attr("writeObject")(obj_tag, m_obj_path);
+				m_py_objmaker.attr("writeObject")(obj_tag, obj_file_path);
 				CLI::getInstance()->projUpdate(false);
 				FileTree::getInstance()->reload();
 				m_popen = false;

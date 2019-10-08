@@ -5,6 +5,10 @@
 #include "WindowManager.h"
 #include "core/ApplicationHolder.h"
 
+#include "windows/FileTree.h"
+#include "windows/PyInterpriter.h"
+#include "core/ApplicationHolder.h"
+
 #include "windows/assets_create/ObjectCreator.h"
 #include "windows/assets_create/ScriptsCreator.h"
 
@@ -34,6 +38,7 @@ private:
 			renderEditMenu();
 			renderCreateMenu();
 			renderDebugMenu();
+			renderWindowMenu();
 			
 			ImGui::EndMainMenuBar();
 		}
@@ -108,13 +113,31 @@ private:
 
 	void renderDebugMenu() {
 		if (ImGui::BeginMenu("Debug")) {
-			if (ImGui::MenuItem("Debug Mode", NULL, ApplicationHolder::s_debug_mode )) {}
+			if (ApplicationHolder::isRunning()){
+				if (ImGui::MenuItem("Stop Application")) { ApplicationHolder::stop(); }
+			}
+			else { if (ImGui::MenuItem("Start Application")) { ApplicationHolder::start(); } }
+
+			bool is_debug_mode = false;
+			if (ApplicationHolder::isRunning()) is_debug_mode = ApplicationHolder::getApplication()->isDebugMode();
+			if (  ImGui::MenuItem("Debug Mode", NULL, &is_debug_mode )) {}
+			
 			if (ImGui::MenuItem("Reload Scripts")) { ApplicationHolder::reloadScripts(); }
 			if (ImGui::MenuItem("Reload On Save",NULL, &ApplicationHolder::s_reload_on_save)){}
 			if (ImGui::MenuItem("Reload Project")) { 
 				CLI::getInstance()->projUpdate(false);
 				ApplicationHolder::reloadApplication(); 
 			}
+			ImGui::EndMenu();
+		}
+	}
+
+	void renderWindowMenu() {
+		if (ImGui::BeginMenu("Window")) {
+			if (ImGui::MenuItem("File Explorer", NULL, &FileTree::getInstance()->m_open)) {}
+			if (ImGui::MenuItem("Python Interpriter", NULL, &PyInterpriter::getInstance()->m_open)) {}
+			if (ImGui::MenuItem("Application", NULL,  &ApplicationHolder::s_open )) {}
+			if (ImGui::MenuItem("Console", NULL, &CLI::getInstance()->getConsole()->m_open)) {}
 			ImGui::EndMenu();
 		}
 	}

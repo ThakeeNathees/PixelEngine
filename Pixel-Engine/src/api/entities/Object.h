@@ -20,7 +20,7 @@ namespace pe
 	class PIXEL_ENGINE_API Object : public sf::Transformable, public pe::Drawable, public Asset
 	{
 	public:
-		Object();
+		Object(int id = -1);
 		Object(const Object& other) = delete;
 		~Object();
 	
@@ -91,6 +91,10 @@ namespace pe
 		inline void setVisible(bool visible) override { m_visible = visible; }
 		inline void setPersistence(bool persistence) { m_persistence = persistence; }
 
+		inline void _setObjFilePath(const std::string& file_path) {
+			m_obj_file_path = file_path;
+		}
+
 		void clear(); // clear timers, ...
 
 		// getters  TODO: getPosition<glm::fvec2>()
@@ -139,11 +143,13 @@ namespace pe
 			return s_object_count;
 		}
 		
+		
 
 	protected:
 		ObjectType m_object_type = ObjectType::CPP_OBJECT;
 		std::string m_class_name ="Object"; // class name as string
 		std::string m_class_path =""; // for cpp-inlcude path, python-src_dir path
+		std::string m_obj_file_path = "";
 	private:
 		inline void setScene(Scene* scene) { m_scene = scene; }
 		friend class Scene;

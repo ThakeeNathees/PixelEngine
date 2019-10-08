@@ -23,11 +23,11 @@ area_format = '''<area name="%s" id="%s"><shape point_count="%s"></shape></area>
 
 file_extension = ".obj.xml"
 
-def writeObject(obj, path):
+def writeObject(obj, file_path):
     plain_xml = ET.tostring(obj).decode('utf-8').replace('\n', '').replace('\t','')
     pretty_xml = mdom.parseString( plain_xml ).toprettyxml()
     name = obj.attrib['name']
-    file = open(path+'/'+name+file_extension, 'w')
+    file = open(file_path, 'w')
     file.write(pretty_xml)
     file.close()
 

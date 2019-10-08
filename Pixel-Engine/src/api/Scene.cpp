@@ -13,9 +13,10 @@ namespace pe
 		s_scene_count++;
 		m_id = s_next_id++;
 	}
-	Scene::Scene() {
+	Scene::Scene(int id) {
 		s_scene_count++;
-		m_id = s_next_id++;
+		if (id < 0) m_id = s_next_id++;
+		else { m_id = id; s_next_id = m_id + 1; }
 		m_name = std::string("scn_").append(std::to_string(m_id));
 	}
 

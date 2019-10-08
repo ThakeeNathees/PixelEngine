@@ -5,6 +5,7 @@
 class ApplicationHolder
 {
 public:
+	static bool s_open;
 	static bool s_reload_on_save;
 	static bool* s_debug_mode;
 private:
@@ -16,6 +17,7 @@ private:
 	static std::string s_proj_file_name;
 	static pe::Application* s_application;
 	static sf::RenderTexture s_render_texture;
+	static sf::RenderTexture s_default_texture; // TODO: draw pixel-engine logo
 	ApplicationHolder() = delete;
 
 	static sf::Vector2f s_mouse_pos;
@@ -57,7 +59,7 @@ public:
 			if (s_application) delete s_application;
 			s_application = application;
 			s_render_texture.create(s_application->getWindowSize().x, s_application->getWindowSize().y);
-			s_debug_mode = s_application->getDebugVar();
+			//s_debug_mode = s_application->_getDebugPtr();
 			__s_is_application_reloaded = true;
 			CLI::getInstance()->getConsole()->addLog("APPLICATION RELOAD SUCCESS!", 1);
 			CLI::getInstance()->getConsole()->addLog("WARNING : RUNNING THE APPLICATION INSIDE THE ENGINE EDITOR MAY CAUSE THE FRAME RATE DROP!", 2);
@@ -84,19 +86,24 @@ public:
 	}
 
 	static void render() {
-		if (s_is_running) {
-			ImGui::Begin("Applicaton window", &s_is_running);
-			s_is_focus =  ImGui::IsRootWindowFocused();
-			s_mouse_pos = sf::Vector2f(ImGui::GetMousePos().x - ImGui::GetCursorScreenPos().x, ImGui::GetMousePos().y - ImGui::GetCursorScreenPos().y);
-			s_mouse_rel_pos = sf::Vector2f( ImGui::GetWindowPos().x, ImGui::GetWindowPos().y);
-			if (__s_is_application_reloaded) {
-				__s_is_application_reloaded = false;
-				ImGui::SetWindowSize(ImVec2(s_application->getWindowSize().x, s_application->getWindowSize().y+ ImGui::GetFontSize() + 25));
+		if (s_open) {
+			if (s_is_running) {
+				ImGui::Begin("Applicaton window", &s_open);
+				s_is_focus = ImGui::IsRootWindowFocused();
+				s_mouse_pos = sf::Vector2f(ImGui::GetMousePos().x - ImGui::GetCursorScreenPos().x, ImGui::GetMousePos().y - ImGui::GetCursorScreenPos().y);
+				s_mouse_rel_pos = sf::Vector2f(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y);
+				if (__s_is_application_reloaded) {
+					__s_is_application_reloaded = false;
+					ImGui::SetWindowSize(ImVec2(s_application->getWindowSize().x, s_application->getWindowSize().y + ImGui::GetFontSize() + 25));
+				}
+				ImGui::Image(ApplicationHolder::getRenderTexture());
+				ImGui::End();
 			}
-
-			ImGui::Image(ApplicationHolder::getRenderTexture());
-
-			ImGui::End();
+			else {
+				ImGui::Begin("Applicaton window", &s_open);
+				ImGui::Image(s_default_texture);
+				ImGui::End();
+			}
 		}
 	}
 

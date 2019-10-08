@@ -14,7 +14,7 @@ namespace pe
 	{
 	public:
 		Scene(std::string name);
-		Scene();
+		Scene(int id = -1);
 		Scene(const Scene& other) = delete;
 		~Scene();
 

@@ -39,14 +39,6 @@ void pe_readInitFile() {
 			if (dict.size() >= 2) {
 				std::string key = pe::__removeWiteSpace(dict[0]);
 				std::string value = pe::__getValueString(dict[1]);
-				/*
-				if (key == std::string("conf")) {
-					if (value == std::string("debug")) { pe::Application::s_conf = 0; continue; }
-					if (value == std::string("release")) { pe::Application::s_conf = 1; continue; }
-					PE_CONSOLE_LOG("ERROR: unknown config value in init file!\ndefault config=release");
-					continue;
-				}
-				*/
 				if (key == std::string("cwd")) { changeDir(value.c_str()); continue; }
 				if (key == std::string("log")) { Logger::init(value.c_str()); continue; }
 				if (key == std::string("kill_switch")) {

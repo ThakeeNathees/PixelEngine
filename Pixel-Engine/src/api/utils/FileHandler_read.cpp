@@ -104,7 +104,6 @@ namespace pe
 			obj = Assets::newObject();
 		}
 		else {
-			//if (app == nullptr) obj = Assets::newObject(); // even obj_type is python editor project can't make python obj -> app == nullptr
 			if (type == std::string("CPP_OBJECT")) {
 				if (!Assets::isClassRegistered(class_name)) {
 					obj = Assets::newObject();
@@ -114,7 +113,7 @@ namespace pe
 				else obj = Assets::newObject(class_name);
 			}
 			else if (type == std::string("PYTHON_OBJECT")) {
-				obj = new PythonObject(class_name);  // TODO: assert here -> if class not found
+				obj = new PythonObject(class_name);  // TODO: assert here -> if class not found or import error
 				Assets::addAsset(obj);
 				obj->m_class_path = class_tag->GetText();
 			}

@@ -98,8 +98,12 @@ namespace pe
 	}
 
 	void Application::addScene(Scene* scene) {
-		if (scene == nullptr){ PE_LOG("\nERROR: pe::Application::addScene(pe::Scene*) called with nullptr"); }
-		assert( scene != nullptr );
+		if (scene == nullptr){ 
+			PE_LOG("\nERROR: pe::Application::addScene(pe::Scene*) called with nullptr"); 
+			if (m_window == nullptr) throw std::exception("Error : in pe::Application::adScene -> scene was nullptr");
+			else  assert( scene != nullptr && "scene is nullptr");
+			
+		}
 		m_scenes.push_back(scene);
 		for (auto obj : m_persistent_objects) scene->addObject(obj);
 	}
@@ -130,7 +134,8 @@ namespace pe
 			}
 		}
 		PE_LOG("\nERROR: pe::Application::setCurrentScene(int) called with invalid id [%i]", id);
-		assert(false && "invalid scene id to set");
+		if (m_window == nullptr) throw std::exception("Error : in pe::Application::setCurrentScene(int) called with invalid id" );
+		else assert(false && "invalid scene id to set");
 	}
 	void Application::setCurrentScene(const std::string& name) {
 		for (auto scene : m_scenes) {
@@ -140,7 +145,8 @@ namespace pe
 			} 
 		}
 		PE_LOG("\nERROR: pe::Application::setCurrentScene(const std::string&) called with invalid name [%s]", name.c_str());
-		assert( false && "invalid scene name to set" );
+		if (m_window == nullptr) throw std::exception("Error : in pe::Application::setCurrentScene(const std::string&) called with invalid name" );
+		else assert( false && "invalid scene name to set" );
 	}
 
 	/// main loop
@@ -156,7 +162,8 @@ namespace pe
 				while (m_window->pollEvent(m_event)) {
 					if (isEventKillSwitch(m_event)) m_window->close();
 					if (!m_current_scene) { PE_LOG("\nERROR: in pe::Application::update() current scene is NULL"); }
-					assert(m_current_scene);
+					if (m_window == nullptr) throw std::exception("ERROR: in pe::Application::update() current scene is NULL" );
+					else assert(m_current_scene);
 					for (Object* object : m_current_scene->getObjects()) {
 						try { object->handleEvent(m_event); }
 						catch (const std::exception & err) { PE_CONSOLE_LOG(err.what()); }
@@ -276,8 +283,12 @@ namespace pe
 
 	void Application::__handleEvent(pe::Event* event) {
 		if (isEventKillSwitch(*event)) m_window->close();
-		if (!m_current_scene) { PE_LOG("\nERROR: in pe::Application::update() current scene is NULL"); }
-		assert(m_current_scene);
+		if (!m_current_scene) { 
+			PE_LOG("\nERROR: in pe::Application::update() current scene is NULL"); 
+			if (m_window == nullptr) throw std::exception("ERROR: in pe::Application::update() current scene is NULL");
+			else assert(m_current_scene);
+		}
+		
 		for (Object* object : m_current_scene->getObjects()) {
 			try { object->handleEvent(*event); }
 			catch (const std::exception & err) { throw err; }

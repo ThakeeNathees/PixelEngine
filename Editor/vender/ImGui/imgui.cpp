@@ -152,7 +152,12 @@ CODE
    where the UI code is called multiple times ("multiple passes") from a single entry point. There are pros and cons to both approaches.
  - Our origin are on the top-left. In axis aligned bounding boxes, Min = top-left, Max = bottom-right.
  - This codebase is also optimized to yield decent performances with typical "Debug" builds settings.
- - Please make sure you have asserts enabled (IM_ASSERT redirects to assert() by default, but can be redirected).
+ - Please make sure you have 
+ 
+ 
+ 
+ 
+ s enabled (IM_ASSERT redirects to assert() by default, but can be redirected).
    If you get an assert, read the messages and comments around the assert.
  - C++: this is a very C-ish codebase: we don't rely on C++11, we don't include any C++ headers, and ImGui:: is a namespace.
  - C++: ImVec2/ImVec4 do not expose math operators by default, because it is expected that you use your own math types.

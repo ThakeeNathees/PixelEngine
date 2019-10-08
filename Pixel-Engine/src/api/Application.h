@@ -43,13 +43,26 @@ namespace pe {
 		inline void setBgColor(const sf::Color& color) { s_background_color = color; }
 		inline void setFrameRate(int rate) { m_frame_rate = rate; }
 
-		void reloadScritps() { 
-			for (auto obj : m_current_scene->getObjects()) obj->scriptReload();
+		void reloadScritps() {
+			try {
+				for (auto obj : m_current_scene->getObjects()) obj->scriptReload();
+			}
+			catch (const std::exception& e){
+				PE_LOG("\nERROR: in pe::Application::reloadScripts :\n%s", e.what() );
+				PE_CONSOLE_LOG("\nERROR: in pe::Application::reloadScripts :\n%s", e.what() );
+				if (m_window == nullptr) throw e; // throw to editor
+			}
 		}
 
 		// getters
 		inline sf::RenderWindow& getWindow() const { assert(m_window != nullptr); return *m_window; }
-		inline Scene& getCurrentScene() const { assert(m_current_scene != nullptr); return *m_current_scene; }
+		inline Scene& getCurrentScene() const { 
+			if (m_current_scene == nullptr) {
+				if (m_window == nullptr) throw std::exception("Error : in pe::Application::getCurrentScene() -> m_curent_scene was nullptr");
+				else assert(m_current_scene != nullptr); 
+			}
+			return *m_current_scene; 
+		}
 		inline bool isDebugMode()  const { return m_is_debug_mode; }
 		bool* getDebugVar() { return &m_is_debug_mode; }
 		inline bool isDebugDrawArea() const { return m_is_debug_draw_area; }

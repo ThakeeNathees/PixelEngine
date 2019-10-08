@@ -67,11 +67,19 @@ public:
 		}
 
 	}
+	
+	
 	static void reloadScripts() {
 		if (s_application) {
-			s_application->reloadScritps();
-			CLI::getInstance()->getConsole()->addLog("SCRIPTS RELOAD SUCCESS!", 1);
-			s_has_error = false; // if has set true in main
+			try {
+				s_application->reloadScritps();
+				CLI::getInstance()->getConsole()->addLog("SCRIPTS RELOAD SUCCESS!", 1);
+				s_has_error = false; // if has, checked and set true in main
+			}
+			catch (const std::exception& e){
+				CLI::getInstance()->getConsole()->addLog(e.what(), 3);
+				s_has_error = true;
+			}
 		}
 	}
 

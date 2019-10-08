@@ -16,7 +16,7 @@ namespace pe
 
 	// getters
 	bool Area::isContains(float x, float y) {
-		assert( m_shape != nullptr );
+		if (m_shape == nullptr) throw std::exception("Error: in pe::Area::isContains(float, float) -> m_shape was nullptr");
 		return isContainPoint(*m_shape, sf::Vector2f(x, y));
 	}
 
@@ -54,7 +54,7 @@ namespace pe
 	}
 
 	void Area::setShape(sf::Shape* shape) {
-		assert(pe::isShapeConvex(*shape) && "shape of an area has to be convex");
+		if (!pe::isShapeConvex(*shape)) throw std::string("Error: in pe::Area::setShape(sf::Shape*) -> shape was concave, only convex supported");
 		m_shape = shape;
 		m_centroid = ::pe::getCentroid(shape);
 		m_is_convex = isShapeConvex(*shape);

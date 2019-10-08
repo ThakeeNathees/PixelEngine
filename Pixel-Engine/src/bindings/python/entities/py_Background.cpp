@@ -15,7 +15,7 @@ void register_bg(py::module& m)
 
 		.def("setTexture", &pe::Background::setTexture)
 		.def("setVisible", &pe::Background::setVisible)
-		.def("setRepeated", &pe::Background::setRepeatd)
+		.def("setRepeated", &pe::Background::setRepeated)
 		.def("setSmooth", &pe::Background::setSmooth)
 		.def("setMoveSpeed", (void(pe::Background::*)(int, int)) &pe::Background::setMoveSpeed)
 		.def("setMoveSpeed", (void(pe::Background::*)(const sf::Vector2i& speed)) &pe::Background::setMoveSpeed)

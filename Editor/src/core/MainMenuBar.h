@@ -120,7 +120,9 @@ private:
 
 			bool is_debug_mode = false;
 			if (ApplicationHolder::isRunning()) is_debug_mode = ApplicationHolder::getApplication()->isDebugMode();
-			if (  ImGui::MenuItem("Debug Mode", NULL, &is_debug_mode )) {}
+			if (  ImGui::MenuItem("Debug Mode", NULL, &is_debug_mode )) {
+				if (ApplicationHolder::getApplication()) ApplicationHolder::getApplication()->setDebugMode(is_debug_mode);
+			}
 			
 			if (ImGui::MenuItem("Reload Scripts")) { ApplicationHolder::reloadScripts(); }
 			if (ImGui::MenuItem("Reload On Save",NULL, &ApplicationHolder::s_reload_on_save)){}

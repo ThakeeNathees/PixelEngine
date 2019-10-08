@@ -12,13 +12,13 @@ namespace pe
 		sf::Sprite::setTexture(*m_texture,true);
 	}
 
-	void Background::setRepeatd(bool repeated) {
-		assert( m_texture );
+	void Background::setRepeated(bool repeated) {
+		if (m_texture == nullptr) throw std::exception("Error: in pe::Background::setRepeated(bool) -> texture was nullptr");
 		m_texture->setRepeated(repeated);
 	}
 
 	void Background::setSmooth(bool smooth) {
-		assert( m_texture );
+		if (m_texture == nullptr) throw std::exception("Error: in pe::Background::setSmooth(bool) -> texture was nullptr");
 		m_texture->setSmooth(smooth);
 	}
 
@@ -29,7 +29,7 @@ namespace pe
 
 	void Background::move(double dt) {
 		if (!m_move_speed.x && !m_move_speed.y) return;
-		assert(m_texture->isRepeated());
+		if (! m_texture->isRepeated()) throw std::exception("Error: in pe::Background::move(double) -> texture must be repeated");
 		auto rect = getTextureRect();
 		setTextureRect( sf::IntRect( -(m_move_speed.x*dt) + rect.left, -(m_move_speed.y*dt) + rect.top,  rect.width, rect.height) );
 	}

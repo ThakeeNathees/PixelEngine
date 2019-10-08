@@ -32,7 +32,7 @@ namespace pe
 		// setters
 		inline void setName(const std::string& name) override { m_name = name; }
 		inline void setVisible(bool visible) { m_visible = visible; }
-		void setRepeatd(bool repeated);
+		void setRepeated(bool repeated);
 		void setSmooth(bool smooth);
 		void setTexture(pe::Texture& texture);
 		inline void setMoveSpeed(int x, int y) { setMoveSpeed({x,y}); }
@@ -48,7 +48,10 @@ namespace pe
 		inline bool isVisible() const { return m_visible; }
 		inline bool isRepeat() const { return m_texture->isRepeated(); }
 		inline bool isSmooth() const { return m_texture->isSmooth(); }
-		inline Texture& getTexture() { assert(m_texture); return *m_texture; }
+		inline Texture& getTexture() {
+			if (m_texture == nullptr) throw std::exception("Error: in pe::Background::getTexture() -> texture was nullptr");
+			return *m_texture;
+		}
 		inline const sf::Vector2i& getMoveSpeed() const { return m_move_speed; }
 
 		inline bool hasTexture() const { return m_texture != nullptr; }

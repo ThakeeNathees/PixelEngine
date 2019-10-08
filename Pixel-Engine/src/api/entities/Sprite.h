@@ -38,7 +38,10 @@ namespace pe {
 		inline const std::tuple<sf::Vector2i, sf::Vector2i>& getFrames() const { return m_frames; }
 		inline int getFrameCount() const { return std::get<0>(m_frames).x * std::get<0>(m_frames).y; }
 		inline int getFrameIndex() const { return m_frame_index; }
-		inline Texture& getTexture() const { assert(m_texture); return *m_texture; }
+		inline Texture& getTexture() const {
+			if (m_texture == nullptr) throw std::exception("Error: in pe::Sprite::getTexture() const\n\ttexture was null");
+			return *m_texture;
+		}
 
 		inline bool hasTexture() const { return m_texture != nullptr; }
 		inline static int getCount() { return s_sprite_count; }

@@ -50,7 +50,7 @@ namespace pe
 		//sf::Vector2f getPoint(std::size_t index) const override;
 
 		inline sf::Vector2f getCentroid(bool local = false) const {
-			assert( m_shape != nullptr );
+			if (m_shape == nullptr) throw std::exception("Error: in pe::Area::getCentroid() -> shape was nullptr");
 			if (local) return m_centroid;
 			return m_shape->getTransform().transformPoint(m_centroid);
 		}
@@ -61,7 +61,7 @@ namespace pe
 		inline bool isIntersecting(const Area& other) { return ::pe::isIntersecting( getShape(), other.getShape() ); }
 
 
-		inline sf::Shape& getShape() const { assert(m_shape); return *m_shape; }
+		inline sf::Shape& getShape() const { if (m_shape==nullptr) throw std::exception("Error: in pe::Area::getShape() -> shape was nullptr"); return *m_shape; }
 		inline bool hasShape() const { return m_shape != nullptr; }
 
 	private:

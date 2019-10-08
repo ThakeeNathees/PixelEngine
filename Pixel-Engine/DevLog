@@ -6,6 +6,7 @@ HIGHT PRIORITY
 	config.init -> optimize
 	pybind
 		window, application
+	self.getArea().getShape().getPoint( out_of_range ) -> handle assertion -> throw
 
 LOW PRIORITY
 	time map

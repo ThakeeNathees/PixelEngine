@@ -50,17 +50,17 @@ namespace pe
 		}
 	}
 	void Object::draw(const sf::Drawable& drawable) const {
-		assert(s_render_target != nullptr && "draw(const sf::Drawable&) can only be call from draw() method");
+		if (s_render_target == nullptr) throw std::exception("Error: in pe::Object::draw(const sf::Drawable&)\n\tdraw methods can  only be call from drawCall() method");
 		s_render_target->draw(drawable);
 	}
 
 	void Object::drawSelf() const {
-		assert(s_render_target != nullptr && "drawself() can only be call from draw() method");
+		if (s_render_target == nullptr) throw std::exception("Error: in pe::Object::drawSelf()\n\tdraw methods can  only be call from drawCall() method");
 		if ( m_sprite ) s_render_target->draw(getSprite());
 	}
 
 	void Object::drawRectangle(float x, float y, float width, float height, const sf::Color& color, bool outline, int outline_thickness) const {
-		assert(s_render_target != nullptr && "drawRectangle() can only be call from draw() method");
+		if (s_render_target == nullptr) throw std::exception("Error: in pe::Object::drawRectangle()\n\tdraw methods can  only be call from drawCall() method");
 		sf::RectangleShape shape(sf::Vector2f(width, height));
 		shape.setPosition(x, y);
 		if (outline) {
@@ -75,11 +75,11 @@ namespace pe
 	}
 
 	void Object::drawLine(float x1, float y1, float x2, float y2, float thickness, const sf::Color& color) const {
-		assert(s_render_target != nullptr && "drawLIne() can only be call from draw() method");
+		if (s_render_target == nullptr) throw std::exception("Error: in pe::Object::drawLine()\n\tdraw methods can  only be call from drawCall() method");
 		// TODO:
 	}
 	void Object::drawCircle(float x, float y, float r, const sf::Color& color, bool outline, int outline_thickness) const {
-		assert(s_render_target != nullptr && "drawCircle() can only be call from draw() method");
+		if (s_render_target == nullptr) throw std::exception("Error: in pe::Object::drawCircle()\n\tdraw methods can  only be call from drawCall() method");
 		sf::CircleShape circle(r);
 		circle.setPosition(x - r, y - r);
 		if (outline) {
@@ -93,13 +93,13 @@ namespace pe
 		s_render_target->draw(circle);
 	}
 	sf::RenderTarget& Object::getRenderTarget() const {
-		assert(s_render_target != nullptr && "getRenderTarget() can only be call from draw() method");
+		if (s_render_target == nullptr) throw std::exception("Error: in pe::Object::getRenderTarget()\n\tthe method can  only be call from drawCall() method");
 		return *s_render_target;
 	}
 
 	void Object::emitSignal(Signal& signal) {
 		signal.m_sender = this;
-		assert(m_scene != nullptr);
+		if (m_scene == nullptr) throw std::exception("Error: in pe::Object::emitSignal(pe::Signal&)\n\tsignal was null");
 		m_scene->addSignal(&signal);
 	}
 	
@@ -107,11 +107,12 @@ namespace pe
 		for (Timer* timer : m_timers) {
 			if (timer->getName() == timer_name) return *timer;
 		}
-		assert( false && "invalid timer name to get" );
+		throw std::exception("Error: in pe::Object::getTimer(const std::string&)\n\tinvalid timer name to get");
 	}
 
 	Animation& Object::getAnimation(const std::string& anim_name) {
-		assert( m_animations.find(anim_name) != m_animations.end() && "invalid animation name to get" );
+		if (m_animations.find(anim_name) == m_animations.end()) 
+			throw std::exception("Error: in pe::Object::getAnimation(const std::string&)\n\tinvalid animation name to get");
 		return *(m_animations[anim_name]);
 	}
 
@@ -172,9 +173,9 @@ namespace pe
 	}
 	void Object::setArea(Area* area) { // if area == nullptr => area set as sprite rect. old area not deleted -> memory leak
 		if (area == nullptr) {
-			assert( m_sprite != nullptr && "without sprite can't call setArea(nullptr)" );
-			assert( m_sprite->getLocalBounds().width > 0 && m_sprite->getLocalBounds().height > 0 && "without sprite.texture can't call setArea(nullptr)"  );
-			
+			if (m_sprite == nullptr) throw std::exception("Error: in pe::Object::setArea(nullptr)\n\twithout sprite cant set default area");
+			if (m_sprite->getLocalBounds().width < 0 || m_sprite->getLocalBounds().height < 0)
+				throw std::exception("Error: in pe::Object::setArea(nullptr)\n\tsprite must have a texture");
 			auto rect = m_sprite->getLocalBounds();
 			sf::RectangleShape* shape = new sf::RectangleShape(sf::Vector2f(rect.width, rect.height));
 			auto area = Assets::newAsset<Area>();

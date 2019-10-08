@@ -26,6 +26,7 @@ void CLI::init()
 	readPeConfigFile();
 
 	m_py_proj_init = py::module::import("init");
+	m_py_assets_updater = py::module::import("assets_updater");
 	m_console = new Console();
 }
 

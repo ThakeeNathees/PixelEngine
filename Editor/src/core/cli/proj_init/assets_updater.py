@@ -2,6 +2,47 @@ import xml.etree.ElementTree as ET
 import xml.dom.minidom as mdom
 import os
 
+
+
+
+def modifyTexture(tex_id, name, smooth, repeat, assets_file_path='./assets.xml'):
+    doc = ET.parse(assets_file_path)
+    root = doc.getroot()
+    textures = root.find("textures")
+
+    for tex in textures:
+        if tex.attrib['id'] == str(tex_id):
+            tex.attrib['name'] = name
+            tex.attrib['smooth'] = 'true' if smooth else 'false'
+            tex.attrib['repeat'] = 'true' if repeat else 'false'
+
+    plain_xml = ET.tostring(root).decode('utf-8').replace('\n', '').replace('\t','')
+    pretty_xml = mdom.parseString( plain_xml ).toprettyxml()
+
+    file = open(assets_file_path, 'w')
+    file.write(pretty_xml)
+    file.close()
+
+def modifyFont(font_id, name, assets_file_path = './assets.xml'):
+    doc = ET.parse(assets_file_path)
+    root = doc.getroot()
+    fonts = root.find('fonts')
+
+    for font in fonts:
+        if font.attrib['id'] == str(font_id):
+            font.attrib['name'] = name
+            
+    plain_xml = ET.tostring(root).decode('utf-8').replace('\n', '').replace('\t','')
+    pretty_xml = mdom.parseString( plain_xml ).toprettyxml()
+
+    file = open(assets_file_path, 'w')
+    file.write(pretty_xml)
+    file.close()
+
+
+###################################################################
+
+
 image_formats = [".jpg", ".jpeg", ".png"]
 font_formats = [ ".ttf" ]
 

@@ -139,8 +139,11 @@ void FileTree::drawFileIcon(const std::string& file_name) {
 	if (format == std::string("cpp"))		{ ImGui::Image(Resources::getFileFormatIcon("file_cpp")); ImGui::SameLine(); return; }
 	if (format == std::string("h"))			{ ImGui::Image(Resources::getFileFormatIcon("file_h")); ImGui::SameLine(); return; }
 	if (format == std::string("hpp"))		{ ImGui::Image(Resources::getFileFormatIcon("file_hpp")); ImGui::SameLine(); return; }
-	if (format == std::string("png"))		{ ImGui::Image(Resources::getFileFormatIcon("file_png")); ImGui::SameLine(); return; }
 	if (format == std::string("ttf"))		{ ImGui::Image(Resources::getFileFormatIcon("file_ttf")); ImGui::SameLine(); return; }
+	// image files
+	if (format == std::string("png"))		{ ImGui::Image(Resources::getFileFormatIcon("file_png")); ImGui::SameLine(); return; }
+	if (format == std::string("jpg"))		{ ImGui::Image(Resources::getFileFormatIcon("file_png")); ImGui::SameLine(); return; }
+	if (format == std::string("jpeg"))		{ ImGui::Image(Resources::getFileFormatIcon("file_png")); ImGui::SameLine(); return; }
 	// binary files
 	if (format == std::string("exe"))		{ ImGui::Image(Resources::getFileFormatIcon("file_bin")); ImGui::SameLine(); return; }
 	if (format == std::string("lib"))		{ ImGui::Image(Resources::getFileFormatIcon("file_bin")); ImGui::SameLine(); return; }
@@ -286,14 +289,17 @@ void FileTree::renderRightMouseMenu(const std::string& path) {
 
 void FileTree::renderRightMouseMenuTexture(int texture_id) {
 	if (ImGui::BeginPopupContextItem("right mouse menu")) {
+		bool modified = false;
 		bool smooth = pe::Assets::getAsset<pe::Texture>(texture_id)->isSmooth();
 		if (ImGui::MenuItem("Smooth", NULL, &smooth)) {
 			pe::Assets::getAsset<pe::Texture>(texture_id)->setSmooth(smooth);
+			modified = true;
 			ImGui::CloseCurrentPopup();
 		}
 		bool repeated  = pe::Assets::getAsset<pe::Texture>(texture_id)->isRepeated();
 		if (ImGui::MenuItem("Repeated", NULL, &repeated)) {
 			pe::Assets::getAsset<pe::Texture>(texture_id)->setRepeated(repeated);
+			modified = true;
 			ImGui::CloseCurrentPopup();
 		}
 		
@@ -302,6 +308,7 @@ void FileTree::renderRightMouseMenuTexture(int texture_id) {
 			ImGui::EndMenu();
 		}
 
+		if (modified) CLI::getInstance()->updateTexture(pe::Assets::getAsset<pe::Texture>(texture_id));
 
 		ImGui::EndPopup();
 	}

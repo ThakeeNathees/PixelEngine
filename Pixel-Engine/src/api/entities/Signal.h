@@ -54,7 +54,9 @@ namespace pe
 		// getters
 		inline static int getCount() { return s_signal_count; }
 		inline std::vector<Object*>& getRecievers() { return m_recievers; }
-		inline Object& getSender() const { assert( m_sender != nullptr );  return *m_sender; }
+		inline Object& getSender() const {
+			if (m_sender == nullptr) throw std::exception("Error: in pe::Signal::getSender() const\n\tsender was null");
+		}
 		inline bool hasSender() const { return m_sender != nullptr; }
 		inline const std::string& getName() const { return m_name; }
 		Type getType() const { return m_type; }

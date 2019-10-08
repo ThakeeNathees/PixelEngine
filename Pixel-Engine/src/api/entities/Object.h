@@ -108,10 +108,22 @@ namespace pe
 		inline bool isVisible() const override { return m_visible; }
 		inline bool isPersistence() const { return m_persistence; }
 
-		inline Application& getApplication() const { assert(m_applicaton != nullptr); return *m_applicaton; }
-		inline Scene& getScene() const { assert(m_scene != nullptr);		return *m_scene; }
-		inline Area& getArea() const { assert(m_area != nullptr);		return *m_area; }
-		inline Sprite& getSprite() const { assert(m_sprite != nullptr);		return *m_sprite; }
+		inline Application& getApplication() const {
+			if (m_applicaton == nullptr) throw std::exception("Error: in pe::Object::getApplication()\n\tapplication was null");
+			return *m_applicaton;
+		}
+		inline Scene& getScene() const {
+			if (m_scene == nullptr) throw std::exception("Error: in pe::Object::getScene()\n\scene was null");
+			return *m_scene;
+		}
+		inline Area& getArea() const {
+			if (m_scene == nullptr) throw std::exception("Error: in pe::Object::getScene()\n\scene was null");
+			return *m_area;
+		}
+		inline Sprite& getSprite() const {
+			if (m_sprite == nullptr) throw std::exception("Error: in pe::Object::getSprite()\n\sprite was null");
+			return *m_sprite;
+		}
 		Timer& getTimer(const std::string& timer_name);
 		inline std::vector<Timer*>& getTimers() { return m_timers; }
 		Animation& getAnimation(const std::string& anim_name);

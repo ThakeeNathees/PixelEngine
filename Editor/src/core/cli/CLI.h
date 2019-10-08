@@ -32,6 +32,14 @@ public:
 		}
 	}
 
+	void updateTexture(pe::Texture* tex) {
+		if (tex == nullptr) {
+			PE_CONSOLE_LOG("Error: CLI::updateTexture called with nullptr");
+			return;
+		}
+		m_py_assets_updater.attr("modifyTexture")(tex->getId(), tex->getName(), tex->isSmooth(), tex->isRepeated());
+	}
+
 	static void parseArgs(int argc, char** argv);
 	static CLI* getInstance() {
 		if (!s_instance) s_instance = new CLI();
@@ -58,4 +66,5 @@ private:
 	void readPeConfigFile();
 	py::module m_py_os;
 	py::module m_py_proj_init;
+	py::module m_py_assets_updater;
 };

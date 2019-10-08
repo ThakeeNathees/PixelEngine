@@ -15,8 +15,13 @@ namespace pe
 
 	void Sprite::setFrameIndex(int index) {
 		m_frame_index = index;
-		assert( (index >=0) &&  (index < getFrameCount()) && "invalid sprite frame index" );
-		assert( m_texture && "cant set frames without any textures" );
+
+		if ((index < 0) || (index > getFrameCount())) {
+			throw std::exception("Error: in pe::Sprite::setFrameIndex(int) -> invalid frame index");
+		}
+		if (m_texture == nullptr) {
+			throw std::exception("Error: in pe::Sprite::setFrameIndex(ind) -> texture was nullptr, assign a texture first");
+		}
 		int width  = m_texture->getSize().x / std::get<0>(m_frames).x;
 		int height = m_texture->getSize().y / std::get<0>(m_frames).y;
 		int left = (index % (std::get<0>(m_frames).x))* width;
@@ -27,7 +32,7 @@ namespace pe
 
 	// getters
 	void Sprite::setFrames(int x, int y, int offset_x, int offset_y) {
-		assert(x > 0 && y > 0);
+		if (x < 0 || y < 0) throw std::exception("Error: in pe::Sprite::SetFrames(int, int [, int, int]) -> x<0 or y<0");
 		std::get<0>(m_frames).x = x; std::get<0>(m_frames).y = y; std::get<1>(m_frames).x = offset_x; std::get<1>(m_frames).y = offset_y;
 		setFrameIndex(0);
 	}

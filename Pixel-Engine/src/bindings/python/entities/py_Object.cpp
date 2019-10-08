@@ -30,10 +30,11 @@ void register_object(py::module m)
 				case pe::Object::ObjectType::CPP_OBJECT:
 					return pe::Assets::newObject(class_name);
 					break;
-				case pe::Object::ObjectType::PYTHON_OBJECT:
+				case pe::Object::ObjectType::PYTHON_OBJECT:{
 					obj = new PythonObject(class_name);
 					pe::Assets::addAsset(obj);
 					return obj;
+				}
 				default:
 					return obj;
 				}

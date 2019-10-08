@@ -55,7 +55,10 @@ namespace pe {
 		}
 
 		// getters
-		inline sf::RenderWindow& getWindow() const { assert(m_window != nullptr); return *m_window; }
+		inline sf::RenderWindow& getWindow() const {
+			if (m_window == nullptr) throw std::exception("Error: in pe::Application::getWindow() const\n\twindow was null");
+			return *m_window;
+		}
 		inline Scene& getCurrentScene() const { 
 			if (m_current_scene == nullptr) {
 				if (m_window == nullptr) throw std::exception("Error : in pe::Application::getCurrentScene() -> m_curent_scene was nullptr");

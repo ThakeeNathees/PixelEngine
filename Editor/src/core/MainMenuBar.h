@@ -2,7 +2,6 @@
 
 #include "core/cli/CLI.h"
 #include "Resources.h"
-#include "WindowManager.h"
 #include "core/ApplicationHolder.h"
 
 #include "windows/FileTree.h"
@@ -126,9 +125,11 @@ private:
 			
 			if (ImGui::MenuItem("Reload Scripts")) { ApplicationHolder::reloadScripts(); }
 			if (ImGui::MenuItem("Reload On Save",NULL, &ApplicationHolder::s_reload_on_save)){}
-			if (ImGui::MenuItem("Reload Project")) { 
-				CLI::getInstance()->projUpdate(false);
-				ApplicationHolder::reloadApplication(); 
+			if (ApplicationHolder::s_open) {
+				if (ImGui::MenuItem("Reload Project")) {
+					CLI::getInstance()->projUpdate(false);
+					ApplicationHolder::reloadApplication();
+				}
 			}
 			ImGui::EndMenu();
 		}

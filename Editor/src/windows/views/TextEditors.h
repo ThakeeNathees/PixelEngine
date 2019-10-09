@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..//core/cli/CLI.h"
+#include "core/cli/CLI.h"
 #include "core/ApplicationHolder.h"
 
 /* class to hold all text editors */
@@ -13,13 +13,13 @@ public:
 			title = _title;
 			path = _path;
 			id = _id;
-
 			editor.SetLanguageDefinition(_lang);
 			std::string text;
 			if (!CLI::readTextFile(text, path)) { // TODO: error handle
 				editor.SetText(text);
 			}
 		}
+		int dock_id=2; // TODO:
 		std::string path;
 		bool p_open = true;
 		bool saved = true; // file.py* -> file.py
@@ -51,6 +51,14 @@ public:
 	static void renderEditors() {
 		for (auto pair : s_text_editors) {
 			if (  pair.second->p_open ) {
+				
+				if (pair.second->dock_id > 0) {
+					pair.second->dock_id = -1;
+					ImGui::SetNextWindowDockID(2); // TODO: make staic dock space -> user cant edit
+				}
+
+				std::cout << pair.second->dock_id << std::endl;
+
 				ImGui::Begin(pair.second->title.c_str(), &pair.second->p_open, ImGuiWindowFlags_MenuBar);
 				ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
 				handleShortcuts(pair.second);
@@ -82,6 +90,7 @@ private:
 			// Ctrl+s : save
 			if (!editor.IsReadOnly() && ctrl && !shift && !alt && sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 				CLI::save(editor.GetText(), data->path);
+				if (!data->saved) CLI::log(std::string("file saved: ").append(data->path));
 				if ( !data->saved && data->editor.GetLanguageDefinition().mName == TextEditor::LanguageDefinition::Python().mName && ApplicationHolder::s_reload_on_save) 
 					ApplicationHolder::reloadScripts();
 				data->saved = true;
@@ -103,8 +112,10 @@ private:
 				{
 					auto text_to_save = editor.GetText();
 					CLI::save(text_to_save, data->path);
+					if (!data->saved) CLI::log(std::string("file saved: ").append(data->path));
+					if (!data->saved && data->editor.GetLanguageDefinition().mName == TextEditor::LanguageDefinition::Python().mName && ApplicationHolder::s_reload_on_save)
+						ApplicationHolder::reloadScripts();
 					data->saved = true;
-					if (ApplicationHolder::s_reload_on_save) ApplicationHolder::reloadScripts();
 				}
 				if (ImGui::MenuItem("Quit"))
 					data->p_open = false;

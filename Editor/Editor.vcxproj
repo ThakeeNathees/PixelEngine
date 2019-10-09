@@ -102,7 +102,6 @@
   <ItemGroup>
     <ClCompile Include="src\core\cli\CLI.cpp" />
     <ClCompile Include="src\core\Resources.cpp" />
-    <ClCompile Include="src\core\WindowManager.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -126,7 +125,6 @@
     <ClInclude Include="src\core\cli\CLI.h" />
     <ClInclude Include="src\core\Console.h" />
     <ClInclude Include="src\core\MainMenuBar.h" />
-    <ClInclude Include="src\core\WindowManager.h" />
     <ClInclude Include="src\pyutils\PyUtils.h" />
     <ClInclude Include="src\windows\assets_create\ObjectCreator.h" />
     <ClInclude Include="src\windows\assets_create\ScriptsCreator.h" />
@@ -134,11 +132,12 @@
     <ClInclude Include="src\windows\FileTree.h" />
     <ClInclude Include="src\core\Resources.h" />
     <ClInclude Include="src\pch.h" />
-    <ClInclude Include="src\windows\FontViwers.h" />
-    <ClInclude Include="src\windows\HexEditors.h" />
+    <ClInclude Include="src\windows\views\FontViwers.h" />
+    <ClInclude Include="src\windows\views\HexEditors.h" />
     <ClInclude Include="src\windows\PyInterpriter.h" />
     <ClInclude Include="src\windows\StartWindow.h" />
-    <ClInclude Include="src\windows\TextEditors.h" />
+    <ClInclude Include="src\windows\views\ImageViwers.h" />
+    <ClInclude Include="src\windows\views\TextEditors.h" />
     <ClInclude Include="vender\ImGuiColorTextEdit\TextEditor.h" />
     <ClInclude Include="vender\ImGui\imconfig.h" />
     <ClInclude Include="vender\ImGui\imgui.h" />

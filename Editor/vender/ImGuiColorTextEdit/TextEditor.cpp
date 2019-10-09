@@ -3227,7 +3227,7 @@ const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::Python()
 			return paletteIndex != PaletteIndex::Max;
 		};
 
-		langDef.mCommentStart = "'''#";
+		langDef.mCommentStart = "'''";
 		langDef.mCommentEnd = "#'''";
 		langDef.mSingleLineComment = "#";
 

@@ -12,7 +12,6 @@ bool ApplicationHolder::s_is_focus = false;
 bool ApplicationHolder::__s_is_application_reloaded = false;
 bool ApplicationHolder::s_reload_on_save = true;
 bool ApplicationHolder::s_open = true;
-//bool* ApplicationHolder::s_debug_mode = nullptr;
 
 std::string ApplicationHolder::s_proj_file_name;
 pe::Application* ApplicationHolder::s_application;
@@ -29,6 +28,8 @@ std::map<std::string, sf::Texture> Resources::s_other_icons;
 std::map<std::string, ImFont*> Resources::s_fonts;
 
 sf::Texture Resources::LOGO;
+sf::Texture Resources::LOGO_PE;
+sf::Texture Resources::PNG_BG;
 
 // TODO: log everything
 /* this will find and read the proj file and load the assets */
@@ -43,5 +44,4 @@ int Resources::readProjFile() {
 	} else PE_LOG("project file found : %s", proj_file_name.c_str());
 
 	ApplicationHolder::setProjFileName(proj_file_name);
-	ApplicationHolder::start();
 }

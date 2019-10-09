@@ -41,6 +41,9 @@ public:
 	}
 
 	static void parseArgs(int argc, char** argv);
+	static void log(const std::string log_msg, Console::LogLevel log_level = Console::LOGLEVEL_INFO) {
+		getInstance()->getConsole()->addLog(log_msg, log_level);
+	}
 	static CLI* getInstance() {
 		if (!s_instance) s_instance = new CLI();
 		return s_instance;

@@ -3,15 +3,31 @@
 ## TODO ########################################################################
 	
 HIGHT PRIORITY
-	config.init -> optimize
-	pybind
-		window, application
-	self.getArea().getShape().getPoint( out_of_range ) -> handle assertion -> throw
+	editor object creation -> python object default script or something 
+
+	search for existing project in start window
+
+	windows:
+		sprite editor
+		area and shape editor
+		animation editor
+		scene creator
+		scene editor window
+	
+	console and file log 
+
 
 LOW PRIORITY
+	pybind
+		window, application
+	config.init -> optimize // paths
+
+	.def("someMethod", &sf::someMethod -> .def("someMethod", [](self, args){ error_check; self.someMethod(); } )
+		self.getArea().getShape().getPoint( out_of_range ) -> handle assertion -> throw
+
 	time map
 	camera
-	change assert to trow and chatch them with TCP socket
+	explorer popup asset file icon update
 	add object m_process_priority
 	remove persistence object from vector
 	nexeScene(), previousScene() => scene stack

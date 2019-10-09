@@ -32,3 +32,6 @@ class FileTree:
 
     def isAssetFile(self, ind):
         return os.path.basename(self.files[ind]) == "assets.xml"
+
+    def isObjectFile(self, ind):
+        return os.path.basename(self.files[ind]).endswith(".obj.xml")

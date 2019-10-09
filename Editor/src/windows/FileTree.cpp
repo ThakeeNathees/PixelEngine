@@ -27,9 +27,12 @@ void FileTree::renderTreeRecursive(py::object& tree, bool next_item_open) {
 			std::string path = tree.attr("files").attr("__getitem__")(i).cast<std::string>();
 
 			// pe special files like assets.xml, *.obj.xml, *.scn.xml, *.peproj
-			if ( tree.attr("isAssetFile")(i).cast<bool>() ) { 
+			if (tree.attr("isAssetFile")(i).cast<bool>()) {
 				renderAssetsTree(path);
-			} 
+			}
+			else if (tree.attr("isObjectFile")(i).cast<bool>()) {
+				renderObjectTree(path);
+			}
 			else {
 				long long id = PyUtils::getInstance()->getMathUtil().attr("md5Hash")(path, "long").cast<long long>();
 				ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
@@ -78,7 +81,6 @@ void FileTree::renderAssetsTree(const std::string& path) {
 		
 		for (auto& asset : pe::Assets::getAssets()) {
 			ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
-			//if (m_selected_id == id) node_flags |= ImGuiTreeNodeFlags_Selected;
 			
 			// texture
 			if (asset.second->getType() == pe::Asset::Type::Texture) {
@@ -90,7 +92,7 @@ void FileTree::renderAssetsTree(const std::string& path) {
 
 				// click node
 				if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0)) {
-					// TODO: open texture editor with title asset.second->getName() + id
+					ImageViwer::getInstance()->openImageViwer( pe::Assets::getAsset<pe::Texture>(asset.second->getId())->getPath());
 				}
 				if (ImGui::IsItemClicked(0)) m_selected_id = id;
 				if (ImGui::IsItemClicked(1)) m_selected_menu_id = id;
@@ -124,7 +126,27 @@ void FileTree::renderAssetsTree(const std::string& path) {
 	}
 }
 
+void FileTree::renderObjectTree(const std::string& path) {
+	long long id = PyUtils::getInstance()->getMathUtil().attr("md5Hash")(path, "long").cast<long long>();
+	std::string dir_name = PyUtils::getInstance()->getOs().attr("path").attr("basename")(path).cast<std::string>();
+	float dir_icon_pos = ImGui::GetCursorPosX();
 
+	
+	if (ImGui::TreeNode(path.c_str(), dir_name.c_str())) { // tree begins
+		// right click
+		if (ImGui::IsItemClicked(1)) m_selected_menu_id = id;
+		//if (id == m_selected_menu_id) renderRightMouseMenuAssets(path, id);
+		ImGui::SameLine(); ImGui::SetCursorPosX(dir_icon_pos); ImGui::Image(Resources::getFileFormatIcon("object_file"));
+
+
+		ImGui::TreePop();
+	}
+	else { // object close
+		if (ImGui::IsItemClicked(1)) m_selected_menu_id = id;
+		if (id == m_selected_menu_id);// renderRightMouseMenuAssets(path, id);
+		ImGui::SameLine(); ImGui::SetCursorPosX(dir_icon_pos); ImGui::Image(Resources::getFileFormatIcon("object_file"));
+	}
+}
 
 /////////////////////////////////////////////////////////////
 
@@ -151,11 +173,11 @@ void FileTree::drawFileIcon(const std::string& file_name) {
 	if (format == std::string("obj"))		{ ImGui::Image(Resources::getFileFormatIcon("file_obj")); ImGui::SameLine(); return; }
 
 	ImGui::Image(Resources::getFileFormatIcon("file_unknown")); ImGui::SameLine();
-
 }
 /////////////////////////////////////////////////////////////
 
-void FileTree::nodeClickedEvent(const std::string& title, const std::string& path, long long id) {
+void FileTree::nodeClickedEvent(const std::string& title, const std::string& _path, long long id) {
+	auto path = PyUtils::getInstance()->getOs().attr("path").attr("relpath")(_path).cast<std::string>();
 
 	if (title == std::string("LICENSE")) { TextEditors::openTextEditor(title, path, id, TextEditor::LanguageDefinition::PlainText()); return; }
 
@@ -177,8 +199,10 @@ void FileTree::nodeClickedEvent(const std::string& title, const std::string& pat
 	if (format == std::string("obj")) { HexEditors::openHexEditor(title, path, id);  return; }
 	if (format == std::string("inl")) { HexEditors::openHexEditor(title, path, id);  return; }
 
-	if (format == std::string("ttf")) { FontViwers::openFontViwer(path, id); return; }
-	if (format == std::string("png")) { return; }
+	if (format == std::string("ttf")) { FontViwer::getInstance()->openFontViwer(path); return; }
+	if (format == std::string("png")) {  ImageViwer::getInstance()->openImageViwer(path ); return; }
+	if (format == std::string("jpg")) {  ImageViwer::getInstance()->openImageViwer(path ); return; }
+	if (format == std::string("jpeg")) { ImageViwer::getInstance()->openImageViwer(path); return; }
 	// binary files
 
 }

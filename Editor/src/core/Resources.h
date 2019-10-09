@@ -9,6 +9,8 @@ public:
 
 	// textures
 	static sf::Texture LOGO;
+	static sf::Texture LOGO_PE;
+	static sf::Texture PNG_BG;
 
 	static int readProjFile();
 

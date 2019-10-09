@@ -52,7 +52,7 @@ int main(int argc, char** argv)
 	// create window
 	unsigned int w = sf::VideoMode::getDesktopMode().width - 600;
 	unsigned int h = sf::VideoMode::getDesktopMode().height - 300;
-	sf::RenderWindow window(sf::VideoMode(w, h), "Pixel-Engine");//, sf::Style::None);
+	sf::RenderWindow window(sf::VideoMode(w, h), "Pixel-Engine");
 
 
 	// initialize
@@ -62,11 +62,10 @@ int main(int argc, char** argv)
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
 	CLI::getInstance()->init();
-	Logger::init(CLI::getExecPath().append("/log.txt")  );
-	PE_LOG("Pixel-Engine initialized");
+	Logger::init(CLI::getExecPath().append("/log.txt") );
+	PE_LOG("Pixel-Engine initialized"); CLI::log("Engine Initialized", Console::LOGLEVEL_SUCCESS);
 	window.setIcon( Resources::LOGO.getSize().x, Resources::LOGO.getSize().y, Resources::LOGO.copyToImage().getPixelsPtr());
 	StartWindow::getInstance()->init();
-	WindowManager::init();
 
 	// start window render loop
 	PE_LOG("start window loop started");
@@ -83,12 +82,15 @@ int main(int argc, char** argv)
 	double dt =0;
 
 	while (window.isOpen()) {
-		//std::cout <<  pe::Assets::getAssets().size() << std::endl;
+
 		// event handle
 		while (window.pollEvent(event)) {
 			ImGui::SFML::ProcessEvent(event);
+			ImageViwer::getInstance()->handleEvent(event);
+			FontViwer::getInstance()->handleEvent(event);
+
 			if (event.type == sf::Event::Closed) window.close();
-			if (event.type == sf::Event::GainedFocus) { FileTree::getInstance()->reload(); }
+			if (event.type == sf::Event::GainedFocus) {  FileTree::getInstance()->reload(); }
 			
 			// event handle for applicaton
 			if (ApplicationHolder::isRunning()) {
@@ -125,12 +127,13 @@ int main(int argc, char** argv)
 		MainMenuBar::getInstance()->render();
 
 		FileTree::getInstance()->render();
-		CLI::getInstance()->getConsole()->render();
 		PyInterpriter::getInstance()->render();
+		CLI::getInstance()->getConsole()->render();
+		ImageViwer::getInstance()->render();
+		FontViwer::getInstance()->render();
 
 		TextEditors::renderEditors();
 		HexEditors::renderEditors();
-		FontViwers::renderFontViwers();
 
 		ObjectCreater::getInstance()->render();
 		ScriptCreator::getInstance()->render();

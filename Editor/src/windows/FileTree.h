@@ -2,9 +2,10 @@
 
 #include "../core/cli/CLI.h"
 #include "../core/Resources.h"
-#include "TextEditors.h"
-#include "HexEditors.h"
-#include "FontViwers.h"
+#include "windows/views/TextEditors.h"
+#include "windows/views/HexEditors.h"
+#include "windows/views/FontViwers.h"
+#include "windows/views/ImageViwers.h"
 
 class FileTree
 {
@@ -58,6 +59,7 @@ public:
 private:
 	void renderTreeRecursive(py::object& tree, bool next_item_open = false);
 	void renderAssetsTree(const std::string& path);
+	void renderObjectTree(const std::string& path);
 	void renderRightMouseMenuTexture(int texture_id);
 
 	void renderPopup();

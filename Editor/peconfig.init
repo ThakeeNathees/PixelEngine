@@ -1,6 +1,8 @@
 ## all paths are relative to .exe file
 
 logo_path = "..\..\..\../Editor/res/logo/logo.png"
+logo_pe_path = "..\..\..\../Editor/res/logo/logo_pe.png"
+png_bg_path = "..\..\..\../Editor/res/logo/png_bg.jpg"
 
 projects:
 	porj="PeProjTest","C:\dev\__test_env/PeProjTest"
@@ -37,7 +39,10 @@ file_format_icons:
 	assets_file="..\..\..\../Editor/res/icons/file_format/assets_file.png"
 	asset_texture="..\..\..\../Editor/res/icons/file_format/asset_texture.png"
 	asset_font="..\..\..\../Editor/res/icons/file_format/asset_font.png"
+	object_file="..\..\..\../Editor/res/icons/file_format/object_file.png"	
 end
+
+##asset_obj="..\..\..\../Editor/res/icons/file_format/asset_obj.png"
 
 menu_icons:
 	none="..\..\..\../Editor/res/icons/menu_icons/none.png"

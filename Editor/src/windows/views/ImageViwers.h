@@ -1,6 +1,5 @@
 #pragma once
 
-#include "pch.h"
 
 class ImageViwer
 {
@@ -35,8 +34,8 @@ public:
 				m_image.setOrigin(m_image.getInverseTransform().transformPoint(m_mouse_pos));
 				m_image.setPosition(m_mouse_pos);
 
-				if (event.mouseWheel.delta > 0) m_image.scale(1.1, 1.1);
-				else if (m_image.getScale().x > .1) m_image.scale(.9, .9);
+				if (event.mouseWheel.delta > 0) m_image.scale(1.1f, 1.1f);
+				else if (m_image.getScale().x > .1) m_image.scale(.9f, .9f);
 				
 				m_render_texture.clear();
 				m_render_texture.draw(m_bg);
@@ -46,8 +45,8 @@ public:
 			// resize render texture
 			if (event.type == sf::Event::EventType::MouseButtonReleased) {
 				if (event.mouseButton.button == sf::Mouse::Button::Left) {
-					m_render_texture.create(m_window_size.x, m_window_size.y - 35);
-					m_bg.setTextureRect(sf::IntRect(0, 0, m_window_size.x, m_window_size.y));
+					m_render_texture.create(static_cast<unsigned int>(m_window_size.x), static_cast<unsigned int>(m_window_size.y - 35));
+					m_bg.setTextureRect(sf::IntRect(0, 0, static_cast<int>(m_window_size.x), static_cast<int>(m_window_size.y)));
 					m_render_texture.draw(m_bg);
 					m_render_texture.draw(m_image);
 				}
@@ -61,8 +60,8 @@ public:
 		m_path = path;
 		m_texture.loadFromFile(path);
 		m_image.setTexture(m_texture, true);
-		m_render_texture.create(m_window_size.x, m_window_size.y-35);
-		m_bg.setTextureRect(sf::IntRect(0, 0, m_window_size.x, m_window_size.y));
+		m_render_texture.create(static_cast<unsigned int>(m_window_size.x), static_cast<unsigned int>(m_window_size.y-35));
+		m_bg.setTextureRect(sf::IntRect(0, 0, static_cast<int>(m_window_size.x), static_cast<int>(m_window_size.y)));
 		m_render_texture.draw(m_bg);
 		m_render_texture.draw(m_image);
 	}

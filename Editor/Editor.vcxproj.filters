@@ -39,25 +39,28 @@
     <ClCompile Include="vender\ImSf\imgui-SFML.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\cli\CLI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\Resources.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\windows\static_initialize.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\windows\FileTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\pyutils\PyUtils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\windows\assets_create\ObjectCreator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\windows\assets_create\ScriptCreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\PyUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\CLI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Resources.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\EmbededApplication.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,40 +101,22 @@
     <ClInclude Include="vender\ImSf\imgui-SFML_export.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\cli\CLI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\Resources.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="vender\ImGui\imgui_memory_editor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\windows\FileTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\windows\Explorer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\windows\StartWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\Console.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\core\MainMenuBar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\pyutils\PyUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\windows\assets_create\ScriptsCreator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\windows\assets_create\ObjectCreator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\ApplicationHolder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\windows\PyInterpriter.h">
@@ -147,6 +132,24 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\windows\views\ImageViwers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\PyUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\CLI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Console.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\windows\ExplorerPopup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\EmbededApplication.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -167,20 +170,20 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\pyutils\str_util.py" />
     <None Include="src\cli\proj_init\assets_loader.py" />
-    <None Include="src\pyutils\math_util.py" />
-    <None Include="src\core\cli\proj_init\clean.py" />
-    <None Include="src\core\cli\proj_init\init.py" />
-    <None Include="src\core\cli\proj_init\proj_updater.py" />
-    <None Include="src\core\cli\proj_init\register_updater.py" />
-    <None Include="src\core\cli\proj_init\assets_updater.py" />
-    <None Include="src\windows\file_tree.py" />
-    <None Include="src\windows\explorer.py" />
-    <None Include="src\core\cli\conf_projupdater.py" />
-    <None Include="src\core\cli\obj_maker.py" />
-    <None Include="src\core\cli\scene_maker.py" />
-    <None Include="src\pyutils\file_util.py" />
     <None Include="peconfig.init" />
+    <None Include="src\pysrc\proj_init\assets_updater.py" />
+    <None Include="src\pysrc\proj_init\init.py" />
+    <None Include="src\pysrc\proj_init\proj_updater.py" />
+    <None Include="src\pysrc\proj_init\register_updater.py" />
+    <None Include="src\pysrc\conf_projupdater.py" />
+    <None Include="src\pysrc\obj_maker.py" />
+    <None Include="src\pysrc\scene_maker.py" />
+    <None Include="src\pysrc\file_util.py" />
+    <None Include="src\pysrc\math_util.py" />
+    <None Include="src\pysrc\str_util.py" />
+    <None Include="src\pysrc\clean.py" />
+    <None Include="src\pysrc\explorer.py" />
+    <None Include="src\pysrc\file_tree.py" />
   </ItemGroup>
 </Project>

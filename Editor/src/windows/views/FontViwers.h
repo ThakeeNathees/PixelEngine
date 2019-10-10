@@ -1,6 +1,5 @@
 #pragma once
 
-#include "pch.h"
 class FontViwer
 {
 
@@ -15,7 +14,7 @@ public:
 		if (m_is_focus) {
 			if (event.type == sf::Event::EventType::MouseButtonReleased) {
 				if (event.mouseButton.button == sf::Mouse::Button::Left) {
-					m_render_texture.create(m_window_size.x, m_window_size.y - 35);
+					m_render_texture.create(static_cast<unsigned int>( m_window_size.x), static_cast<unsigned int>(m_window_size.y - 35));
 					m_render_texture.clear();
 					m_render_texture.draw(m_text);
 				}
@@ -28,7 +27,7 @@ public:
 		if (m_path == path) return;
 		m_path = path;
 		m_font.loadFromFile(path);
-		m_render_texture.create(m_window_size.x, m_window_size.y - 35);
+		m_render_texture.create(static_cast<unsigned int>(m_window_size.x), static_cast<unsigned int>(m_window_size.y - 35));
 		m_text.setFont(m_font);
 		m_render_texture.clear();
 		m_render_texture.draw(m_text);

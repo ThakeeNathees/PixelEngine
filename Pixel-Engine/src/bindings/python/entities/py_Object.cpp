@@ -58,13 +58,13 @@ void register_object(py::module m)
 			}, py::arg("string"), py::arg("position")=sf::Vector2f(0,0), py::arg("color")=sf::Color::White, py::arg("scale")=1)
 		.def("drawSelf", [](pe::Object& self) {self.drawSelf(); })
 
-		.def("drawRectangle", (void(pe::Object::*)(float, float, float, float, const sf::Color&, bool, int)const) & pe::Object::drawRectangle,
+		.def("drawRectangle", (void(pe::Object::*)(float, float, float, float, const sf::Color&, bool, float)const) & pe::Object::drawRectangle,
 			py::arg("x"), py::arg("y"), py::arg("width"), py::arg("height"), py::arg("color") = pe::Application::s_default_color, py::arg("outline") = false, py::arg("outline_thickness") = 2
 		)
-		.def("drawRectangle", (void(pe::Object::*)(const sf::Vector2f&, const sf::Vector2f&, const sf::Color&, bool, int)const) & pe::Object::drawRectangle,
+		.def("drawRectangle", (void(pe::Object::*)(const sf::Vector2f&, const sf::Vector2f&, const sf::Color&, bool, float)const) & pe::Object::drawRectangle,
 			py::arg("position"), py::arg("size"), py::arg("color") = pe::Application::s_default_color, py::arg("outline") = false, py::arg("outline_thickness") = 2
 		)
-		.def("drawRectangle", (void(pe::Object::*)(const sf::FloatRect&, const sf::Color&, bool, int)const) & pe::Object::drawRectangle,
+		.def("drawRectangle", (void(pe::Object::*)(const sf::FloatRect&, const sf::Color&, bool, float)const) & pe::Object::drawRectangle,
 			py::arg("rect"), py::arg("color") = pe::Application::s_default_color, py::arg("outline") = false, py::arg("outline_thickness") = 2
 		)
 		.def("drawRectangle", (void(pe::Object::*)(const sf::RectangleShape&)const) & pe::Object::drawRectangle)
@@ -77,10 +77,10 @@ void register_object(py::module m)
 			py::arg("point1"), py::arg("point2"), py::arg("thickness") = 5, py::arg("color") = pe::Application::s_default_color
 		)
 
-		.def("drawCircle", (void(pe::Object::*)(float, float, float, const sf::Color&, bool, int)const) & pe::Object::drawCircle,
+		.def("drawCircle", (void(pe::Object::*)(float, float, float, const sf::Color&, bool, float)const) & pe::Object::drawCircle,
 			py::arg("x"), py::arg("y"), py::arg("r"), py::arg("color") = pe::Application::s_default_color, py::arg("outline") = false, py::arg("thickness") = 2
 		)
-		.def("drawCircle", (void(pe::Object::*)(const sf::Vector2f&, float, const sf::Color&, bool, int)const) & pe::Object::drawCircle,
+		.def("drawCircle", (void(pe::Object::*)(const sf::Vector2f&, float, const sf::Color&, bool, float)const) & pe::Object::drawCircle,
 			py::arg("position"), py::arg("r"), py::arg("color") = pe::Application::s_default_color, py::arg("outline") = false, py::arg("thickness") = 2
 		)
 		//*

@@ -9,7 +9,7 @@ namespace pe
 
 	
 	inline sf::Vector2f rotatePoint(float x, float y, float angle_degree) {
-		float angle = angle_degree * PI / 180.0f;
+		float angle = static_cast<float>(angle_degree * PI / 180.0);
 		sf::Vector2f rotated;
 		rotated.x = x * cos(angle) - y * sin(angle);
 		rotated.y = y * cos(angle) + x * sin(angle);
@@ -40,8 +40,8 @@ namespace pe
 			centroid.y += (p0.y + p1.y) * (p0.x * p1.y - p1.x * p0.y);
 		}
 
-		centroid.x /= (6 * signed_area);
-		centroid.y /= (6 * signed_area);
+		centroid.x /= static_cast<float>(6 * signed_area);
+		centroid.y /= static_cast<float>(6 * signed_area);
 
 		return centroid;
 

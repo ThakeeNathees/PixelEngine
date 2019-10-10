@@ -1,17 +1,17 @@
 #pragma once
 
 // for general use cli instance console
-#include "core/Resources.h"
+#include "Resources.h"
 
 class Console
 {
 public:
 	enum LogLevel { // TODO: ADD LOG LEVEL COSTOM AND CREATE CUSTOM COLOR FROM sf::Color -> for python user
-		LOGLEVEL_CUSTOM		= -1,
-		LOGLEVEL_INFO		= 0,
-		LOGLEVEL_SUCCESS	= 1,
-		LOGLEVEL_WARNING	= 2,
-		LOGLEVEL_ERROR		= 3,
+		LOGLEVEL_CUSTOM = -1,
+		LOGLEVEL_INFO = 0,
+		LOGLEVEL_SUCCESS = 1,
+		LOGLEVEL_WARNING = 2,
+		LOGLEVEL_ERROR = 3,
 	};
 	struct Log {
 		Log(const std::string& log, LogLevel level = LogLevel::LOGLEVEL_INFO, sf::Color custom_color = sf::Color::White) {
@@ -25,7 +25,7 @@ public:
 	};
 
 	Console() {
-		addLog("**********  Pixel-Engine Console [Version 1.0]  **********", -1, sf::Color(64,196,255));
+		addLog("**********  Pixel-Engine Console [Version 1.0]  **********", -1, sf::Color(64, 196, 255));
 	}
 
 	bool m_open = true; // main menu bar need &m_open 
@@ -36,8 +36,8 @@ private:
 
 public:
 	// for python to call
-	void addLog(const std::string& msg, int level=0, sf::Color custom_color = sf::Color::White) {
-		assert( level <=3 && level >=-1 );
+	void addLog(const std::string& msg, int level = 0, sf::Color custom_color = sf::Color::White) {
+		assert(level <= 3 && level >= -1);
 		Log log(msg, (LogLevel)level, custom_color);
 		addLog(log);
 	}
@@ -49,7 +49,7 @@ public:
 		// maintain size
 		static int MAX_LOG_SIZE = 50;
 		if (m_logs.size() > MAX_LOG_SIZE) {
-			while(m_logs.size() > MAX_LOG_SIZE) m_logs.erase(m_logs.begin());
+			while (m_logs.size() > MAX_LOG_SIZE) m_logs.erase(m_logs.begin());
 		}
 	}
 
@@ -68,13 +68,13 @@ public:
 				addLog("**********  Pixel-Engine Console [Version 1.0]  **********", -1, sf::Color(64, 196, 255));
 			}
 
-			ImGui::BeginChild("ScrollingRegion", ImVec2(0, 0), true); 
+			ImGui::BeginChild("ScrollingRegion", ImVec2(0, 0), true);
 
 			// change font scale
 			static float last_font_scale = 100;
 			if (last_font_scale != m_font_scale) {
 				last_font_scale = m_font_scale;
-				ImGui::SetWindowFontScale(m_font_scale/100);
+				ImGui::SetWindowFontScale(m_font_scale / 100);
 			}
 			for (auto& log : m_logs) {
 				switch (log.m_level) {

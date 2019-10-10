@@ -1,7 +1,7 @@
 #pragma once
 
-#include "core/cli/CLI.h"
-#include "core/ApplicationHolder.h"
+// CLI in application holder
+#include "core/EmbededApplication.h"
 
 /* class to hold all text editors */
 class TextEditors
@@ -91,8 +91,8 @@ private:
 			if (!editor.IsReadOnly() && ctrl && !shift && !alt && sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 				CLI::save(editor.GetText(), data->path);
 				if (!data->saved) CLI::log(std::string("file saved: ").append(data->path));
-				if ( !data->saved && data->editor.GetLanguageDefinition().mName == TextEditor::LanguageDefinition::Python().mName && ApplicationHolder::s_reload_on_save) 
-					ApplicationHolder::reloadScripts();
+				if ( !data->saved && data->editor.GetLanguageDefinition().mName == TextEditor::LanguageDefinition::Python().mName && EmbededApplication::getInstance()->isReloadOnSave()) 
+					EmbededApplication::getInstance()->reloadScripts();
 				data->saved = true;
 				
 			}
@@ -113,8 +113,8 @@ private:
 					auto text_to_save = editor.GetText();
 					CLI::save(text_to_save, data->path);
 					if (!data->saved) CLI::log(std::string("file saved: ").append(data->path));
-					if (!data->saved && data->editor.GetLanguageDefinition().mName == TextEditor::LanguageDefinition::Python().mName && ApplicationHolder::s_reload_on_save)
-						ApplicationHolder::reloadScripts();
+					if (!data->saved && data->editor.GetLanguageDefinition().mName == TextEditor::LanguageDefinition::Python().mName && EmbededApplication::getInstance()->isReloadOnSave())
+						EmbededApplication::getInstance()-> reloadScripts();
 					data->saved = true;
 				}
 				if (ImGui::MenuItem("Quit"))

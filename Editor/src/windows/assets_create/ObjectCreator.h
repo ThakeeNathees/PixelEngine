@@ -1,5 +1,7 @@
 #pragma once
-#include "windows/Explorer.h"
+#include "core/PyUtils.h"
+#include "windows/ExplorerPopup.h"
+#include "ScriptsCreator.h"
 
 class ObjectCreater
 {

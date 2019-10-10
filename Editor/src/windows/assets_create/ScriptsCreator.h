@@ -1,6 +1,7 @@
 #pragma once
 
-#include "windows/Explorer.h"
+#include "core/CLI.h"
+#include "windows/ExplorerPopup.h"
 
 class ScriptCreator
 {

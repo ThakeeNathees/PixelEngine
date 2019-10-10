@@ -1,12 +1,11 @@
 #pragma once
 
-#include "core/cli/CLI.h"
+#include "core/CLI.h"
 #include "Resources.h"
-#include "core/ApplicationHolder.h"
+#include "core/EmbededApplication.h"
 
 #include "windows/FileTree.h"
 #include "windows/PyInterpriter.h"
-#include "core/ApplicationHolder.h"
 
 #include "windows/assets_create/ObjectCreator.h"
 #include "windows/assets_create/ScriptsCreator.h"
@@ -112,23 +111,27 @@ private:
 
 	void renderDebugMenu() {
 		if (ImGui::BeginMenu("Debug")) {
-			if (ApplicationHolder::isRunning()){
-				if (ImGui::MenuItem("Stop Application")) { ApplicationHolder::stop(); }
+			if (EmbededApplication::getInstance()->isRunning()){
+				if (ImGui::MenuItem("Stop Application")) { EmbededApplication::getInstance()->stop(); }
 			}
-			else { if (ImGui::MenuItem("Start Application")) { ApplicationHolder::start(); } }
+			else { if (ImGui::MenuItem("Start Application")) { EmbededApplication::getInstance()->start(); } }
 
 			bool is_debug_mode = false;
-			if (ApplicationHolder::isRunning()) is_debug_mode = ApplicationHolder::getApplication()->isDebugMode();
+			if (EmbededApplication::getInstance()->isRunning()) is_debug_mode = EmbededApplication::getInstance()->getApplication()->isDebugMode();
 			if (  ImGui::MenuItem("Debug Mode", NULL, &is_debug_mode )) {
-				if (ApplicationHolder::getApplication()) ApplicationHolder::getApplication()->setDebugMode(is_debug_mode);
+				if (EmbededApplication::getInstance()->getApplication()) EmbededApplication::getInstance()->getApplication()->setDebugMode(is_debug_mode);
 			}
 			
-			if (ImGui::MenuItem("Reload Scripts")) { ApplicationHolder::reloadScripts(); }
-			if (ImGui::MenuItem("Reload On Save",NULL, &ApplicationHolder::s_reload_on_save)){}
-			if (ApplicationHolder::s_open) {
+			if (ImGui::MenuItem("Reload Scripts")) { EmbededApplication::getInstance()->reloadScripts(); }
+			static bool reload_on_save = true;
+			if (ImGui::MenuItem("Reload On Save",NULL, reload_on_save)){
+				EmbededApplication::getInstance()->setReloadOnSave(reload_on_save);
+			}
+
+			if ( EmbededApplication::getInstance()->isOpen()) {
 				if (ImGui::MenuItem("Reload Project")) {
 					CLI::getInstance()->projUpdate(false);
-					ApplicationHolder::reloadApplication();
+					EmbededApplication::getInstance()->reloadApplication();
 				}
 			}
 			ImGui::EndMenu();
@@ -139,7 +142,7 @@ private:
 		if (ImGui::BeginMenu("Window")) {
 			if (ImGui::MenuItem("File Explorer", NULL, &FileTree::getInstance()->m_open)) {}
 			if (ImGui::MenuItem("Python Interpriter", NULL, &PyInterpriter::getInstance()->m_open)) {}
-			if (ImGui::MenuItem("Application", NULL,  &ApplicationHolder::s_open )) {}
+			if (ImGui::MenuItem("Application", NULL, &EmbededApplication::getInstance()->m_open )) {}
 			if (ImGui::MenuItem("Console", NULL, &CLI::getInstance()->getConsole()->m_open)) {}
 			ImGui::EndMenu();
 		}

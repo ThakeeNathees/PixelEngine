@@ -24,14 +24,14 @@ namespace pe
 
 	void Background::setTextureRectSize(sf::Vector2i size, sf::Vector2i offset) {
 		if (!m_texture->isRepeated()) return;
-		setTextureRect(sf::IntRect(offset.x, offset.y, size.x / getScale().x, size.y / getScale().y));
+		setTextureRect(sf::IntRect(offset.x, offset.y, static_cast<int>(size.x / getScale().x), static_cast<int>(size.y / getScale().y)));
 	}
 
 	void Background::move(double dt) {
 		if (!m_move_speed.x && !m_move_speed.y) return;
 		if (! m_texture->isRepeated()) throw std::exception("Error: in pe::Background::move(double) -> texture must be repeated");
 		auto rect = getTextureRect();
-		setTextureRect( sf::IntRect( -(m_move_speed.x*dt) + rect.left, -(m_move_speed.y*dt) + rect.top,  rect.width, rect.height) );
+		setTextureRect( sf::IntRect(static_cast<int>(-(m_move_speed.x*dt) + rect.left), static_cast<int>(-(m_move_speed.y*dt) + rect.top),  rect.width, rect.height) );
 	}
 
 

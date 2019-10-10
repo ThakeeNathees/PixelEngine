@@ -47,9 +47,9 @@ namespace pe
 		sf::RenderTarget& getRenderTarget() const;
 		void drawSelf() const;
 
-		void drawRectangle(float x, float y, float width, float height, const sf::Color& color = s_default_color, bool outline = false, int outline_thickness = 2) const;
-		void drawRectangle(const sf::Vector2f& position, const sf::Vector2f& dimension, const sf::Color& color = s_default_color, bool outline = false, int outline_thickness = 2) const { drawRectangle(position.x, position.y, dimension.x, dimension.y, color, outline, outline_thickness); }
-		inline void drawRectangle(const sf::FloatRect& rect, const sf::Color& color = s_default_color, bool outline = false, int outline_thickness = 2) const { drawRectangle(rect.top, rect.left, rect.width, rect.height, color, outline, outline_thickness); }
+		void drawRectangle(float x, float y, float width, float height, const sf::Color& color = s_default_color, bool outline = false, float outline_thickness = 2) const;
+		void drawRectangle(const sf::Vector2f& position, const sf::Vector2f& dimension, const sf::Color& color = s_default_color, bool outline = false, float outline_thickness = 2) const { drawRectangle(position.x, position.y, dimension.x, dimension.y, color, outline, outline_thickness); }
+		inline void drawRectangle(const sf::FloatRect& rect, const sf::Color& color = s_default_color, bool outline = false, float outline_thickness = 2) const { drawRectangle(rect.top, rect.left, rect.width, rect.height, color, outline, outline_thickness); }
 		inline void drawRectangle(const sf::RectangleShape& shape) const { draw(shape); }
 
 
@@ -58,8 +58,8 @@ namespace pe
 			drawLine(point1.x, point1.y, point2.x, point2.y, thickness, color);
 		}
 
-		void drawCircle(float x, float y, float r, const sf::Color& color = s_default_color, bool outline = false, int outline_thickness = 2) const;
-		inline void drawCircle(const sf::Vector2f& position, float r, const sf::Color& color = s_default_color, bool outline = false, int outline_thickness = 2) const { drawCircle(position.x, position.y, r, color, outline, outline_thickness); }
+		void drawCircle(float x, float y, float r, const sf::Color& color = s_default_color, bool outline = false, float outline_thickness = 2) const;
+		inline void drawCircle(const sf::Vector2f& position, float r, const sf::Color& color = s_default_color, bool outline = false, float outline_thickness = 2) const { drawCircle(position.x, position.y, r, color, outline, outline_thickness); }
 
 		void emitSignal(Signal& signal);
 

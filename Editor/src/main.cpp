@@ -1,10 +1,10 @@
 #include "pch.h"
 
-#include "core/cli/CLI.h"
+#include "core/CLI.h"
 #include "windows/StartWindow.h"
 
 #include "core/Resources.h"
-#include "core/ApplicationHolder.h"
+#include "core/EmbededApplication.h"
 
 #include "core/MainMenuBar.h"
 MainMenuBar* MainMenuBar::s_instance = nullptr;
@@ -24,10 +24,9 @@ PYBIND11_EMBEDDED_MODULE(peio, m) {
 		.def("print", []() { CLI::getInstance()->getConsole()-> addLog( "" , 0); })
 		.def("print", [](const py::object& msg) { CLI::getInstance()->getConsole()->addLog( py::str(msg).cast<std::string>(), 0); })
 		.def("getMousePosition", []( bool relative) {
-			if (relative) return ApplicationHolder::getMousePosition();
-			else return ApplicationHolder::getMouseRelPosition();
+				return EmbededApplication::getInstance()->getMousePosition(relative);
 			}, py::arg("relative")=true)
-		.def("isWindowFocus", []() { return ApplicationHolder::isWindowFocus(); })
+		.def("isWindowFocus", []() { return EmbededApplication::getInstance()->isWindowFocus(); })
 		;
 	
 }
@@ -72,8 +71,10 @@ int main(int argc, char** argv)
 	StartWindow::getInstance()->dispStartWindow(window);
 	PE_LOG("start window loop ended");
 
+	FileTree::getInstance()->reload();
+
 	// Load applicaton's assets
-	int error = Resources::readProjFile();
+	int error = CLI::getInstance()->readProjFile();
 
 
 	/**********************     MAIN LOOP     **********************/
@@ -93,14 +94,14 @@ int main(int argc, char** argv)
 			if (event.type == sf::Event::GainedFocus) {  FileTree::getInstance()->reload(); }
 			
 			// event handle for applicaton
-			if (ApplicationHolder::isRunning()) {
+			if (EmbededApplication::getInstance()->isRunning()) {
 				try {
-					ApplicationHolder::getApplication()->__handleEvent(&event);
+					EmbededApplication::getInstance()->getApplication()->__handleEvent(&event);
 				}
 				catch (const std::exception& e){
-					if (!ApplicationHolder::hasError()) {
+					if (!EmbededApplication::getInstance()->hasError()) {
 						CLI::getInstance()->getConsole()->addLog(e.what(),3);
-						ApplicationHolder::setError(true);
+						EmbededApplication::getInstance()->setError(true);
 					}
 				}
 			}
@@ -110,13 +111,13 @@ int main(int argc, char** argv)
 		ImGui::SFML::Update(window, clock.restart());
 
 		// process application
-		if (ApplicationHolder::isRunning()){
+		if (EmbededApplication::getInstance()->isRunning()){
 			try {
-				ApplicationHolder::getApplication()->__process(&dt);
+				EmbededApplication::getInstance()->getApplication()->__process(&dt);
 			}
 			catch (const std::exception& e){
-				if (!ApplicationHolder::hasError()) {
-					ApplicationHolder::setError(true);
+				if (!EmbededApplication::getInstance()->hasError()) {
+					EmbededApplication::getInstance()->setError(true);
 					CLI::getInstance()->getConsole()->addLog(e.what(), 3);
 				}
 			}
@@ -138,7 +139,7 @@ int main(int argc, char** argv)
 		ObjectCreater::getInstance()->render();
 		ScriptCreator::getInstance()->render();
 		
-		ApplicationHolder::render();
+		EmbededApplication::getInstance()->render();
 
 		ImGui::ShowTestWindow();
 

@@ -8,7 +8,7 @@
 #include "windows/views/ImageViwers.h"
 
 #include "PyInterpriter.h"
-#include "Explorer.h"
+#include "ExplorerPopup.h"
 
 StartWindow* StartWindow::s_instance = nullptr;
 ExplorerPopup* ExplorerPopup::s_instance = nullptr;

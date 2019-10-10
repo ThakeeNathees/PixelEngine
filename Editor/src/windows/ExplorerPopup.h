@@ -1,5 +1,5 @@
 #pragma once
-#include "FileTree.h"
+#include "core/Resources.h"
 
 
 class ExplorerPopup
@@ -86,7 +86,7 @@ public:
 					ImGui::Image(Resources::getFileFormatIcon("dir_close")); ImGui::SameLine();
 				}
 				else {
-					FileTree::drawFileIcon(item_name);
+					Resources::drawFileIcon(item_name); ImGui::SameLine();
 				}
 
 				// item

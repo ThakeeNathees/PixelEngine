@@ -5,6 +5,7 @@
 namespace pe {
 
 	struct PIXEL_ENGINE_API _peproj {
+		std::string proj_file_path;
 		sf::Vector2i window_size = sf::Vector2i(640, 480);
 		std::string title = "Pixel-Engine-Project";
 		int frame_rate = 30;
@@ -17,6 +18,9 @@ namespace pe {
 		std::vector<std::string> objects_path;
 		std::vector<std::string> pypaths;
 		std::vector<std::string> scene_paths;
+
+		int next_obj_id = static_cast<int>(pe::Asset::Type::Object);
+		int next_scn_id = static_cast<int>(pe::Asset::Type::Scene);
 
 	};
 

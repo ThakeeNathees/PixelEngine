@@ -12,11 +12,6 @@ class FileTree:
                 self.dirs.append(FileTree( os.path.join(self.path, p) ))
 
     @staticmethod
-    def getFileFormat(path):
-        if "." not in path: return ""
-        return path.split('.')[-1].lower()
-
-    @staticmethod
     def makeStr(ft, tab=1, ret="" ):
         for file in ft.files:
             ret += '\t'*tab + os.path.basename(file) + '\n'

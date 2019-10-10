@@ -56,6 +56,7 @@ namespace pe
 		inline std::vector<Object*>& getRecievers() { return m_recievers; }
 		inline Object& getSender() const {
 			if (m_sender == nullptr) throw std::exception("Error: in pe::Signal::getSender() const\n\tsender was null");
+			return *m_sender;
 		}
 		inline bool hasSender() const { return m_sender != nullptr; }
 		inline const std::string& getName() const { return m_name; }

@@ -1,6 +1,9 @@
 #pragma once
-#include "Explorer.h"
-#include "pyutils/PyUtils.h"
+
+#include "core/PyUtils.h"
+#include "windows/ExplorerPopup.h"
+#include "core/CLI.h"
+
 
 
 // TODO: move this
@@ -54,7 +57,6 @@ private:
 					ImGui::End();
 					ImGui::SFML::Render(window);
 					CLI::chDir(m_proj_list.attr("__getitem__")(i).attr("__getitem__")(1).cast<std::string>().c_str());
-					FileTree::getInstance()->reload();
 					return true;
 				}
 			}
@@ -123,7 +125,6 @@ public:
 					ImGui::SFML::Render(window);
 					CLI::chDir(std::string(proj_path).append("/").append(proj_name));
 					m_conf_projupdater.attr("insertNewProj")(proj_name, std::string(proj_path).append("/").append(proj_name), CLI::getExecPath().append("/peconfig.init"));
-					FileTree::getInstance()->reload();
 					return;
 				}
 			}

@@ -9,10 +9,8 @@ projects:
 end
 
 paths:
-	py_path="..\..\..\../Editor/src/pyutils"
-	py_path="..\..\..\../Editor/src/core/cli/proj_init"
-	py_path="..\..\..\../Editor/src/core/cli"
-	py_path="..\..\..\../Editor/src/windows"
+	py_path="..\..\..\../Editor/src/pysrc/proj_init"
+	py_path="..\..\..\../Editor/src/pysrc"
 end
 
 fonts:

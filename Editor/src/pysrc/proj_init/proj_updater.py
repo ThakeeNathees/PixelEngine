@@ -24,7 +24,7 @@ def updateProj(proj_name = "", working_dir='.'):
 
     if not os.path.isfile(proj_file_path):
         proj_file = open(proj_file_path, 'w')
-        proj_file.write('<Project title="%s"><window_size x="640" y="480"/><pref frame_rate="30" begin_scene_id="70000" debug_mode="true" no_console="false"/><logo_texture id="-1"/><bg_color r="80" g="80" b="80" a="255"/><assets>assets.xml</assets><objects/><pypaths/><scenes/></Project>'%proj_name)
+        proj_file.write('<Project title="%s"><window_size x="640" y="480"/><pref frame_rate="30" begin_scene_id="70000" debug_mode="true" no_console="false"/><logo_texture id="-1"/><bg_color r="80" g="80" b="80" a="255"/><assets>assets.xml</assets><objects next_id="60000"></objects><pypaths/><scenes next_id="70000"></scenes></Project>'%proj_name)
         proj_file.close()
     doc = ET.parse( proj_file_path )
     root = doc.getroot()
@@ -53,20 +53,34 @@ def updateProj(proj_name = "", working_dir='.'):
                     new_obj = ET.Element('path')
                     new_obj.text = asset_rel_path
                     objects.insert(len(objects), new_obj)
-                
+                    
                 obj_doc = ET.parse(asset_path)
                 obj_doc_root = obj_doc.getroot()
+                
+                ## next_id
+                obj_id = int(obj_doc_root.attrib["id"])
+                next_id = int(objects.attrib["next_id"])
+                objects.set('next_id', str(max(obj_id+1, next_id+1)))
+                
                 cls = obj_doc_root.find('class')
-                if cls.attrib["type"] == "PYTHON_OBJECT" and not pypathHasPaht(pypaths, cls.text, pypath_to_delete):
+                if cls.attrib["name"] != "" and cls.attrib["type"] == "PYTHON_OBJECT" and not pypathHasPaht(pypaths, cls.text, pypath_to_delete):
                     new_pypath = ET.Element('pypath')
                     new_pypath.text = cls.text
                     pypaths.insert(len(pypaths), new_pypath)
 
             if isPathScene(asset_rel_path):
                 if not sceneHasPaht(scenes, asset_rel_path, scn_to_delete):
-                        new_scn = ET.Element('path')
-                        new_scn.text = asset_rel_path
-                        scenes.insert(len(scenes), new_scn)
+                    new_scn = ET.Element('path')
+                    new_scn.text = asset_rel_path
+                    scenes.insert(len(scenes), new_scn)
+                    
+                scn_doc = ET.parse(asset_path)
+                scn_doc_root = scn_doc.getroot()
+                ## next_id
+                scn_id = int(scn_doc_root.attrib["id"])
+                next_id = int(objects.attrib["next_id"])
+                scenes.set('next_id', str(max(scn_id+1, next_id+1)))
+                
 
     for obj, is_delete in obj_to_delete.items():
         if is_delete:

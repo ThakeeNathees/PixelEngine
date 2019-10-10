@@ -57,6 +57,7 @@ void register_vect(py::module& m)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// TODO: depricate vect2i for python users
 void register_vecti(py::module& m)
 {
 	py::class_<sf::Vector2i>(m, "Vecti")
@@ -84,22 +85,22 @@ void register_vecti(py::module& m)
 		)
 		.def("__mul__", [](const sf::Vector2i& self, float val) -> sf::Vector2i {
 				sf::Vector2i _ret;
-				_ret.x = self.x * val;
-				_ret.y = self.y * val;
+				_ret.x = static_cast<int>(self.x * val);
+				_ret.y = static_cast<int>(self.y * val);
 				return _ret;
 			}
 		)
 		.def("__rmul__", [](const sf::Vector2i& self, float val) -> sf::Vector2i {
 		sf::Vector2i _ret;
-		_ret.x = self.x * val;
-		_ret.y = self.y * val;
+		_ret.x = static_cast<int>(self.x * val);
+		_ret.y = static_cast<int>(self.y * val);
 		return _ret;
 			}
 		)
 		.def("__truediv__", [](const sf::Vector2i& self, float val) -> sf::Vector2i {
 				sf::Vector2i _ret;
-				_ret.x = self.x / val;
-				_ret.y = self.y / val;
+				_ret.x = static_cast<int>(self.x / val);
+				_ret.y = static_cast<int>(self.y / val);
 				return _ret;
 			}
 		)

@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "FileTree.h"
-#include "pyutils/PyUtils.h"
 
 FileTree* FileTree::s_instance = nullptr;
 
@@ -40,7 +39,7 @@ void FileTree::renderTreeRecursive(py::object& tree, bool next_item_open) {
 
 
 				// draw file icon
-				drawFileIcon(path);
+				Resources::drawFileIcon(path); ImGui::SameLine();
 				ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 20);
 				std::string title = PyUtils::getInstance()->getOs().attr("path").attr("basename")(path).cast<std::string>();
 				ImGui::TreeNodeEx((void*)(intptr_t)(id), node_flags, title.c_str());
@@ -112,7 +111,7 @@ void FileTree::renderAssetsTree(const std::string& path) {
 				}
 				if (ImGui::IsItemClicked(0)) m_selected_id = id;
 				if (ImGui::IsItemClicked(1)) m_selected_menu_id = id;
-				if (id == m_selected_menu_id) ; // TODO: render right menu for font
+				//if (id == m_selected_menu_id) ; // TODO: render right menu for font
 			}
 
 		}
@@ -143,37 +142,11 @@ void FileTree::renderObjectTree(const std::string& path) {
 	}
 	else { // object close
 		if (ImGui::IsItemClicked(1)) m_selected_menu_id = id;
-		if (id == m_selected_menu_id);// renderRightMouseMenuAssets(path, id);
+		//if (id == m_selected_menu_id);// renderRightMouseMenuAssets(path, id);
 		ImGui::SameLine(); ImGui::SetCursorPosX(dir_icon_pos); ImGui::Image(Resources::getFileFormatIcon("object_file"));
 	}
 }
 
-/////////////////////////////////////////////////////////////
-
-void FileTree::drawFileIcon(const std::string& file_name) {
-	std::string format = getInstance()->getPyFileTree().attr("getFileFormat")(file_name).cast<std::string>();
-	if (format == std::string("py"))		{ ImGui::Image(Resources::getFileFormatIcon("file_py")); ImGui::SameLine(); return; }
-	if (format == std::string("peproj"))	{ ImGui::Image(Resources::getFileFormatIcon("file_peproj")); ImGui::SameLine(); return; }
-	if (format == std::string("txt"))		{ ImGui::Image(Resources::getFileFormatIcon("file_text")); ImGui::SameLine(); return; }
-	if (format == std::string("ini"))		{ ImGui::Image(Resources::getFileFormatIcon("file_text")); ImGui::SameLine(); return; }
-	if (format == std::string("xml"))		{ ImGui::Image(Resources::getFileFormatIcon("file_xml")); ImGui::SameLine(); return; }
-	if (format == std::string("pyc"))		{ ImGui::Image(Resources::getFileFormatIcon("file_pyc")); ImGui::SameLine(); return; }
-	if (format == std::string("cpp"))		{ ImGui::Image(Resources::getFileFormatIcon("file_cpp")); ImGui::SameLine(); return; }
-	if (format == std::string("h"))			{ ImGui::Image(Resources::getFileFormatIcon("file_h")); ImGui::SameLine(); return; }
-	if (format == std::string("hpp"))		{ ImGui::Image(Resources::getFileFormatIcon("file_hpp")); ImGui::SameLine(); return; }
-	if (format == std::string("ttf"))		{ ImGui::Image(Resources::getFileFormatIcon("file_ttf")); ImGui::SameLine(); return; }
-	// image files
-	if (format == std::string("png"))		{ ImGui::Image(Resources::getFileFormatIcon("file_png")); ImGui::SameLine(); return; }
-	if (format == std::string("jpg"))		{ ImGui::Image(Resources::getFileFormatIcon("file_png")); ImGui::SameLine(); return; }
-	if (format == std::string("jpeg"))		{ ImGui::Image(Resources::getFileFormatIcon("file_png")); ImGui::SameLine(); return; }
-	// binary files
-	if (format == std::string("exe"))		{ ImGui::Image(Resources::getFileFormatIcon("file_bin")); ImGui::SameLine(); return; }
-	if (format == std::string("lib"))		{ ImGui::Image(Resources::getFileFormatIcon("file_bin")); ImGui::SameLine(); return; }
-	if (format == std::string("dll"))		{ ImGui::Image(Resources::getFileFormatIcon("file_dll")); ImGui::SameLine(); return; }
-	if (format == std::string("obj"))		{ ImGui::Image(Resources::getFileFormatIcon("file_obj")); ImGui::SameLine(); return; }
-
-	ImGui::Image(Resources::getFileFormatIcon("file_unknown")); ImGui::SameLine();
-}
 /////////////////////////////////////////////////////////////
 
 void FileTree::nodeClickedEvent(const std::string& title, const std::string& _path, long long id) {
@@ -181,7 +154,8 @@ void FileTree::nodeClickedEvent(const std::string& title, const std::string& _pa
 
 	if (title == std::string("LICENSE")) { TextEditors::openTextEditor(title, path, id, TextEditor::LanguageDefinition::PlainText()); return; }
 
-	std::string format = m_py_filetree.attr("getFileFormat")(path).cast<std::string>();
+	std::string format = PyUtils::getInstance()->getFileUtil().attr("getFileFormat")(path).cast<std::string>();
+
 	if (format == std::string("py")) { TextEditors::openTextEditor(title, path, id, TextEditor::LanguageDefinition::Python()); return; }
 	if (format == std::string("peproj")) { TextEditors::openTextEditor(title, path, id, TextEditor::LanguageDefinition::C()); return; }
 	if (format == std::string("txt")) { TextEditors::openTextEditor(title, path, id, TextEditor::LanguageDefinition::PlainText()); return; }
@@ -338,7 +312,7 @@ void FileTree::renderRightMouseMenuTexture(int texture_id) {
 	}
 }
 
-void FileTree::renderRightMouseMenuAssets(const std::string& path, int id) {
+void FileTree::renderRightMouseMenuAssets(const std::string& path, long long id) {
 	if (ImGui::BeginPopupContextItem("right mouse menu")) {
 
 		ImGui::Image(Resources::getMenuIcon("open_in_explorer")); ImGui::SameLine();

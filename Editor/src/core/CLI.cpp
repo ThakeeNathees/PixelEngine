@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CLI.h"
 
-#include "..//Resources.h"
+
 
 CLI* CLI::s_instance = nullptr;
 std::string CLI::s_exec_path;
@@ -41,7 +41,6 @@ void CLI::chDir(const std::string& path) {
 }
 
 
-
 int CLI::readTextFile(std::string& out, const std::string& path) {
 	std::ifstream in(path);
 	if (in.good())
@@ -63,6 +62,26 @@ int CLI::readBinaryFile(std::vector<unsigned char>& buffer, const std::string& p
 	return 1;
 }
 
+int CLI::readProjFile() {
+	m_proj_file_name = PyUtils::getInstance()->getFileUtil().attr("getProjFileName")().cast<std::string>();
+	if (m_proj_file_name == std::string("")) {
+		PE_LOG("\nERROR: in method Resources::readProjFile : can't find project file (*.peproj)\n");
+		return 1;
+	}
+	else PE_LOG("project file found : %s", m_proj_file_name.c_str());
+
+	int error = updatePeproj();
+	return error;
+}
+
+int CLI::updatePeproj() {
+	pe::FileHandler file;
+	int error = file.readProject(m_proj_file_name.c_str());
+	if (error) { PE_LOG("project file reading error"); CLI::log("Error: reading project file was failure!", Console::LOGLEVEL_ERROR); }
+	else { PE_LOG("project file reading success"); CLI::log("Project file has read"); }
+	m_peproj = file.getProject();
+	return error;
+}
 
 void CLI::parseArgs(int argc, char** argv){
 	//	TODO: parse args

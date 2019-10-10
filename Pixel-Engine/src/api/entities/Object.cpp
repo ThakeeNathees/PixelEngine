@@ -59,7 +59,7 @@ namespace pe
 		if ( m_sprite ) s_render_target->draw(getSprite());
 	}
 
-	void Object::drawRectangle(float x, float y, float width, float height, const sf::Color& color, bool outline, int outline_thickness) const {
+	void Object::drawRectangle(float x, float y, float width, float height, const sf::Color& color, bool outline, float outline_thickness) const {
 		if (s_render_target == nullptr) throw std::exception("Error: in pe::Object::drawRectangle()\n\tdraw methods can  only be call from drawCall() method");
 		sf::RectangleShape shape(sf::Vector2f(width, height));
 		shape.setPosition(x, y);
@@ -78,7 +78,7 @@ namespace pe
 		if (s_render_target == nullptr) throw std::exception("Error: in pe::Object::drawLine()\n\tdraw methods can  only be call from drawCall() method");
 		// TODO:
 	}
-	void Object::drawCircle(float x, float y, float r, const sf::Color& color, bool outline, int outline_thickness) const {
+	void Object::drawCircle(float x, float y, float r, const sf::Color& color, bool outline, float outline_thickness) const {
 		if (s_render_target == nullptr) throw std::exception("Error: in pe::Object::drawCircle()\n\tdraw methods can  only be call from drawCall() method");
 		sf::CircleShape circle(r);
 		circle.setPosition(x - r, y - r);

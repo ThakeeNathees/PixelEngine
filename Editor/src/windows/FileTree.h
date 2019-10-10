@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../core/cli/CLI.h"
-#include "../core/Resources.h"
+#include "core/CLI.h"
 #include "windows/views/TextEditors.h"
 #include "windows/views/HexEditors.h"
 #include "windows/views/FontViwers.h"
@@ -55,7 +54,7 @@ public:
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	static void drawFileIcon(const std::string& path);
+	//static void drawFileIcon(const std::string& path);
 private:
 	void renderTreeRecursive(py::object& tree, bool next_item_open = false);
 	void renderAssetsTree(const std::string& path);
@@ -65,6 +64,6 @@ private:
 	void renderPopup();
 	void nodeClickedEvent(const std::string& title, const std::string& path, long long id=-1);
 	void renderRightMouseMenu(const std::string& path);
-	void renderRightMouseMenuAssets(const std::string& path, int id);
+	void renderRightMouseMenuAssets(const std::string& path, long long id);
 
 };

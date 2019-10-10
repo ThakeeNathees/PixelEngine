@@ -19,6 +19,9 @@ HIGHT PRIORITY
 
 
 LOW PRIORITY
+	assets.xml name consistancy
+	local python:
+		add every files in sys.path in project locally
 	pybind
 		window, application
 	config.init -> optimize // paths

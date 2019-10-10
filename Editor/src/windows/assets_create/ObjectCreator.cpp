@@ -1,7 +1,8 @@
 #include "pch.h"
-#include "pyutils/PyUtils.h"
 #include "ObjectCreator.h"
-#include "ScriptsCreator.h"
+
+// cpp include
+#include "windows/FileTree.h"
 
 ObjectCreater* ObjectCreater::s_instance;
 
@@ -11,7 +12,7 @@ void ObjectCreater::render()
 		ImGui::Begin("Create New Object", &m_popen);
 		ImGui::SetWindowSize(ImVec2(400, 320), ImGuiCond_Once);
 
-		static float witdh_frac = .6;
+		static float witdh_frac = .6f;
 		
 		// start title
 		ImGui::Text("Create a new Object Here"); ImGui::Text("");
@@ -87,7 +88,7 @@ void ObjectCreater::render()
 			else if (str_scr_path != std::string("") && !PyUtils::getInstance()->getFileUtil().attr("isPathScript")(str_scr_path).cast<bool>())
 				ImGui::OpenPopup("Invalid Script Path!");
 			else {
-				m_object = pe::Assets::newObject();
+				m_object = new pe::Object(); // deleted below
 				std::string obj_file_path = std::string(m_obj_path).append("/").append(std::string(m_obj_name)).append(".obj.xml");
 				m_object->_setObjFilePath(obj_file_path);
 				
@@ -114,6 +115,7 @@ void ObjectCreater::render()
 
 				auto obj_tag = m_py_objmaker.attr("newObject")(m_object->getName(), m_object->getId(), m_object->getClassName(), m_obj_type, m_object->getClassPath(),
 					m_object->getZindex(), m_object->isVisible(), m_object->isPersistence());
+				if (m_object) delete m_object;
 				m_py_objmaker.attr("writeObject")(obj_tag, obj_file_path);
 				CLI::getInstance()->projUpdate(false);
 				FileTree::getInstance()->reload();

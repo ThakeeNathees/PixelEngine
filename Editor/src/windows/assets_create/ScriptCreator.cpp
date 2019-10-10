@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "ScriptsCreator.h"
-#include "pyutils/PyUtils.h"
+
+// cpp include
+#include "windows/FileTree.h"
 
 ScriptCreator* ScriptCreator::s_instance = nullptr;
 
@@ -11,7 +13,7 @@ void ScriptCreator::render()
 		ImGui::Begin("Create New Script", &m_popen);
 		ImGui::SetWindowSize(ImVec2(400, 220), ImGuiCond_Once);
 
-		static float witdh_frac = .6;
+		static float witdh_frac = .6f;
 
 		// title
 		ImGui::Text("Create a new Script Here"); ImGui::Text("");

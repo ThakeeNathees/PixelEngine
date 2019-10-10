@@ -100,14 +100,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\core\cli\CLI.cpp" />
+    <ClCompile Include="src\core\CLI.cpp" />
+    <ClCompile Include="src\core\EmbededApplication.cpp" />
     <ClCompile Include="src\core\Resources.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\pyutils\PyUtils.cpp" />
+    <ClCompile Include="src\core\PyUtils.cpp" />
     <ClCompile Include="src\windows\assets_create\ObjectCreator.cpp" />
     <ClCompile Include="src\windows\assets_create\ScriptCreator.cpp" />
     <ClCompile Include="src\windows\FileTree.cpp" />
@@ -121,16 +122,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="src\core\ApplicationHolder.h" />
-    <ClInclude Include="src\core\cli\CLI.h" />
+    <ClInclude Include="src\core\EmbededApplication.h" />
+    <ClInclude Include="src\core\CLI.h" />
     <ClInclude Include="src\core\Console.h" />
     <ClInclude Include="src\core\MainMenuBar.h" />
-    <ClInclude Include="src\pyutils\PyUtils.h" />
+    <ClInclude Include="src\core\PyUtils.h" />
+    <ClInclude Include="src\core\Resources.h" />
     <ClInclude Include="src\windows\assets_create\ObjectCreator.h" />
     <ClInclude Include="src\windows\assets_create\ScriptsCreator.h" />
-    <ClInclude Include="src\windows\Explorer.h" />
+    <ClInclude Include="src\windows\ExplorerPopup.h" />
     <ClInclude Include="src\windows\FileTree.h" />
-    <ClInclude Include="src\core\Resources.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\windows\views\FontViwers.h" />
     <ClInclude Include="src\windows\views\HexEditors.h" />
@@ -160,20 +161,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="peconfig.init" />
-    <None Include="src\core\cli\conf_projupdater.py" />
-    <None Include="src\core\cli\obj_maker.py" />
-    <None Include="src\core\cli\scene_maker.py" />
-    <None Include="src\pyutils\file_util.py" />
-    <None Include="src\windows\explorer.py" />
-    <None Include="src\windows\file_tree.py" />
+    <None Include="src\pysrc\conf_projupdater.py" />
+    <None Include="src\pysrc\obj_maker.py" />
+    <None Include="src\pysrc\scene_maker.py" />
+    <None Include="src\pysrc\file_util.py" />
+    <None Include="src\pysrc\explorer.py" />
+    <None Include="src\pysrc\file_tree.py" />
     <None Include="src\cli\proj_init\assets_loader.py" />
-    <None Include="src\core\cli\proj_init\assets_updater.py" />
-    <None Include="src\core\cli\proj_init\clean.py" />
-    <None Include="src\core\cli\proj_init\init.py" />
-    <None Include="src\core\cli\proj_init\proj_updater.py" />
-    <None Include="src\core\cli\proj_init\register_updater.py" />
-    <None Include="src\pyutils\math_util.py" />
-    <None Include="src\pyutils\str_util.py" />
+    <None Include="src\pysrc\proj_init\assets_updater.py" />
+    <None Include="src\pysrc\clean.py" />
+    <None Include="src\pysrc\proj_init\init.py" />
+    <None Include="src\pysrc\proj_init\proj_updater.py" />
+    <None Include="src\pysrc\proj_init\register_updater.py" />
+    <None Include="src\pysrc\math_util.py" />
+    <None Include="src\pysrc\str_util.py" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

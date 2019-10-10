@@ -42,7 +42,7 @@ void pe_readInitFile() {
 				if (key == std::string("cwd")) { changeDir(value.c_str()); continue; }
 				if (key == std::string("log")) { Logger::init(value.c_str()); continue; }
 				if (key == std::string("kill_switch")) {
-					PE_CONSOLE_LOG("kill_switch = \"%s\"", value);
+					PE_CONSOLE_LOG("kill_switch = \"%s\"", value.c_str());
 					auto key = pe::__getFunctionKey(value);
 					pe::Application::s_kill_switch = key;
 				}

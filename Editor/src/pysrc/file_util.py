@@ -7,6 +7,10 @@ def getProjFileName(path='.'):
             return file
     return ""
 
+def getFileFormat(path):
+        if "." not in path: return ""
+        return path.split('.')[-1].lower()
+
 ## return paths of python files to update sys.path
 import xml.etree.ElementTree as ET
 def getPyPaths(working_dir='.', proj_file_name=""):

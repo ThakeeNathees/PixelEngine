@@ -8,6 +8,7 @@
 namespace pe
 {
 	int FileHandler::readProject(const char* path) {
+		m_peproj.proj_file_path = path;
 		int error = m_doc->LoadFile(path);
 		if (error) return error;
 		auto root = m_doc->FirstChildElement("Project");
@@ -31,7 +32,6 @@ namespace pe
 			m_peproj.logo_texture_id = -1;
 		}
 
-
 		auto bg_color_tag = root->FirstChildElement("bg_color");
 		m_peproj.default_bg_color.r = bg_color_tag->IntAttribute("r");
 		m_peproj.default_bg_color.g = bg_color_tag->IntAttribute("g");
@@ -42,16 +42,18 @@ namespace pe
 		m_peproj.assets_path = assets_tag->GetText();
 
 		auto objects_tag = root->FirstChildElement("objects");
+		m_peproj.next_obj_id = objects_tag->IntAttribute("next_id");
 		for (auto path_tag = objects_tag->FirstChildElement(); path_tag != NULL; path_tag = path_tag->NextSiblingElement()) {
 			m_peproj.objects_path.push_back(path_tag->GetText());
 		}
 
 		auto pypaths_tag = root->FirstChildElement("pypaths");
 		for (auto pypath_tag = pypaths_tag->FirstChildElement(); pypath_tag != NULL; pypath_tag = pypath_tag->NextSiblingElement()) {
-			m_peproj.pypaths.push_back(pypath_tag->GetText());
+			if (pypath_tag->GetText() != NULL) m_peproj.pypaths.push_back(pypath_tag->GetText());
 		}
 
 		auto scenes_tag = root->FirstChildElement("scenes");
+		m_peproj.next_scn_id = scenes_tag->IntAttribute("next_id");
 		for (auto path_tag = scenes_tag->FirstChildElement(); path_tag != NULL; path_tag = path_tag->NextSiblingElement()) {
 			m_peproj.scene_paths.push_back(path_tag->GetText());
 		}
@@ -254,8 +256,8 @@ namespace pe
 				for (auto key_tag = position_track_tag->FirstChildElement(); key_tag != NULL; key_tag = key_tag->NextSiblingElement()) {
 					Track::Key key;
 					key.time = key_tag->FloatAttribute("time");
-					key.data.position.x = key_tag->IntAttribute("x");
-					key.data.position.y = key_tag->IntAttribute("y");
+					key.data.position.x = key_tag->FloatAttribute("x");
+					key.data.position.y = key_tag->FloatAttribute("y");
 					position_track->addKey(key);
 				}
 				anim->setPositionTrack(position_track);
@@ -279,8 +281,8 @@ namespace pe
 				for (auto key_tag = scale_track_tag->FirstChildElement(); key_tag != NULL; key_tag = key_tag->NextSiblingElement()) {
 					Track::Key key;
 					key.time = key_tag->FloatAttribute("time");
-					key.data.scale.x = key_tag->IntAttribute("x");
-					key.data.scale.y = key_tag->IntAttribute("y");
+					key.data.scale.x = key_tag->FloatAttribute("x");
+					key.data.scale.y = key_tag->FloatAttribute("y");
 					scale_track->addKey(key);
 				}
 				anim->setScaleTrack(scale_track);

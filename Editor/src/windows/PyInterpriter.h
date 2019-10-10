@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pyutils/PyUtils.h"
+#include "core/PyUtils.h"
 
 
 class PyInterpriter
@@ -14,10 +14,14 @@ private:
 	bool m_set_focus = false; // set focus on input text field
 	float m_font_scale = 100;
 	char m_input[1024] = {};
+	char m_input_temp[1024] = {};
 	bool m_scroll_to_bottom = false;
 	bool m_enter_released = false;
 	sf::Clock m_clock;
 	std::vector<std::pair<std::string, int>> m_logs; // int 0 - white ,  1 - yello, 2 - red
+
+	std::vector<std::string> m_inputs; // for up arrow key fill text area
+	std::size_t m_inputs_ind = 0; // index in m_inputs
 
 public:
 	bool m_open = true; // for main menu bar check box -> public
@@ -37,6 +41,8 @@ public:
 			} ImGui::SameLine();
 			if (ImGui::ImageButton(Resources::getOtherIcon("clear_log"))) {
 				m_logs.clear();
+				m_inputs.clear();
+				m_inputs_ind = 0;
 				m_logs.push_back(std::make_pair("Python 3.7.4 interpriter (only single line commands are supports)", 0));
 				m_logs.push_back(std::make_pair("Warning : Don't use print, help, other io related functions", 1));
 			}
@@ -67,18 +73,36 @@ public:
 			}
 			if (m_scroll_to_bottom) { ImGui::SetScrollHereY(1.0f); m_scroll_to_bottom = false; }
 			ImGui::EndChild();
+
 			ImGui::Text(">>>"); ImGui::SameLine();
 			if (m_set_focus) {
 				m_set_focus = false;
-				ImGui::SetKeyboardFocusHere(0);
+				ImGui::SetKeyboardFocusHere();
 			}
 			if (ImGui::InputText("input", m_input, sizeof(m_input))) {}
+
+			// keyboard short cut
+			if (  ImGui::IsRootWindowFocused() && (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) && m_clock.restart().asSeconds() > .1) {
+				ImGui::SetKeyboardFocusHere();
+				m_set_focus = true;
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && m_inputs_ind != 0) m_inputs_ind--;
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) m_inputs_ind++;
+				else if (m_inputs_ind >= m_inputs.size()) m_inputs_ind = m_inputs.size() - 1;
+				if (m_inputs.size() > 0) {
+					int i = 0;
+					while (m_inputs[m_inputs_ind].c_str()[i]) m_input[i] = m_inputs[m_inputs_ind].c_str()[i++];
+					m_input[i] = '\0';
+				}
+			}
+
 
 			// TODO: ignore input(), help, ... 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && ImGui::IsWindowFocused()) {
 				m_set_focus = true;
 				m_scroll_to_bottom = true;
+				m_inputs_ind = m_inputs.size();
 				if (m_input[0] != '\0' && m_clock.restart().asSeconds() > .1) { // clock used for duplicate(double) inputs
+					m_inputs.push_back(std::string(m_input));
 					try {
 						py::exec(std::string(m_input));
 						try {
@@ -86,7 +110,7 @@ public:
 							result = std::string(">>> ").append(std::string(m_input)).append("\n").append(result);
 							m_logs.push_back(std::make_pair(result, 0));
 						}
-						catch (const std::exception & e) {
+						catch (const std::exception&) {
 							auto result = std::string(">>> ").append(std::string(m_input));
 							m_logs.push_back(std::make_pair(result, 0));
 						}

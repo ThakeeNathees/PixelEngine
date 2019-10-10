@@ -12,10 +12,12 @@ public:
 	inline PythonObject( const std::string& module_name, int id = -1) {
 		pe::Object::Object(id);
 		m_object_type = pe::Object::ObjectType::PYTHON_OBJECT;
-		m_module = py::module::import(module_name.c_str());
-		m_class_name = module_name;
-		m_self = py::cast(this);
-		init();
+		if (module_name != std::string("")) {
+			m_module = py::module::import(module_name.c_str());
+			m_class_name = module_name;
+			m_self = py::cast(this);
+			init();
+		}
 	}
 
 	inline void init() {

@@ -113,15 +113,15 @@ namespace pe
 			return *m_applicaton;
 		}
 		inline Scene& getScene() const {
-			if (m_scene == nullptr) throw std::exception("Error: in pe::Object::getScene()\n\scene was null");
+			if (m_scene == nullptr) throw std::exception("Error: in pe::Object::getScene()\n\tscene was null");
 			return *m_scene;
 		}
 		inline Area& getArea() const {
-			if (m_scene == nullptr) throw std::exception("Error: in pe::Object::getScene()\n\scene was null");
+			if (m_scene == nullptr) throw std::exception("Error: in pe::Object::getScene()\n\tscene was null");
 			return *m_area;
 		}
 		inline Sprite& getSprite() const {
-			if (m_sprite == nullptr) throw std::exception("Error: in pe::Object::getSprite()\n\sprite was null");
+			if (m_sprite == nullptr) throw std::exception("Error: in pe::Object::getSprite()\n\tsprite was null");
 			return *m_sprite;
 		}
 		Timer& getTimer(const std::string& timer_name);
@@ -159,7 +159,7 @@ namespace pe
 
 	protected:
 		ObjectType m_object_type = ObjectType::CPP_OBJECT;
-		std::string m_class_name ="Object"; // class name as string
+		std::string m_class_name =""; // class name as string
 		std::string m_class_path =""; // for cpp-inlcude path, python-src_dir path
 		std::string m_obj_file_path = "";
 	private:

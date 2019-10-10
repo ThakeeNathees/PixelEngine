@@ -16,7 +16,9 @@ paths:
 end
 
 fonts:
-	programming = "..\..\..\../Editor/res/fonts/ProFont/ProFontWindows.ttf","1"
+	pro_font_windows = "..\..\..\../Editor/res/fonts/ProFont/ProFontWindows.ttf","40"
+	anonymous_pro = "..\..\..\../Editor/res/fonts/AnonymousPro/Anonymous Pro.ttf","40"
+	asap = "..\..\..\../Editor/res/fonts/Asap/Asap-Regular.ttf","40"
 end
 
 file_format_icons:
@@ -59,4 +61,5 @@ other_icons:
 	explorer_up="..\..\..\../Editor/res/icons/other_icons/explorer_up.png"
 	explorer_refresh="..\..\..\../Editor/res/icons/other_icons/explorer_refresh.png"
 	create_new="..\..\..\../Editor/res/icons/other_icons/create_new.png"
+	clear_log="..\..\..\../Editor/res/icons/other_icons/clear_log.png"
 end

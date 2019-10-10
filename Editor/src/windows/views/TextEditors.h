@@ -22,7 +22,7 @@ public:
 		int dock_id=2; // TODO:
 		std::string path;
 		bool p_open = true;
-		bool saved = true; // file.py* -> file.py
+		bool saved = true;
 		bool rendering = false; // combine with p_open to ask are you sure, TODO:
 		std::string title;
 		long long id;
@@ -57,16 +57,14 @@ public:
 					ImGui::SetNextWindowDockID(2); // TODO: make staic dock space -> user cant edit
 				}
 
-				std::cout << pair.second->dock_id << std::endl;
-
 				ImGui::Begin(pair.second->title.c_str(), &pair.second->p_open, ImGuiWindowFlags_MenuBar);
 				ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
 				handleShortcuts(pair.second);
 				renderMenubar(pair.second);
-				//ImGui::PushFont(Resources::Fonts::PROGRAMMING);
-				pair.second->editor.setFontScale(1.5);
+				if (s_font != std::string("")) ImGui::PushFont(Resources::getFont(s_font));
+				pair.second->editor.setFontScale(s_font_scale/100);
 				pair.second->editor.Render(pair.second->title.c_str());
-				//ImGui::PopFont();
+				if (s_font != std::string("")) ImGui::PopFont();
 				ImGui::End();
 			}
 		}
@@ -74,6 +72,8 @@ public:
 
 private:
 	static std::map<long long, TextEditorData*> s_text_editors;
+	static float s_font_scale;
+	static std::string s_font;
 	TextEditors() {}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -121,6 +121,7 @@ private:
 					data->p_open = false;
 				ImGui::EndMenu();
 			}
+			
 			if (ImGui::BeginMenu("Edit"))
 			{
 				bool ro = editor.IsReadOnly();
@@ -160,6 +161,19 @@ private:
 					editor.SetPalette(TextEditor::GetLightPalette());
 				if (ImGui::MenuItem("Retro blue palette"))
 					editor.SetPalette(TextEditor::GetRetroBluePalette());
+				ImGui::Separator();
+
+				if (ImGui::BeginMenu("Font Select")) {
+					if(ImGui::MenuItem("Pixel-Font (Default)")){
+						s_font = "";
+					}
+					for (auto& font : Resources::getFonts()) {
+						if (ImGui::MenuItem(font.first.c_str())){
+							s_font = font.first;
+						}
+					}
+					ImGui::EndMenu();
+				}
 
 				ImGui::Separator();
 				if (ImGui::MenuItem("AngelScript"))
@@ -183,10 +197,15 @@ private:
 				// TODO: add plan text here
 				ImGui::EndMenu();
 			}
+			
 			ImGui::EndMenuBar();
 		}
 
 		if (data->editor.IsTextChanged()) data->saved = false;
+		ImGui::SetNextItemWidth(100);
+		if (ImGui::DragFloat("font scale", &s_font_scale, 1, 10, 200, "%.3f%%")) {
+			if (s_font_scale <= 10) s_font_scale = 10; // TODO: magic number
+		}ImGui::SameLine();
 		ImGui::Text("%6d/%-6d %6d lines  | %s | %s | %s | %s%s", cpos.mLine + 1, cpos.mColumn + 1, editor.GetTotalLines(),
 			editor.IsOverwrite() ? "Ovr" : "Ins",
 			data->editor.IsReadOnly() ? "read_only" : "read_write",

@@ -45,6 +45,9 @@ public:
 		s_fonts[name] = font;
 	}
 	
+	static std::map<std::string, ImFont*>& getFonts() {
+		return s_fonts;
+	}
 
 private:
 	Resources() {}

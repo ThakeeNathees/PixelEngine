@@ -11,6 +11,8 @@ private:
 		m_logs.push_back(std::make_pair("Python 3.7.4 interpriter (only single line commands are supports)", 0));
 		m_logs.push_back(std::make_pair("Warning : Don't use print, help, other io related functions", 1));
 	}
+	bool m_set_focus = false; // set focus on input text field
+	float m_font_scale = 100;
 	char m_input[1024] = {};
 	bool m_scroll_to_bottom = false;
 	bool m_enter_released = false;
@@ -27,8 +29,29 @@ public:
 	void render() {
 		if (m_open) {
 			ImGui::Begin("Python Interpriter", &m_open);
+
+			// font scale drag input
+			ImGui::SetNextItemWidth(100);
+			if (ImGui::DragFloat("font scale", &m_font_scale, 1, 100, 300, "%.3f%%")) {
+				if (m_font_scale <= 100) m_font_scale = 100; // TODO: magic number
+			} ImGui::SameLine();
+			if (ImGui::ImageButton(Resources::getOtherIcon("clear_log"))) {
+				m_logs.clear();
+				m_logs.push_back(std::make_pair("Python 3.7.4 interpriter (only single line commands are supports)", 0));
+				m_logs.push_back(std::make_pair("Warning : Don't use print, help, other io related functions", 1));
+			}
+
 			ImGui::BeginChild("__repr__", ImVec2(0, -30), true);
+
+			// change font scale
+			static float last_font_scale = 100;
+			if (last_font_scale != m_font_scale) {
+				last_font_scale = m_font_scale;
+				ImGui::SetWindowFontScale(m_font_scale / 100);
+			}
+
 			for (auto pair : m_logs) {
+
 				switch (pair.second) {
 				case 0: 
 					ImGui::TextWrapped(pair.first.c_str()); break;
@@ -45,11 +68,15 @@ public:
 			if (m_scroll_to_bottom) { ImGui::SetScrollHereY(1.0f); m_scroll_to_bottom = false; }
 			ImGui::EndChild();
 			ImGui::Text(">>>"); ImGui::SameLine();
+			if (m_set_focus) {
+				m_set_focus = false;
+				ImGui::SetKeyboardFocusHere(0);
+			}
 			if (ImGui::InputText("input", m_input, sizeof(m_input))) {}
 
 			// TODO: ignore input(), help, ... 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && ImGui::IsWindowFocused()) {
-				ImGui::SetKeyboardFocusHere(0);
+				m_set_focus = true;
 				m_scroll_to_bottom = true;
 				if (m_input[0] != '\0' && m_clock.restart().asSeconds() > .1) { // clock used for duplicate(double) inputs
 					try {

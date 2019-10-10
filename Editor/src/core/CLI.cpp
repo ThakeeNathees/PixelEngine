@@ -148,7 +148,7 @@ void CLI::readPeConfigFile() {
 					if (key_value.first != std::string("")) {
 						auto font = ImGui::GetIO().Fonts->AddFontFromFileTTF(CLI::getExecPath().append(key_value.second[0]).c_str(), std::stof(key_value.second[1]));
 						ImGui::SFML::UpdateFontTexture();
-						Resources::addFont(key_value.first, font); continue;
+						Resources::addFont(key_value.first, font, std::stof(key_value.second[2])); continue;
 					}
 				}
 				continue;

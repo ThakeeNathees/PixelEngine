@@ -6,6 +6,10 @@ class Resources
 {
 public:
 
+	struct FontData {
+		ImFont* font;
+		float scale=100;
+	};
 
 	// textures
 	static sf::Texture LOGO;
@@ -31,9 +35,12 @@ public:
 	}
 	static ImFont* getFont(const std::string& name) {
 		assert(s_fonts.find(name) != s_fonts.end() && name.c_str());
-		return s_fonts[name];
+		return s_fonts[name].font;
 	}
-
+	static float getFontScale(const std::string& name) {
+		assert(s_fonts.find(name) != s_fonts.end() && name.c_str());
+		return s_fonts[name].scale;
+	}
 
 	static void addFileFormatIcon(const std::string& name, const sf::Texture& tex) {
 		s_file_format_icons[name] = tex;
@@ -44,20 +51,23 @@ public:
 	static void addOtherIcon(const std::string& name, const sf::Texture& tex) {
 		s_other_icons[name] = tex;
 	}
-	static void addFont(const std::string& name, ImFont* font) {
-		s_fonts[name] = font;
+	static void addFont(const std::string& name, ImFont* font, float scale = 100) {
+		FontData data; data.font = font; data.scale = scale;
+		s_fonts[name] = data;
 	}
 	
-	static std::map<std::string, ImFont*>& getFonts() {
+	static std::map<std::string, FontData>& getFonts() {
 		return s_fonts;
 	}
+
+
 
 private:
 	Resources() {}
 	static std::map<std::string, sf::Texture> s_file_format_icons;
 	static std::map<std::string, sf::Texture> s_menu_icons;
 	static std::map<std::string, sf::Texture> s_other_icons;
-	static std::map<std::string, ImFont*> s_fonts;
+	static std::map<std::string, FontData> s_fonts;
 
 public:
 

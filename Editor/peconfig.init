@@ -14,9 +14,9 @@ paths:
 end
 
 fonts:
-	pro_font_windows = "..\..\..\../Editor/res/fonts/ProFont/ProFontWindows.ttf","40"
-	anonymous_pro = "..\..\..\../Editor/res/fonts/AnonymousPro/Anonymous Pro.ttf","40"
-	asap = "..\..\..\../Editor/res/fonts/Asap/Asap-Regular.ttf","40"
+	pro_font_windows = "..\..\..\../Editor/res/fonts/ProFont/ProFontWindows.ttf","40", "50"
+	anonymous_pro = "..\..\..\../Editor/res/fonts/AnonymousPro/Anonymous Pro.ttf","40", "50"
+	asap = "..\..\..\../Editor/res/fonts/Asap/Asap-Regular.ttf","40", "50"
 end
 
 file_format_icons:

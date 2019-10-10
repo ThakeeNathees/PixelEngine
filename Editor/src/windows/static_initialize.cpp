@@ -21,6 +21,6 @@ std::map<long long, HexEditors::HexEditorData*> HexEditors::s_hex_editors;
 
 FontViwer* FontViwer::s_instance;
 ImageViwer* ImageViwer::s_instance;
-float TextEditors::s_font_scale = 100;
+float TextEditors::s_font_scale = 150; // TODO: font scale for default font
 std::string TextEditors::s_font = ""; // "" means ImGui default font
 

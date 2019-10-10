@@ -9,6 +9,8 @@ HIGHT PRIORITY
 	search for existing project in start window
 	runtime object creation depricate
 
+	default open texteditor
+
 	windows:
 		sprite editor
 		area and shape editor

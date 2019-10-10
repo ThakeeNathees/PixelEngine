@@ -165,36 +165,40 @@ private:
 
 				if (ImGui::BeginMenu("Font Select")) {
 					if(ImGui::MenuItem("Pixel-Font (Default)")){
+						s_font_scale = 150;
 						s_font = "";
 					}
 					for (auto& font : Resources::getFonts()) {
 						if (ImGui::MenuItem(font.first.c_str())){
 							s_font = font.first;
+							s_font_scale = Resources::getFontScale(s_font);
 						}
 					}
 					ImGui::EndMenu();
 				}
 
 				ImGui::Separator();
-				if (ImGui::MenuItem("AngelScript"))
-					editor.SetLanguageDefinition(TextEditor::LanguageDefinition::AngelScript());
-				if (ImGui::MenuItem("C"))
-					editor.SetLanguageDefinition(TextEditor::LanguageDefinition::C());
-				if (ImGui::MenuItem("C++"))
-					editor.SetLanguageDefinition(TextEditor::LanguageDefinition::CPlusPlus());
-				if (ImGui::MenuItem("GLSL"))
-					editor.SetLanguageDefinition(TextEditor::LanguageDefinition::GLSL());
-				if (ImGui::MenuItem("HLSL"))
-					editor.SetLanguageDefinition(TextEditor::LanguageDefinition::HLSL());
-				if (ImGui::MenuItem("Lua"))
-					editor.SetLanguageDefinition(TextEditor::LanguageDefinition::Lua());
-				if (ImGui::MenuItem("SQL"))
-					editor.SetLanguageDefinition(TextEditor::LanguageDefinition::SQL());
-				if (ImGui::MenuItem("Python"))
-					editor.SetLanguageDefinition(TextEditor::LanguageDefinition::Python());
-				if (ImGui::MenuItem("PlainText"))
-					editor.SetLanguageDefinition(TextEditor::LanguageDefinition::PlainText());
-				// TODO: add plan text here
+				if (ImGui::BeginMenu("Set Language")) {
+					if (ImGui::MenuItem("AngelScript"))
+						editor.SetLanguageDefinition(TextEditor::LanguageDefinition::AngelScript());
+					if (ImGui::MenuItem("C"))
+						editor.SetLanguageDefinition(TextEditor::LanguageDefinition::C());
+					if (ImGui::MenuItem("C++"))
+						editor.SetLanguageDefinition(TextEditor::LanguageDefinition::CPlusPlus());
+					if (ImGui::MenuItem("GLSL"))
+						editor.SetLanguageDefinition(TextEditor::LanguageDefinition::GLSL());
+					if (ImGui::MenuItem("HLSL"))
+						editor.SetLanguageDefinition(TextEditor::LanguageDefinition::HLSL());
+					if (ImGui::MenuItem("Lua"))
+						editor.SetLanguageDefinition(TextEditor::LanguageDefinition::Lua());
+					if (ImGui::MenuItem("SQL"))
+						editor.SetLanguageDefinition(TextEditor::LanguageDefinition::SQL());
+					if (ImGui::MenuItem("Python"))
+						editor.SetLanguageDefinition(TextEditor::LanguageDefinition::Python());
+					if (ImGui::MenuItem("PlainText"))
+						editor.SetLanguageDefinition(TextEditor::LanguageDefinition::PlainText());
+					ImGui::EndMenu();
+				}
 				ImGui::EndMenu();
 			}
 			

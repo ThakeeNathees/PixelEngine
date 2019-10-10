@@ -63,6 +63,9 @@
     <ClCompile Include="src\core\EmbededApplication.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -152,6 +155,9 @@
     <ClInclude Include="src\core\EmbededApplication.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\logo.png">
@@ -185,5 +191,6 @@
     <None Include="src\pysrc\clean.py" />
     <None Include="src\pysrc\explorer.py" />
     <None Include="src\pysrc\file_tree.py" />
+    <None Include="imgui.ini" />
   </ItemGroup>
 </Project>

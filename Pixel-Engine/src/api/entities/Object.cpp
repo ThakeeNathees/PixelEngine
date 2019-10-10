@@ -7,14 +7,12 @@ namespace pe
 	
 	// static initialization
 	int Object::s_object_count = 0;
-	//int Object::s_next_id = static_cast<int>( Asset::Type::Object );
 	sf::RenderTarget* Object::s_render_target = nullptr;
 	sf::Color Object::s_default_color = sf::Color(50, 75, 100, 255);
 
 	Object::Object(int id) {
+		m_id = id;
 		s_object_count++;
-		//if (id < 0) m_id = s_next_id++;
-		//else { m_id = id; s_next_id = m_id + 1; }
 		m_name = std::string( "obj_").append(std::to_string(m_id));
 		m_dbg_origin = new sf::CircleShape(3);
 		m_dbg_origin->setFillColor(sf::Color(150, 75, 150, 200));

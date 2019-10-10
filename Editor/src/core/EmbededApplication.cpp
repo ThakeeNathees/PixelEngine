@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "EmbededApplication.h"
+#include "core/EmbededApplication.h"
 
 EmbededApplication* EmbededApplication::s_instance = nullptr;
 
@@ -41,7 +41,6 @@ void EmbededApplication::render() {
 			ImGui::Begin("Applicaton window", &m_open);
 			m_is_window_focus = ImGui::IsRootWindowFocused();
 			m_mouse_pos = sf::Vector2f(ImGui::GetMousePos().x - ImGui::GetCursorScreenPos().x, ImGui::GetMousePos().y - ImGui::GetCursorScreenPos().y);
-			m_mouse_rel_pos = sf::Vector2f(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y);
 			if (m_is_application_reloaded) {
 				m_is_application_reloaded = false;
 				ImGui::SetWindowSize(ImVec2(

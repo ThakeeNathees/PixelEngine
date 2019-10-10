@@ -1,5 +1,7 @@
 #include "pch.h"
 
+#include "test.h"
+
 #include "core/CLI.h"
 #include "windows/StartWindow.h"
 
@@ -23,9 +25,9 @@ PYBIND11_EMBEDDED_MODULE(peio, m) {
 	m
 		.def("print", []() { CLI::getInstance()->getConsole()-> addLog( "" , 0); })
 		.def("print", [](const py::object& msg) { CLI::getInstance()->getConsole()->addLog( py::str(msg).cast<std::string>(), 0); })
-		.def("getMousePosition", []( bool relative) {
-				return EmbededApplication::getInstance()->getMousePosition(relative);
-			}, py::arg("relative")=true)
+		.def("getMousePosition", []() {
+				return EmbededApplication::getInstance()->getMousePosition();
+			})
 		.def("isWindowFocus", []() { return EmbededApplication::getInstance()->isWindowFocus(); })
 		;
 	
@@ -141,6 +143,10 @@ int main(int argc, char** argv)
 		ScriptCreator::getInstance()->render();
 		
 		EmbededApplication::getInstance()->render();
+
+		static bool open = true;
+		if (open)
+			ShowExampleAppCustomNodeGraph(&open);
 
 		ImGui::ShowTestWindow();
 

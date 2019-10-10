@@ -23,7 +23,6 @@ private:
 	sf::RenderTexture m_default_texture;
 
 	sf::Vector2f m_mouse_pos;
-	sf::Vector2f m_mouse_rel_pos;
 
 
 public:
@@ -40,9 +39,8 @@ public:
 	bool isOpen() const { return m_open; }
 	bool isReloadOnSave() const { return m_reload_on_save; }
 
-	sf::Vector2f getMousePosition(bool relative = true) const {
-		if (relative) return m_mouse_pos;
-		else return m_mouse_rel_pos;
+	sf::Vector2f getMousePosition() const {
+		return m_mouse_pos;
 	}
 	bool isWindowFocus() const { return m_is_window_focus; }
 

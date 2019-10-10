@@ -164,14 +164,18 @@ def copyResDir(res_path, dst):
     
 #####################################################
 
-def updateProj(proj_name="", proj_dir='.', include_pe=True):
+def updateAssets(working_dir='./', assets_file_name='assets.xml', default_tex_smooth=True, default_tex_repeat=False):
+    assets_updater.updateAssets(working_dir, assets_file_name, default_tex_smooth, default_tex_repeat)
+
+def updateProj(proj_name="", proj_dir='.', include_pe=True, default_tex_smooth = True, default_tex_repeat = False):
     if include_pe:
         copyInclude(pe_api_path, os.path.join(proj_dir, 'include'))
         copyPEOut(pe_debug_out, proj_dir, 'debug')
         copyPEOut(pe_release_out, proj_dir, 'release')
-    assets_updater.updateAssets(proj_dir)
+    updateAssets(proj_dir, "assets.xml", default_tex_smooth, default_tex_repeat)
     proj_updater.updateProj(proj_name, proj_dir)
     register_updater.updateRegister( proj_dir)
+
 
 ## if init success return 0
 def init(__proj_name, __dst_path=None):

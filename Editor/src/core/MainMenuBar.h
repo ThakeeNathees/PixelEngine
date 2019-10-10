@@ -130,7 +130,7 @@ private:
 
 			if ( EmbededApplication::getInstance()->isOpen()) {
 				if (ImGui::MenuItem("Reload Project")) {
-					CLI::getInstance()->projUpdate(false);
+					CLI::getInstance()->projFileUpdate(false);
 					EmbededApplication::getInstance()->reloadApplication();
 				}
 			}

@@ -11,14 +11,18 @@ private:
 	}
 
 	static ObjectCreater* s_instance;
-	pe::Object* m_object;
+	//pe::Object* m_object;
 	py::module m_py_objmaker;
+
 
 	bool m_popen = false;
 	char m_obj_name[1024] = {};
 	char m_obj_path[1024] = {};
 	char m_script_path[1024] = {};
 	char m_class_name[1024] = {};
+
+	std::string m_class_path;
+	pe::Object::ObjectType m_pe_obj_type;
 
 	int m_obj_type = 0; // 0: unknown, 1:python, 2:cpp
 	int m_z_index = 0;

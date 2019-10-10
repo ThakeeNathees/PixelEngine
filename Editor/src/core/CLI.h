@@ -17,8 +17,8 @@ public:
 	Console* getConsole() {
 		return m_console;
 	}
-	std::string getProjFileName() { return m_proj_file_name; }
-
+	std::string getProjFileName() const { return m_proj_file_name; }
+	pe::_peproj& getPeproj() { return m_peproj; }
 	// setters
 
 	// methods
@@ -32,9 +32,9 @@ public:
 			PE_LOG("\nERROR: in mehtod CLI::projInit \n%s\n", e.what());
 		}
 	}
-	void projUpdate(bool include_pe = true, const std::string& proj_name="", const std::string& proj_dir=".") {
+	void projFileUpdate(bool include_pe = true, const std::string& proj_dir=".") {
 		try {
-			auto ret = m_py_proj_init.attr("updateProj")(proj_name, proj_dir, include_pe);
+			auto ret = m_py_proj_init.attr("updateProj")(m_proj_file_name, proj_dir, include_pe);
 			PE_LOG("CLI::projUpdate success");
 			auto pypaths = PyUtils::getInstance()->getFileUtil().attr("getPyPaths")().cast<std::vector<std::string>>();
 			for (std::string& pypath : pypaths) {
@@ -46,6 +46,11 @@ public:
 			PE_LOG("\nERROR: in method CLI::projUpdate\n%s\n",e.what());
 		}
 	}
+	void assetsFileUpdate() {
+		m_py_proj_init.attr("updateAssets")(); // TODO: default smooth ... 
+		Resources::readAssets();
+	}
+
 	void updateTexture(pe::Texture* tex) {
 		if (tex == nullptr) {
 			PE_CONSOLE_LOG("Error: CLI::updateTexture called with nullptr");

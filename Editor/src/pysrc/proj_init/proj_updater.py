@@ -4,16 +4,14 @@ import os
 
 obj_format = ".obj.xml"
 scene_format = ".scn.xml"
-proj_format = ".peproj"
 
 
-def updateProj(proj_name = "", working_dir='.'):
-    proj_file_name= proj_name + proj_format
+def updateProj(proj_file_name = "", working_dir='.'):
     working_dir = working_dir+'/' if working_dir[-1] !='/' else working_dir ## need below
     proj_file_path = os.path.join(working_dir , proj_file_name)
 
     ## search for proj file
-    if (proj_name==""):
+    if (proj_file_name==""):
         for file in os.listdir(working_dir):
             if file.endswith(proj_format):
                 proj_file_path = os.path.join(working_dir, file)
@@ -60,7 +58,7 @@ def updateProj(proj_name = "", working_dir='.'):
                 ## next_id
                 obj_id = int(obj_doc_root.attrib["id"])
                 next_id = int(objects.attrib["next_id"])
-                objects.set('next_id', str(max(obj_id+1, next_id+1)))
+                objects.set('next_id', str(max(obj_id+1, next_id)))
                 
                 cls = obj_doc_root.find('class')
                 if cls.attrib["name"] != "" and cls.attrib["type"] == "PYTHON_OBJECT" and not pypathHasPaht(pypaths, cls.text, pypath_to_delete):
@@ -79,7 +77,7 @@ def updateProj(proj_name = "", working_dir='.'):
                 ## next_id
                 scn_id = int(scn_doc_root.attrib["id"])
                 next_id = int(objects.attrib["next_id"])
-                scenes.set('next_id', str(max(scn_id+1, next_id+1)))
+                scenes.set('next_id', str(max(scn_id+1, next_id)))
                 
 
     for obj, is_delete in obj_to_delete.items():

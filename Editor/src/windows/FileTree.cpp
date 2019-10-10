@@ -315,17 +315,22 @@ void FileTree::renderRightMouseMenuTexture(int texture_id) {
 void FileTree::renderRightMouseMenuAssets(const std::string& path, long long id) {
 	if (ImGui::BeginPopupContextItem("right mouse menu")) {
 
+
+		//ImGui::Image(Resources::getMenuIcon("open_in_explorer")); ImGui::SameLine();
+		if (ImGui::Selectable("Open in TextEditor")) {
+			std::string title = PyUtils::getInstance()->getOs().attr("path").attr("basename")(path).cast<std::string>();
+			TextEditors::openTextEditor(title, path, id, TextEditor::LanguageDefinition::C());
+		}
+
+		if (ImGui::Selectable("Reload")) {
+			CLI::getInstance()->assetsFileUpdate();
+		}
+
 		ImGui::Image(Resources::getMenuIcon("open_in_explorer")); ImGui::SameLine();
 		if (ImGui::Selectable("Open in Explorer")) {
 			PyUtils::getInstance()->getOs().attr("system")(std::string("explorer \"").append( 
 				PyUtils::getInstance()->getOs().attr("path").attr("dirname")(path).cast<std::string>()
 			).append("\""));
-		}
-		
-		//ImGui::Image(Resources::getMenuIcon("open_in_explorer")); ImGui::SameLine();
-		if (ImGui::Selectable("Open in TextEditor")) {
-			std::string title = PyUtils::getInstance()->getOs().attr("path").attr("basename")(path).cast<std::string>();
-			TextEditors::openTextEditor(title, path, id, TextEditor::LanguageDefinition::C());
 		}
 
 		ImGui::EndPopup();

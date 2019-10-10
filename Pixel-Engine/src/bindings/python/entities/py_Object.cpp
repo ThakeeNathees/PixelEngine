@@ -19,7 +19,9 @@ void register_object(py::module m)
 		;
 
 	pe_object
-		.def(py::init<>())
+		//.def(py::init<>())
+		
+		/* runtime objects nomore
 		.def_static("new", [](const std::string& class_name, pe::Object::ObjectType type) -> pe::Object*
 			{
 				if (class_name == std::string("") && type == pe::Object::ObjectType::CPP_OBJECT) {
@@ -40,6 +42,7 @@ void register_object(py::module m)
 				}
 			}, py::arg("class_name")="", py::arg("type")=pe::Object::ObjectType::CPP_OBJECT, 
 			py::return_value_policy::reference)
+		*/
 
 		/* will defined in client_src.py
 		inline virtual void sceneEntered(Scene*) {};			def sceneEntered(self, scene): ...
@@ -48,7 +51,6 @@ void register_object(py::module m)
 		inline virtual void recieveSignal(Signal& signal) {}	def recieveSignal(self, signal): ...
 		virtual void drawCall() const;							def drawCall(self) : ...
 		*/
-		// TODO: getRenderTarget() ?
 
 		// draw methods
 		.def("draw", [](pe::Object& self, const sf::Drawable& drawable) { self.draw(drawable); })
@@ -83,7 +85,7 @@ void register_object(py::module m)
 		.def("drawCircle", (void(pe::Object::*)(const sf::Vector2f&, float, const sf::Color&, bool, float)const) & pe::Object::drawCircle,
 			py::arg("position"), py::arg("r"), py::arg("color") = pe::Application::s_default_color, py::arg("outline") = false, py::arg("thickness") = 2
 		)
-		//*
+
 		// draw method end /////////////////////////////////////////////////////////
 
 		.def("emitSignal", &pe::Object::emitSignal)

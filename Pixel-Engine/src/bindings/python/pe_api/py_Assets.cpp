@@ -37,7 +37,8 @@ void register_assets(py::module& m)
 		.def_static("getAnimation", [](int id) {return pe::Assets::getAsset<pe::Animation>(id); }, py::return_value_policy::reference)
 		.def_static("getAnimation", [](const std::string& name) {return pe::Assets::getAsset<pe::Animation>(name); }, py::return_value_policy::reference)
 
-		.def_static("Object", []() {return pe::Assets::newAsset<pe::Object>(); }, py::return_value_policy::reference)
+		// runtime objects nomore
+		//.def_static("Object", []() {return pe::Assets::newAsset<pe::Object>(); }, py::return_value_policy::reference) 
 		.def_static("getObject", [](int id) {return pe::Assets::getAsset<pe::Object>(id); }, py::return_value_policy::reference)
 		.def_static("getObject", [](const std::string& name) {return pe::Assets::getAsset<pe::Object>(name); }, py::return_value_policy::reference)
 

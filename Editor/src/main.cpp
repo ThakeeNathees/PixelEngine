@@ -74,7 +74,8 @@ int main(int argc, char** argv)
 	FileTree::getInstance()->reload();
 
 	// Load applicaton's assets
-	int error = CLI::getInstance()->readProjFile();
+	int error = CLI::getInstance()->readProjFile(); // TODO: error handle
+	error = Resources::readAssets();
 
 
 	/**********************     MAIN LOOP     **********************/

@@ -75,6 +75,7 @@ int CLI::readProjFile() {
 }
 
 int CLI::updatePeproj() {
+	projFileUpdate(false);
 	pe::FileHandler file;
 	int error = file.readProject(m_proj_file_name.c_str());
 	if (error) { PE_LOG("project file reading error"); CLI::log("Error: reading project file was failure!", Console::LOGLEVEL_ERROR); }

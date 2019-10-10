@@ -20,7 +20,7 @@ namespace pe
 	class PIXEL_ENGINE_API Object : public sf::Transformable, public pe::Drawable, public Asset
 	{
 	public:
-		Object(int id = -1);
+		Object(int id); // id is must
 		Object(const Object& other) = delete;
 		~Object();
 	
@@ -148,9 +148,11 @@ namespace pe
 			m_object_type = type;
 		}
 
+		/*
 		static int __getNextId() {
 			return s_next_id;
 		}
+		*/
 		static int __getObjCount() {
 			return s_object_count;
 		}
@@ -170,7 +172,7 @@ namespace pe
 		friend class FileHandler;
 		
 		static int s_object_count;
-		static int s_next_id;
+		//static int s_next_id;
 		static sf::RenderTarget* s_render_target; // const methods can edit static field
 
 		

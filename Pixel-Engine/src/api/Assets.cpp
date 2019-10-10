@@ -39,6 +39,7 @@ namespace pe
 		return obj;
 	}
 	Object* Assets::newObject(int id) {
+		if (hasAsset(id)) deleteAsset(id);
 		Object* obj = new pe::Object(id);
 		addAsset(obj);
 		return obj;

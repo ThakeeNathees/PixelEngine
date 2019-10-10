@@ -111,17 +111,14 @@ namespace pe
 		std::string class_name = class_tag->Attribute("name");
 		std::string type = class_tag->Attribute("type");
 		Object* obj = nullptr;
-		if (Assets::hasAsset(id))
-			obj = Assets::getAsset<pe::Object>(id);
 
 		// object has no logics
 		if (class_name == std::string("")) {
-			if (obj == nullptr) obj = Assets::newObject(id);
+			obj = Assets::newObject(id);
 		}
 		else {
 			if (type == std::string("CPP_OBJECT")) {
-				if (obj != nullptr){ /* don't create a new object */ }
-				else if (!Assets::isClassRegistered(class_name)) {
+				if (!Assets::isClassRegistered(class_name)) {
 					obj = Assets::newObject(id);
 					PE_LOG("\n WARNING: class not found in class registry: class_name=%s  object_id=%i name=%s \nusing default object", class_name.c_str(), obj->m_id, obj->m_name.c_str());
 					PE_CONSOLE_LOG("\nWARNING: class not found in class registry: class_name=%s  object_id=%i name=%s \nusing default object", class_name.c_str(), obj->m_id, obj->m_name.c_str());
@@ -130,7 +127,7 @@ namespace pe
 			}
 			else if (type == std::string("PYTHON_OBJECT")) {
 				if (obj == nullptr) {
-					obj = new PythonObject(class_name, id);  // TODO: assert here -> if class not found or import error
+					obj = new PythonObject(class_name, id);
 					Assets::addAsset(obj);
 				}
 				obj->m_class_path = class_tag->GetText();
@@ -139,7 +136,7 @@ namespace pe
 
 		obj->m_obj_file_path = path;
 		obj->setName(obj_tag->Attribute("name"));
-		Object::s_next_id = std::max(obj->m_id + 1, Object::s_next_id);
+		//Object::s_next_id = std::max(obj->m_id + 1, Object::s_next_id);
 		PE_LOG("object created: type=%s  id=%i name=%s", type.c_str(), obj->m_id, obj->m_name.c_str());
 
 		auto prop = obj_tag->FirstChildElement("properties");

@@ -9,8 +9,7 @@ namespace py = pybind11;
 class PythonObject : public pe::Object
 {
 public:
-	inline PythonObject( const std::string& module_name, int id = -1) {
-		pe::Object::Object(id);
+	inline PythonObject( const std::string& module_name, int id) : pe::Object::Object(id) {
 		m_object_type = pe::Object::ObjectType::PYTHON_OBJECT;
 		if (module_name != std::string("")) {
 			m_module = py::module::import(module_name.c_str());

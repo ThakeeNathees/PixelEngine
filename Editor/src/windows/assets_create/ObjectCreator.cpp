@@ -88,39 +88,33 @@ void ObjectCreater::render()
 			else if (str_scr_path != std::string("") && !PyUtils::getInstance()->getFileUtil().attr("isPathScript")(str_scr_path).cast<bool>())
 				ImGui::OpenPopup("Invalid Script Path!");
 			else {
-				m_object = new pe::Object(); // deleted below
+				int obj_id = CLI::getInstance()->getPeproj().next_obj_id;
 				std::string obj_file_path = std::string(m_obj_path).append("/").append(std::string(m_obj_name)).append(".obj.xml");
-				m_object->_setObjFilePath(obj_file_path);
 				
-				m_object->setName(m_obj_name);
-				m_object->setVisible(m_visible);
-				m_object->setZindex(m_z_index);
-				m_object->setPersistence(m_persistance);
 				if (m_script_path[0]) {
-					m_object->__setClassName(m_class_name);
-					switch (m_obj_type) {
-						case 1: 
-							m_object->__setObjectType(pe::Object::ObjectType::PYTHON_OBJECT); 
-							m_object->__setClassPath( PyUtils::getInstance()->getFileUtil().attr("relPyObjDirPath") (m_script_path).cast<std::string>() );
-							break;
-						case 2: 
-							m_object->__setObjectType(pe::Object::ObjectType::CPP_OBJECT); 
-							m_object->__setClassPath(m_script_path);
-							break;
-						default: 
-							m_object->__setObjectType(pe::Object::ObjectType::PYTHON_OBJECT); 
-							break;
-					}	
-				}
 
-				auto obj_tag = m_py_objmaker.attr("newObject")(m_object->getName(), m_object->getId(), m_object->getClassName(), m_obj_type, m_object->getClassPath(),
-					m_object->getZindex(), m_object->isVisible(), m_object->isPersistence());
-				if (m_object) delete m_object;
+					if (m_obj_type == 1) { // python
+						m_class_path = PyUtils::getInstance()->getFileUtil().attr("relPyObjDirPath") (m_script_path).cast<std::string>();
+						m_pe_obj_type = pe::Object::ObjectType::PYTHON_OBJECT;
+					}
+					else if (m_obj_type == 2) { // cpp
+						m_class_path = std::string(m_script_path);
+						m_pe_obj_type = pe::Object::ObjectType::CPP_OBJECT;
+					}
+					else { // none
+						m_class_path = "";
+						m_pe_obj_type = pe::Object::ObjectType::CPP_OBJECT;
+
+					}
+				}
+				
+				auto obj_tag = m_py_objmaker.attr("newObject")(std::string(m_obj_name), obj_id, std::string(m_class_name), m_obj_type, m_class_path,
+					m_z_index, static_cast<bool>(m_visible), static_cast<bool>(m_persistance));
+
 				m_py_objmaker.attr("writeObject")(obj_tag, obj_file_path);
-				CLI::getInstance()->projUpdate(false);
+				CLI::getInstance()->projFileUpdate(false);
 				FileTree::getInstance()->reload();
 				m_popen = false;
-				// end and return;
 			}
 
 		}

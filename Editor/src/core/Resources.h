@@ -12,6 +12,11 @@ public:
 	static sf::Texture LOGO_PE;
 	static sf::Texture PNG_BG;
 
+	static int readAssets() {
+		pe::FileHandler file;
+		return file.readAssets("assets.xml");
+	}
+
 	static sf::Texture& getFileFormatIcon(const std::string& name) {
 		assert( s_file_format_icons.find(name) != s_file_format_icons.end() && name.c_str() );
 		return s_file_format_icons[name];

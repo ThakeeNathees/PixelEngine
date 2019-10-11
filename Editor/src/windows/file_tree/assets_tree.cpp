@@ -5,10 +5,11 @@
 
 void FileTree::renderAssetsTree(const std::string& path) {
 	long long id = PyUtils::getInstance()->getMathUtil().attr("md5Hash")(path, "long").cast<long long>();
-	std::string dir_name = PyUtils::getInstance()->getOs().attr("path").attr("basename")(path).cast<std::string>();
+	auto file_name = PyUtils::getInstance()->getOs().attr("path").attr("basename")(path).cast<std::string>();
+	file_name = PyUtils::getInstance()->getStrUtil().attr("getFileName")(file_name).cast<std::string>();
 
 	float dir_icon_pos = ImGui::GetCursorPosX();
-	if (ImGui::TreeNode(path.c_str(), dir_name.c_str())) { // tree begins
+	if (ImGui::TreeNode(path.c_str(), file_name.c_str())) { // tree begins
 		// right click
 		if (ImGui::IsItemClicked(1)) m_selected_menu_id = id;
 		if (id == m_selected_menu_id) renderRightMouseMenuAssets(path, id);

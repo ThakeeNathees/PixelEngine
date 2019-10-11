@@ -115,6 +115,7 @@
     <ClCompile Include="src\windows\file_tree\assets_tree.cpp" />
     <ClCompile Include="src\windows\file_tree\FileTree.cpp" />
     <ClCompile Include="src\windows\file_tree\object_tree.cpp" />
+    <ClCompile Include="src\windows\file_tree\scene_tree.cpp" />
     <ClCompile Include="src\windows\static_initialize.cpp" />
     <ClCompile Include="vender\ImGuiColorTextEdit\TextEditor.cpp" />
     <ClCompile Include="vender\ImGui\imgui.cpp" />

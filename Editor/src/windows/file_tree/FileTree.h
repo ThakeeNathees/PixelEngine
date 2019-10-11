@@ -62,12 +62,14 @@ private:
 	void renderTreeRecursive(py::object& tree, bool next_item_open = false);
 	void renderAssetsTree(const std::string& path);
 	void renderObjectTree(const std::string& path);
+	void renderSceneTree(const std::string& path);
 
 	void renderRightMouseMenu(const std::string& path);
 	void renderRightMouseMenuTexture(int texture_id);
 	void renderRightMouseMenuFont(int font_id);
 	void renderRightMouseMenuAssets(const std::string& path, long long id);
 	void renderRightMouseMenuObject(const std::string& path, long long id);
+	void renderRightMouseMenuScene(const std::string& path, long long id);
 
 	void renderPopup();
 	void nodeClickedEvent(const std::string& title, const std::string& path, long long id=-1);

@@ -25,8 +25,12 @@ class FileTree:
         ret += FileTree.makeStr(self)
         return ret
 
+    ## special files
     def isAssetFile(self, ind):
         return os.path.basename(self.files[ind]) == "assets.xml"
 
     def isObjectFile(self, ind):
         return os.path.basename(self.files[ind]).endswith(".obj.xml")
+    
+    def isSceneFile(self, ind):
+        return os.path.basename(self.files[ind]).endswith(".scn.xml")

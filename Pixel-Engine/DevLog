@@ -22,6 +22,11 @@ HIGHT PRIORITY
 
 
 LOW PRIORITY
+	*** persistence objects are automatically add to all scene without adding them *** 
+	for python user:
+		drawTexture()
+		self.isIntersect(other)
+		pe.Assets.hasAsset(name) -> pe.Assets.hasTexture(name), pe.Assets.hasFont(name)
 	assets.xml name consistancy
 	local python:
 		add every files in sys.path in project locally
@@ -55,9 +60,7 @@ LOG 1
 
 
 LOG 2
-	in Editor project
-	to get if current rendering text editor window in focus
-	used globals class in TextEditor.cpp file
+	****** deleted ******
 
 LOG 3
 	to make sfml-imgui work with sf::RenderTexture add these

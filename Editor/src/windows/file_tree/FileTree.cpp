@@ -32,6 +32,9 @@ void FileTree::renderTreeRecursive(py::object& tree, bool next_item_open) {
 			else if (tree.attr("isObjectFile")(i).cast<bool>()) {
 				renderObjectTree(path);
 			}
+			else if (tree.attr("isSceneFile")(i).cast<bool>()) {
+				renderSceneTree(path);
+			}
 			else {
 				long long id = PyUtils::getInstance()->getMathUtil().attr("md5Hash")(path, "long").cast<long long>();
 				ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;

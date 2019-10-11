@@ -42,6 +42,7 @@ file_format_icons:
 	asset_texture="..\..\..\../Editor/res/icons/file_format/asset_texture.png"
 	asset_font="..\..\..\../Editor/res/icons/file_format/asset_font.png"
 	object_file="..\..\..\../Editor/res/icons/file_format/object_file.png"	
+	scene_file="..\..\..\../Editor/res/icons/file_format/scene_file.png"	
 end
 
 ##asset_obj="..\..\..\../Editor/res/icons/file_format/asset_obj.png"

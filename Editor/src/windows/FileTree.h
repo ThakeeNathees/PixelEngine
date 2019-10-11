@@ -65,5 +65,6 @@ private:
 	void nodeClickedEvent(const std::string& title, const std::string& path, long long id=-1);
 	void renderRightMouseMenu(const std::string& path);
 	void renderRightMouseMenuAssets(const std::string& path, long long id);
+	void renderRightMouseMenuObject(const std::string& path, long long id);
 
 };

@@ -23,4 +23,5 @@ FontViwer* FontViwer::s_instance;
 ImageViwer* ImageViwer::s_instance;
 float TextEditors::s_font_scale = 150; // TODO: font scale for default font
 std::string TextEditors::s_font = ""; // "" means ImGui default font
+long long TextEditors::s_close_conformation = -1;
 

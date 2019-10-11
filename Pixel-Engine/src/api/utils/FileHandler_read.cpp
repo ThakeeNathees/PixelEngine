@@ -114,21 +114,20 @@ namespace pe
 
 		// object has no logics
 		if (class_name == std::string("")) {
-			obj = Assets::newObject(id);
+			obj = Assets::newObject(id, pe::Object::ObjectType::CPP_OBJECT);
 		}
 		else {
 			if (type == std::string("CPP_OBJECT")) {
 				if (!Assets::isClassRegistered(class_name)) {
-					obj = Assets::newObject(id);
+					obj = Assets::newObject(id, pe::Object::ObjectType::CPP_OBJECT);
 					PE_LOG("\n WARNING: class not found in class registry: class_name=%s  object_id=%i name=%s \nusing default object", class_name.c_str(), obj->m_id, obj->m_name.c_str());
 					PE_CONSOLE_LOG("\nWARNING: class not found in class registry: class_name=%s  object_id=%i name=%s \nusing default object", class_name.c_str(), obj->m_id, obj->m_name.c_str());
 				}
-				else obj = Assets::newObject(class_name);
+				else obj = Assets::newObject(id, pe::Object::ObjectType::CPP_OBJECT, class_name);
 			}
 			else if (type == std::string("PYTHON_OBJECT")) {
 				if (obj == nullptr) {
-					obj = new PythonObject(class_name, id);
-					Assets::addAsset(obj);
+					obj = Assets::newObject(id, pe::Object::ObjectType::PYTHON_OBJECT, class_name);
 				}
 				obj->m_class_path = class_tag->GetText();
 			}
@@ -298,9 +297,7 @@ namespace pe
 		auto scn_tag = m_doc->FirstChildElement("scene");
 		int id = scn_tag->IntAttribute("id");
 
-		Scene* scene = nullptr;
-		if (Assets::hasAsset(id)) scene = Assets::getAsset<Scene>(id);
-		else scene = Assets::newScene(id);
+		Scene* scene = Assets::newScene(id);
 		scene->setName(scn_tag->Attribute("name"));
 		//scene->m_id = scn_tag->IntAttribute("id");
 		Scene::s_next_id = std::max(scene->m_id + 1, Scene::s_next_id);

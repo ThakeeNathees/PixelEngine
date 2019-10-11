@@ -128,7 +128,7 @@ private:
 				EmbededApplication::getInstance()->setReloadOnSave(reload_on_save);
 			}
 
-			if ( EmbededApplication::getInstance()->isOpen()) {
+			if ( EmbededApplication::getInstance()->isOpen() && EmbededApplication::getInstance()->isRunning()) {
 				if (ImGui::MenuItem("Reload Project")) {
 					CLI::getInstance()->projFileUpdate(false);
 					EmbededApplication::getInstance()->reloadApplication();

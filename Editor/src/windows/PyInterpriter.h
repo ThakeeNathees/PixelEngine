@@ -12,7 +12,7 @@ private:
 		m_logs.push_back(std::make_pair("Warning : Don't use print, help, other io related functions", 1));
 	}
 	bool m_set_focus = false; // set focus on input text field
-	float m_font_scale = 100;
+	float m_font_scale = 150;
 	char m_input[1024] = {};
 	char m_input_temp[1024] = {};
 	bool m_scroll_to_bottom = false;
@@ -88,7 +88,7 @@ public:
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && m_inputs_ind != 0) m_inputs_ind--;
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) m_inputs_ind++;
 				else if (m_inputs_ind >= m_inputs.size()) m_inputs_ind = m_inputs.size() - 1;
-				if (m_inputs.size() > 0) {
+				if (m_inputs.size() > 0 && m_inputs_ind < m_inputs.size() && m_inputs_ind >=0) {
 					int i = 0;
 					while (m_inputs[m_inputs_ind].c_str()[i]) m_input[i] = m_inputs[m_inputs_ind].c_str()[i++];
 					m_input[i] = '\0';

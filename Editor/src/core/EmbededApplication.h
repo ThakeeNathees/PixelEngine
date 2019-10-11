@@ -52,6 +52,7 @@ public:
 	void start() {
 		reloadApplication();
 		m_is_running = true;
+		m_open = true;
 	}
 	void stop() { m_is_running = false; } // TODO: delete application if needed
 

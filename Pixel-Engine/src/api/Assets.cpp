@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "Assets.h"
 
+// cpp include
+#include "bindings/python/PythonObject.h"
+
 namespace pe
 {
 	std::map<std::string, construct_f> Assets::s_object_registry;
@@ -30,7 +33,7 @@ namespace pe
 		auto pair = s_object_registry.find(class_name);
 		return pair != s_object_registry.end();
 	}
-
+	/*
 	Object* Assets::newObject(const std::string& class_name) {
 		auto pair = s_object_registry.find(class_name);
 		assert( pair != s_object_registry.end() && "unregistered class_name to construct use REGISTER_CLASS macro to register your classes" );
@@ -38,13 +41,24 @@ namespace pe
 		addAsset(obj);
 		return obj;
 	}
-	Object* Assets::newObject(int id) {
-		if (hasAsset(id)) deleteAsset(id);
-		Object* obj = new pe::Object(id);
-		addAsset(obj);
+	*/
+	Object* Assets::newObject(int id, pe::Object::ObjectType type, std::string class_name) {
+		deleteObject(id);
+		Object* obj = nullptr;
+		if (type == pe::Object::ObjectType::CPP_OBJECT) {
+			auto pair = s_object_registry.find(class_name);
+			assert(pair != s_object_registry.end() && "unregistered class_name to construct use REGISTER_CLASS macro to register your classes");
+			Object* obj = pair->second(class_name);
+			addAsset(obj);
+		}
+		else {
+			obj = new PythonObject(class_name, id);
+			Assets::addAsset(obj);
+		}
 		return obj;
 	}
 	Scene* Assets::newScene(int id) {
+		deleteScene(id);
 		Scene* scn = new pe::Scene(id);
 		addAsset(scn);
 		return scn;

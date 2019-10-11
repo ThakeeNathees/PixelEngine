@@ -9,6 +9,7 @@ void EmbededApplication::reloadApplication() {
 		auto application = new pe::Application(CLI::getInstance()->getProjFileName().c_str(), false, &m_render_texture);
 		if (m_application) delete m_application;
 		m_application = application;
+		m_is_running = true;
 		m_render_texture.create(m_application->getWindowSize().x, m_application->getWindowSize().y);
 		m_is_application_reloaded = true;
 		CLI::getInstance()->getConsole()->addLog("Application reload success!", Console::LOGLEVEL_SUCCESS);

@@ -22,8 +22,8 @@ namespace pe
 		template <typename T>
 		static T* newAsset(const std::string& name) { Asset* asset = new T(name); addAsset(asset); return static_cast<T*>(asset); }
 		static bool isClassRegistered(const std::string& class_name);
-		static Object* newObject(const std::string& class_name);
-		static Object* newObject(int id = -1);
+		//static Object* newObject(const std::string& class_name);
+		static Object* newObject(int id, pe::Object::ObjectType type, std::string class_name = "");
 		static Scene* newScene(int id = -1);
 
 		// class register
@@ -43,8 +43,28 @@ namespace pe
 		static const std::vector<std::string>& getPyobjectPaths() { return s_pyobj_paths; }
 		// setters
 		static void addAsset(Asset* asset);
+
+		static void deleteObject(int id) {
+			if (hasAsset(id)) {
+				auto obj = static_cast<pe::Object*>(s_assets[id]);
+				s_assets.erase(id);
+				delete obj;
+			}
+		}
+		static void deleteScene(int id) {
+			if (hasAsset(id)) {
+				auto scn = static_cast<pe::Scene*>(s_assets[id]);
+				s_assets.erase(id);
+				delete scn;
+			}
+		}
+
+
 		static void deleteAsset(int id) {
-			if (hasAsset(id)) delete s_assets[id];
+			assert(false && "check assert type and delete with type like deleteObject");
+			if (hasAsset(id)) {
+				delete  s_assets[id];;
+			}
 		}
 
 

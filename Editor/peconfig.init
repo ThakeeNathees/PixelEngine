@@ -43,6 +43,9 @@ file_format_icons:
 	asset_font="..\..\..\../Editor/res/icons/file_format/asset_font.png"
 	object_file="..\..\..\../Editor/res/icons/file_format/object_file.png"	
 	scene_file="..\..\..\../Editor/res/icons/file_format/scene_file.png"	
+	obj_sprite="..\..\..\../Editor/res/icons/file_format/obj_sprite.png"	
+	obj_animation="..\..\..\../Editor/res/icons/file_format/obj_animation.png"	
+	obj_area="..\..\..\../Editor/res/icons/file_format/obj_area.png"	
 end
 
 ##asset_obj="..\..\..\../Editor/res/icons/file_format/asset_obj.png"

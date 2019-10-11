@@ -10,7 +10,7 @@ void FileTree::renderObjectTree(const std::string& path) {
 
 
 	if (ImGui::TreeNode(path.c_str(), file_name.c_str())) { // tree begins
-
+		ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
 		// right click
 		if (ImGui::IsItemClicked(1))
 			m_selected_menu_id = id;
@@ -18,10 +18,33 @@ void FileTree::renderObjectTree(const std::string& path) {
 		ImGui::SameLine(); ImGui::SetCursorPosX(dir_icon_pos); ImGui::Image(Resources::getFileFormatIcon("object_file"));
 
 		if (m_objects.find(id) == m_objects.end()) {
-			m_objects[id] = m_object_reader.attr("Object")(path);
+			auto obj_tag = m_object_reader.attr("ObjectTag")(path);
+			m_objects[id] = obj_tag;
 		}
 
-		ImGui::Text("test");
+		auto& obj_tag = m_objects[id];
+		
+		if (obj_tag.attr("hasSpriteTag")().cast<bool>()) {
+			ImGui::Image(Resources::getFileFormatIcon("obj_sprite")); ImGui::SameLine();
+			ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 20);
+			if(ImGui::TreeNodeEx("Sprite", node_flags)){}
+			//if(ImGui::TreeNodeEx(obj_tag.attr("getSpriteTag")().attr("attrib").attr("__getitem__")("name").cast<std::string>().c_str(), node_flags)){}
+		}
+		
+		if (obj_tag.attr("hasAreaTag")().cast<bool>()) {
+			ImGui::Image(Resources::getFileFormatIcon("obj_area")); ImGui::SameLine();
+			ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 20);
+			if (ImGui::TreeNodeEx("Area", node_flags)) {}
+			//if (ImGui::TreeNodeEx(obj_tag.attr("getAreaTag")().attr("attrib").attr("__getitem__")("name").cast<std::string>().c_str(), node_flags)) {}
+		}
+
+		if (obj_tag.attr("hasAnyAnimations")().cast<bool>()) {
+			ImGui::Image(Resources::getFileFormatIcon("obj_animation")); ImGui::SameLine();
+			ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 20);
+			if (ImGui::TreeNodeEx("Animations", node_flags)) {}
+			//if (ImGui::TreeNodeEx(obj_tag.attr("getAreaTag")().attr("attrib").attr("__getitem__")("name").cast<std::string>().c_str(), node_flags)) {}
+		}
+		
 
 
 		ImGui::TreePop();

@@ -28,142 +28,137 @@ import os
 ##      rotation track
 ##      scale track
 
-
-class Sprite:
-    def __init__(self):
-        self.name        = None
-        self.id          = None
-        self.tex_id      = None
-        self.tex_rect    = {}
-        self.frames      = {}
-
-class Area:
-    def __init__(self):
-        self.name  = None
-        self.id    = None
-        self.shape = {}
-
-class Animation:
-    def __init__(self):
-        self.name               = None
-        self.id                 = None
-        self.time_len           = 0
-        self.loop               = True
-        self.reverse            = False
-        self.sprite_frame_track = {}
-        self.position_track     = {}
-        self.rotation_track     = {}
-        self.scale_track        = {}
     
 
-class Object:
+class ObjectTag:
     def __init__(self, path):
-        self.object_name 	= None
-        self.id 		= None
-
-        self.class_name 	= None
-        self.class_type 	= None
-        self.class_path 	= None
-
-        self.z_index 		= 0
-        self.visible 		= True
-        self.persistence 	= False
-
-        self.position 		= [0,0]
-        self.rotation 		= 0
-        self.scale 		= [1,1]
-        self.origin 		= [0,0]
-
-        self.sprite 		= None
-        self.area               = None
-        self.animations 	= []
-
-        ####################################################################
-
+        self.path = path
         path = os.path.relpath(path)
         doc = ET.parse(path)
-        root  = doc.getroot()
+        self.root  = doc.getroot()
 
-        self.object_name = root.attrib['name']
-        self.id  = int(root.attrib['id'])
+    def reload(self):
+        doc = ET.parse(self.path)
+        self.root  = doc.getroot()
+
+    def save(self):
+        plain_xml = ET.tostring(self.root).decode('utf-8').replace('\n', '').replace('\t','')
+        pretty_xml = mdom.parseString( plain_xml ).toprettyxml()
+        file = open(self.path, 'w')
+        file.write(pretty_xml)
+        file.close()
+
+    def getName(self):
+        return self.root.attrib['name']
+    def setName(name):
+        self.root.attrib['name'] = name
         
-        class_tag = root.find('class')
-        self.class_name = class_tag.attrib['name']
-        self.class_type = class_tag.attrib['type']
-        self.class_path = class_tag.text
+    def getId(self):
+        return int(self.root.attrib['id'])
+    def _setId(self,_id):
+        self.root.attrib['id'] = str(_id)
 
-        prop_tag = root.find('properties')
-        self.z_index = int(prop_tag.attrib['z_index'])
-        self.visible = True if prop_tag.attrib['visible'] == 'true' else False
-        self.persistence = True if prop_tag.attrib['persistence'] == 'true' else False
+    def getClassName(self):
+        class_tag = self.root.find('class')
+        return class_tag.attrib['name']
+    def setClassName(self,class_name):
+        class_tag = self.root.find('class')
+        class_tag.attrib['name'] = class_name
+    
+    def getObjectType(self):
+        class_tag = self.root.find('class')
+        return class_tag.attrib['type']
+    
+    def setObjectType(self,obj_type):
+        assert class_type in ['PYTHON_OBJECT', 'CPP_OBJECT']
+        class_tag = self.root.find('class')
+        class_tag.attrib['type'] = obj_type
 
-        trans_tag = root.find('transform')
+    def getScriptPath(self):
+        class_tag = self.root.find('class')
+        return class_tag.text
+    def setScriptPath(self,path):
+        class_tag = self.root.find('class')
+        class_tag.text = path
+
+    def getZindex(self):
+        prop_tag = self.root.find('properties')
+        return int(prop_tag.attrib['z_index'])
+    def setZindex(self,ind):
+        prop_tag = self.root.find('properties')
+        prop_tag.attrib['z_index'] = str(ind)
+    
+    def isVisible(self):
+        prop_tag = self.root.find('properties')
+        return True if prop_tag.attrib['visible'] == 'true' else False
+    def setVisible(self,visible):
+        prop_tag = self.root.find('properties')
+        if visible: prop_tag.attrib['visible'] = 'true'
+        else :prop_tag.attrib['visible'] = 'false'
+        
+    def isPersistence(self):
+        prop_tag = self.root.find('properties')
+        return True if prop_tag.attrib['persistence'] == 'true' else False
+    def setPersistence(self,per):
+        prop_tag = self.root.find('properties')
+        if per:prop_tag.attrib['persistence'] = 'true'
+        else: prop_tag.attrib['persistence'] = 'false'
+    
+
+    ## transform
+    def getPosition(self):
+        trans_tag = self.root.find('transform')
         pos_tag = trans_tag.find('position')
-        self.position = [ float(pos_tag.attrib['x']), float(pos_tag.attrib['y']) ]
-        self.rotation = float(trans_tag.find('rotation').attrib['angle'])
+        return [ float(pos_tag.attrib['x']), float(pos_tag.attrib['y']) ]
+    def setPosition(self,x, y):
+        trans_tag = self.root.find('transform')
+        pos_tag = trans_tag.find('position')
+        pos_tag.attrib['x'] = str(x)
+        pos_tag.attrib['y'] = str(y)
+        
+    def getRotation(self):
+        trans_tag = self.root.find('transform')
+        return float(trans_tag.find('rotation').attrib['angle'])
+    def setRotation(rot):
+        trans_tag = self.root.find('transform')
+        trans_tag.find('rotation').attrib['angle'] = str(rot)
+    
+    def getScale(self):
+        trans_tag = self.root.find('transform')
         scale_tag = trans_tag.find('scale')
-        self.scale = [ float(scale_tag.attrib['x']), float(scale_tag.attrib['y']) ]
+        return [ float(scale_tag.attrib['x']), float(scale_tag.attrib['y']) ]
+    def setScale(self,x, y):
+        trans_tag = self.root.find('transform')
+        scale_tag = trans_tag.find('scale')
+        scale_tag.attrib['x'] = str(x)
+        scale_tag.attrib['y'] = str(y)
+    
+    def getOrigin(self):
+        trans_tag = self.root.find('transform')
         origin_tag = trans_tag.find('origin')
-        self.origin = [ float(origin_tag.attrib['x']), float(origin_tag.attrib['y']) ]
-
-        sprite_tag = root.find('sprite')
-        if sprite_tag is not None:
-            self.sprite = Sprite()
-            self.sprite.name = sprite_tag.attrib['name']
-            self.sprite.id = int(sprite_tag.attrib['id'])
-            self.sprite.tex_id = int(sprite_tag.find('texture').attrib['id'])
-            tex_rect_tag = sprite_tag.find('texture_rect')
-            self.sprite.tex_rect = {
-                0 : int(tex_rect_tag.attrib['top']),
-                1 : int(tex_rect_tag.attrib['left']),
-                2 : int(tex_rect_tag.attrib['width']),
-                3 : int(tex_rect_tag.attrib['height']),
-            }
-            frames_tag = sprite_tag.find('frames')
-            self.sprite.frames = {
-                0 : int(frames_tag.attrib['x']),
-                1 : int(frames_tag.attrib['y']),
-                2 : int(frames_tag.attrib['offset_x']),
-                3 : int(frames_tag.attrib['offset_y']),
-            }
+        return  [ float(origin_tag.attrib['x']), float(origin_tag.attrib['y']) ]
+    def setOrigin(self,x, y):
+        trans_tag = self.root.find('transform')
+        origin_tag = trans_tag.find('origin')
+        origin_tag.attrib['x'] = str(x)
+        origin_tag.attrib['y'] = str(y)
         
-        
-        area_tag = root.find('area')
-        if area_tag is not None:
-            self.area = Area()
-            self.area.name = area_tag.attrib['name']
-            self.area.id = int( area_tag.attrib['id'] )
-            for point in area_tag.find('shape'):
-                self.area.shape[int(point.attrib['index'])] = [ point.attrib['x'], point.attrib['y'] ]
-            
-        
-        for anim in root.find('animations'):
-            animation = Animation()
-            animation.name = anim.attrib['name']
-            animation.id = int(anim.attrib['id'])
-            prop_tag = anim.find('properties')
-            animation.time_len = float(prop_tag.attrib['time_length'])
-            animation.loop = True if prop_tag.attrib['loop'] == 'true' else False
-            animation.reverse = True if prop_tag.attrib['reverse'] == 'true' else False
 
-            spt_tag = anim.find('sprite_frame_track')
-            if spt_tag is not None:
-                for key in spt_tag : animation.sprite_frame_track[float(key.attrib['time'])] = int(key.attrib['frame'])
+    def hasSpriteTag(self):
+        return self.root.find('sprite') is not None
+    def getSpriteTag(self):
+        return self.root.find('sprite')
+    
+    def hasAreaTag(self):
+        return self.root.find('area') is not None
+    def getAreaTag(self):
+        return self.root.find('area')
 
-            pt_tag = anim.find('position_track')
-            if pt_tag:
-                for key in pt_tag : animation.position_track[float(key.attrib['time'])] = [float(key.attrib['x']), float(key.attrib['y'])]
+    def hasAnyAnimations(self):
+        return self.root.find('animations').find('animation') is not None
 
-            rt_tag = anim.find('rotation_track')
-            if rt_tag is not None:
-                for key in rt_tag: animation.rotation_track[float(key.attrib['time'])] = float(key.attrib['angle'])
-
-            st_tag = anim.find('scale_track')
-            if st_tag is not None:
-                for key in st_tag: animation.scale_track[float(key.attrib['time'])] = [float(key.attrib['x']), float(key.attrib['y'])]
-            
-            self.animations.append(animation)
-
+    def getAnimationsTag(self):
+        return self.root.find('animations')
 
 
 

@@ -82,6 +82,7 @@ public:
 			if (ImGui::InputText("input", m_input, sizeof(m_input))) {}
 
 			// keyboard short cut
+			/*
 			if (  ImGui::IsRootWindowFocused() && (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) && m_clock.restart().asSeconds() > .1) {
 				ImGui::SetKeyboardFocusHere();
 				m_set_focus = true;
@@ -94,6 +95,7 @@ public:
 					m_input[i] = '\0';
 				}
 			}
+			*/
 
 
 			// TODO: ignore input(), help, ... 

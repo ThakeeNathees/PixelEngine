@@ -1,7 +1,6 @@
 #include "pch.h"
 
 #include "StartWindow.h"
-#include "FileTree.h"
 #include "windows/views/TextEditors.h"
 #include "windows/views/HexEditors.h"
 #include "windows/views/FontViwers.h"

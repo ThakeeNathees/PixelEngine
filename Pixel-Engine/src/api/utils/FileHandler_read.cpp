@@ -299,7 +299,6 @@ namespace pe
 
 		Scene* scene = Assets::newScene(id);
 		scene->setName(scn_tag->Attribute("name"));
-		//scene->m_id = scn_tag->IntAttribute("id");
 		Scene::s_next_id = std::max(scene->m_id + 1, Scene::s_next_id);
 
 		auto bg_tag = scn_tag->FirstChildElement("background");
@@ -336,6 +335,7 @@ namespace pe
 			if (Assets::s_assets[id] == NULL) { PE_LOG("\nERROR: cant find object for the scene: id=%i", id); }
 			assert(Assets::s_assets[id] != NULL && "can't find the object for the scene");
 			scene->addObject(dynamic_cast<Object*>(Assets::s_assets[id]));
+			PE_LOG("\tobject added : id=%i", id);
 		}
 		Assets::s_assets[scene->m_id] = scene;
 		if (app) app->addScene(scene);

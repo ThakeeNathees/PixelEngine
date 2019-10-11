@@ -19,6 +19,9 @@ private:
 	static FileTree* s_instance;
 	std::string m_title;
 	py::object m_py_filetree;
+	py::module m_object_reader;
+	std::map<long long, py::object> m_objects;
+
 	long long m_selected_id = -1;
 	long long m_selected_menu_id = -1;
 
@@ -37,6 +40,7 @@ public:
 	void reload() {
 		auto m = py::module::import("file_tree");
 		m_py_filetree = m.attr("FileTree")(CLI::getCwd());
+		m_object_reader = py::module::import("object_reader");
 	}
 	
 	void render() {
@@ -54,17 +58,18 @@ public:
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//static void drawFileIcon(const std::string& path);
 private:
 	void renderTreeRecursive(py::object& tree, bool next_item_open = false);
 	void renderAssetsTree(const std::string& path);
 	void renderObjectTree(const std::string& path);
+
+	void renderRightMouseMenu(const std::string& path);
 	void renderRightMouseMenuTexture(int texture_id);
+	void renderRightMouseMenuFont(int font_id);
+	void renderRightMouseMenuAssets(const std::string& path, long long id);
+	void renderRightMouseMenuObject(const std::string& path, long long id);
 
 	void renderPopup();
 	void nodeClickedEvent(const std::string& title, const std::string& path, long long id=-1);
-	void renderRightMouseMenu(const std::string& path);
-	void renderRightMouseMenuAssets(const std::string& path, long long id);
-	void renderRightMouseMenuObject(const std::string& path, long long id);
 
 };

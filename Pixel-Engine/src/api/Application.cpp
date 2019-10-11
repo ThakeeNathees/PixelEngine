@@ -69,6 +69,7 @@ namespace pe
 			PE_LOG("\nscene deserialization begin : %s", path.c_str());
 			file.readScenes(path.c_str(), this);
 		}
+		PE_LOG("-------------- scene serialization end --------------\n");
 		
 		// logo
 		int texture_id = m_peproj.logo_texture_id;

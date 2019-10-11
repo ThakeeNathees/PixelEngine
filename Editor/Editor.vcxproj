@@ -112,7 +112,9 @@
     <ClCompile Include="src\test.cpp" />
     <ClCompile Include="src\windows\assets_create\ObjectCreator.cpp" />
     <ClCompile Include="src\windows\assets_create\ScriptCreator.cpp" />
-    <ClCompile Include="src\windows\FileTree.cpp" />
+    <ClCompile Include="src\windows\file_tree\assets_tree.cpp" />
+    <ClCompile Include="src\windows\file_tree\FileTree.cpp" />
+    <ClCompile Include="src\windows\file_tree\object_tree.cpp" />
     <ClCompile Include="src\windows\static_initialize.cpp" />
     <ClCompile Include="vender\ImGuiColorTextEdit\TextEditor.cpp" />
     <ClCompile Include="vender\ImGui\imgui.cpp" />
@@ -133,7 +135,7 @@
     <ClInclude Include="src\windows\assets_create\ObjectCreator.h" />
     <ClInclude Include="src\windows\assets_create\ScriptsCreator.h" />
     <ClInclude Include="src\windows\ExplorerPopup.h" />
-    <ClInclude Include="src\windows\FileTree.h" />
+    <ClInclude Include="src\windows\file_tree\FileTree.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\windows\views\FontViwers.h" />
     <ClInclude Include="src\windows\views\HexEditors.h" />
@@ -164,20 +166,21 @@
   <ItemGroup>
     <None Include="imgui.ini" />
     <None Include="peconfig.init" />
+    <None Include="src\pysrc\assets_maker\object_reader.py" />
     <None Include="src\pysrc\conf_projupdater.py" />
     <None Include="src\pysrc\obj_maker.py" />
     <None Include="src\pysrc\scene_maker.py" />
-    <None Include="src\pysrc\file_util.py" />
+    <None Include="src\pysrc\utils\file_util.py" />
     <None Include="src\pysrc\explorer.py" />
     <None Include="src\pysrc\file_tree.py" />
     <None Include="src\cli\proj_init\assets_loader.py" />
     <None Include="src\pysrc\proj_init\assets_updater.py" />
-    <None Include="src\pysrc\clean.py" />
+    <None Include="src\pysrc\proj_init\clean.py" />
     <None Include="src\pysrc\proj_init\init.py" />
     <None Include="src\pysrc\proj_init\proj_updater.py" />
     <None Include="src\pysrc\proj_init\register_updater.py" />
-    <None Include="src\pysrc\math_util.py" />
-    <None Include="src\pysrc\str_util.py" />
+    <None Include="src\pysrc\utils\math_util.py" />
+    <None Include="src\pysrc\utils\str_util.py" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

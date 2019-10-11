@@ -35,7 +35,7 @@ PYBIND11_EMBEDDED_MODULE(peio, m) {
 
 
 
-#include "windows/FileTree.h"
+#include "windows/file_tree/FileTree.h"
 
 #include "windows/assets_create/ObjectCreator.h"
 #include "windows/assets_create/ScriptsCreator.h"
@@ -144,9 +144,11 @@ int main(int argc, char** argv)
 		
 		EmbededApplication::getInstance()->render();
 
+		/* node editor
 		static bool open = true;
 		if (open)
 			ShowExampleAppCustomNodeGraph(&open);
+		*/
 
 		ImGui::ShowTestWindow();
 

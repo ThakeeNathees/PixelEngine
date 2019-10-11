@@ -130,11 +130,11 @@ void CLI::readPeConfigFile() {
 
 			if (pe::__removeWiteSpace(line) == std::string("paths:")) {
 				while (std::getline(init_file, line)) {
-					if (pe::__removeWiteSpace(line) == std::string("end")) break;
+					if (pe::__removeWiteSpace(line) == std::string("end")) break; 
 					key_value = CLI::getKeyValue(line);
 					if (key_value.first == std::string("py_path")) {
 						py::exec(std::string("sys.path.append('").append(
-							m_py_os.attr("path").attr("abspath")(CLI::getExecPath().append(key_value.second[0])).cast<std::string>()
+							m_py_os.attr("path").attr("abspath")(CLI::getExecPath().append(key_value.second[0])).attr("replace")("\\","/").cast<std::string>()
 						).append("')"));
 					}
 				}

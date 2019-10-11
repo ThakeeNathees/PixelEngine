@@ -42,9 +42,6 @@
     <ClCompile Include="src\windows\static_initialize.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\windows\FileTree.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\windows\assets_create\ObjectCreator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -64,6 +61,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\windows\file_tree\FileTree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\windows\file_tree\assets_tree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\windows\file_tree\object_tree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -105,9 +111,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="vender\ImGui\imgui_memory_editor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\windows\FileTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\windows\StartWindow.h">
@@ -158,6 +161,9 @@
     <ClInclude Include="src\test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\windows\file_tree\FileTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\logo.png">
@@ -185,12 +191,13 @@
     <None Include="src\pysrc\conf_projupdater.py" />
     <None Include="src\pysrc\obj_maker.py" />
     <None Include="src\pysrc\scene_maker.py" />
-    <None Include="src\pysrc\file_util.py" />
-    <None Include="src\pysrc\math_util.py" />
-    <None Include="src\pysrc\str_util.py" />
-    <None Include="src\pysrc\clean.py" />
     <None Include="src\pysrc\explorer.py" />
     <None Include="src\pysrc\file_tree.py" />
     <None Include="imgui.ini" />
+    <None Include="src\pysrc\proj_init\clean.py" />
+    <None Include="src\pysrc\utils\math_util.py" />
+    <None Include="src\pysrc\utils\str_util.py" />
+    <None Include="src\pysrc\utils\file_util.py" />
+    <None Include="src\pysrc\assets_maker\object_reader.py" />
   </ItemGroup>
 </Project>

@@ -4,7 +4,7 @@
 #include "Resources.h"
 #include "core/EmbededApplication.h"
 
-#include "windows/FileTree.h"
+#include "windows/file_tree/FileTree.h"
 #include "windows/PyInterpriter.h"
 
 #include "windows/assets_create/ObjectCreator.h"

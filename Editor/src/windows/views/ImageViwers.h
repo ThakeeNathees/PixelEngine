@@ -60,7 +60,9 @@ public:
 		m_path = path;
 		m_texture.loadFromFile(path);
 		m_image.setTexture(m_texture, true);
-		m_render_texture.create(static_cast<unsigned int>(m_window_size.x), static_cast<unsigned int>(m_window_size.y-35));
+		m_render_texture.create(
+			static_cast<unsigned int>(m_window_size.x), static_cast<unsigned int>(m_window_size.y-35)
+		);
 		m_bg.setTextureRect(sf::IntRect(0, 0, static_cast<int>(m_window_size.x), static_cast<int>(m_window_size.y)));
 		m_render_texture.draw(m_bg);
 		m_render_texture.draw(m_image);
@@ -99,7 +101,7 @@ private:
 
 	sf::Vector2f m_mouse_pos;
 
-	ImVec2 m_window_size = ImVec2(0,0);
+	ImVec2 m_window_size = ImVec2(800,600);
 
 	bool m_open = false;
 	bool m_is_focus = false;

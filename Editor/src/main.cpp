@@ -68,16 +68,22 @@ int main(int argc, char** argv)
 	window.setIcon( Resources::LOGO.getSize().x, Resources::LOGO.getSize().y, Resources::LOGO.copyToImage().getPixelsPtr());
 	StartWindow::getInstance()->init();
 
-	// start window render loop
-	PE_LOG("start window loop started");
-	StartWindow::getInstance()->dispStartWindow(window);
-	PE_LOG("start window loop ended");
 
-	FileTree::getInstance()->reload();
+	int error = 0;
+	do {
+		// start window render loop
+		PE_LOG("start window loop started");
+		StartWindow::getInstance()->dispStartWindow(window, error);
+		PE_LOG("start window loop ended");
 
-	// Load applicaton's assets
-	int error = CLI::getInstance()->readProjFile(); // TODO: error handle
-	error = Resources::readAssets();
+		FileTree::getInstance()->reload();
+
+		// Load applicaton's assets
+		error = CLI::getInstance()->readProjFile();
+		if (error) { error = 2; continue; }
+		error = Resources::readAssets();
+		if (error) { error = 3; continue; }
+	} while (error);
 
 
 	/**********************     MAIN LOOP     **********************/

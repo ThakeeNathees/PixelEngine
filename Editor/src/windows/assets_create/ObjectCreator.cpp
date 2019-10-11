@@ -112,7 +112,8 @@ void ObjectCreater::render()
 					m_z_index, static_cast<bool>(m_visible), static_cast<bool>(m_persistance));
 
 				m_py_objmaker.attr("writeObject")(obj_tag, obj_file_path);
-				CLI::getInstance()->projFileUpdate(false);
+				int error = CLI::getInstance()->projFileUpdate(false);
+				if (error) { CLI::log("Error: in CLI::projFileUpdate(false) -> project file may damaged", Console::LOGLEVEL_ERROR); }
 				FileTree::getInstance()->reload();
 				m_popen = false;
 			}

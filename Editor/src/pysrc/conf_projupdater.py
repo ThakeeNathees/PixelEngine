@@ -1,3 +1,4 @@
+import os
 
 proj_block_name = 'projects:'
 proj_key = 'porj='
@@ -20,7 +21,7 @@ def _insertProj(proj_name, proj_path, lines):
     line_no = _projLineRange(lines)[1] -1
     ret = lines[:line_no]+[('\t' + proj_key +
                             '"'+proj_name+'"'+','
-                            '"'+proj_path+'"'+
+                            '"'+os.path.abspath(proj_path)+'"'+
                             '\n')] + lines[line_no:]
     return ret
 
@@ -57,6 +58,17 @@ def getProjects(conf_file_path):
     file.close()
     return _getProjects(lines)
 
+## search for project in path and insert
+def importNewProj(proj_file_path, conf_file_path):
+    if os.path.abspath(proj_file_path) in [os.path.abspath(pair[1]) for pair in getProjects(conf_file_path)]:
+        return
+    for file in os.listdir(proj_file_path) :
+        if not os.path.isdir(file):
+            if file.endswith('.peproj'):
+                proj_name = file[:-len('.peproj')]
+                insertNewProj(proj_name, proj_file_path, conf_file_path)
+
+## insert new project
 def insertNewProj(proj_name, proj_path, file_path):
     file = open(file_path, 'r')
     lines = file.readlines()
@@ -81,12 +93,13 @@ def updateProj(path):
     file = open(path, 'w')
     file.write( ''.join(lines) )
     file.close()
-        
+
     
 
-if __name__ == '__main__' and 0:
+if __name__ == '__main__' and 1:
     ##insertNewProj("newProj", "path/to/proj", "E:\\__test\\test\\test.txt")
-    updateProj("E:\\__test\\test\\test.txt")
+    ##updateProj("E:\\__test\\test\\test.txt")
+    importNewProj('.','./peconfig.init')
         
 
 

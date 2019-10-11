@@ -75,11 +75,17 @@ int CLI::readProjFile() {
 }
 
 int CLI::updatePeproj() {
-	projFileUpdate(false);
+	int error;
+	error = projFileUpdate(false);
+	if (error) { return 1; }
+	
 	pe::FileHandler file;
-	int error = file.readProject(m_proj_file_name.c_str());
-	if (error) { PE_LOG("project file reading error"); CLI::log("Error: reading project file was failure!", Console::LOGLEVEL_ERROR); }
-	else { PE_LOG("project file reading success"); CLI::log("Project file has read"); }
+	error = file.readProject(m_proj_file_name.c_str());
+	if (error) { 
+		CLI::log("Error: reading project file was failure!", Console::LOGLEVEL_ERROR); 
+		return error;
+	}
+	else { CLI::log("Project file has read"); }
 	m_peproj = file.getProject();
 	return error;
 }

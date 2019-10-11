@@ -130,10 +130,19 @@ private:
 
 			if ( EmbededApplication::getInstance()->isOpen() && EmbededApplication::getInstance()->isRunning()) {
 				if (ImGui::MenuItem("Reload Project")) {
-					CLI::getInstance()->projFileUpdate(false);
+					int error = CLI::getInstance()->projFileUpdate(false);
+					if (error) { CLI::log("Error: in CLI::projFileUpdate(false) -> project file may damaged", Console::LOGLEVEL_ERROR); }
 					EmbededApplication::getInstance()->reloadApplication();
 				}
 			}
+
+			if (ImGui::MenuItem("Open Log File")) {
+				auto path = CLI::getExecPath().append("/log.txt");
+				long long id = PyUtils::getInstance()->getMathUtil().attr("md5Hash")(path, "long").cast<long long>();
+				TextEditors::openTextEditor("log.txt", path, id);
+				//PyUtils::getInstance()->getOs().attr("system")( std::string("start notepad.exe \"").append(CLI::getExecPath()).append("/log.txt\"") );
+			}
+
 			ImGui::EndMenu();
 		}
 	}

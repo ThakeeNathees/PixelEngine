@@ -41,6 +41,7 @@ private:
 	py::module m_conf_projupdater;
 	py::object m_proj_list;
 	static StartWindow* s_instance;
+	bool m_path_dst_proj = false; // explorer path is for import another project
 
 	// return true if any project is selected?
 	bool renderProjectsList(sf::RenderWindow& window) {
@@ -53,7 +54,6 @@ private:
 					ImGui::EndChild();
 					ImGui::PopStyleVar();
 					ImGui::EndGroup();
-
 					ImGui::End();
 					ImGui::SFML::Render(window);
 					CLI::chDir(m_proj_list.attr("__getitem__")(i).attr("__getitem__")(1).cast<std::string>().c_str());
@@ -87,7 +87,8 @@ public:
 		return s_instance;
 	}
 
-	void dispStartWindow(sf::RenderWindow& window) {
+	void dispStartWindow(sf::RenderWindow& window, int proj_open_error) { // error 2 means proj file read error, 3 means assets file
+
 		sf::Event event; sf::Clock clock;
 		while (window.isOpen()) {
 			// event handle
@@ -100,10 +101,14 @@ public:
 
 			ImGui::SetNextWindowPosCenter(ImGuiCond_Once);
 			ImGui::Begin("Start");
+
+			if (proj_open_error) ImGui::OpenPopup("Project Read Failure!");
+
 			// start title
 			ImGui::Text("Create a new project Here"); ImGui::Text("");
 
 			// start body
+			ImGui::BeginGroup();
 			static char proj_name[1024];
 			ImGui::InputText("proj_name", proj_name, sizeof(proj_name));
 
@@ -111,11 +116,14 @@ public:
 			ImGui::InputText("proj_path", proj_path, sizeof(proj_path));
 			ImGui::SameLine();
 			if (ImGui::ImageButton(Resources::getFileFormatIcon("dir_open"))) {
+				m_path_dst_proj = false;
 				ImGui::OpenPopup("Explorer");
 			}
-
-			if (ImGui::Button("Create")) {
-				if (proj_name[0] == '\0' || proj_path[0]=='\0')
+			ImGui::EndGroup();
+			/* ********************** */
+			ImGui::SameLine();
+			if (ImGui::Button("Create", ImVec2(50, 50))) {
+				if (proj_name[0] == '\0' || proj_path[0] == '\0')
 					ImGui::OpenPopup("Error!");
 				else if (!PyUtils::getInstance()->getStrUtil().attr("isValidName")(std::string(proj_name)).cast<bool>())
 					ImGui::OpenPopup("Invalid Project Name!");
@@ -133,7 +141,11 @@ public:
 			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 20);
 			ImGui::Separator();
 
-			ImGui::Text("Open Project"); ImGui::Text("");
+			ImGui::Text("Open Project"); ImGui::SameLine();
+			if (ImGui::Button("Import Project")) {
+				m_path_dst_proj = true;
+				ImGui::OpenPopup("Explorer");
+			}
 			if (renderProjectsList(window)) return;
 
 			// popups render
@@ -142,7 +154,7 @@ public:
 				ImGui::Image(Resources::getOtherIcon("error")); ImGui::SameLine();
 				if (proj_name[0] == '\0') ImGui::Text("Error! enter a Project Name!");
 				else ImGui::Text("Error! enter the Project Path!");
-				if (ImGui::Button("OK",ImVec2(280, 20))) {
+				if (ImGui::Button("OK", ImVec2(280, 20))) {
 					ImGui::CloseCurrentPopup();
 				}
 				ImGui::EndPopup();
@@ -158,16 +170,42 @@ public:
 				ImGui::EndPopup();
 			}
 
+			if (ImGui::BeginPopupModal("Project Read Failure!")) {
+				ImGui::SetWindowSize(ImVec2(300, 140), ImGuiCond_Once);
+				ImGui::Image(Resources::getOtherIcon("error")); ImGui::SameLine();
+				if (proj_open_error == 2) {
+					ImGui::TextWrapped("Error! reading project file failure! file may be damaged");
+				}
+				else if (proj_open_error == 3){
+					ImGui::TextWrapped("Error! reading assets file failure! file may be damaged");
+				}
+				else {
+					ImGui::TextWrapped("Error! some error occured. Some file may be damaged");
+				}
+				if (ImGui::Button("OK", ImVec2(280, 20))) {
+					proj_open_error = 0;
+					ImGui::CloseCurrentPopup();
+				}
+				ImGui::EndPopup();
+			}
+
 
 			ExplorerPopup::getInstance()->render();
 
+			// get selected path
 			if (ExplorerPopup::getInstance()->isPathSelected()) {
-				const char* c = ExplorerPopup::getInstance()->getSelectedPath().c_str();
-				int i = 0;
-				while (c[i]) {
-					proj_path[i] = c[i++];
+				if (!m_path_dst_proj) {
+					const char* c = ExplorerPopup::getInstance()->getSelectedPath().c_str();
+					int i = 0;
+					while (c[i]) {
+						proj_path[i] = c[i++];
+					}
+					proj_path[i] = 0;
 				}
-				proj_path[i] = 0;
+				else {
+					m_conf_projupdater.attr("importNewProj")(ExplorerPopup::getInstance()->getSelectedPath(), CLI::getExecPath().append("/peconfig.init"));
+					m_proj_list = m_conf_projupdater.attr("getProjects")(CLI::getExecPath().append("/peconfig.init"));
+				}
 				ExplorerPopup::getInstance()->setPathSelectedFalse();
 			}
 			ImGui::End();

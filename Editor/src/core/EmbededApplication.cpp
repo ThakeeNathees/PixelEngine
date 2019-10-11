@@ -6,14 +6,20 @@ EmbededApplication* EmbededApplication::s_instance = nullptr;
 void EmbededApplication::reloadApplication() {
 	try {
 		CLI::getInstance()->updatePeproj();
-		auto application = new pe::Application(CLI::getInstance()->getProjFileName().c_str(), false, &m_render_texture);
-		if (m_application) delete m_application;
-		m_application = application;
-		m_is_running = true;
-		m_render_texture.create(m_application->getWindowSize().x, m_application->getWindowSize().y);
-		m_is_application_reloaded = true;
-		CLI::getInstance()->getConsole()->addLog("Application reload success!", Console::LOGLEVEL_SUCCESS);
-		CLI::getInstance()->getConsole()->addLog("Warning: Running the application inside the engine editor may cause the frame rate drop!", Console::LOGLEVEL_WARNING);
+		
+		try {
+			auto application = new pe::Application(CLI::getInstance()->getProjFileName().c_str(), false, &m_render_texture);
+			if (m_application) delete m_application;
+			m_application = application;
+			m_is_running = true;
+			m_render_texture.create(m_application->getWindowSize().x, m_application->getWindowSize().y);
+			m_is_application_reloaded = true;
+			CLI::getInstance()->getConsole()->addLog("Application reload success!", Console::LOGLEVEL_SUCCESS);
+			CLI::getInstance()->getConsole()->addLog("Warning: Running the application inside the engine editor may cause the frame rate drop!", Console::LOGLEVEL_WARNING);
+		}
+		catch (const std::exception& err){
+			CLI::log(err.what(), Console::LOGLEVEL_ERROR);
+		}
 	}
 	catch (const std::exception & e) {
 		CLI::getInstance()->getConsole()->addLog(e.what(), Console::LOGLEVEL_ERROR);

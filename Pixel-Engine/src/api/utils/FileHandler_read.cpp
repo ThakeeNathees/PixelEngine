@@ -10,7 +10,10 @@ namespace pe
 	int FileHandler::readProject(const char* path) {
 		m_peproj.proj_file_path = path;
 		int error = m_doc->LoadFile(path);
-		if (error) return error;
+		if (error) {
+			PE_LOG("\nError: in pe::FileHandler::readProject(const char*) -> path = %s, tinyxml2_error=%i\n", path, error);
+			return error;
+		}
 		auto root = m_doc->FirstChildElement("Project");
 		m_peproj.title = root->Attribute("title");
 
@@ -57,10 +60,12 @@ namespace pe
 		for (auto path_tag = scenes_tag->FirstChildElement(); path_tag != NULL; path_tag = path_tag->NextSiblingElement()) {
 			m_peproj.scene_paths.push_back(path_tag->GetText());
 		}
+		PE_LOG("project file reading success");
 		return error; // 0 means success
 	} // project
 
 	int FileHandler::readAssets(const char* path) {
+		PE_LOG("\nAssets read begin");
 		int error = m_doc->LoadFile(path);
 		if (error) return error;
 		auto textures = m_doc->FirstChildElement()->FirstChildElement("textures");
@@ -80,14 +85,14 @@ namespace pe
 			std::string  path = texture_tag->GetText();
 
 			if(previous_path != path) texture->loadFromFile(path);
-			
 			Assets::s_assets[texture->m_id] = texture;
+			PE_LOG("\ttexture read : id = %i", id);
 		}
 
 		auto fonts = m_doc->FirstChildElement()->FirstChildElement("fonts");
 		for (auto font_tag = fonts->FirstChildElement(); font_tag != NULL; font_tag = font_tag->NextSiblingElement()) {
 			int id = font_tag->IntAttribute("id");
-			if (Assets::hasAsset(id)) return error;
+			if (Assets::hasAsset(id)) { PE_LOG("\tfont read : id = %i", id); continue;}
 			Font* font = new Font();
 			font->setName(font_tag->Attribute("name"));
 			font->m_id = id;
@@ -96,12 +101,15 @@ namespace pe
 			font->loadFromFile(path);
 			if (!Text::getDefaultFont()) Text::setDefaultFont(font);
 			Assets::s_assets[font->m_id] = font;
+			PE_LOG("\tfont read : id = %i", id);
 		}
-
+		PE_LOG("assets file reading success\n");
 		return error;
 	} // assets
 
 	void FileHandler::readObject(const char* path, Application* app) {
+		PE_LOG("\nobject read begin : %s", path);
+
 		m_doc->LoadFile(path);
 		auto obj_tag = m_doc->FirstChildElement("object");
 		int id = obj_tag->IntAttribute("id");
@@ -136,7 +144,7 @@ namespace pe
 		obj->m_obj_file_path = path;
 		obj->setName(obj_tag->Attribute("name"));
 		//Object::s_next_id = std::max(obj->m_id + 1, Object::s_next_id);
-		PE_LOG("object created: type=%s  id=%i name=%s", type.c_str(), obj->m_id, obj->m_name.c_str());
+		PE_LOG("\tobject created: type=%s  id=%i name=%s", type.c_str(), obj->m_id, obj->m_name.c_str());
 
 		auto prop = obj_tag->FirstChildElement("properties");
 		obj->setVisible(prop->BoolAttribute("visible"));
@@ -190,7 +198,7 @@ namespace pe
 			}
 			obj->setSprite(sprite);
 			Assets::s_assets[sprite->m_id] = sprite;
-			PE_LOG("sprite created: id=%i", sprite->m_id);
+			PE_LOG("\tsprite created: id=%i", sprite->m_id);
 		} // sprite
 
 		// area
@@ -216,7 +224,7 @@ namespace pe
 			}
 			obj->setArea(area);
 			Assets::s_assets[area->m_id] = area;
-			PE_LOG("area created: id=%i", area->m_id);
+			PE_LOG("\tarea created: id=%i", area->m_id);
 		} // area
 
 		// animation
@@ -285,14 +293,15 @@ namespace pe
 			}
 			obj->addAnimation(anim);
 			Assets::s_assets[anim->m_id] = anim;
-			PE_LOG("animation created: id=%i", anim->m_id);
+			PE_LOG("\tanimation created: id=%i", anim->m_id);
 		} // animation
 		Assets::s_assets[obj->m_id] = obj;
 		if (app && obj->isPersistence()) app->addPersistenceObject(obj);
-		PE_LOG("object serialization success");
+		PE_LOG("object file read success\n");
 	} // objects
 
 	void FileHandler::readScenes(const char* path, Application* app) {
+		PE_LOG("\nscene read begin : %s", path);
 		m_doc->LoadFile(path);
 		auto scn_tag = m_doc->FirstChildElement("scene");
 		int id = scn_tag->IntAttribute("id");
@@ -326,7 +335,7 @@ namespace pe
 				bg->setSmooth(bg_tag->FirstChildElement("properties")->BoolAttribute("smooth"));
 			}
 			Assets::s_assets[bg->m_id] = bg;
-			PE_LOG("background created: id=%i", bg->m_id);
+			PE_LOG("\tbackground created: id=%i", bg->m_id);
 		} // bg
 
 		auto objs_tag = scn_tag->FirstChildElement("objects");
@@ -339,6 +348,6 @@ namespace pe
 		}
 		Assets::s_assets[scene->m_id] = scene;
 		if (app) app->addScene(scene);
-		PE_LOG("scene serialization success");
+		PE_LOG("scene file read success");
 	} // scenes
 }

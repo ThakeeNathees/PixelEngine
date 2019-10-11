@@ -27,10 +27,13 @@ namespace pe
 
 	Application::Application(const char* proj_path, bool create_window, sf::RenderTarget* render_target)
 	{
+		PE_LOG("-------------- New Application Creation --------------\n");
 		FileHandler file;
-		int error = file.readProject(proj_path); // TODO: error handle
-		if (error) { PE_LOG("project file reading error"); }
-		else { PE_LOG("project file reading success"); }
+		int error = file.readProject(proj_path);
+		if (error) { 
+			if (!create_window) throw std::exception("Error: in reading project file : project file may be damaged!");
+			else assert(false && "proj file read error");
+		}
 		m_peproj = file.getProject();
 		setDebugMode(m_peproj.is_debug_mode);
 		if (create_window) {
@@ -51,25 +54,25 @@ namespace pe
 		for (auto& path : m_peproj.pypaths) {
 			py::exec(std::string("sys.path.append('").append(path).append("')"));
 		}
-		//	assets.xml				TODO: set assets.xml as the defaule assets path and don't change the name for consistency
+		
 		if (std::string(m_peproj.assets_path) != std::string("")) {
 			error = file.readAssets(m_peproj.assets_path.c_str()); // TODO: error handle
-			if (error) { PE_LOG("assets file reading error"); }
-			else { PE_LOG("assets file reading success"); }
+			if (error) { 
+				if (create_window == false) throw std::exception("Error: in reading assets file : file may be damaged!");
+				else assert(false && "assert file reading failed");
+			}
 		}
 		else; // TODO: create assets.xml file and add
 
 		// obj deserialize
 		for (auto& path : m_peproj.objects_path) {
-			PE_LOG("\nobject deserialization begin : %s", path.c_str());
 			file.readObject(path.c_str(), this);
 		}
 		// scene deserialize
 		for (auto& path : m_peproj.scene_paths) {
-			PE_LOG("\nscene deserialization begin : %s", path.c_str());
 			file.readScenes(path.c_str(), this);
 		}
-		PE_LOG("-------------- scene serialization end --------------\n");
+		PE_LOG("-------------- Deserialization success end --------------\n");
 		
 		// logo
 		int texture_id = m_peproj.logo_texture_id;

@@ -32,19 +32,21 @@ public:
 			PE_LOG("\nERROR: in mehtod CLI::projInit \n%s\n", e.what());
 		}
 	}
-	void projFileUpdate(bool include_pe = true, const std::string& proj_dir=".") {
+	int projFileUpdate(bool include_pe = true, const std::string& proj_dir=".") {
+		int error = 0;
 		try {
-			auto ret = m_py_proj_init.attr("updateProj")(m_proj_file_name, proj_dir, include_pe);
+			m_py_proj_init.attr("updateProj")(m_proj_file_name, proj_dir, include_pe);
 			PE_LOG("CLI::projUpdate success");
 			auto pypaths = PyUtils::getInstance()->getFileUtil().attr("getPyPaths")().cast<std::vector<std::string>>();
 			for (std::string& pypath : pypaths) {
 				py::exec(std::string("if '").append(pypath).append("'not in sys.path : sys.path.append('").append(pypath).append("')"));
 			}
-			PE_LOG("CLI::projUpdate python paths append success");
 		}
 		catch (const std::exception&e){
 			PE_LOG("\nERROR: in method CLI::projUpdate\n%s\n",e.what());
+			error = 1;
 		}
+		return error;
 	}
 	void assetsFileUpdate() {
 		m_py_proj_init.attr("updateAssets")(); // TODO: default smooth ... 

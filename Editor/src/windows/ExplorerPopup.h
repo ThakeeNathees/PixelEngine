@@ -15,8 +15,17 @@ private:
 	}
 	static ExplorerPopup* s_instance;
 	int m_selected = -1;
-
+	int m_parent_window = 0; // 0 - start window, 1- object creator, 2- script creator, 3 - object editor
 public:
+
+	int getParentWindow() {
+		return m_parent_window;
+	}
+	void setParentWindow(int parent_window) {
+		m_parent_window = parent_window;
+	}
+
+
 	static ExplorerPopup* getInstance() {
 		if (s_instance == nullptr)  s_instance = new ExplorerPopup("C:/");
 		return s_instance;
@@ -40,7 +49,7 @@ public:
 		m_py_explorer.attr("reload")();
 	}
 
-	void render(bool is_select_dir = true) {
+	void render() {
 		if (!ImGui::IsPopupOpen("Explorer")) m_p_open = true;
 		if (ImGui::BeginPopupModal("Explorer", &m_p_open)) {
 
@@ -62,10 +71,10 @@ public:
 			}
 			// drive select
 			ImGui::SameLine();
-			const char* drives[] = {"C:/","D:/","E:/"};
+			const char* drives[] = { "C:/","D:/","E:/" };
 			static int current_drive = 0; // C:/
 			if (ImGui::Combo("drive", &current_drive, drives, (int)(sizeof(drives) / sizeof(const char*)))) {
-				m_py_explorer.attr("setPath")( std::string(drives[current_drive]) );
+				m_py_explorer.attr("setPath")(std::string(drives[current_drive]));
 				m_py_explorer.attr("reload")();
 			}
 
@@ -82,7 +91,6 @@ public:
 				// icon
 				std::string item_name = m_py_explorer.attr("getItemName")(i).cast<std::string>();
 				if (m_py_explorer.attr("isItemDir")(i).cast<bool>()) {
-					//ImGui::Image(Resources::FileFormatIcons::DIR_CLOSED); ImGui::SameLine();
 					ImGui::Image(Resources::getFileFormatIcon("dir_close")); ImGui::SameLine();
 				}
 				else {
@@ -97,7 +105,7 @@ public:
 							m_selected = -1;
 							m_py_explorer.attr("pathIn")(i);
 						}
-						else if(!is_select_dir) {
+						else {
 							m_is_path_selected = true;
 							m_selected_path = m_py_explorer.attr("getItemPath")(i).cast<std::string>();
 							m_selected = -1;
@@ -110,19 +118,22 @@ public:
 			ImGui::PopStyleVar();
 
 			// button for dir select and file select
-			if (is_select_dir) {
-				if (ImGui::Button("Select this folder")) {
-					m_is_path_selected = true;
-					if (m_selected < 0 ) m_selected_path = m_py_explorer.attr("getPath")().cast<std::string>();
-					else if (m_selected >=0 && ! m_py_explorer.attr("isItemDir")(m_selected).cast<bool>()) m_selected_path = m_py_explorer.attr("getPath")().cast<std::string>();
-					else m_selected_path = m_selected_path = m_py_explorer.attr("getItemPath")(m_selected).cast<std::string>();
+			if (ImGui::Button("Select this folder")) {
+				m_is_path_selected = true;
+
+				if (m_selected < 0) {
+					m_selected_path = m_py_explorer.attr("getPath")().cast<std::string>();
 					m_selected = -1;
 					ImGui::CloseCurrentPopup();
 				}
-			}
-			else {
-				if (ImGui::Button("Select this file")) {
-					if (m_selected > 0) {
+				else {  // item selected
+					if (!m_py_explorer.attr("isItemDir")(m_selected).cast<bool>()) {
+						m_selected_path = m_py_explorer.attr("getPath")().cast<std::string>();
+						m_selected = -1;
+						m_is_path_selected = true;
+						ImGui::CloseCurrentPopup();
+					}
+					else {
 						m_is_path_selected = true;
 						m_selected_path = m_py_explorer.attr("getItemPath")(m_selected).cast<std::string>();
 						m_selected = -1;

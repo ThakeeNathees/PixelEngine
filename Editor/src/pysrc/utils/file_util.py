@@ -7,6 +7,18 @@ def getProjFileName(path='.'):
             return file
     return ""
 
+## called in object creator
+def getRelDirName(path):
+    abs_path = os.path.abspath(path)
+    dir_name = abs_path
+    if not os.path.isdir(path):
+        dir_name = os.path.dirname(abs_path)
+    try:
+        rel_path = os.path.relpath(dir_name)
+        return rel_path
+    except:
+        return dir_name
+
 def getFileFormat(path):
         if "." not in path: return ""
         return path.split('.')[-1].lower()
@@ -27,16 +39,6 @@ def getPyPaths(working_dir='.', proj_file_name=""):
     for pypath in pypaths:
         ret.append(pypath.text)
     return ret
-        
-    
-
-## return true if path ends with .py, .h, .hpp else false
-def isPathScript(path):
-    if (not os.path.exists(path)) : return False
-    if (os.path.isdir(path)): return False
-    for extention in ['.py', '.h', '.hpp']:
-        if path.endswith(extention): return True
-    return False
 
 
 import ast, _ast
@@ -56,11 +58,18 @@ def getPyFileName(path):
     return name[0]
 
 def relPath(path):
-    return os.path.relpath(path)
+    try: # from drive c to e error
+        rel_path = os.path.relpath(path)
+        return rel_path
+    except Exception as e:
+        return path;
 
 ## convert "C:/dev/proj/src/pyobj1.py" -> "src/"
 def relPyObjDirPath(py_obj_path):
-    return os.path.dirname( os.path.relpath(py_obj_path) )
+    try: ## from drive c to e error
+        rel_path = os.path.dirname( os.path.relpath(py_obj_path) )
+    except Exception as e:
+        return py_obj_path
 
 ## ========================================================================================= pyfile create
 default_template_py = '''\
@@ -148,6 +157,10 @@ def createScript(dir_path, file_name, script_type =0, template=0):
         if script_type == 0: file.write(empty_template_py)
         else: file.write(empty_template_cpp)
     file.close()
-    return  os.path.relpath(file_path)
+    try:
+        rel_path = os.path.relpath(file_path)
+        return rel_path
+    except:
+        return os.path.abspath(rel_path);
 
 ## =========================================================================================

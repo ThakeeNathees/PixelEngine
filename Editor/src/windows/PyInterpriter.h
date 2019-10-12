@@ -74,15 +74,14 @@ public:
 			if (m_scroll_to_bottom) { ImGui::SetScrollHereY(1.0f); m_scroll_to_bottom = false; }
 			ImGui::EndChild();
 
-			ImGui::Text(">>>"); ImGui::SameLine();
 			if (m_set_focus) {
 				m_set_focus = false;
 				ImGui::SetKeyboardFocusHere();
 			}
+			ImGui::Text(">>>"); ImGui::SameLine();
 			if (ImGui::InputText("input", m_input, sizeof(m_input))) {}
 
 			// keyboard short cut
-			/*
 			if (  ImGui::IsRootWindowFocused() && (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) && m_clock.restart().asSeconds() > .1) {
 				ImGui::SetKeyboardFocusHere();
 				m_set_focus = true;
@@ -95,7 +94,6 @@ public:
 					m_input[i] = '\0';
 				}
 			}
-			*/
 
 
 			// TODO: ignore input(), help, ... 

@@ -30,6 +30,7 @@ void ScriptCreator::render()
 		if (ImGui::ImageButton(obj_path_button)) {
 			ExplorerPopup::getInstance()->setPath(".");
 			ImGui::OpenPopup("Explorer");
+			ExplorerPopup::getInstance()->setParentWindow(2);
 		}
 
 		// scr type combo
@@ -95,7 +96,8 @@ void ScriptCreator::render()
 
 
 		// capture selected path to inputs
-		if (ExplorerPopup::getInstance()->isPathSelected()) {
+		if (ExplorerPopup::getInstance()->isPathSelected() && ExplorerPopup::getInstance()->getParentWindow() == 2) {
+			ExplorerPopup::getInstance()->setParentWindow(-1);
 			auto rel_path = PyUtils::getInstance()->getFileUtil().attr("relPath")(ExplorerPopup::getInstance()->getSelectedPath()).cast<std::string>();
 			const char* c = rel_path.c_str();
 			int i = 0; // to copy string

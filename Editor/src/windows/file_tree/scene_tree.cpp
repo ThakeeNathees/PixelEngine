@@ -15,7 +15,7 @@ void FileTree::renderSceneTree(const std::string& path) {
 		// right click
 		if (ImGui::IsItemClicked(1))
 			m_selected_menu_id = id;
-		if (id == m_selected_menu_id) renderRightMouseMenuObject(path, id);
+		if (id == m_selected_menu_id) renderRightMouseMenuScene(path, id);
 		ImGui::SameLine(); ImGui::SetCursorPosX(dir_icon_pos); ImGui::Image(Resources::getFileFormatIcon("scene_file"));
 
 		// TODO: add object references
@@ -24,7 +24,7 @@ void FileTree::renderSceneTree(const std::string& path) {
 	}
 	else { // object close
 		if (ImGui::IsItemClicked(1)) m_selected_menu_id = id;
-		if (id == m_selected_menu_id) renderRightMouseMenuObject(path, id);
+		if (id == m_selected_menu_id) renderRightMouseMenuScene(path, id);
 		ImGui::SameLine(); ImGui::SetCursorPosX(dir_icon_pos); ImGui::Image(Resources::getFileFormatIcon("scene_file"));
 
 	}

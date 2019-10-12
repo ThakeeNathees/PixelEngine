@@ -19,7 +19,7 @@ private:
 	char m_obj_name[1024] = {};
 	char m_obj_path[1024] = {};
 	char m_script_path[1024] = {};
-	char m_class_name[1024] = {};
+	char m_script_name[1024] = {};
 
 	std::string m_class_path;
 	pe::Object::ObjectType m_pe_obj_type;
@@ -30,7 +30,7 @@ private:
 	int m_persistance = 0;
 	
 	// explorer path sotre switcher
-	int m_path_dst_ind=0;
+	int m_path_dst_ind=0; // 0 - obj path, 1 - script path
 
 public:
 	static ObjectCreater* getInstance() {
@@ -47,7 +47,7 @@ public:
 		m_obj_name[0]		= '\0';
 		m_obj_path[0]		= '\0';
 		m_script_path[0]	= '\0';
-		m_class_name[0]		= '\0';
+		m_script_name[0]		= '\0';
 
 		m_obj_type		= 0;
 		m_z_index		= 0;

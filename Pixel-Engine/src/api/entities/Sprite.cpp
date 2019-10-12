@@ -19,7 +19,7 @@ namespace pe
 		if ((index < 0) || (index > getFrameCount())) {
 			throw std::exception("Error: in pe::Sprite::setFrameIndex(int) -> invalid frame index");
 		}
-		if (m_texture == nullptr) {
+		if (!m_texture) {
 			throw std::exception("Error: in pe::Sprite::setFrameIndex(ind) -> texture was nullptr, assign a texture first");
 		}
 		int width  = m_texture->getSize().x / std::get<0>(m_frames).x;

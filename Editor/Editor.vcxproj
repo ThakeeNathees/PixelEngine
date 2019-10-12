@@ -58,7 +58,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)vender\simpledir;$(ProjectDir)vender\ImGuiColorTextEdit;$(ProjectDir)vender\ImSf;$(ProjectDir)vender\ImGui;$(SolutionDir)Pixel-Engine\src\api;$(SolutionDir)vender\pybind\include;$(SolutionDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)vender\ImGuiAddnl;$(ProjectDir)src;$(ProjectDir)vender\simpledir;$(ProjectDir)vender\ImGuiColorTextEdit;$(ProjectDir)vender\ImSf;$(ProjectDir)vender\ImGui;$(SolutionDir)Pixel-Engine\src\api;$(SolutionDir)vender\pybind\include;$(SolutionDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PreprocessorDefinitions>PE_PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -80,7 +80,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)vender\simpledir;$(ProjectDir)vender\ImGuiColorTextEdit;$(ProjectDir)vender\ImSf;$(ProjectDir)vender\ImGui;$(SolutionDir)Pixel-Engine\src\api;$(SolutionDir)vender\pybind\include;$(SolutionDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)vender\ImGuiAddnl;$(ProjectDir)src;$(ProjectDir)vender\simpledir;$(ProjectDir)vender\ImGuiColorTextEdit;$(ProjectDir)vender\ImSf;$(ProjectDir)vender\ImGui;$(SolutionDir)Pixel-Engine\src\api;$(SolutionDir)vender\pybind\include;$(SolutionDir)vender\SFML-2.5.1\include</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PreprocessorDefinitions>PE_PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -109,7 +109,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\core\PyUtils.cpp" />
-    <ClCompile Include="src\test.cpp" />
+    <ClCompile Include="src\windows\projerty_editor\ObjPropEditor.cpp" />
+    <ClCompile Include="vender\ImGuiAddnl\node_graph.cpp" />
     <ClCompile Include="src\windows\assets_create\ObjectCreator.cpp" />
     <ClCompile Include="src\windows\assets_create\ScriptCreator.cpp" />
     <ClCompile Include="src\windows\file_tree\assets_tree.cpp" />
@@ -132,7 +133,8 @@
     <ClInclude Include="src\core\MainMenuBar.h" />
     <ClInclude Include="src\core\PyUtils.h" />
     <ClInclude Include="src\core\Resources.h" />
-    <ClInclude Include="src\test.h" />
+    <ClInclude Include="src\windows\projerty_editor\ObjPropEditor.h" />
+    <ClInclude Include="vender\ImGuiAddnl\node_graph.h" />
     <ClInclude Include="src\windows\assets_create\ObjectCreator.h" />
     <ClInclude Include="src\windows\assets_create\ScriptsCreator.h" />
     <ClInclude Include="src\windows\ExplorerPopup.h" />

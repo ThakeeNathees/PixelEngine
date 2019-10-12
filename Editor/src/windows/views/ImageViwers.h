@@ -22,7 +22,7 @@ public:
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Middle)) {
 					m_image.setPosition(-mouse_ini_pos + m_mouse_pos + image_ini_pos);
 					m_render_texture.clear();
-					m_render_texture.draw(m_bg);
+					m_render_texture.draw(Resources::PNG_BG_SPRITE);
 					m_render_texture.draw(m_image);
 				}
 			}
@@ -38,7 +38,7 @@ public:
 				else if (m_image.getScale().x > .1) m_image.scale(.9f, .9f);
 				
 				m_render_texture.clear();
-				m_render_texture.draw(m_bg);
+				m_render_texture.draw(Resources::PNG_BG_SPRITE);
 				m_render_texture.draw(m_image);
 			}
 
@@ -46,8 +46,7 @@ public:
 			if (event.type == sf::Event::EventType::MouseButtonReleased) {
 				if (event.mouseButton.button == sf::Mouse::Button::Left) {
 					m_render_texture.create(static_cast<unsigned int>(m_window_size.x), static_cast<unsigned int>(m_window_size.y - 35));
-					m_bg.setTextureRect(sf::IntRect(0, 0, static_cast<int>(m_window_size.x), static_cast<int>(m_window_size.y)));
-					m_render_texture.draw(m_bg);
+					m_render_texture.draw(Resources::PNG_BG_SPRITE);
 					m_render_texture.draw(m_image);
 				}
 			}
@@ -63,8 +62,8 @@ public:
 		m_render_texture.create(
 			static_cast<unsigned int>(m_window_size.x), static_cast<unsigned int>(m_window_size.y-35)
 		);
-		m_bg.setTextureRect(sf::IntRect(0, 0, static_cast<int>(m_window_size.x), static_cast<int>(m_window_size.y)));
-		m_render_texture.draw(m_bg);
+
+		m_render_texture.draw(Resources::PNG_BG_SPRITE);
 		m_render_texture.draw(m_image);
 	}
 
@@ -90,12 +89,9 @@ public:
 
 
 private:
-	ImageViwer() {
-		m_bg.setTexture(Resources::PNG_BG);
-	}
+	ImageViwer() {}
 	std::string m_path;
 	sf::Texture m_texture;
-	sf::Sprite m_bg;
 	sf::Sprite m_image;
 	sf::RenderTexture m_render_texture;
 

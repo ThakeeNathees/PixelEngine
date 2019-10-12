@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "test.h"
+#include "node_graph.h"
 #define strncpy strncpy_s
 
 // Creating a node graph editor for ImGui
@@ -20,7 +20,7 @@ static inline ImVec2 operator-(const ImVec2& lhs, const ImVec2& rhs) { return Im
 // Note that we storing links are INDICES (not ID) to make example code shorter, obviously a bad idea for any general purpose code.
 void ShowExampleAppCustomNodeGraph(bool* opened)
 {
-	//ImGui::SetNextWindowSize(ImVec2(700, 600), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(700, 600), ImGuiCond_Once);
 	if (!ImGui::Begin("Example: Custom Node Graph", opened))
 	{
 		ImGui::End();

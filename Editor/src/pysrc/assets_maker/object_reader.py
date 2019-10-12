@@ -64,10 +64,21 @@ class ObjectTag:
     def setClassName(self,class_name):
         class_tag = self.root.find('class')
         class_tag.attrib['name'] = class_name
+
+    def getScriptPath(self):
+        class_tag = self.root.find('class')
+        return class_tag.text 
+    def setScriptPath(self, path):
+        class_tag = self.root.find('class')
+        class_tag.text = path
     
+    ## 0 -unknown, 1 = py, 2= cpp
     def getObjectType(self):
         class_tag = self.root.find('class')
-        return class_tag.attrib['type']
+        cls_type = class_tag.attrib['type']
+        if cls_type == "PYTHON_OBJECT": return 1
+        if cls_type == "CPP_OBJECT" : return 2
+        return 0
     
     def setObjectType(self,obj_type):
         assert class_type in ['PYTHON_OBJECT', 'CPP_OBJECT']
@@ -148,6 +159,23 @@ class ObjectTag:
         return self.root.find('sprite') is not None
     def getSpriteTag(self):
         return self.root.find('sprite')
+    def getSpriteTextureId(self):
+        return int(self.root.find('sprite').find('texture').attrib['id'])
+    def getSpriteTextureRect(self):
+        return [
+            int(self.root.find('sprite').find('texture_rect').attrib['left']),
+            int(self.root.find('sprite').find('texture_rect').attrib['top']),
+            int(self.root.find('sprite').find('texture_rect').attrib['width']),
+            int(self.root.find('sprite').find('texture_rect').attrib['height'])
+            ]
+    def getSpriteFrames(self):
+        return [
+            int(self.root.find('sprite').find('frames').attrib['x']),
+            int(self.root.find('sprite').find('frames').attrib['y']),
+            int(self.root.find('sprite').find('frames').attrib['offset_x']),
+            int(self.root.find('sprite').find('frames').attrib['offset_y']),
+            int(self.root.find('sprite').find('frames').attrib['index']),
+            ]
     
     def hasAreaTag(self):
         return self.root.find('area') is not None

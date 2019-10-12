@@ -18,6 +18,7 @@ private:
 	bool m_popen = false;
 	int m_script_type = 0; // 0: python, 1: cpp;
 	int m_template_type = 0; // 0 : default, 1:no comment 2: empty
+	int m_parent_window = -1; // 0 - obj creator, 1 - obj editor
 
 public:
 	static ScriptCreator* getInstance() {
@@ -27,6 +28,13 @@ public:
 
 	void open() { m_popen = true; }
 	bool isOpen() { return m_popen == true; }
+
+	void setParentWindow(int parent_window) {
+		m_parent_window = parent_window;
+	}
+	int getParentWindow() const {
+		return m_parent_window;
+	}
 
 	void clearValues() {
 		m_script_name[0] = '\0';

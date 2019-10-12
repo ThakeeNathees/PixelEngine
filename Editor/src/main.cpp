@@ -1,6 +1,5 @@
 #include "pch.h"
 
-#include "test.h"
 
 #include "core/CLI.h"
 #include "windows/StartWindow.h"
@@ -34,11 +33,14 @@ PYBIND11_EMBEDDED_MODULE(peio, m) {
 }
 
 
+#include "node_graph.h"
 
 #include "windows/file_tree/FileTree.h"
 
 #include "windows/assets_create/ObjectCreator.h"
 #include "windows/assets_create/ScriptsCreator.h"
+
+#include "windows/projerty_editor/ObjPropEditor.h"
 
 
 /* ****************** end of includes  *****************  */
@@ -66,7 +68,9 @@ int main(int argc, char** argv)
 	Logger::init(CLI::getExecPath().append("/log.txt") );
 	PE_LOG("Pixel-Engine initialized"); CLI::log("Engine Initialized", Console::LOGLEVEL_SUCCESS);
 	window.setIcon( Resources::LOGO.getSize().x, Resources::LOGO.getSize().y, Resources::LOGO.copyToImage().getPixelsPtr());
+
 	StartWindow::getInstance()->init();
+	Resources::init(w, h);
 
 
 	int error = 0;
@@ -93,14 +97,17 @@ int main(int argc, char** argv)
 
 	while (window.isOpen()) {
 
-		// event handle
+		/* ***************** Event Handle ********************** */
 		while (window.pollEvent(event)) {
 			ImGui::SFML::ProcessEvent(event);
 			ImageViwer::getInstance()->handleEvent(event);
 			FontViwer::getInstance()->handleEvent(event);
 
 			if (event.type == sf::Event::Closed) window.close();
-			if (event.type == sf::Event::GainedFocus) {  FileTree::getInstance()->reload(); }
+			// gain focus
+			if (event.type == sf::Event::GainedFocus) { 
+				FileTree::getInstance()->reload(); 
+			}
 			
 			// event handle for applicaton
 			if (EmbededApplication::getInstance()->isRunning()) {
@@ -132,7 +139,7 @@ int main(int argc, char** argv)
 			}
 		}
 
-		// render windows
+		/* ****************** Render Windows ******************** */
 		show_dock_space();
 		MainMenuBar::getInstance()->render();
 
@@ -147,14 +154,15 @@ int main(int argc, char** argv)
 
 		ObjectCreater::getInstance()->render();
 		ScriptCreator::getInstance()->render();
+
+		ObjPropEditor::getinstance()->render();
 		
 		EmbededApplication::getInstance()->render();
 
 		/* node editor
-		static bool open = true;
-		if (open)
-			ShowExampleAppCustomNodeGraph(&open);
 		*/
+		static bool open = true;
+		//if (open)ShowExampleAppCustomNodeGraph(&open);
 
 		ImGui::ShowTestWindow();
 

@@ -10,3 +10,4 @@ std::map<std::string, Resources::FontData> Resources::s_fonts;
 sf::Texture Resources::LOGO;
 sf::Texture Resources::LOGO_PE;
 sf::Texture Resources::PNG_BG;
+sf::Sprite Resources::PNG_BG_SPRITE;

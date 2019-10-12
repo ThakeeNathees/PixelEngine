@@ -706,10 +706,14 @@ void TextEditor::HandleKeyboardInputs()
 	
 	/* modified by https://github.com/ThakeeNathees/ */
 	m_is_window_focus = ImGui::IsWindowFocused();
+	// the above keys stuck (and not clear) when press alt+tab (get out of window and get back)
+	alt = sf::Keyboard::isKeyPressed(sf::Keyboard::LAlt) || sf::Keyboard::isKeyPressed(sf::Keyboard::RAlt);
+	ctrl = sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) || sf::Keyboard::isKeyPressed(sf::Keyboard::LControl);
+	shift = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) || sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
 	/*==============================================*/
 	
 
-	if (ImGui::IsWindowFocused())
+	if (ImGui::IsWindowFocused() )
 	{
 		if (ImGui::IsWindowHovered())
 			ImGui::SetMouseCursor(ImGuiMouseCursor_TextInput);
@@ -717,6 +721,7 @@ void TextEditor::HandleKeyboardInputs()
 
 		io.WantCaptureKeyboard = true;
 		io.WantTextInput = true;
+
 
 		if (!IsReadOnly() && ctrl && !shift && !alt && ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Z)))
 			Undo();

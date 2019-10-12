@@ -15,6 +15,12 @@ public:
 	static sf::Texture LOGO;
 	static sf::Texture LOGO_PE;
 	static sf::Texture PNG_BG;
+	static sf::Sprite PNG_BG_SPRITE;
+
+	static void init(int w, int h) {
+		PNG_BG_SPRITE.setTexture(PNG_BG);
+		PNG_BG_SPRITE.setTextureRect(sf::IntRect(0,0,w, h));
+	}
 
 	static int readAssets() {
 		pe::FileHandler file;

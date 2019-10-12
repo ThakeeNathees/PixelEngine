@@ -51,6 +51,7 @@ int main(int argc, char** argv)
 	py::scoped_interpreter intrp;
 	py::exec("import sys, os");
 	py::exec("import pixel_engine as pe");
+	py::exec("import peio");
 
 	// create window
 	unsigned int w = sf::VideoMode::getDesktopMode().width - 600;
@@ -155,7 +156,7 @@ int main(int argc, char** argv)
 		ObjectCreater::getInstance()->render();
 		ScriptCreator::getInstance()->render();
 
-		ObjPropEditor::getinstance()->render();
+		ObjPropEditor::getInstance()->render();
 		
 		EmbededApplication::getInstance()->render();
 

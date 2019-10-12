@@ -3,6 +3,8 @@
 
 class ObjPropEditor
 {
+public:
+	bool m_open = true;
 private:
 	static ObjPropEditor* s_instance;
 	static int s_tex_size;
@@ -26,7 +28,7 @@ private:
 
 
 public:
-	static ObjPropEditor* getinstance() {
+	static ObjPropEditor* getInstance() {
 		if (s_instance == nullptr) {
 			s_instance = new ObjPropEditor();
 			s_instance->m_render_texture.create(s_tex_size, s_tex_size);
@@ -58,7 +60,7 @@ public:
 			buffer = m_obj_tag->attr("getName")().cast<std::string>();
 			c = buffer.c_str(); i = 0;
 			while (c[i])  m_obj_name[i] = c[i++]; m_obj_name[i] = 0;
-			buffer = m_obj_tag->attr("getClassName")().cast<std::string>();
+			buffer = m_obj_tag->attr("getScriptName")().cast<std::string>();
 			c = buffer.c_str(); i = 0;
 			while (c[i])  m_script_name[i] = c[i++]; m_obj_name[i] = 0;
 			buffer = m_obj_tag->attr("getScriptPath")().cast<std::string>();

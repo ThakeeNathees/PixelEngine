@@ -37,6 +37,9 @@ class ObjectTag:
         doc = ET.parse(path)
         self.root  = doc.getroot()
 
+    def getPath(self):
+        return self.path
+
     def reload(self):
         doc = ET.parse(self.path)
         self.root  = doc.getroot()
@@ -50,7 +53,7 @@ class ObjectTag:
 
     def getName(self):
         return self.root.attrib['name']
-    def setName(name):
+    def setName(self, name):
         self.root.attrib['name'] = name
         
     def getId(self):
@@ -58,12 +61,12 @@ class ObjectTag:
     def _setId(self,_id):
         self.root.attrib['id'] = str(_id)
 
-    def getClassName(self):
+    def getScriptName(self):
         class_tag = self.root.find('class')
         return class_tag.attrib['name']
-    def setClassName(self,class_name):
+    def setScriptName(self,script_name):
         class_tag = self.root.find('class')
-        class_tag.attrib['name'] = class_name
+        class_tag.attrib['name'] = script_name
 
     def getScriptPath(self):
         class_tag = self.root.find('class')
@@ -81,7 +84,7 @@ class ObjectTag:
         return 0
     
     def setObjectType(self,obj_type):
-        assert class_type in ['PYTHON_OBJECT', 'CPP_OBJECT']
+        assert obj_type in ['PYTHON_OBJECT', 'CPP_OBJECT']
         class_tag = self.root.find('class')
         class_tag.attrib['type'] = obj_type
 

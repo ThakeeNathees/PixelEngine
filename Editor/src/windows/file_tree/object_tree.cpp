@@ -65,7 +65,7 @@ void FileTree::renderRightMouseMenuObject(const std::string& path, long long id)
 
 
 		if (ImGui::Selectable("Edit")) {
-			ObjPropEditor::getinstance()->setObjTag(&m_objects[id]);
+			ObjPropEditor::getInstance()->setObjTag(&m_objects[id]);
 		}
 
 		if (ImGui::Selectable("Open in TextEditor")) {

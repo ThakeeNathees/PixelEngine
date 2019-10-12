@@ -108,7 +108,6 @@ public:
 			ImGui::Text("Create a new project Here"); ImGui::Text("");
 
 			// start body
-			ImGui::BeginGroup();
 			static char proj_name[1024];
 			ImGui::InputText("proj_name", proj_name, sizeof(proj_name));
 
@@ -119,10 +118,9 @@ public:
 				m_path_dst_proj = false;
 				ImGui::OpenPopup("Explorer");
 			}
-			ImGui::EndGroup();
+
 			/* ********************** */
-			ImGui::SameLine();
-			if (ImGui::Button("Create", ImVec2(50, 50))) {
+			if (ImGui::Button("Create")) {
 				if (proj_name[0] == '\0' || proj_path[0] == '\0')
 					ImGui::OpenPopup("Error!");
 				else if (!PyUtils::getInstance()->getStrUtil().attr("isValidName")(std::string(proj_name)).cast<bool>())
@@ -136,16 +134,17 @@ public:
 					return;
 				}
 			}
+			ImGui::SameLine();
+			if (ImGui::Button("Import Project")) {
+				m_path_dst_proj = true;
+				ImGui::OpenPopup("Explorer");
+			}
 
 			// older project list
 			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 20);
 			ImGui::Separator();
 
-			ImGui::Text("Open Project"); ImGui::SameLine();
-			if (ImGui::Button("Import Project")) {
-				m_path_dst_proj = true;
-				ImGui::OpenPopup("Explorer");
-			}
+			ImGui::Text("Open Project");
 			if (renderProjectsList(window)) return;
 
 			// popups render

@@ -14,6 +14,9 @@ private:
 	{
 		auto m = py::module::import("file_tree");
 		m_py_filetree = m.attr("FileTree")(CLI::getCwd());
+		m_object_reader = py::module::import("object_reader");
+		reloadObjects();
+
 	}
 
 	static FileTree* s_instance;
@@ -40,7 +43,17 @@ public:
 	void reload() {
 		auto m = py::module::import("file_tree");
 		m_py_filetree = m.attr("FileTree")(CLI::getCwd());
-		m_object_reader = py::module::import("object_reader");
+		reloadObjects();
+	}
+
+	void reloadObjects() {
+		for (auto path : m_py_filetree.attr("object_paths").cast<std::vector<std::string>>()) {
+			long long id = PyUtils::getInstance()->getMathUtil().attr("md5Hash")(path, "long").cast<long long>();
+			if (m_objects.find(id) == m_objects.end()) {
+				auto obj_tag = m_object_reader.attr("ObjectTag")(path);
+				m_objects[id] = obj_tag;
+			}
+		}
 	}
 	
 	void render() {

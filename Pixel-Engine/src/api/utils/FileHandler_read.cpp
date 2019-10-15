@@ -55,6 +55,18 @@ namespace pe
 			if (pypath_tag->GetText() != NULL) m_peproj.pypaths.push_back(pypath_tag->GetText());
 		}
 
+		auto areas_tag = root->FirstChildElement("areas");
+		m_peproj.next_area_id = areas_tag->IntAttribute("next_id");
+
+		auto sprites_tag = root->FirstChildElement("sprites");
+		m_peproj.next_sprite_id = sprites_tag->IntAttribute("next_id");
+
+		auto backgrounds_tag = root->FirstChildElement("backgrounds");
+		m_peproj.next_bg_id = backgrounds_tag->IntAttribute("next_id");
+
+		auto anims_tag = root->FirstChildElement("animations");
+		m_peproj.next_anim_id = anims_tag->IntAttribute("next_id");
+
 		auto scenes_tag = root->FirstChildElement("scenes");
 		m_peproj.next_scn_id = scenes_tag->IntAttribute("next_id");
 		for (auto path_tag = scenes_tag->FirstChildElement(); path_tag != NULL; path_tag = path_tag->NextSiblingElement()) {

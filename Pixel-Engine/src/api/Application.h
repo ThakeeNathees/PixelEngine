@@ -22,6 +22,11 @@ namespace pe {
 		int next_obj_id = static_cast<int>(pe::Asset::Type::Object);
 		int next_scn_id = static_cast<int>(pe::Asset::Type::Scene);
 
+		int next_area_id = static_cast<int>(pe::Asset::Type::Area);
+		int next_sprite_id = static_cast<int>(pe::Asset::Type::Sprite);
+		int next_bg_id = static_cast<int>(pe::Asset::Type::Background);
+		int next_anim_id = static_cast<int>(pe::Asset::Type::Animation);
+
 	};
 
 	class PIXEL_ENGINE_API Application

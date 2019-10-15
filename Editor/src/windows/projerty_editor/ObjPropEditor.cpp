@@ -15,7 +15,6 @@ void ObjPropEditor::render() {
 
 	if (m_open) {
 
-
 		ImGui::SetNextWindowSize(ImVec2(600, 800), ImGuiCond_Once);
 		ImGui::Begin("Object Property Editor", &m_open);
 
@@ -79,6 +78,65 @@ void ObjPropEditor::render() {
 				else m_obj_tag->attr("setPersistence")(false);
 			}
 		}
+
+		ImGui::Text("position");
+		static float pos_x = 0, pos_y = 0;
+		if (m_obj_tag) {
+			auto pos = m_obj_tag->attr("getPosition")().cast<std::vector<float>>();
+			pos_x = pos[0]; pos_y = pos[1];
+		}
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * witdh_frac/4);
+		if (ImGui::InputFloat("posx", &pos_x) && m_obj_tag) {
+			auto pos = m_obj_tag->attr("setPosition")(pos_x, pos_y);
+		} ImGui::SameLine();
+		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * witdh_frac/4);
+		if (ImGui::InputFloat("posy", &pos_y) && m_obj_tag) {
+			auto pos = m_obj_tag->attr("setPosition")(pos_x, pos_y);
+		} 
+
+		static float rot = 0;
+		ImGui::Text("rotation"); ImGui::SameLine();
+		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * witdh_frac/2);
+		if (m_obj_tag) rot = m_obj_tag->attr("getRotation")().cast<float>();
+		if (ImGui::InputFloat("angle", &rot) && m_obj_tag) {
+			m_obj_tag->attr("setRotation")(rot);
+		}
+
+		ImGui::Text("scale   ");
+		static float scale_x = 0, scale_y = 0;
+		if (m_obj_tag) {
+			auto scale = m_obj_tag->attr("getScale")().cast<std::vector<float>>();
+			scale_x = scale[0]; scale_y = scale[1];
+		}
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * witdh_frac / 4);
+		if (ImGui::InputFloat("sclx", &scale_x) && m_obj_tag) {
+			auto pos = m_obj_tag->attr("setScale")(scale_x, scale_y);
+		} ImGui::SameLine();
+		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * witdh_frac / 4);
+		if (ImGui::InputFloat("scly", &scale_y) && m_obj_tag) {
+			auto pos = m_obj_tag->attr("setScale")(scale_x, scale_y);
+		}
+
+		ImGui::Text("origin  ");
+		static float origin_x = 0, origin_y = 0;
+		if (m_obj_tag) {
+			auto origin = m_obj_tag->attr("getOrigin")().cast<std::vector<float>>();
+			origin_x = origin[0]; scale_y = origin[1];
+		}
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * witdh_frac / 4);
+		if (ImGui::InputFloat("orgx", &origin_x) && m_obj_tag) {
+			auto pos = m_obj_tag->attr("setOrigin")(origin_x, origin_y);
+		} ImGui::SameLine();
+		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * witdh_frac / 4);
+		if (ImGui::InputFloat("orgy", &origin_y) && m_obj_tag) {
+			auto pos = m_obj_tag->attr("setOrigin")(origin_x, origin_y);
+		}
+
+
+
 
 		/**********************  Apply Button *********************************/
 

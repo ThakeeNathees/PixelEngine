@@ -72,7 +72,6 @@ public:
 			m_visible = m_obj_tag->attr("isVisible")().cast<bool>();
 			m_persistance = m_obj_tag->attr("isPersistence")().cast<bool>();
 
-			
 
 		}
 	}

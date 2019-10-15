@@ -151,7 +151,7 @@ private:
 	void renderWindowMenu() {
 		if (ImGui::BeginMenu("Window")) {
 			if (ImGui::MenuItem("File Explorer", NULL, &FileTree::getInstance()->m_open)) {}
-			if (ImGui::MenuItem("object editor", NULL, &ObjPropEditor::getInstance()->m_open)) {}
+			if (ImGui::MenuItem("Object Editor", NULL, &ObjPropEditor::getInstance()->m_open)) {}
 			if (ImGui::MenuItem("Application", NULL, &EmbededApplication::getInstance()->m_open )) {}
 			if (ImGui::MenuItem("Console", NULL, &CLI::getInstance()->getConsole()->m_open)) {}
 			if (ImGui::MenuItem("Python Interpriter", NULL, &PyInterpriter::getInstance()->m_open)) {}

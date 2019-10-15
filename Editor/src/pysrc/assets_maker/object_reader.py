@@ -133,7 +133,7 @@ class ObjectTag:
     def getRotation(self):
         trans_tag = self.root.find('transform')
         return float(trans_tag.find('rotation').attrib['angle'])
-    def setRotation(rot):
+    def setRotation(self, rot):
         trans_tag = self.root.find('transform')
         trans_tag.find('rotation').attrib['angle'] = str(rot)
     
@@ -157,9 +157,15 @@ class ObjectTag:
         origin_tag.attrib['x'] = str(x)
         origin_tag.attrib['y'] = str(y)
         
-
+    ## sprite
     def hasSpriteTag(self):
         return self.root.find('sprite') is not None
+
+    def createSprite(self, tex_id=-1): ## todo
+        if not self.hasSpriteTag():
+            new_sprite = ET.Element('sprite')
+            self.root.insert(len(self.root), new_sprite)
+
     def getSpriteTag(self):
         return self.root.find('sprite')
     def getSpriteTextureId(self):
@@ -182,6 +188,7 @@ class ObjectTag:
     
     def hasAreaTag(self):
         return self.root.find('area') is not None
+
     def getAreaTag(self):
         return self.root.find('area')
 

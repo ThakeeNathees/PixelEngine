@@ -3,13 +3,14 @@
 ## TODO ########################################################################
 	
 HIGHT PRIORITY
-	editor object creation -> python object default script or something 
-	text_editor close are you sure, delete editor and reopen next time
 
-	search for existing project in start window
+	delete sprite, area, name -> id and name 
+	set assets.xml as default path : assets.xml name consistancy
+
+	if sprite.texture id < 0 -> sprite has no texture so no need to draw 
+
+	conf.init at SandBox.exe -> erase conf="degug" or "release"
 	runtime object creation depricate
-
-	default open texteditor
 
 	windows:
 		sprite editor
@@ -17,29 +18,30 @@ HIGHT PRIORITY
 		animation editor
 		scene creator
 		scene editor window
-	
-	console and file log 
 
 
 LOW PRIORITY
+	proj init for python simplyfied dir template
+	store window is open in conf.init, new fonts, selected fonts, font scale, 
+	add script reload key to conf.init or some where else
 	*** persistence objects are automatically add to all scene without adding them *** 
 	for python user:
 		drawTexture()
 		self.isIntersect(other)
 		pe.Assets.hasAsset(name) -> pe.Assets.hasTexture(name), pe.Assets.hasFont(name)
-	assets.xml name consistancy
 	local python:
 		add every files in sys.path in project locally
+	config.init -> optimize // paths
+	
 	pybind
 		window, application
-	config.init -> optimize // paths
 
 	.def("someMethod", &sf::someMethod -> .def("someMethod", [](self, args){ error_check; self.someMethod(); } )
 		self.getArea().getShape().getPoint( out_of_range ) -> handle assertion -> throw
 
-	time map
+	tile map
 	camera
-	explorer popup asset file icon update
+	explorer popup asset file icon update at resources
 	add object m_process_priority
 	remove persistence object from vector
 	nexeScene(), previousScene() => scene stack

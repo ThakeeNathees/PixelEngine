@@ -46,8 +46,6 @@ void FileTree::renderObjectTree(const std::string& path) {
 			if (ImGui::TreeNodeEx("Animations", node_flags)) {}
 			//if (ImGui::TreeNodeEx(obj_tag.attr("getAreaTag")().attr("attrib").attr("__getitem__")("name").cast<std::string>().c_str(), node_flags)) {}
 		}
-		
-
 
 		ImGui::TreePop();
 	}

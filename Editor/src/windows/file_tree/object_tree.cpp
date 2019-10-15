@@ -66,6 +66,14 @@ void FileTree::renderRightMouseMenuObject(const std::string& path, long long id)
 			ObjPropEditor::getInstance()->setObjTag(&m_objects[id]);
 		}
 
+		if (!m_objects[id].attr("hasSpriteTag")().cast<bool>()) {
+			if (ImGui::MenuItem("New Sprite")) {
+				int spr_id = CLI::getInstance()->getPeproj().next_sprite_id++;
+				m_objects[id].attr("createSprite")(spr_id);
+				m_objects[id].attr("save")();
+			}
+		}
+
 		if (ImGui::Selectable("Open in TextEditor")) {
 			std::string title = PyUtils::getInstance()->getOs().attr("path").attr("basename")(path).cast<std::string>();
 			TextEditors::openTextEditor(title, path, id, TextEditor::LanguageDefinition::C());

@@ -46,10 +46,16 @@ namespace pe
 		deleteObject(id);
 		Object* obj = nullptr;
 		if (type == pe::Object::ObjectType::CPP_OBJECT) {
-			auto pair = s_object_registry.find(class_name);
-			assert(pair != s_object_registry.end() && "unregistered class_name to construct use REGISTER_CLASS macro to register your classes");
-			Object* obj = pair->second(class_name);
-			addAsset(obj);
+			if (class_name != std::string("")) {
+				auto pair = s_object_registry.find(class_name);
+				assert(pair != s_object_registry.end() && "unregistered class_name to construct use REGISTER_CLASS macro to register your classes");
+				Object* obj = pair->second(class_name);
+				addAsset(obj);
+			}
+			else {
+				obj = new pe::Object(id);
+				addAsset(obj);
+			}
 		}
 		else {
 			obj = new PythonObject(class_name, id);

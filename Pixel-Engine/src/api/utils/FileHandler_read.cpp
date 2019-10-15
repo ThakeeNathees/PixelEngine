@@ -153,9 +153,8 @@ namespace pe
 			}
 		}
 
-		obj->m_obj_file_path = path;
+		obj->m_obj_file_path = path;		
 		obj->setName(obj_tag->Attribute("name"));
-		//Object::s_next_id = std::max(obj->m_id + 1, Object::s_next_id);
 		PE_LOG("\tobject created: type=%s  id=%i name=%s", type.c_str(), obj->m_id, obj->m_name.c_str());
 
 		auto prop = obj_tag->FirstChildElement("properties");
@@ -183,30 +182,33 @@ namespace pe
 			auto tex_tag = spr_tag->FirstChildElement("texture");
 			if (tex_tag) {
 				int id = tex_tag->IntAttribute("id");
-				Sprite::s_next_id = std::max(sprite->m_id + 1, Sprite::s_next_id);
-				if (Assets::s_assets[id] == NULL) {
-					PE_LOG("\nERROR: cant find sprite's texture: id=%i", id);
+				if (id >= 0) {
+
+					Sprite::s_next_id = std::max(sprite->m_id + 1, Sprite::s_next_id);
+					if (Assets::s_assets[id] == NULL) {
+						PE_LOG("\nERROR: cant find sprite's texture: id=%i", id);
+					}
+					assert(Assets::s_assets[id] != NULL && "can't find texture for the sprite");
+					sprite->setTexture(*dynamic_cast<Texture*>(Assets::s_assets[id]));
+
+					sf::IntRect rect;
+					rect.left = spr_tag->FirstChildElement("texture_rect")->IntAttribute("left");
+					rect.top = spr_tag->FirstChildElement("texture_rect")->IntAttribute("top");
+					rect.width = spr_tag->FirstChildElement("texture_rect")->IntAttribute("width");
+					rect.height = spr_tag->FirstChildElement("texture_rect")->IntAttribute("height");
+					sprite->setTextureRect(rect);
+
+					std::tuple<sf::Vector2i, sf::Vector2i> frames;
+					sf::Vector2i dimension, offset;
+					dimension.x = spr_tag->FirstChildElement("frames")->IntAttribute("x");
+					dimension.y = spr_tag->FirstChildElement("frames")->IntAttribute("y");
+					offset.x = spr_tag->FirstChildElement("frames")->IntAttribute("offset_x");
+					offset.y = spr_tag->FirstChildElement("frames")->IntAttribute("offset_y");
+					int index = spr_tag->FirstChildElement("frames")->IntAttribute("index");
+					auto tup = std::make_tuple(dimension, offset);
+					sprite->setFrames(tup);
+					sprite->setFrameIndex(index);
 				}
-				assert(Assets::s_assets[id] != NULL && "can't find texture for the sprite");
-				sprite->setTexture(*dynamic_cast<Texture*>(Assets::s_assets[id]));
-
-				sf::IntRect rect;
-				rect.left = spr_tag->FirstChildElement("texture_rect")->IntAttribute("left");
-				rect.top = spr_tag->FirstChildElement("texture_rect")->IntAttribute("top");
-				rect.width = spr_tag->FirstChildElement("texture_rect")->IntAttribute("width");
-				rect.height = spr_tag->FirstChildElement("texture_rect")->IntAttribute("height");
-				sprite->setTextureRect(rect);
-
-				std::tuple<sf::Vector2i, sf::Vector2i> frames;
-				sf::Vector2i dimension, offset;
-				dimension.x = spr_tag->FirstChildElement("frames")->IntAttribute("x");
-				dimension.y = spr_tag->FirstChildElement("frames")->IntAttribute("y");
-				offset.x = spr_tag->FirstChildElement("frames")->IntAttribute("offset_x");
-				offset.y = spr_tag->FirstChildElement("frames")->IntAttribute("offset_y");
-				int index = spr_tag->FirstChildElement("frames")->IntAttribute("index");
-				auto tup = std::make_tuple(dimension, offset);
-				sprite->setFrames(tup);
-				sprite->setFrameIndex(index);
 			}
 			obj->setSprite(sprite);
 			Assets::s_assets[sprite->m_id] = sprite;

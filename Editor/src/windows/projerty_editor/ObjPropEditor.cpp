@@ -18,6 +18,37 @@ void ObjPropEditor::render() {
 		ImGui::SetNextWindowSize(ImVec2(600, 800), ImGuiCond_Once);
 		ImGui::Begin("Object Property Editor", &m_open);
 
+		static float pos_x = 0, pos_y = 0;
+		static float rot = 0;
+		static float scale_x = 0, scale_y = 0;
+		static float origin_x = 0, origin_y = 0;
+
+		if (ImGui::Button("Apply")) {
+			if (m_obj_tag) {
+				m_obj_tag->attr("save")();
+				CLI::log(std::string("file saved: ").append(m_obj_tag->attr("getPath")().cast<std::string>()));
+			}
+		}
+		ImGui::SameLine();
+		if(ImGui::Button("clear")){
+			m_obj_tag = nullptr;
+			m_sprite = pe::Sprite();
+			m_obj_name[0] = '\0';
+			m_script_name[0] = '\0';
+			m_script_path[0] = '\0';
+			m_obj_type = 0;
+			m_z_index = 0;
+			m_visible = 1;
+			m_persistance = 0;
+			pos_x = 0; pos_y = 0;
+			rot = 0;
+			scale_x = 0; scale_y = 0;
+			origin_x = 0; origin_y = 0;
+		}
+
+		ImGui::Separator();
+		////////////////////////////////
+
 		ImGui::BeginGroup();
 		m_render_texture.draw(Resources::PNG_BG_SPRITE);
 		m_render_texture.draw(m_sprite);
@@ -80,7 +111,6 @@ void ObjPropEditor::render() {
 		}
 
 		ImGui::Text("position");
-		static float pos_x = 0, pos_y = 0;
 		if (m_obj_tag) {
 			auto pos = m_obj_tag->attr("getPosition")().cast<std::vector<float>>();
 			pos_x = pos[0]; pos_y = pos[1];
@@ -95,7 +125,7 @@ void ObjPropEditor::render() {
 			auto pos = m_obj_tag->attr("setPosition")(pos_x, pos_y);
 		} 
 
-		static float rot = 0;
+		
 		ImGui::Text("rotation"); ImGui::SameLine();
 		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * witdh_frac/2);
 		if (m_obj_tag) rot = m_obj_tag->attr("getRotation")().cast<float>();
@@ -104,7 +134,6 @@ void ObjPropEditor::render() {
 		}
 
 		ImGui::Text("scale   ");
-		static float scale_x = 0, scale_y = 0;
 		if (m_obj_tag) {
 			auto scale = m_obj_tag->attr("getScale")().cast<std::vector<float>>();
 			scale_x = scale[0]; scale_y = scale[1];
@@ -120,7 +149,6 @@ void ObjPropEditor::render() {
 		}
 
 		ImGui::Text("origin  ");
-		static float origin_x = 0, origin_y = 0;
 		if (m_obj_tag) {
 			auto origin = m_obj_tag->attr("getOrigin")().cast<std::vector<float>>();
 			origin_x = origin[0]; scale_y = origin[1];
@@ -138,14 +166,7 @@ void ObjPropEditor::render() {
 
 
 
-		/**********************  Apply Button *********************************/
-
-		if (ImGui::Button("Apply")) {
-			if (m_obj_tag) {
-				m_obj_tag->attr("save")();
-				CLI::log(std::string("file saved: ").append(m_obj_tag->attr("getPath")().cast<std::string>()));
-			}
-		}
+		/*******************************************************/
 
 
 		// render popups
@@ -180,19 +201,17 @@ void ObjPropEditor::render() {
 		if (ScriptCreator::getInstance()->m_is_script_created && ScriptCreator::getInstance()->getParentWindow() == 1) {
 			ScriptCreator::getInstance()->m_is_script_created = false;
 			ScriptCreator::getInstance()->setParentWindow(-1);
-			auto _scr_path = std::string(ScriptCreator::getInstance()->m_script_name);
+			auto _scr_path = std::string(ScriptCreator::getInstance()->m_script_path);
 			auto _scr_name = std::string(ScriptCreator::getInstance()->m_script_name);
+			auto _file_path = ScriptCreator::getInstance()->m_script_path_name;
 			_scr_path = PyUtils::getInstance()->getFileUtil().attr("relPath")(_scr_path).cast<std::string>();
 
 			int i = 0;
 			const char* c;
-			if (py::str(_scr_path).attr("endswith")(".py").cast<bool>()) { // path is pyton
-				auto dir_name = PyUtils::getInstance()->getFileUtil().attr("getRelDirName")(_scr_path).cast<std::string>();
-				auto script_name = PyUtils::getInstance()->getOs().attr("path").attr("basename")(_scr_path)
-					.attr("split")(".").attr("__getitem__")(0).cast<std::string>();
-				c = dir_name.c_str(); i = 0;
+			if (py::str(_file_path).attr("endswith")(".py").cast<bool>()) { // path is pyton
+				c = _scr_path.c_str(); i = 0;
 				while (c[i])  m_script_path[i] = c[i++]; m_script_path[i] = 0;
-				c = script_name.c_str(); i = 0;
+				c = _scr_name.c_str(); i = 0;
 				while (c[i])  m_script_name[i] = c[i++]; m_script_name[i] = 0;
 			}
 			else {

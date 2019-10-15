@@ -63,14 +63,18 @@ class ObjectTag:
 
     def getScriptName(self):
         class_tag = self.root.find('class')
-        return class_tag.attrib['name']
+        if class_tag: return class_tag.attrib['name']
+        return ""
+    
     def setScriptName(self,script_name):
         class_tag = self.root.find('class')
         class_tag.attrib['name'] = script_name
 
     def getScriptPath(self):
         class_tag = self.root.find('class')
-        return class_tag.text 
+        if class_tag : return class_tag.text 
+        return ""
+
     def setScriptPath(self, path):
         class_tag = self.root.find('class')
         class_tag.text = path
@@ -87,13 +91,6 @@ class ObjectTag:
         assert obj_type in ['PYTHON_OBJECT', 'CPP_OBJECT']
         class_tag = self.root.find('class')
         class_tag.attrib['type'] = obj_type
-
-    def getScriptPath(self):
-        class_tag = self.root.find('class')
-        return class_tag.text
-    def setScriptPath(self,path):
-        class_tag = self.root.find('class')
-        class_tag.text = path
 
     def getZindex(self):
         prop_tag = self.root.find('properties')
@@ -161,10 +158,35 @@ class ObjectTag:
     def hasSpriteTag(self):
         return self.root.find('sprite') is not None
 
-    def createSprite(self, tex_id=-1): ## todo
+    def createSprite(self, sprite_id, sprite_name="", tex_id=-1):
+        print('testing')
+        if sprite_name == "": sprite_name = "spr_" + str(sprite_id)
         if not self.hasSpriteTag():
             new_sprite = ET.Element('sprite')
+            new_sprite.attrib['id'] = str(sprite_id)
+            new_sprite.attrib['name'] = str(sprite_name)
             self.root.insert(len(self.root), new_sprite)
+
+            texture_tag = ET.Element('texture')
+            texture_tag.attrib['id'] = str(tex_id)
+            new_sprite.insert(0, texture_tag)
+
+            texture_rect = ET.Element('texture_rect')
+            texture_rect.attrib['top']          = '0'
+            texture_rect.attrib['left']         = '0'
+            texture_rect.attrib['width']        = '100'
+            texture_rect.attrib['height']       = '100'
+            new_sprite.insert(1, texture_rect)
+
+            frames = ET.Element('frames')
+            frames.attrib['x'] = '1'
+            frames.attrib['y'] = '1'
+            frames.attrib['offset_x'] = '0'
+            frames.attrib['offset_y'] = '0'
+            frames.attrib['index'] = '0'
+            new_sprite.insert(2, frames)
+
+
 
     def getSpriteTag(self):
         return self.root.find('sprite')

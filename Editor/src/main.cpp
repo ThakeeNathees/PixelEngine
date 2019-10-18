@@ -41,6 +41,7 @@ PYBIND11_EMBEDDED_MODULE(peio, m) {
 #include "windows/assets_create/ScriptsCreator.h"
 
 #include "windows/projerty_editor/ObjPropEditor.h"
+#include "windows/projerty_editor/SpritePropEditor.h"
 
 
 /* ****************** end of includes  *****************  */
@@ -157,6 +158,7 @@ int main(int argc, char** argv)
 		ScriptCreator::getInstance()->render();
 
 		ObjPropEditor::getInstance()->render();
+		SpritePropEditor::getInstance()->render();
 		
 		EmbededApplication::getInstance()->render();
 

@@ -192,6 +192,8 @@ class ObjectTag:
         return self.root.find('sprite')
     def getSpriteTextureId(self):
         return int(self.root.find('sprite').find('texture').attrib['id'])
+    def setSpriteTextureId(self, _id):
+        self.root.find('sprite').find('texture').attrib['id'] = str(_id)
     def getSpriteTextureRect(self):
         return [
             int(self.root.find('sprite').find('texture_rect').attrib['left']),
@@ -207,7 +209,14 @@ class ObjectTag:
             int(self.root.find('sprite').find('frames').attrib['offset_y']),
             int(self.root.find('sprite').find('frames').attrib['index']),
             ]
-    
+    def setSpriteFrames(self, x, y, offset_x, offset_y, ind):
+        self.root.find('sprite').find('frames').attrib['x'] = str(x)
+        self.root.find('sprite').find('frames').attrib['y'] = str(y)
+        self.root.find('sprite').find('frames').attrib['offset_x'] = str(offset_x)
+        self.root.find('sprite').find('frames').attrib['offset_y'] = str(offset_y)
+        self.root.find('sprite').find('frames').attrib['index'] = str(ind)
+
+
     def hasAreaTag(self):
         return self.root.find('area') is not None
 

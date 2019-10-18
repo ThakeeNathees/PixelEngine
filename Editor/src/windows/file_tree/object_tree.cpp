@@ -3,6 +3,7 @@
 
 // cpp include
 #include "windows/projerty_editor/ObjPropEditor.h"
+#include "windows/projerty_editor/SpritePropEditor.h"
 
 
 void FileTree::renderObjectTree(const std::string& path) {
@@ -25,14 +26,22 @@ void FileTree::renderObjectTree(const std::string& path) {
 		if (id == m_selected_menu_id) renderRightMouseMenuObject(path, id);
 		ImGui::SameLine(); ImGui::SetCursorPosX(dir_icon_pos); ImGui::Image(Resources::getFileFormatIcon("object_file"));
 
-		
+		// sprite
 		if (obj_tag.attr("hasSpriteTag")().cast<bool>()) {
 			ImGui::Image(Resources::getFileFormatIcon("obj_sprite")); ImGui::SameLine();
 			ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 20);
 			if(ImGui::TreeNodeEx("Sprite", node_flags)){}
-			//if(ImGui::TreeNodeEx(obj_tag.attr("getSpriteTag")().attr("attrib").attr("__getitem__")("name").cast<std::string>().c_str(), node_flags)){}
+			
+			// click node
+			if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0)) {
+				SpritePropEditor::getInstance()->open(&m_objects[id]);
+			}
+			if (ImGui::IsItemClicked(0)) m_selected_id = id;
+			if (ImGui::IsItemClicked(1)) m_selected_menu_id = id;
+			if (id == m_selected_menu_id) renderRightMouseMenuSprite(id);
 		}
 		
+		// area
 		if (obj_tag.attr("hasAreaTag")().cast<bool>()) {
 			ImGui::Image(Resources::getFileFormatIcon("obj_area")); ImGui::SameLine();
 			ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 20);
@@ -40,6 +49,7 @@ void FileTree::renderObjectTree(const std::string& path) {
 			//if (ImGui::TreeNodeEx(obj_tag.attr("getAreaTag")().attr("attrib").attr("__getitem__")("name").cast<std::string>().c_str(), node_flags)) {}
 		}
 
+		// animations
 		if (obj_tag.attr("hasAnyAnimations")().cast<bool>()) {
 			ImGui::Image(Resources::getFileFormatIcon("obj_animation")); ImGui::SameLine();
 			ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 20);
@@ -84,6 +94,18 @@ void FileTree::renderRightMouseMenuObject(const std::string& path, long long id)
 			PyUtils::getInstance()->getOs().attr("system")(std::string("explorer \"").append(
 				PyUtils::getInstance()->getOs().attr("path").attr("dirname")(path).cast<std::string>()
 			).append("\""));
+		}
+
+		ImGui::EndPopup();
+	}
+}
+
+
+void FileTree::renderRightMouseMenuSprite(long long id) {
+	if (ImGui::BeginPopupContextItem("right mouse sprite")) {
+
+		if (ImGui::Selectable("Edit")) {
+			SpritePropEditor::getInstance()->open(&m_objects[id]);
 		}
 
 		ImGui::EndPopup();

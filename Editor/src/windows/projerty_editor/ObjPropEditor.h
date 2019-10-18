@@ -28,6 +28,11 @@ private:
 
 
 public:
+
+	py::object* getObjTag() {
+		return m_obj_tag;
+	}
+
 	static ObjPropEditor* getInstance() {
 		if (s_instance == nullptr) {
 			s_instance = new ObjPropEditor();

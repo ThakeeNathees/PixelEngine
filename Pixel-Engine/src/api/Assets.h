@@ -72,6 +72,16 @@ namespace pe
 		static bool hasAsset(const std::string& name);
 		static bool hasAsset(int id);
 
+		static std::vector<int> getTextures() {
+			std::vector<int> ret;
+			for (auto asset : s_assets) {
+				if (asset.second->getType() == pe::Asset::Type::Texture) {
+					ret.push_back(asset.first);
+				}
+			}
+			return ret;
+		}
+
 		template <typename T>
 		static T* getAsset(const std::string& name){
 			for (auto asset : s_assets) if (asset.second->getName() == name) return static_cast<T*>(asset.second);

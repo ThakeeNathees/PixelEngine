@@ -110,6 +110,7 @@
     </ClCompile>
     <ClCompile Include="src\core\PyUtils.cpp" />
     <ClCompile Include="src\windows\projerty_editor\ObjPropEditor.cpp" />
+    <ClCompile Include="src\windows\projerty_editor\SpritePropEditor.cpp" />
     <ClCompile Include="vender\ImGuiAddnl\node_graph.cpp" />
     <ClCompile Include="src\windows\assets_create\ObjectCreator.cpp" />
     <ClCompile Include="src\windows\assets_create\ScriptCreator.cpp" />
@@ -134,6 +135,7 @@
     <ClInclude Include="src\core\PyUtils.h" />
     <ClInclude Include="src\core\Resources.h" />
     <ClInclude Include="src\windows\projerty_editor\ObjPropEditor.h" />
+    <ClInclude Include="src\windows\projerty_editor\SpritePropEditor.h" />
     <ClInclude Include="vender\ImGuiAddnl\node_graph.h" />
     <ClInclude Include="src\windows\assets_create\ObjectCreator.h" />
     <ClInclude Include="src\windows\assets_create\ScriptsCreator.h" />

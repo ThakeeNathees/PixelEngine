@@ -83,6 +83,8 @@ private:
 	void renderRightMouseMenuAssets(const std::string& path, long long id);
 	void renderRightMouseMenuObject(const std::string& path, long long id);
 	void renderRightMouseMenuScene(const std::string& path, long long id);
+	void renderRightMouseMenuSprite(long long id);
+
 
 	void renderPopup();
 	void nodeClickedEvent(const std::string& title, const std::string& path, long long id=-1);

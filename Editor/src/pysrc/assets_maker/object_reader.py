@@ -157,9 +157,14 @@ class ObjectTag:
     ## sprite
     def hasSpriteTag(self):
         return self.root.find('sprite') is not None
+    
+    def deleteSprite(self):
+        spr = self.root.find('sprite')
+        if spr is not None:
+            self.root.remove(spr)
+
 
     def createSprite(self, sprite_id, sprite_name="", tex_id=-1):
-        print('testing')
         if sprite_name == "": sprite_name = "spr_" + str(sprite_id)
         if not self.hasSpriteTag():
             new_sprite = ET.Element('sprite')

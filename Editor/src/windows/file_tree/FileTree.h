@@ -34,6 +34,11 @@ private:
 
 
 public:
+
+	std::map<long long, py::object>& getObjectTags() {
+		return m_objects;
+	}
+
 	bool m_open = true; // main menu bar need &m_open
 	static FileTree* getInstance() {
 		if (!s_instance) s_instance = new FileTree("Project-Explorer");

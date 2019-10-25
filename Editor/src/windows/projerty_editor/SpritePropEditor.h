@@ -49,6 +49,10 @@ public:
 				m_sprite.setFrames(frames[0], frames[1], frames[2], frames[3]);
 				m_sprite.setFrameIndex(frames[4]);
 			}
+			else {
+				auto texture = pe::Texture();
+				m_sprite.setTexture(texture, true);
+			}
 			bool is_height_min = (m_sprite.getTextureRect().width > m_sprite.getTextureRect().height);
 			int spr_size = std::max(m_sprite.getTextureRect().width, m_sprite.getTextureRect().height);
 			m_sprite.setScale(s_tex_size / (float)spr_size, s_tex_size / (float)spr_size);

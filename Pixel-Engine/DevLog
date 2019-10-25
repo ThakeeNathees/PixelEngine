@@ -3,14 +3,17 @@
 ## TODO ########################################################################
 	
 HIGHT PRIORITY
-
-	delete sprite, area, name -> id and name 
 	set assets.xml as default path : assets.xml name consistancy
-
-	if sprite.texture id < 0 -> sprite has no texture so no need to draw 
 
 	conf.init at SandBox.exe -> erase conf="degug" or "release"
 	runtime object creation depricate
+
+	sprite editor:
+		remove sprite tag
+		set texture unknown or None
+		add sprite editor button on obj property editor
+
+
 
 	windows:
 		sprite editor
@@ -46,7 +49,7 @@ LOW PRIORITY
 	remove persistence object from vector
 	nexeScene(), previousScene() => scene stack
 
-# Logs ########################################################################
+# Logs ##############################################################################################################################
 
 LOG 1
 	including <windows.h>  redefine min max macro -> which interfear in sfml and cause the below error!

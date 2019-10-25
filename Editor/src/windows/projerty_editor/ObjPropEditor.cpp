@@ -1,9 +1,13 @@
 #include "pch.h"
 #include "ObjPropEditor.h"
 
+// cpp include
+
 #include "core/Resources.h"
 #include "windows/ExplorerPopup.h"
 #include "windows/assets_create/ScriptsCreator.h"
+
+#include "windows/projerty_editor/SpritePropEditor.h"
 
 ObjPropEditor* ObjPropEditor::s_instance = nullptr;
 int ObjPropEditor::s_tex_size = 100; 
@@ -161,6 +165,25 @@ void ObjPropEditor::render() {
 		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * witdh_frac / 4);
 		if (ImGui::InputFloat("orgy", &origin_y) && m_obj_tag) {
 			auto pos = m_obj_tag->attr("setOrigin")(origin_x, origin_y);
+		}
+
+		if (m_obj_tag) {
+			if (m_obj_tag->attr("hasSpriteTag")().cast<bool>()) {
+				if (ImGui::ImageButton(Resources::getOtherIcon("sprite"))) {
+					SpritePropEditor::getInstance()->open(m_obj_tag);
+				}
+			}
+			else {
+				if (ImGui::ImageButton(Resources::getOtherIcon("new_sprite"))) {
+					int spr_id = CLI::getInstance()->getPeproj().next_sprite_id++;
+					m_obj_tag->attr("createSprite")(spr_id);
+					m_obj_tag->attr("save")();
+					SpritePropEditor::getInstance()->open(m_obj_tag);
+				}
+			}
+		}
+		else {
+			ImGui::ImageButton(Resources::getOtherIcon("new_sprite"));
 		}
 
 

@@ -56,7 +56,6 @@ void FileTree::renderObjectTree(const std::string& path) {
 			if (ImGui::TreeNodeEx("Animations", node_flags)) {}
 			//if (ImGui::TreeNodeEx(obj_tag.attr("getAreaTag")().attr("attrib").attr("__getitem__")("name").cast<std::string>().c_str(), node_flags)) {}
 		}
-
 		ImGui::TreePop();
 	}
 	else { // object close
@@ -71,7 +70,6 @@ void FileTree::renderObjectTree(const std::string& path) {
 void FileTree::renderRightMouseMenuObject(const std::string& path, long long id) {
 	if (ImGui::BeginPopupContextItem("right mouse menu")) {
 
-
 		if (ImGui::Selectable("Edit")) {
 			ObjPropEditor::getInstance()->setObjTag(&m_objects[id]);
 		}
@@ -81,6 +79,11 @@ void FileTree::renderRightMouseMenuObject(const std::string& path, long long id)
 				int spr_id = CLI::getInstance()->getPeproj().next_sprite_id++;
 				m_objects[id].attr("createSprite")(spr_id);
 				m_objects[id].attr("save")();
+			}
+		}
+		else {
+			if (ImGui::MenuItem("Delete Sprite")) {
+				m_objects[id].attr("deleteSprite")();
 			}
 		}
 
@@ -95,7 +98,6 @@ void FileTree::renderRightMouseMenuObject(const std::string& path, long long id)
 				PyUtils::getInstance()->getOs().attr("path").attr("dirname")(path).cast<std::string>()
 			).append("\""));
 		}
-
 		ImGui::EndPopup();
 	}
 }
@@ -103,11 +105,13 @@ void FileTree::renderRightMouseMenuObject(const std::string& path, long long id)
 
 void FileTree::renderRightMouseMenuSprite(long long id) {
 	if (ImGui::BeginPopupContextItem("right mouse sprite")) {
-
 		if (ImGui::Selectable("Edit")) {
 			SpritePropEditor::getInstance()->open(&m_objects[id]);
 		}
-
+		if (ImGui::MenuItem("Delete Sprite")) {
+			m_objects[id].attr("deleteSprite")();
+		}
 		ImGui::EndPopup();
 	}
 }
+

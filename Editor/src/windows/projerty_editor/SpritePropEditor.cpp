@@ -23,15 +23,17 @@ void SpritePropEditor::render() {
 		ImGui::SameLine();
 		ImGui::BeginGroup();
 		auto texs = pe::Assets::getTextures();
-		const char** tex_names = new const char*[texs.size()];
-		for (int i = 0; i < texs.size(); i++) {
-			tex_names[i] = pe::Assets::getAsset<pe::Texture>(texs[i])->getName().c_str();
+		const char** tex_names = new const char*[texs.size()+1];
+		tex_names[0] = "None";
+		for (int i = 1; i < texs.size()+1; i++) {
+			tex_names[i] = pe::Assets::getAsset<pe::Texture>(texs[i-1])->getName().c_str();
 		}
 		if (m_ind > texs.size()) m_ind = 0;
 		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * witdh_frac);
-		if (ImGui::Combo("texture name", &m_ind, tex_names, texs.size() )) {
+		if (ImGui::Combo("texture name", &m_ind, tex_names, texs.size()+1 )) {
 			if (m_obj_tag) {
-				m_obj_tag->attr("setSpriteTextureId")(texs[m_ind]);
+				if (m_ind == 0)m_obj_tag->attr("setSpriteTextureId")(-1);
+				else m_obj_tag->attr("setSpriteTextureId")(texs[m_ind - 1]);
 				reloadSprite();
 			}
 		}

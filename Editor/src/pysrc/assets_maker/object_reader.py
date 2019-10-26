@@ -221,9 +221,68 @@ class ObjectTag:
         self.root.find('sprite').find('frames').attrib['offset_y'] = str(offset_y)
         self.root.find('sprite').find('frames').attrib['index'] = str(ind)
 
-
+    ## area
     def hasAreaTag(self):
         return self.root.find('area') is not None
+
+    def createArea(self, area_id, area_name=""):
+        if area_name == "": area_name = "area_" + str(area_id)
+        if not self.hasAreaTag():
+            new_area = ET.Element('area')
+            new_area.attrib['id'] = str(area_id)
+            new_area.attrib['name'] = str(area_name)
+            self.root.insert(len(self.root), new_area)
+
+            shape_tag = ET.Element('shape')
+            shape_tag.attrib['point_count'] = "0"
+            new_area.insert(0, shape_tag)
+    
+    def addAreaPoint(self, x, y):
+        area_tag = self.root.find('area')
+        if area_tag:
+            count = int(area_tag.find('shape').attrib['point_count']) + 1
+            area_tag.find('shape').attrib['point_count'] = str(count)
+
+            point_tag = ET.Element('point')
+            point.attrib['index'] = str(count)
+            point.attrib['x'] = str(x)
+            point.attrib['y'] = str(y)
+        else:
+            raise ## no area tag to add point
+
+    def getAreaPoints(self):
+        area_tag = self.root.find('area')
+        if area_tag:
+            points = []
+            shape_tag = area_tag.find('shape')
+            for point_tag in shape_tag:
+                point = []
+                point.append(int(point_tag.attrib['index']))
+                point.append(int(point_tag.attrib['x']))
+                point.append(int(point_tag.attrib['y']))
+                points.append(point)
+            return points
+        else:
+            raise ## no area tag to add point
+            
+
+
+    def setAreaPoint(self, index, x, y):
+        area_tag = self.root.find('area')
+        if area_tag:
+            shape_tag = area_tag.find('shape')
+            for point_tag in shape_tag:
+                if point_tag.attrib['index'] == str(index):
+                    point_tag.attrib['x'] = str(x)
+                    point_tag.attrib['y'] = str(y)
+        else:
+            raise ## no area tag to add point
+
+
+    def deleteArea(self):
+        area = self.root.find('area')
+        if area is not None:
+            self.root.remove(area)
 
     def getAreaTag(self):
         return self.root.find('area')

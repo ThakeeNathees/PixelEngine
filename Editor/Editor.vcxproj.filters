@@ -81,6 +81,9 @@
     <ClCompile Include="src\windows\projerty_editor\SpritePropEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\windows\projerty_editor\AreaPropEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -177,6 +180,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\windows\projerty_editor\SpritePropEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\windows\projerty_editor\AreaPropEditor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

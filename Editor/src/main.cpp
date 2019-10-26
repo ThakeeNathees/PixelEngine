@@ -42,6 +42,7 @@ PYBIND11_EMBEDDED_MODULE(peio, m) {
 
 #include "windows/projerty_editor/ObjPropEditor.h"
 #include "windows/projerty_editor/SpritePropEditor.h"
+#include "windows/projerty_editor/AreaPropEditor.h"
 
 
 /* ****************** end of includes  *****************  */
@@ -159,6 +160,7 @@ int main(int argc, char** argv)
 
 		ObjPropEditor::getInstance()->render();
 		SpritePropEditor::getInstance()->render();
+		AreaPropEditor::getInstance()->render();
 		
 		EmbededApplication::getInstance()->render();
 

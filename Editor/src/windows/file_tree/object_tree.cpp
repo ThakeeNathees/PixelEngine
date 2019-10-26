@@ -4,6 +4,7 @@
 // cpp include
 #include "windows/projerty_editor/ObjPropEditor.h"
 #include "windows/projerty_editor/SpritePropEditor.h"
+#include "windows/projerty_editor/AreaPropEditor.h"
 
 
 void FileTree::renderObjectTree(const std::string& path) {
@@ -46,6 +47,13 @@ void FileTree::renderObjectTree(const std::string& path) {
 			ImGui::Image(Resources::getFileFormatIcon("obj_area")); ImGui::SameLine();
 			ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 20);
 			if (ImGui::TreeNodeEx("Area", node_flags)) {}
+
+			// click node
+			if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0)) {
+				AreaPropEditor::getInstance()->open(&m_objects[id]);
+			}
+			if (ImGui::IsItemClicked(1)) m_selected_menu_id = id;
+			if (id == m_selected_menu_id) renderRightMouseMenuArea(id);
 			//if (ImGui::TreeNodeEx(obj_tag.attr("getAreaTag")().attr("attrib").attr("__getitem__")("name").cast<std::string>().c_str(), node_flags)) {}
 		}
 
@@ -110,6 +118,18 @@ void FileTree::renderRightMouseMenuSprite(long long id) {
 		}
 		if (ImGui::MenuItem("Delete Sprite")) {
 			m_objects[id].attr("deleteSprite")();
+		}
+		ImGui::EndPopup();
+	}
+}
+
+void FileTree::renderRightMouseMenuArea(long long id) {
+	if (ImGui::BeginPopupContextItem("right mouse area")) {
+		if (ImGui::Selectable("Edit")) {
+			AreaPropEditor::getInstance()->open(&m_objects[id]);
+		}
+		if (ImGui::MenuItem("Delete Area")) {
+			m_objects[id].attr("deleteArea")();
 		}
 		ImGui::EndPopup();
 	}

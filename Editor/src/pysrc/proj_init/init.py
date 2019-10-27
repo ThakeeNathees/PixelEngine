@@ -174,7 +174,7 @@ def updateProj(proj_name="", proj_dir='.', include_pe=True, default_tex_smooth =
         copyPEOut(pe_release_out, proj_dir, 'release')
     updateAssets(proj_dir, "assets.xml", default_tex_smooth, default_tex_repeat)
     proj_updater.updateProj(proj_name, proj_dir)
-    register_updater.updateRegister( proj_dir)
+    register_updater.updateRegister(proj_dir)
 
 
 ## if init success return 0

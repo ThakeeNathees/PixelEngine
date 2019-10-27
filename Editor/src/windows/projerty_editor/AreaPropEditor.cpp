@@ -4,12 +4,11 @@
 AreaPropEditor* AreaPropEditor::s_instance;
 int AreaPropEditor::s_tex_size = 400;
 int AreaPropEditor::s_tex_margin = 20;
+sf::Color AreaPropEditor::s_area_color = sf::Color(50, 75, 100, 180);
 
 
-void AreaPropEditor::reloadObj(bool reload_file) {
+void AreaPropEditor::reloadSprite(bool reload_file) {
 	if (reload_file) m_obj_tag->attr("reload")();
-	
-	// sprite
 	if (m_obj_tag->attr("hasSpriteTag")().cast<bool>()) {
 		int tex_id = m_obj_tag->attr("getSpriteTextureId")().cast<int>();
 		if (tex_id >= 0) {
@@ -26,46 +25,72 @@ void AreaPropEditor::reloadObj(bool reload_file) {
 		int spr_size = std::max(m_sprite.getTextureRect().width, m_sprite.getTextureRect().height);
 		m_sprite.setScale(s_tex_size / (float)spr_size, s_tex_size / (float)spr_size);
 		if (is_height_min) m_sprite.setPosition(0, (s_tex_size - m_sprite.getScale().x * m_sprite.getTextureRect().height) / 2);
-		else m_sprite.setPosition((s_tex_size - m_sprite.getScale().x * m_sprite.getTextureRect().width) / 2 + s_tex_margin/2.f, s_tex_margin/2.f);
+		else m_sprite.setPosition((s_tex_size - m_sprite.getScale().x * m_sprite.getTextureRect().width) / 2 + s_tex_margin / 2.f, s_tex_margin / 2.f);
 	}
 	else {
 		m_sprite = pe::Sprite();
 	}
+}
 
-	// area
+void AreaPropEditor::reloadArea(bool reload_file) {
+	if (reload_file) m_obj_tag->attr("reload")();
 	if (m_obj_tag && m_obj_tag->attr("hasAreaTag")().cast<bool>()) {
-		auto points = m_obj_tag->attr("getAreaPoints")().cast<std::vector<std::vector<int>>>();
+		auto points = m_obj_tag->attr("getAreaPoints")().cast<std::vector<std::vector<float>>>();
 
 		m_area = sf::ConvexShape(points.size());
 		m_points.clear();
 		for (int i = 0; i < points.size(); i++) {
 			auto pos = m_sprite.getTransform().transformPoint(sf::Vector2f((float)points[i][1], (float)points[i][2]));
-			m_area.setPoint(points[i][0], pos);
-			
-			static int radious = 5;
+			m_area.setPoint((int)points[i][0], pos);
+
+			static float radious = 5;
 			sf::CircleShape point(radious);
 			point.setOrigin(radious, radious);
-			point.setPosition(pos.x , pos.y );
+			point.setPosition(pos.x, pos.y);
 			point.setFillColor(sf::Color(sf::Color::Magenta));
-			m_points[points[i][0]] = point;
+			m_points[(int)points[i][0]] = point;
 		}
 
 		m_area.setOutlineColor(sf::Color::Black);
-		m_area.setFillColor(sf::Color(50, 75, 100, 180));
+		m_area.setFillColor(s_area_color);
 		m_area.setOutlineThickness(2);
 	}
+}
+
+void AreaPropEditor::reloadObj(bool reload_file) {
+	
+	reloadSprite(reload_file);
+	reloadArea();
 }
 
 void AreaPropEditor::render() {
 	if (m_open) {
 		ImGui::Begin("Area Property Editor", &m_open);
-		m_mouse_pos = sf::Vector2f(ImGui::GetMousePos().x - ImGui::GetCursorScreenPos().x, ImGui::GetMousePos().y - ImGui::GetCursorScreenPos().y);
+
+		// create new point
+		if (ImGui::Button("Add Point")){
+			if (m_obj_tag && m_obj_tag->attr("hasAreaTag")().cast<bool>()) {
+				m_selected_point = m_obj_tag->attr("addAreaPoint")(10, 10).cast<int>();
+				reloadArea();
+			}
+		}
+		ImGui::SameLine();
+		// clear points
+		if (ImGui::Button("Clear Points")) {
+			reloadArea(true);
+		}
 
 		m_render_texture.draw(Resources::PNG_BG_SPRITE);
 		m_render_texture.draw(m_sprite);
 		m_render_texture.draw(m_area);
 		
+
+		/*******************************************************/
+
 		// render points
+		ImGui::BeginChild("Image", m_render_texture.getSize(), false, ImGuiWindowFlags_NoMove);
+		m_mouse_pos = sf::Vector2f(ImGui::GetMousePos().x - ImGui::GetCursorScreenPos().x, ImGui::GetMousePos().y - ImGui::GetCursorScreenPos().y);
+		bool reload_area = false;
 		for (auto& pair : m_points) {
 			auto point = pair.second; int ind = pair.first;
 
@@ -80,21 +105,35 @@ void AreaPropEditor::render() {
 			}
 			else point.setFillColor(sf::Color::Magenta);
 			
-			if (ImGui::IsMouseReleased(0)) { m_selected_point = -1; }
+			bool mouse_on_render_area = 0 < m_mouse_pos.x && m_mouse_pos.x < m_render_texture.getSize().x &&
+			0 < m_mouse_pos.y && m_mouse_pos.y < m_render_texture.getSize().y;
+			if (ImGui::IsMouseReleased(0) && mouse_on_render_area) m_selected_point = -1;
 			if (!any_point_hovered) m_hovered_point = -1;
 
 			// point move
-			if (m_selected_point >= 0) {
+			if (m_selected_point >= 0 ) {
 				m_points[m_selected_point].setPosition(m_mouse_pos);
+				if (m_obj_tag) {
+					auto trans_point = m_sprite.getInverseTransform().transformPoint(m_mouse_pos.x, m_mouse_pos.y);
+					m_obj_tag->attr("setAreaPoint")(m_selected_point,  trans_point.x, trans_point.y );
+					reload_area = true;
+					if (pe::isShapeConvex(m_area)) {
+						s_area_color = sf::Color(50, 75, 100, 180);
+					}
+					else {
+						s_area_color = sf::Color(200, 75, 50, 180);
+					}
+				}
 			}
-			
 
 			m_render_texture.draw(point);
 		}
 
-		ImGui::BeginChild("Image", m_render_texture.getSize(), false, ImGuiWindowFlags_NoMove);
+
 		ImGui::Image(m_render_texture);
 		ImGui::EndChild();
 		ImGui::End();
+
+		if (reload_area) reloadArea();
 	}
 }

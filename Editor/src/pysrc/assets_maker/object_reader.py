@@ -240,13 +240,17 @@ class ObjectTag:
     def addAreaPoint(self, x, y):
         area_tag = self.root.find('area')
         if area_tag:
-            count = int(area_tag.find('shape').attrib['point_count']) + 1
-            area_tag.find('shape').attrib['point_count'] = str(count)
+            shape_tag = area_tag.find('shape')
+            count = int(shape_tag.attrib['point_count'])
+            area_tag.find('shape').attrib['point_count'] = str(count+1)
 
             point_tag = ET.Element('point')
-            point.attrib['index'] = str(count)
-            point.attrib['x'] = str(x)
-            point.attrib['y'] = str(y)
+            point_tag.attrib['index'] = str(count)
+            point_tag.attrib['x'] = str(x)
+            point_tag.attrib['y'] = str(y)
+            
+            shape_tag.insert(len(shape_tag), point_tag)
+            return count
         else:
             raise ## no area tag to add point
 
@@ -257,9 +261,9 @@ class ObjectTag:
             shape_tag = area_tag.find('shape')
             for point_tag in shape_tag:
                 point = []
-                point.append(int(point_tag.attrib['index']))
-                point.append(int(point_tag.attrib['x']))
-                point.append(int(point_tag.attrib['y']))
+                point.append(float(point_tag.attrib['index']))
+                point.append(float(point_tag.attrib['x']))
+                point.append(float(point_tag.attrib['y']))
                 points.append(point)
             return points
         else:

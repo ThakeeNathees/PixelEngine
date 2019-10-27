@@ -20,6 +20,7 @@ private:
 
 	static int s_tex_size;
 	static int s_tex_margin;
+	static sf::Color s_area_color;
 
 public:
 	bool m_open = false;
@@ -40,4 +41,8 @@ public:
 	void reloadObj(bool reload_file = false);
 
 	void render();
+
+private:
+	void reloadSprite(bool reload_file = false);
+	void reloadArea(bool reload_file = false);
 };

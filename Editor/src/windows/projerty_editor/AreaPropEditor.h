@@ -11,6 +11,12 @@ private:
 	sf::RenderTexture m_render_texture;
 	pe::Sprite m_sprite;
 	sf::ConvexShape m_area;
+	std::map<int, sf::CircleShape> m_points;
+	//std::vector<std::pair<int, sf::CircleShape>> m_points;
+	int m_hovered_point = -1;
+	int m_selected_point = -1;
+	sf::Vector2f m_mouse_pos;
+
 
 	static int s_tex_size;
 	static int s_tex_margin;

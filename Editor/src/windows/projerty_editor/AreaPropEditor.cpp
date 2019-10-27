@@ -26,18 +26,28 @@ void AreaPropEditor::reloadObj(bool reload_file) {
 		int spr_size = std::max(m_sprite.getTextureRect().width, m_sprite.getTextureRect().height);
 		m_sprite.setScale(s_tex_size / (float)spr_size, s_tex_size / (float)spr_size);
 		if (is_height_min) m_sprite.setPosition(0, (s_tex_size - m_sprite.getScale().x * m_sprite.getTextureRect().height) / 2);
-		else m_sprite.setPosition((s_tex_size - m_sprite.getScale().x * m_sprite.getTextureRect().width) / 2 + s_tex_margin/2, s_tex_margin/2);
+		else m_sprite.setPosition((s_tex_size - m_sprite.getScale().x * m_sprite.getTextureRect().width) / 2 + s_tex_margin/2.f, s_tex_margin/2.f);
 	}
 	else {
 		m_sprite = pe::Sprite();
 	}
 
+	// area
 	if (m_obj_tag && m_obj_tag->attr("hasAreaTag")().cast<bool>()) {
 		auto points = m_obj_tag->attr("getAreaPoints")().cast<std::vector<std::vector<int>>>();
 
 		m_area = sf::ConvexShape(points.size());
+		m_points.clear();
 		for (int i = 0; i < points.size(); i++) {
-			m_area.setPoint(points[i][0], m_sprite.getTransform().transformPoint(sf::Vector2f(points[i][1], points[i][2])));
+			auto pos = m_sprite.getTransform().transformPoint(sf::Vector2f((float)points[i][1], (float)points[i][2]));
+			m_area.setPoint(points[i][0], pos);
+			
+			static int radious = 5;
+			sf::CircleShape point(radious);
+			point.setOrigin(radious, radious);
+			point.setPosition(pos.x , pos.y );
+			point.setFillColor(sf::Color(sf::Color::Magenta));
+			m_points[points[i][0]] = point;
 		}
 
 		m_area.setOutlineColor(sf::Color::Black);
@@ -49,10 +59,42 @@ void AreaPropEditor::reloadObj(bool reload_file) {
 void AreaPropEditor::render() {
 	if (m_open) {
 		ImGui::Begin("Area Property Editor", &m_open);
+		m_mouse_pos = sf::Vector2f(ImGui::GetMousePos().x - ImGui::GetCursorScreenPos().x, ImGui::GetMousePos().y - ImGui::GetCursorScreenPos().y);
+
 		m_render_texture.draw(Resources::PNG_BG_SPRITE);
 		m_render_texture.draw(m_sprite);
 		m_render_texture.draw(m_area);
+		
+		// render points
+		for (auto& pair : m_points) {
+			auto point = pair.second; int ind = pair.first;
+
+			// point color
+			bool any_point_hovered = false;
+			auto r = point.getRadius(); auto pos = point.getPosition();
+			if (m_mouse_pos.x < pos.x + r && pos.x - r < m_mouse_pos.x && m_mouse_pos.y < pos.y + r && pos.y - r < m_mouse_pos.y) {
+				point.setFillColor(sf::Color::Yellow);
+				m_hovered_point = ind;
+				if (ImGui::IsMouseDown(0)) { m_selected_point = ind; }
+				any_point_hovered = true;
+			}
+			else point.setFillColor(sf::Color::Magenta);
+			
+			if (ImGui::IsMouseReleased(0)) { m_selected_point = -1; }
+			if (!any_point_hovered) m_hovered_point = -1;
+
+			// point move
+			if (m_selected_point >= 0) {
+				m_points[m_selected_point].setPosition(m_mouse_pos);
+			}
+			
+
+			m_render_texture.draw(point);
+		}
+
+		ImGui::BeginChild("Image", m_render_texture.getSize(), false, ImGuiWindowFlags_NoMove);
 		ImGui::Image(m_render_texture);
+		ImGui::EndChild();
 		ImGui::End();
 	}
 }

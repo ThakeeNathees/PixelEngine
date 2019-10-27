@@ -23,12 +23,15 @@ void AreaPropEditor::reloadSprite(bool reload_file) {
 		}
 		bool is_height_min = (m_sprite.getTextureRect().width > m_sprite.getTextureRect().height);
 		int spr_size = std::max(m_sprite.getTextureRect().width, m_sprite.getTextureRect().height);
+		if (spr_size == 0)spr_size = 100 ;
 		m_sprite.setScale(s_tex_size / (float)spr_size, s_tex_size / (float)spr_size);
 		if (is_height_min) m_sprite.setPosition(0, (s_tex_size - m_sprite.getScale().x * m_sprite.getTextureRect().height) / 2);
 		else m_sprite.setPosition((s_tex_size - m_sprite.getScale().x * m_sprite.getTextureRect().width) / 2 + s_tex_margin / 2.f, s_tex_margin / 2.f);
 	}
 	else {
 		m_sprite = pe::Sprite();
+		m_sprite.setTextureRect(sf::IntRect(0,0,s_tex_size-s_tex_margin, s_tex_size-s_tex_margin));
+		m_sprite.setPosition(s_tex_margin / 2.f, s_tex_margin / 2.f);
 	}
 }
 
@@ -68,16 +71,45 @@ void AreaPropEditor::render() {
 		ImGui::Begin("Area Property Editor", &m_open);
 
 		// create new point
-		if (ImGui::Button("Add Point")){
+		if (ImGui::Button("Add Point") && m_selected_point < 0){
 			if (m_obj_tag && m_obj_tag->attr("hasAreaTag")().cast<bool>()) {
 				m_selected_point = m_obj_tag->attr("addAreaPoint")(10, 10).cast<int>();
 				reloadArea();
 			}
 		}
+		// remove point
 		ImGui::SameLine();
+		if (ImGui::Button("Remove Point")) {
+			if (m_obj_tag) {
+				m_obj_tag->attr("removeAreaPoint")();
+				reloadArea();
+			}
+		}
 		// clear points
-		if (ImGui::Button("Clear Points")) {
+		ImGui::SameLine();
+		if (ImGui::Button("Clear")) {
+			if (m_obj_tag) {
+				m_obj_tag->attr("clearAreaPoints")();
+				reloadArea();
+			}
+		}
+		// reset points
+		ImGui::SameLine();
+		if (ImGui::Button("Reset")) {
 			reloadArea(true);
+		}
+		// save
+		ImGui::SameLine();
+		if (ImGui::Button("Apply")) {
+			if (m_obj_tag) {
+				if (!pe::isShapeConvex(m_area) || m_area.getPointCount() < 3) {
+					ImGui::OpenPopup("Invalid Shape");
+				}
+				else {
+					m_obj_tag->attr("save")();
+					m_open = false;
+				}
+			}
 		}
 
 		m_render_texture.draw(Resources::PNG_BG_SPRITE);
@@ -88,7 +120,6 @@ void AreaPropEditor::render() {
 		/*******************************************************/
 
 		// render points
-		ImGui::BeginChild("Image", m_render_texture.getSize(), false, ImGuiWindowFlags_NoMove);
 		m_mouse_pos = sf::Vector2f(ImGui::GetMousePos().x - ImGui::GetCursorScreenPos().x, ImGui::GetMousePos().y - ImGui::GetCursorScreenPos().y);
 		bool reload_area = false;
 		for (auto& pair : m_points) {
@@ -130,10 +161,23 @@ void AreaPropEditor::render() {
 		}
 
 
+		ImGui::BeginChild("Image", m_render_texture.getSize(), false, ImGuiWindowFlags_NoMove);
 		ImGui::Image(m_render_texture);
 		ImGui::EndChild();
+		if (reload_area) reloadArea();
+
+
+		if (ImGui::BeginPopupModal("Invalid Shape")) {
+			ImGui::SetWindowSize(ImVec2(300, 120), ImGuiCond_Once);
+			ImGui::Image(Resources::getOtherIcon("error")); ImGui::SameLine();
+			ImGui::TextWrapped("Error! Shape for the area is invalid. (the shape must be convex and contain at least 3 points)");
+			if (ImGui::Button("OK", ImVec2(280, 20))) {
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::EndPopup();
+		}
+
 		ImGui::End();
 
-		if (reload_area) reloadArea();
 	}
 }

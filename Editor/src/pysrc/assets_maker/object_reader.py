@@ -242,7 +242,7 @@ class ObjectTag:
         if area_tag:
             shape_tag = area_tag.find('shape')
             count = int(shape_tag.attrib['point_count'])
-            area_tag.find('shape').attrib['point_count'] = str(count+1)
+            shape_tag.attrib['point_count'] = str(count+1)
 
             point_tag = ET.Element('point')
             point_tag.attrib['index'] = str(count)
@@ -253,6 +253,28 @@ class ObjectTag:
             return count
         else:
             raise ## no area tag to add point
+
+    def removeAreaPoint(self):
+        area_tag = self.root.find('area')
+        if area_tag:
+            shape_tag = area_tag.find('shape')
+            count = int(shape_tag.attrib['point_count'])
+            if (count >0):
+                for point in shape_tag:
+                    if point.attrib['index'] == str(count-1):
+                        shape_tag.remove(point)
+                        break
+                shape_tag.attrib['point_count'] = str(count-1)
+    
+    def clearAreaPoints(self):
+        area_tag = self.root.find('area')
+        if area_tag:
+            shape_tag = area_tag.find('shape')
+            points = []
+            for point in shape_tag: points.append(point)
+            for point in points: shape_tag.remove(point)
+
+            shape_tag.attrib['point_count'] = "0"
 
     def getAreaPoints(self):
         area_tag = self.root.find('area')

@@ -242,4 +242,38 @@ void FileTree::renderPopup() {
 
 		if (!ImGui::IsPopupOpen("Delete Conformation")) m_open_popup = false;
 	}
+
+	if (m_open_popup_area) ImGui::OpenPopup("Delete Conformation - Area");
+	if (ImGui::BeginPopupModal("Delete Conformation - Area")) {
+		ImGui::Image(Resources::getOtherIcon("warning")); ImGui::SameLine();
+		ImGui::Text("The area will deleted permenently.\nThis operation cannot be undone!\n\n");
+		ImGui::Separator();
+		if (ImGui::Button("OK", ImVec2(120, 0))) {
+			m_objects[m_delete_conform_obj_id].attr("deleteArea")();
+			m_objects[m_delete_conform_obj_id].attr("save")();
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+
+		ImGui::EndPopup();
+		if (!ImGui::IsPopupOpen("Delete Conformation - Area")) m_open_popup_area = false;
+	}
+
+	if (m_open_popup_sprite) ImGui::OpenPopup("Delete Conformation - Sprite");
+	if (ImGui::BeginPopupModal("Delete Conformation - Sprite")) {
+		ImGui::Image(Resources::getOtherIcon("warning")); ImGui::SameLine();
+		ImGui::Text("The sprite will deleted permenently.\nThis operation cannot be undone!\n\n");
+		ImGui::Separator();
+		if (ImGui::Button("OK", ImVec2(120, 0))) {
+			m_objects[m_delete_conform_obj_id].attr("deleteSprite")();
+			m_objects[m_delete_conform_obj_id].attr("save")();
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+
+		ImGui::EndPopup();
+		if (!ImGui::IsPopupOpen("Delete Conformation - Sprite")) m_open_popup_sprite = false;
+	}
 }

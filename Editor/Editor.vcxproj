@@ -112,7 +112,6 @@
     <ClCompile Include="src\windows\projerty_editor\AreaPropEditor.cpp" />
     <ClCompile Include="src\windows\projerty_editor\ObjPropEditor.cpp" />
     <ClCompile Include="src\windows\projerty_editor\SpritePropEditor.cpp" />
-    <ClCompile Include="vender\ImGuiAddnl\node_graph.cpp" />
     <ClCompile Include="src\windows\assets_create\ObjectCreator.cpp" />
     <ClCompile Include="src\windows\assets_create\ScriptCreator.cpp" />
     <ClCompile Include="src\windows\file_tree\assets_tree.cpp" />
@@ -120,6 +119,8 @@
     <ClCompile Include="src\windows\file_tree\object_tree.cpp" />
     <ClCompile Include="src\windows\file_tree\scene_tree.cpp" />
     <ClCompile Include="src\windows\static_initialize.cpp" />
+    <ClCompile Include="vender\ImGuiAddnl\ImGuizmo-master\ImSequencer.cpp" />
+    <ClCompile Include="vender\ImGuiAddnl\node_graph\node_graph.cpp" />
     <ClCompile Include="vender\ImGuiColorTextEdit\TextEditor.cpp" />
     <ClCompile Include="vender\ImGui\imgui.cpp" />
     <ClCompile Include="vender\ImGui\imgui_demo.cpp" />
@@ -138,7 +139,6 @@
     <ClInclude Include="src\windows\projerty_editor\AreaPropEditor.h" />
     <ClInclude Include="src\windows\projerty_editor\ObjPropEditor.h" />
     <ClInclude Include="src\windows\projerty_editor\SpritePropEditor.h" />
-    <ClInclude Include="vender\ImGuiAddnl\node_graph.h" />
     <ClInclude Include="src\windows\assets_create\ObjectCreator.h" />
     <ClInclude Include="src\windows\assets_create\ScriptsCreator.h" />
     <ClInclude Include="src\windows\ExplorerPopup.h" />
@@ -150,6 +150,8 @@
     <ClInclude Include="src\windows\StartWindow.h" />
     <ClInclude Include="src\windows\views\ImageViwers.h" />
     <ClInclude Include="src\windows\views\TextEditors.h" />
+    <ClInclude Include="vender\ImGuiAddnl\ImGuizmo-master\ImSequencer.h" />
+    <ClInclude Include="vender\ImGuiAddnl\node_graph\node_graph.h" />
     <ClInclude Include="vender\ImGuiColorTextEdit\TextEditor.h" />
     <ClInclude Include="vender\ImGui\imconfig.h" />
     <ClInclude Include="vender\ImGui\imgui.h" />

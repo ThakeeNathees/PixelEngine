@@ -28,7 +28,12 @@ private:
 	long long m_selected_id = -1;
 	long long m_selected_menu_id = -1;
 
-	bool m_open_popup = false;
+	bool m_open_popup			= false;
+	bool m_open_popup_sprite	= false;
+	bool m_open_popup_area		= false;
+
+	long long m_delete_conform_obj_id = -1;
+
 	std::string m_delete_path = "";
 	bool m_is_deletepathdir = false;
 

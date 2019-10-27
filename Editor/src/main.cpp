@@ -33,7 +33,8 @@ PYBIND11_EMBEDDED_MODULE(peio, m) {
 }
 
 
-#include "node_graph.h"
+#include "node_graph/node_graph.h"
+#include "ImGuizmo-master/ImSequencer.h"
 
 #include "windows/file_tree/FileTree.h"
 
@@ -45,10 +46,58 @@ PYBIND11_EMBEDDED_MODULE(peio, m) {
 #include "windows/projerty_editor/AreaPropEditor.h"
 
 
-/* ****************** end of includes  *****************  */
 
+struct MySeq : public ImSequencer::SequenceInterface
+{
+
+	virtual int GetFrameMin() const override { return mFrameMin; }
+	virtual int GetFrameMax() const override { return mFrameMax; }
+
+	struct MySequenceItem
+	{
+		int mType;
+		int mFrameStart, mFrameEnd;
+		bool mExpanded;
+	};
+	std::vector<MySequenceItem> myItems;
+	int mFrameStart;
+	int mFrameEnd;
+	int mType;
+
+	int mFrameMin;
+	int mFrameMax;
+
+	virtual int GetItemCount() const { return (int)myItems.size(); }
+	virtual void Get(int index, int** start, int** end, int* type, unsigned int* color)
+	{
+		MySequenceItem& item = myItems[index];
+		if (color)
+			*color = 0xFFAA8080; // same color for everyone, return color based on type
+		if (start)
+			*start = &item.mFrameStart;
+		if (end)
+			*end = &item.mFrameEnd;
+		if (type)
+			*type = item.mType;
+		
+	}
+};
+
+/* ****************** end of includes  *****************  */
+static const char* SequencerItemTypeNames[] = { "Camera","Music", "ScreenEffect", "FadeIn", "Animation" };
 int main(int argc, char** argv)
 {
+
+	// temp
+	MySeq mySequence;
+	mySequence.mFrameMin = -100;
+	mySequence.mFrameMax = 1000;
+	mySequence.myItems.push_back(MySeq::MySequenceItem{ 0, 10, 30, false });
+	mySequence.myItems.push_back(MySeq::MySequenceItem{ 0, 40, 80, false });
+	mySequence.myItems.push_back(MySeq::MySequenceItem{ 1, 20, 30, true });
+	mySequence.myItems.push_back(MySeq::MySequenceItem{ 3, 12, 60, false });
+	mySequence.myItems.push_back(MySeq::MySequenceItem{ 2, 61, 90, false });
+	mySequence.myItems.push_back(MySeq::MySequenceItem{ 4, 90, 99, false });
 
 	py::scoped_interpreter intrp;
 	py::exec("import sys, os");
@@ -59,7 +108,6 @@ int main(int argc, char** argv)
 	unsigned int w = sf::VideoMode::getDesktopMode().width - 600;
 	unsigned int h = sf::VideoMode::getDesktopMode().height - 300;
 	sf::RenderWindow window(sf::VideoMode(w, h), "Pixel-Engine");
-
 
 	// initialize
 	window.setFramerateLimit(60);
@@ -164,10 +212,25 @@ int main(int argc, char** argv)
 		
 		EmbededApplication::getInstance()->render();
 
+		ImGui::Begin("Sequencer");
+		static int currentFrame = 0;
+		static bool expanded = false;
+		static int selectedEntry = -1;
+		static int firstFrame = 0;
+		ImGui::PushItemWidth(130);
+		ImGui::InputInt("Frame ", &currentFrame);
+		ImGui::PopItemWidth();
+		ImSequencer::Sequencer(&mySequence, &currentFrame, &expanded, &selectedEntry, &firstFrame, ImSequencer::SEQUENCER_EDIT_STARTEND | ImSequencer::SEQUENCER_ADD | ImSequencer::SEQUENCER_DEL | ImSequencer::SEQUENCER_COPYPASTE | ImSequencer::SEQUENCER_CHANGE_FRAME);
+		if (selectedEntry != -1)
+		{
+			const MySeq::MySequenceItem& item = mySequence.myItems[selectedEntry];
+			ImGui::Text("I am a %s, please edit me", SequencerItemTypeNames[item.mType]);
+			// switch (type) ....
+		}
+		ImGui::End();
 		/* node editor
+		static bool open = true; if (open)ShowExampleAppCustomNodeGraph(&open);
 		*/
-		static bool open = true;
-		//if (open)ShowExampleAppCustomNodeGraph(&open);
 
 		ImGui::ShowTestWindow();
 

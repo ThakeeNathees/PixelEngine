@@ -68,4 +68,6 @@ other_icons:
 	clear_log="..\..\..\../Editor/res/icons/other_icons/clear_log.png"
 	sprite="..\..\..\../Editor/res/icons/other_icons/sprite.png"
 	new_sprite="..\..\..\../Editor/res/icons/other_icons/new_sprite.png"
+	area = "..\..\..\../Editor/res/icons/other_icons/area.png"
+	new_area = "..\..\..\../Editor/res/icons/other_icons/new_area.png"
 end

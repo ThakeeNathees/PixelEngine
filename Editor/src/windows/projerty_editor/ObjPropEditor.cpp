@@ -8,6 +8,7 @@
 #include "windows/assets_create/ScriptsCreator.h"
 
 #include "windows/projerty_editor/SpritePropEditor.h"
+#include "windows/projerty_editor/AreaPropEditor.h"
 
 ObjPropEditor* ObjPropEditor::s_instance = nullptr;
 int ObjPropEditor::s_tex_size = 100; 
@@ -168,6 +169,7 @@ void ObjPropEditor::render() {
 		}
 
 		if (m_obj_tag) {
+			// sprite button
 			if (m_obj_tag->attr("hasSpriteTag")().cast<bool>()) {
 				if (ImGui::ImageButton(Resources::getOtherIcon("sprite"))) {
 					SpritePropEditor::getInstance()->open(m_obj_tag);
@@ -181,9 +183,28 @@ void ObjPropEditor::render() {
 					SpritePropEditor::getInstance()->open(m_obj_tag);
 				}
 			}
+
+			ImGui::SameLine();
+			// area button
+			if (m_obj_tag->attr("hasAreaTag")().cast<bool>()) {
+				if (ImGui::ImageButton(Resources::getOtherIcon("area"))) {
+					AreaPropEditor::getInstance()->open(m_obj_tag);
+				}
+			}
+			else {
+				if (ImGui::ImageButton(Resources::getOtherIcon("new_area"))) {
+					int spr_id = CLI::getInstance()->getPeproj().next_area_id++;
+					m_obj_tag->attr("createArea")(spr_id);
+					m_obj_tag->attr("save")();
+					AreaPropEditor::getInstance()->open(m_obj_tag);
+				}
+			}
 		}
 		else {
 			ImGui::ImageButton(Resources::getOtherIcon("new_sprite"));
+			ImGui::SameLine();
+			ImGui::ImageButton(Resources::getOtherIcon("new_area"));
+
 		}
 
 

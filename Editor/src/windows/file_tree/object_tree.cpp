@@ -82,6 +82,7 @@ void FileTree::renderRightMouseMenuObject(const std::string& path, long long id)
 			ObjPropEditor::getInstance()->setObjTag(&m_objects[id]);
 		}
 
+		// sprite
 		if (!m_objects[id].attr("hasSpriteTag")().cast<bool>()) {
 			if (ImGui::MenuItem("New Sprite")) {
 				int spr_id = CLI::getInstance()->getPeproj().next_sprite_id++;
@@ -91,9 +92,30 @@ void FileTree::renderRightMouseMenuObject(const std::string& path, long long id)
 		}
 		else {
 			if (ImGui::MenuItem("Delete Sprite")) {
-				m_objects[id].attr("deleteSprite")();
+				m_open_popup_sprite = true;
+				m_delete_conform_obj_id = id;
+				//m_objects[id].attr("deleteSprite")();
+				//m_objects[id].attr("save")();
 			}
 		}
+
+		// area
+		if (!m_objects[id].attr("hasAreaTag")().cast<bool>()) {
+			if (ImGui::MenuItem("New Area")) {
+				int area_id = CLI::getInstance()->getPeproj().next_area_id++;
+				m_objects[id].attr("createArea")(area_id);
+				m_objects[id].attr("save")();
+			}
+		}
+		else {
+			if (ImGui::MenuItem("Delete Area")) {
+				m_open_popup_area = true;
+				m_delete_conform_obj_id = id;
+				//m_objects[id].attr("deleteArea")();
+				//m_objects[id].attr("save")();
+			}
+		}
+			
 
 		if (ImGui::Selectable("Open in TextEditor")) {
 			std::string title = PyUtils::getInstance()->getOs().attr("path").attr("basename")(path).cast<std::string>();
@@ -117,7 +139,8 @@ void FileTree::renderRightMouseMenuSprite(long long id) {
 			SpritePropEditor::getInstance()->open(&m_objects[id]);
 		}
 		if (ImGui::MenuItem("Delete Sprite")) {
-			m_objects[id].attr("deleteSprite")();
+			m_open_popup_sprite = true;
+			m_delete_conform_obj_id = id;
 		}
 		ImGui::EndPopup();
 	}
@@ -129,8 +152,10 @@ void FileTree::renderRightMouseMenuArea(long long id) {
 			AreaPropEditor::getInstance()->open(&m_objects[id]);
 		}
 		if (ImGui::MenuItem("Delete Area")) {
-			m_objects[id].attr("deleteArea")();
+			m_open_popup_area = true;
+			m_delete_conform_obj_id = id;
 		}
+
 		ImGui::EndPopup();
 	}
 }

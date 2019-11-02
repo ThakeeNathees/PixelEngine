@@ -84,7 +84,7 @@
     <ClCompile Include="vender\ImGuiAddnl\node_graph\node_graph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vender\ImGuiAddnl\ImGuizmo-master\ImSequencer.cpp">
+    <ClCompile Include="src\windows\projerty_editor\ScenePropEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -188,7 +188,7 @@
     <ClInclude Include="vender\ImGuiAddnl\node_graph\node_graph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vender\ImGuiAddnl\ImGuizmo-master\ImSequencer.h">
+    <ClInclude Include="src\windows\projerty_editor\ScenePropEditor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

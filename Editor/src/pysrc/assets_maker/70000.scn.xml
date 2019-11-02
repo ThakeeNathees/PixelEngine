@@ -1,0 +1,21 @@
+<scene name="scene1" id="70000">
+    <objects>
+    	<object id="60000"/>
+        <object id="60001"/>
+    </objects>
+</scene>
+
+
+-----------------
+
+<scn name, id>
+	<bg name, id> <!-- optional -->
+		<properties visible = "true"/>
+		<move_speed x="10" y="20"/>
+		<scale x, y/>
+		<!-- optional -->
+		<texture id/>
+	</bg>
+	
+	<objects/>
+</scn>

@@ -15,6 +15,7 @@ private:
 		auto m = py::module::import("file_tree");
 		m_py_filetree = m.attr("FileTree")(CLI::getCwd());
 		m_object_reader = py::module::import("object_reader");
+		m_scene_reader = py::module::import("scene_reader");
 		reloadObjects();
 
 	}
@@ -23,7 +24,9 @@ private:
 	std::string m_title;
 	py::object m_py_filetree;
 	py::module m_object_reader;
+	py::module m_scene_reader;
 	std::map<long long, py::object> m_objects;
+	std::map<long long, py::object> m_scenes;
 
 	long long m_selected_id = -1;
 	long long m_selected_menu_id = -1;
@@ -44,6 +47,10 @@ public:
 		return m_objects;
 	}
 
+	std::map<long long, py::object>& getSceneTags() {
+		return m_scenes;
+	}
+
 	bool m_open = true; // main menu bar need &m_open
 	static FileTree* getInstance() {
 		if (!s_instance) s_instance = new FileTree("Project-Explorer");
@@ -62,6 +69,15 @@ public:
 			if (m_objects.find(id) == m_objects.end()) {
 				auto obj_tag = m_object_reader.attr("ObjectTag")(path);
 				m_objects[id] = obj_tag;
+			}
+		}
+	}
+
+	void reloadScenes() {
+		for (auto path : m_py_filetree.attr("scene_paths").cast<std::vector<std::string>>()) {
+			long long id = PyUtils::getInstance()->getMathUtil().attr("md5Hash")(path, "long").cast<long long>();
+			if (m_scenes.find(id) == m_scenes.end()) {
+				// TODO:
 			}
 		}
 	}

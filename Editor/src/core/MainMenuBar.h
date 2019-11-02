@@ -13,6 +13,7 @@
 #include "windows/projerty_editor/ObjPropEditor.h"
 #include "windows/projerty_editor/SpritePropEditor.h"
 #include "windows/projerty_editor/AreaPropEditor.h"
+#include "windows/projerty_editor/ScenePropEditor.h"
 
 class MainMenuBar
 {
@@ -157,6 +158,7 @@ private:
 			if (ImGui::MenuItem("Object Editor", NULL, &ObjPropEditor::getInstance()->m_open)) {}
 			if (ImGui::MenuItem("Sprite Editor", NULL, &SpritePropEditor::getInstance()->m_open)) {}
 			if (ImGui::MenuItem("Area Editor", NULL, &AreaPropEditor::getInstance()->m_open)) {}
+			if (ImGui::MenuItem("Scene Editor", NULL, &ScenePropEditor::getInstance()->m_open)) {}
 			if (ImGui::MenuItem("Application", NULL, &EmbededApplication::getInstance()->m_open )) {}
 			if (ImGui::MenuItem("Console", NULL, &CLI::getInstance()->getConsole()->m_open)) {}
 			if (ImGui::MenuItem("Python Interpriter", NULL, &PyInterpriter::getInstance()->m_open)) {}

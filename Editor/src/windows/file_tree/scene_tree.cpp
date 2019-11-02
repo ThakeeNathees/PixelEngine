@@ -3,6 +3,8 @@
 #include "pch.h"
 #include "FileTree.h"
 
+#include "windows/projerty_editor/ScenePropEditor.h"
+
 
 void FileTree::renderSceneTree(const std::string& path) {
 	long long id = PyUtils::getInstance()->getMathUtil().attr("md5Hash")(path, "long").cast<long long>();
@@ -34,6 +36,10 @@ void FileTree::renderSceneTree(const std::string& path) {
 
 void FileTree::renderRightMouseMenuScene(const std::string& path, long long id) {
 	if (ImGui::BeginPopupContextItem("right mouse menu")) {
+
+		if (ImGui::Selectable("Edit")) {
+			ScenePropEditor::getInstance()->setSceneTag();
+		}
 
 		if (ImGui::Selectable("Open in TextEditor")) {
 			std::string title = PyUtils::getInstance()->getOs().attr("path").attr("basename")(path).cast<std::string>();

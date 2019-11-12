@@ -14,9 +14,19 @@ public:
 
 	void render();
 
-	void setSceneTag(py::object* scene_tag) {
-		m_scene_tag = scene_tag;
-		// TODO: reload scene
+	void open(py::object* scn_tag) {
+		setSceneTag(scn_tag);
+		m_open = true;
+	}
+
+	void setSceneTag(py::object* scn_tag) {
+		m_scene_tag = scn_tag;
+		reloadScene();
+	}
+
+	void reloadScene(bool reload_file = false) {
+		if (reload_file) m_scene_tag->attr("reload")();
+		// TODO: create scene
 	}
 
 private:

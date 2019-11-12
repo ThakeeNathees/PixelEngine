@@ -33,7 +33,10 @@ import os
 class ObjectTag:
     def __init__(self, path):
         self.path = path
-        path = os.path.relpath(path)
+        try:
+            path = os.path.relpath(path)
+        except Exception as err:
+            print(err)
         doc = ET.parse(path)
         self.root  = doc.getroot()
 

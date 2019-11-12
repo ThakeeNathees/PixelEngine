@@ -176,6 +176,7 @@
     <None Include="imgui.ini" />
     <None Include="peconfig.init" />
     <None Include="src\pysrc\assets_maker\object_reader.py" />
+    <None Include="src\pysrc\assets_maker\scene_reader.py" />
     <None Include="src\pysrc\conf_projupdater.py" />
     <None Include="src\pysrc\obj_maker.py" />
     <None Include="src\pysrc\scene_maker.py" />

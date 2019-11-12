@@ -46,6 +46,7 @@ file_format_icons:
 	obj_sprite="..\..\..\../Editor/res/icons/file_format/obj_sprite.png"	
 	obj_animation="..\..\..\../Editor/res/icons/file_format/obj_animation.png"	
 	obj_area="..\..\..\../Editor/res/icons/file_format/obj_area.png"	
+	scene_bg="..\..\..\../Editor/res/icons/file_format/scene_bg.png"
 end
 
 ##asset_obj="..\..\..\../Editor/res/icons/file_format/asset_obj.png"

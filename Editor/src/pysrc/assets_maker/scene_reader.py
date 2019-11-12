@@ -6,7 +6,10 @@ import os
 class SceneTag:
     def __init__(self, path):
         self.path = path
-        path = os.path.relpath(path)
+        try:
+            path = os.path.relpath(path)
+        except Exception as err:
+            print(err)
         doc = ET.parse(path)
         self.root = doc.getroot()
 
@@ -45,7 +48,25 @@ class SceneTag:
     def createBg(self, bg_id, bg_name="", tex_id=-1):
         if bg_name == "": bg_name = "bg_" + str(bg_id)
         if not self.hasBgTag():
-            ## TODO:
-            pass
+            new_bg = ET.Element('background')
+            new_bg.attrib['name'] = bg_name
+            new_bg.attrib['id'] = str(bg_id)
+            self.root.insert(0, len(self.root), new_bg)
+
+            prop = ET.Element('properties')
+            new_bg.insert(0, prop)
+            prop.attrib['visible'] = 'true'
+
+            move_speed = ET.Element('move_speed')
+            new_bg.insert(len(new_bg), move_speed)
+            move_speed.attrib['x'] = '0'
+            move_speed.attrib['y'] = '0'
+
+            scale = ET.Element('scale')
+            new_bg.insert(len(new_bg), scale)
+            scale.attrib['x'] = '1'
+            scale.attrib['y'] = '1'
+
+            ## no textures when creating
 
     

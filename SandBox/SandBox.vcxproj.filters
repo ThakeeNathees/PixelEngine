@@ -31,6 +31,7 @@
   <ItemGroup>
     <None Include="src\py_test.py" />
     <None Include="SandBox.peproj" />
+    <None Include="conf.init" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="log.txt" />

@@ -5,6 +5,9 @@
 class Player : public pe::Object
 {
 public:
+	// must
+	Player(int id) : pe::Object::Object(id) {}
+
 	inline void sceneEntered(pe::Scene* scene) override {
 		npc = getScene().getObject("Npc");
 	}
@@ -48,6 +51,6 @@ public:
 	}
 
 private:
-	pe::Font* f;
-	pe::Object* npc;
+	pe::Font* f = nullptr;
+	pe::Object* npc = nullptr;
 };

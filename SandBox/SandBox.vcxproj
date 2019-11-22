@@ -100,6 +100,7 @@
     <Xml Include="assets.xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="conf.init" />
     <None Include="SandBox.peproj" />
     <None Include="src\py_test.py" />
   </ItemGroup>

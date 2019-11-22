@@ -158,7 +158,6 @@ namespace pe
 		}
 		
 		
-
 	protected:
 		ObjectType m_object_type = ObjectType::CPP_OBJECT;
 		std::string m_class_name =""; // class name as string

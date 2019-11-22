@@ -262,7 +262,7 @@ def init(__proj_name, __dst_path=None, py_proj=False):
 
 if __name__ == "__main__" and 1:
     if 1:
-        init("proj12","C:/dev/__test_env/pytest")
+        init("proj11","C:/dev/__test_env/pytest", py_proj=True)
     else:
         updateProj("PeProjTest","C:/dev/__test_env/PeProjTest")
     

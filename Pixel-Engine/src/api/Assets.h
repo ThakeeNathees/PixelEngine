@@ -3,7 +3,7 @@
 #include "Scene.h"
 
 
-typedef pe::Object* (*construct_f)(const std::string&);
+typedef pe::Object* (*construct_f)(const std::string&, int);
 #define REGISTER_CLASS(class_name) pe::Assets::registerClass<class_name>(#class_name)
 #define ADD_PYOBJECT_PATH( path ) pe::Assets::addPyobjectPath(path);
 
@@ -28,8 +28,9 @@ namespace pe
 
 		// class register
 		template <typename T> // function to store in register map
-		static pe::Object* construct(const std::string& class_name) {
-			pe::Object* obj = static_cast<pe::Object*>(new T());
+		static pe::Object* construct(const std::string& class_name, int id) {
+			T* t_obj = new T(id);
+			pe::Object* obj = static_cast<pe::Object*>(t_obj);
 			obj->m_class_name = class_name;
 			return obj;
 		}

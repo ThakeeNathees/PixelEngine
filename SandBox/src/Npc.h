@@ -5,6 +5,8 @@
 class Npc : public pe::Object
 {
 public:
+	Npc(int id) : pe::Object::Object(id) {}
+
 	void sceneEntered(pe::Scene* scene) override {
 	}
 

@@ -4,20 +4,15 @@
 	
 HIGHT PRIORITY
 
-	in project generator (proj_init) copy sfml license and other license if any 
+	in project generator (proj_init) copy sfml license and other license if any
+	
+	python projects (non compiled) application -> sandbox.exe (project name registered)
+		--	make project name dynamic and read from conf.init
 
-	conf.init at SandBox.exe -> erase conf="degug" or "release"
 	runtime object creation depricate
-
-	sprite editor:
-		remove sprite tag
-		set texture unknown or None
-		add sprite editor button on obj property editor
 
 
 	windows:
-		sprite editor
-		area and shape editor
 		animation editor
 		scene creator
 		scene editor window
@@ -48,6 +43,9 @@ LOW PRIORITY
 	add object m_process_priority
 	remove persistence object from vector
 	nexeScene(), previousScene() => scene stack
+
+CANT IMPL:
+	conf.init at SandBox.exe -> erase conf="degug" or "release"
 
 # Logs ##############################################################################################################################
 

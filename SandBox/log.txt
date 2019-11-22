@@ -1,26 +1,42 @@
-Mon Oct  7 01:39:30 2019
+Fri Nov 22 20:01:21 2019
 
 engine initialized
 cwd : C:\dev\Pixel-Engine\SandBox
 python interpriter initialized
+-------------- New Application Creation --------------
+
 project file reading success
+
+Assets read begin
+	texture read : id = 0
+	texture read : id = 1
+	texture read : id = 2
+	font read : id = 10000
+	font read : id = 10001
 assets file reading success
 
-object deserialization begin : res/scene1/objects/60000.obj.xml
-object created: type=CPP_OBJECT  id=60000 name=player1
-sprite created: id=30000
-area created: id=20000
-animation created: id=50000
-animation created: id=50001
-animation created: id=50002
-animation created: id=50003
-object serialization success
 
-object deserialization begin : res/scene1/objects/60002.obj.xml
-object created: type=PYTHON_OBJECT  id=60002 name=pyobj1
-sprite created: id=30001
-area created: id=20001
-object serialization success
+object read begin : res/scene1/objects/60000.obj.xml
+	object created: type=CPP_OBJECT  id=60000 name=player1
+	sprite created: id=30000
+	area created: id=20000
+	animation created: id=50000
+	animation created: id=50001
+	animation created: id=50002
+	animation created: id=50003
+object file read success
 
-scene deserialization begin : res/scene1/70000.scn.xml
-scene serialization success
+
+object read begin : res/scene1/objects/60002.obj.xml
+	object created: type=PYTHON_OBJECT  id=60002 name=pyobj1
+	sprite created: id=30001
+	area created: id=20001
+object file read success
+
+
+scene read begin : res/scene1/70000.scn.xml
+	object added : id=60000
+	object added : id=60002
+scene file read success
+-------------- Deserialization success end --------------
+

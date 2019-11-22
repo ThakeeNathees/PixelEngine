@@ -49,7 +49,7 @@ namespace pe
 			if (class_name != std::string("")) {
 				auto pair = s_object_registry.find(class_name);
 				assert(pair != s_object_registry.end() && "unregistered class_name to construct use REGISTER_CLASS macro to register your classes");
-				Object* obj = pair->second(class_name);
+				obj = pair->second(class_name, id);
 				addAsset(obj);
 			}
 			else {

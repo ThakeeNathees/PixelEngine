@@ -36,33 +36,7 @@ public:
 		reloadSprite();
 	}
 
-	void reloadSprite(bool reload_file = false) {
-		if (reload_file) m_obj_tag->attr("reload")();
-		if (m_obj_tag->attr("hasSpriteTag")().cast<bool>()) {
-			int tex_id = m_obj_tag->attr("getSpriteTextureId")().cast<int>();
-			if (tex_id >= 0) {
-				m_sprite.setTexture(*pe::Assets::getAsset<pe::Texture>(tex_id),true);
-				//auto rect = m_obj_tag->attr("getSpriteTextureRect")().cast<std::vector<int>>();
-				//m_sprite.setTextureRect(sf::IntRect(rect[0], rect[1], rect[2], rect[3]));
-				auto frames = m_obj_tag->attr("getSpriteFrames")().cast<std::vector<int>>();
-				x = frames[0]; y = frames[1]; offset_x = frames[2]; offset_y = frames[3]; ind = frames[4];
-				m_sprite.setFrames(frames[0], frames[1], frames[2], frames[3]);
-				m_sprite.setFrameIndex(frames[4]);
-			}
-			else {
-				auto texture = pe::Texture();
-				m_sprite.setTexture(texture, true);
-			}
-			bool is_height_min = (m_sprite.getTextureRect().width > m_sprite.getTextureRect().height);
-			int spr_size = std::max(m_sprite.getTextureRect().width, m_sprite.getTextureRect().height);
-			m_sprite.setScale(s_tex_size / (float)spr_size, s_tex_size / (float)spr_size);
-			if (is_height_min) m_sprite.setPosition(0, (s_tex_size - m_sprite.getScale().x * m_sprite.getTextureRect().height) / 2);
-			else m_sprite.setPosition((s_tex_size - m_sprite.getScale().x * m_sprite.getTextureRect().width) / 2, 0);
-		}
-		else {
-			m_sprite = pe::Sprite();
-		}
-	}
+	void reloadSprite(bool reload_file = false);
 
 	void render();
 

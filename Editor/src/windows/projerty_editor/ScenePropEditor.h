@@ -24,10 +24,7 @@ public:
 		reloadScene();
 	}
 
-	void reloadScene(bool reload_file = false) {
-		if (reload_file) m_scene_tag->attr("reload")();
-		// TODO: create scene
-	}
+	void reloadScene(bool reload_file = false);
 
 private:
 	ScenePropEditor() {}

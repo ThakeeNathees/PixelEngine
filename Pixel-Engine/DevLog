@@ -3,7 +3,8 @@
 ## TODO ########################################################################
 	
 HIGHT PRIORITY
-	set assets.xml as default path : assets.xml name consistancy
+
+	in project generator (proj_init) copy sfml license and other license if any 
 
 	conf.init at SandBox.exe -> erase conf="degug" or "release"
 	runtime object creation depricate
@@ -12,7 +13,6 @@ HIGHT PRIORITY
 		remove sprite tag
 		set texture unknown or None
 		add sprite editor button on obj property editor
-
 
 
 	windows:

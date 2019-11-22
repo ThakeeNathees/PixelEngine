@@ -98,6 +98,8 @@ int main(int argc, char** argv)
 	pe::Event event; 
 	double dt =0;
 
+	// TODO: make embeded game application to a new thread
+
 	while (window.isOpen()) {
 
 		/* ***************** Event Handle ********************** */

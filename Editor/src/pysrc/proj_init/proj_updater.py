@@ -4,12 +4,14 @@ import os
 
 obj_format = ".obj.xml"
 scene_format = ".scn.xml"
-
+proj_format = '.peproj'
 
 def updateProj(proj_file_name = "", working_dir='.'):
     working_dir = working_dir+'/' if working_dir[-1] !='/' else working_dir ## need below
-    proj_file_path = os.path.join(working_dir , proj_file_name)
-
+    proj_file_path = os.path.join(working_dir , proj_file_name) + proj_format
+    
+    proj_name = proj_file_name
+    
     ## search for proj file
     if (proj_file_name==""):
         for file in os.listdir(working_dir):

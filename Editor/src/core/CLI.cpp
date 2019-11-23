@@ -91,7 +91,7 @@ int CLI::updatePeproj() {
 }
 
 void CLI::parseArgs(int argc, char** argv){
-	//	TODO: parse args
+	//	TODO: parse args, update proj, init, ...
 }
 
 //////////////////////////////////////////////////////////////////////////

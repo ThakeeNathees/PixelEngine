@@ -24,6 +24,7 @@ void SpritePropEditor::reloadSprite(bool reload_file) {
 			auto texture = pe::Texture();
 			m_sprite.setTexture(texture, true);
 		}
+		// set the sprite center
 		bool is_height_min = (m_sprite.getTextureRect().width > m_sprite.getTextureRect().height);
 		int spr_size = std::max(m_sprite.getTextureRect().width, m_sprite.getTextureRect().height);
 		m_sprite.setScale(s_tex_size / (float)spr_size, s_tex_size / (float)spr_size);

@@ -113,6 +113,7 @@ copy /Y $(SolutionDir)bin\$(Configuration)-$(Platform)\Pixel-Engine\Pixel-Engine
     <ClInclude Include="src\api\misc\Text.h" />
     <ClInclude Include="src\api\misc\Texture.h" />
     <ClInclude Include="src\api\Scene.h" />
+    <ClInclude Include="src\api\utils\sfml_utils.h" />
     <ClInclude Include="src\api\utils\string_utils.h" />
     <ClInclude Include="src\bindings\python\pe_api\pe_api.h" />
     <ClInclude Include="src\bindings\python\entities\entities.h" />

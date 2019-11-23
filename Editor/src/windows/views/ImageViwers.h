@@ -30,7 +30,6 @@ public:
 			// scroll zoom
 			if (event.type == sf::Event::EventType::MouseWheelMoved) {
 				
-				
 				m_image.setOrigin(m_image.getInverseTransform().transformPoint(m_mouse_pos));
 				m_image.setPosition(m_mouse_pos);
 

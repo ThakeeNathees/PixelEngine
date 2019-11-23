@@ -197,6 +197,9 @@
     <ClInclude Include="src\api\utils\string_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\api\utils\sfml_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="DevLog" />

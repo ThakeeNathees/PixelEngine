@@ -6,8 +6,9 @@ HIGHT PRIORITY
 
 	in project generator (proj_init) copy sfml license and other license if any
 	
+	add python project creation to gui
 	python projects (non compiled) application -> sandbox.exe (project name registered)
-		--	make project name dynamic and read from conf.init
+		--	if cant fild SandBox.peproj read *.peproj defined in conf.ini (handle exception)
 
 	runtime object creation depricate
 

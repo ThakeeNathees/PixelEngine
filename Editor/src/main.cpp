@@ -107,6 +107,7 @@ int main(int argc, char** argv)
 			ImGui::SFML::ProcessEvent(event);
 			ImageViwer::getInstance()->handleEvent(event);
 			FontViwer::getInstance()->handleEvent(event);
+			ScenePropEditor::getInstance()->handleEvent(event);
 
 			if (event.type == sf::Event::Closed) window.close();
 			// gain focus

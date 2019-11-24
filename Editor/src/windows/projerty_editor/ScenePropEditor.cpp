@@ -29,9 +29,11 @@ void ScenePropEditor::handleEvent(sf::Event& event) {
 			}
 		}
 
-
-		// scroll zoom
-		// TODO: no mouse zoom, only manual zoom with a zoom bar
+		// scene zoom
+		if (event.type == sf::Event::EventType::MouseWheelMoved) {
+			if (event.mouseWheel.delta > 0) m_scene_trans.scale(1.1f, 1.1f);
+			else if (m_scene_trans.getScale().x > .1) m_scene_trans.scale(.9f, .9f);
+		}
 
 		// resize render texture
 		if (event.type == sf::Event::EventType::MouseButtonReleased) {
@@ -66,19 +68,51 @@ void ScenePropEditor::render() {
 
 		m_render_texture.clear(CLI::getInstance()->getPeproj().default_bg_color);
 		drawAxisLines();
+
 		// TODO: draw everyting
+		static sf::Sprite spr;
+
+		// apply trans
+		auto rect = spr.getTextureRect();
+		sf::RectangleShape r(sf::Vector2f(rect.width, rect.height));
+		r.setFillColor(sf::Color(0, 0, 0, 0));
+		r.setOutlineColor(sf::Color::Blue);
+		r.setOutlineThickness(2.f/ m_scene_trans.getScale().x );
+
+		spr.setPosition( m_scene_trans.getPosition());
+		spr.setScale( m_scene_trans.getScale() );
+		r.setPosition(m_scene_trans.getPosition());
+		r.setScale(m_scene_trans.getScale());
+
+		// mouse select
+		if (
+			r.getGlobalBounds().left   < m_mouse_pos.x &&
+			r.getGlobalBounds().top    < m_mouse_pos.y &&
+			r.getGlobalBounds().width + r.getGlobalBounds().left > m_mouse_pos.x&&
+			r.getGlobalBounds().height + r.getGlobalBounds().top  > m_mouse_pos.y
+			) {
+			r.setOutlineColor(sf::Color::Yellow);
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+				static sf::Vector2f mouse_ini_pos;
+				static sf::Vector2f image_ini_pos;
+			}
+		}
+
+		m_render_texture.draw( spr );
+		m_render_texture.draw(r);
+		spr.setTexture(Resources::getFileFormatIcon("file_cpp"));
+
+		// test end
 
 		ImGui::Image(m_render_texture);
 
 		ImGui::Separator();
 		
-		ImGui::SetNextItemWidth(ImGui::GetWindowWidth()* .3f);
-		static float _scale = 1;
-		if (ImGui::InputFloat("zoom", &_scale, .01, .1)) {
-			if (_scale < .1) _scale = .1;
-			m_scene_trans.setScale(_scale, _scale);
+		// reset view
+		if (ImGui::Button("reset view")) {
+			m_scene_trans.setScale(1,1);
+			m_scene_trans.setPosition(100,100);
 		}
-
 
 		ImGui::End();
 	}

@@ -16,8 +16,6 @@ private:
 		m_py_filetree = m.attr("FileTree")(CLI::getCwd());
 		m_object_reader = py::module::import("object_reader");
 		m_scene_reader = py::module::import("scene_reader");
-		reloadObjects();
-
 	}
 
 	static FileTree* s_instance;
@@ -60,9 +58,10 @@ public:
 	void reload() {
 		auto m = py::module::import("file_tree");
 		m_py_filetree = m.attr("FileTree")(CLI::getCwd());
-		reloadObjects();
+		reloadObjectTags();
 	}
 
+	/*
 	void reloadObjects() {
 		for (auto path : m_py_filetree.attr("object_paths").cast<std::vector<std::string>>()) {
 			long long id = PyUtils::getInstance()->getMathUtil().attr("md5Hash")(path, "long").cast<long long>();
@@ -72,6 +71,7 @@ public:
 			}
 		}
 	}
+	*/
 
 	void reloadScenes() {
 		for (auto path : m_py_filetree.attr("scene_paths").cast<std::vector<std::string>>()) {
@@ -96,8 +96,12 @@ public:
 		return m_py_filetree;
 	}
 
+	py::object& getObjectTag(int id);
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 private:
+	void reloadObjectTags();
+
 	void renderTreeRecursive(py::object& tree, bool next_item_open = false);
 	void renderAssetsTree(const std::string& path);
 	void renderObjectTree(const std::string& path);
@@ -111,7 +115,6 @@ private:
 	void renderRightMouseMenuScene(const std::string& path, long long id);
 	void renderRightMouseMenuSprite(long long id);
 	void renderRightMouseMenuArea(long long id);
-
 
 	void renderPopup();
 	void nodeClickedEvent(const std::string& title, const std::string& path, long long id=-1);

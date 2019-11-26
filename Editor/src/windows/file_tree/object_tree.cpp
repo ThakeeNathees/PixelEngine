@@ -13,6 +13,7 @@ void FileTree::renderObjectTree(const std::string& path) {
 	file_name = PyUtils::getInstance()->getStrUtil().attr("getFileName")(file_name).cast<std::string>();
 	float dir_icon_pos = ImGui::GetCursorPosX();
 
+	// in case if readObjectTags missed
 	if (m_objects.find(id) == m_objects.end()) {
 		auto obj_tag = m_object_reader.attr("ObjectTag")(path);
 		m_objects[id] = obj_tag;
@@ -160,3 +161,25 @@ void FileTree::renderRightMouseMenuArea(long long id) {
 	}
 }
 
+
+// impl get objtag from id
+py::object& FileTree::getObjectTag(int id) {
+	for (auto pair : m_objects) {
+		if (pair.second.attr("getId")().cast<int>() == id) {
+			return pair.second;
+		}
+	}
+	throw "Does Not exists the object id";
+}
+
+
+void FileTree::reloadObjectTags() {
+
+	for (std::string obj_path : CLI::getInstance()->getPeproj().objects_paths) {
+		long long id = PyUtils::getInstance()->getMathUtil().attr("md5Hash")(obj_path, "long").cast<long long>();
+		auto file_name = PyUtils::getInstance()->getOs().attr("path").attr("basename")(obj_path).cast<std::string>();
+		file_name = PyUtils::getInstance()->getStrUtil().attr("getFileName")(file_name).cast<std::string>();
+		auto obj_tag = m_object_reader.attr("ObjectTag")(obj_path);
+		m_objects[id] = obj_tag;
+	}
+}

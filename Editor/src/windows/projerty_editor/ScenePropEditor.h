@@ -32,9 +32,11 @@ public:
 
 	void reloadScene(bool reload_file = false);
 
+
 private:
 	ScenePropEditor() {}
 	void drawAxisLines();
+
 	static ScenePropEditor* s_instance;
 	static sf::Color s_color_axis;
 	static sf::Color s_color_scene_area;

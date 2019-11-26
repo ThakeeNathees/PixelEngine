@@ -92,6 +92,7 @@ int main(int argc, char** argv)
 		if (error) { error = 3; continue; }
 	} while (error);
 
+	FileTree::getInstance()->reload(); // to reload objects tags;
 
 	/**********************     MAIN LOOP     **********************/
 	sf::Clock clock;
@@ -112,7 +113,7 @@ int main(int argc, char** argv)
 			if (event.type == sf::Event::Closed) window.close();
 			// gain focus
 			if (event.type == sf::Event::GainedFocus) { 
-				FileTree::getInstance()->reload(); 
+				FileTree::getInstance()->reload(); // TODO: this may unwanted
 			}
 			
 			// event handle for applicaton

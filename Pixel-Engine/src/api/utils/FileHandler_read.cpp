@@ -47,7 +47,7 @@ namespace pe
 		auto objects_tag = root->FirstChildElement("objects");
 		m_peproj.next_obj_id = objects_tag->IntAttribute("next_id");
 		for (auto path_tag = objects_tag->FirstChildElement(); path_tag != NULL; path_tag = path_tag->NextSiblingElement()) {
-			m_peproj.objects_path.push_back(path_tag->GetText());
+			m_peproj.objects_paths.push_back(path_tag->GetText());
 		}
 
 		auto pypaths_tag = root->FirstChildElement("pypaths");

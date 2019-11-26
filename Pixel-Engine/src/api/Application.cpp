@@ -65,7 +65,7 @@ namespace pe
 		else; // TODO: create assets.xml file and add
 
 		// obj deserialize
-		for (auto& path : m_peproj.objects_path) {
+		for (auto& path : m_peproj.objects_paths) {
 			file.readObject(path.c_str(), this);
 		}
 		// scene deserialize

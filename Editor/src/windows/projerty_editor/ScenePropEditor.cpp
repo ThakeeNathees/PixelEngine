@@ -2,6 +2,7 @@
 #include "ScenePropEditor.h"
 
 #include "utils/sfml_utils.h"
+#include "utils/math_utils.h"
 
 
 ScenePropEditor* ScenePropEditor::s_instance = nullptr;
@@ -25,7 +26,6 @@ void ScenePropEditor::handleEvent(sf::Event& event) {
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Middle)) {
 				m_scene_trans.setPosition(-mouse_ini_pos + m_mouse_pos + scene_ini_pos);
 				m_render_texture.clear( CLI::getInstance()->getPeproj().default_bg_color );
-				// TODO: draw everything after the clear
 			}
 		}
 
@@ -70,21 +70,21 @@ void ScenePropEditor::render() {
 		drawAxisLines();
 
 		// TODO: draw everyting
-		static sf::Sprite spr;
 
-		// apply trans
+		static sf::Sprite spr;
 		auto rect = spr.getTextureRect();
 		sf::RectangleShape r(sf::Vector2f(rect.width, rect.height));
-		r.setFillColor(sf::Color(0, 0, 0, 0));
-		r.setOutlineColor(sf::Color::Blue);
-		r.setOutlineThickness(2.f/ m_scene_trans.getScale().x );
 
+		// apply trans
 		spr.setPosition( m_scene_trans.getPosition());
 		spr.setScale( m_scene_trans.getScale() );
 		r.setPosition(m_scene_trans.getPosition());
 		r.setScale(m_scene_trans.getScale());
 
-		// mouse select
+
+		// draw rectangle color
+		r.setOutlineThickness(2.f / m_scene_trans.getScale().x);
+		r.setFillColor(sf::Color(0, 0, 0, 0));
 		if (
 			r.getGlobalBounds().left   < m_mouse_pos.x &&
 			r.getGlobalBounds().top    < m_mouse_pos.y &&
@@ -97,6 +97,13 @@ void ScenePropEditor::render() {
 				static sf::Vector2f image_ini_pos;
 			}
 		}
+		else {
+			r.setOutlineColor(sf::Color::Blue);
+		}
+
+		
+
+
 
 		m_render_texture.draw( spr );
 		m_render_texture.draw(r);

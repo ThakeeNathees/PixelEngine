@@ -50,7 +50,7 @@ namespace pe
 
 		auto objects_tag = m_doc->NewElement("objects");
 		root->InsertEndChild(objects_tag);
-		for (auto path : proj.objects_path) {
+		for (auto path : proj.objects_paths) {
 			auto path_tag = m_doc->NewElement("path");
 			objects_tag->InsertEndChild(path_tag);
 			path_tag->SetText(path.c_str());

@@ -153,9 +153,9 @@ int main(int argc, char** argv)
 		FileTree::getInstance()->render();
 		PyInterpriter::getInstance()->render();
 		CLI::getInstance()->getConsole()->render();
-		ImageViwer::getInstance()->render();
-		FontViwer::getInstance()->render();
 
+		ImageViwer::getInstance()->render(); // TOOD: correct the following spellings : viewer, embedded, interpreter
+		FontViwer::getInstance()->render();
 		TextEditors::renderEditors();
 		HexEditors::renderEditors();
 
@@ -171,8 +171,8 @@ int main(int argc, char** argv)
 
 		
 		/* node editor
-		static bool open = true; if (open)ShowExampleAppCustomNodeGraph(&open);
 		*/
+		static bool open = true; if (open)ShowExampleAppCustomNodeGraph(&open);
 
 		ImGui::ShowTestWindow();
 

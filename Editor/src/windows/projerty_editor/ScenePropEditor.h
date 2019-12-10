@@ -47,6 +47,7 @@ private:
 
 	bool m_is_focus				= false;
 	bool m_window_size_changed	= false;
+	bool m_is_title_bar_hovered = false; // for move window only with title bar
 	ImVec2 m_window_size		= ImVec2(0, 0);
 	sf::Transformable m_scene_trans;
 

@@ -56,7 +56,11 @@ void ScenePropEditor::render() {
 	m_is_focus = false;
 	if (m_open) {
 		ImGui::SetNextWindowSize(ImVec2(600, 400), ImGuiCond_Once);
-		ImGui::Begin("Scene Editor", &m_open);
+		
+		ImGuiWindowFlags_ flag = ImGuiWindowFlags_None; if (!m_is_title_bar_hovered) flag = ImGuiWindowFlags_NoMove;
+
+		ImGui::Begin("Scene Editor", &m_open, flag);
+		m_is_title_bar_hovered = ImGui::IsItemHovered();
 		if (ImGui::IsWindowFocused()) m_is_focus = true;
 		m_mouse_pos = sf::Vector2f(ImGui::GetMousePos().x - ImGui::GetCursorScreenPos().x, ImGui::GetMousePos().y - ImGui::GetCursorScreenPos().y);
 		

@@ -3,6 +3,8 @@
 ## TODO ########################################################################
 	
 HIGHT PRIORITY
+	
+	.peproj created additionaly
 
 	in project generator (proj_init) copy sfml license and other license if any
 	

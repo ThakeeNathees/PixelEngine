@@ -1,12 +1,12 @@
 <?xml version="1.0" ?>
 <assets>
 	<textures next_id="3">
-		<texture name="tex_0" id="0" smooth="true" repeat="false">res\logo.png</texture>
-		<texture name="tex_1" id="1" smooth="true" repeat="false">res\backgrounds\grass.png</texture>
-		<texture name="tex_2" id="2" smooth="false" repeat="false">res\sprite_sheets\sheet.png</texture>
+		<texture id="0" name="tex_0" repeat="false" smooth="true">res\logo.png</texture>
+		<texture id="1" name="tex_1" repeat="false" smooth="true">res\backgrounds\grass.png</texture>
+		<texture id="2" name="tex_2" repeat="false" smooth="false">res\sprite_sheets\sheet.png</texture>
 	</textures>
 	<fonts next_id="10002">
-		<font name="font_10000" id="10000">res\fonts\Asap\Asap-Regular.ttf</font>
-		<font name="font_10001" id="10001">res\fonts\Indie_Flower\IndieFlower-Regular.ttf</font>
+		<font id="10000" name="font_10000">res\fonts\Asap\Asap-Regular.ttf</font>
+		<font id="10001" name="font_10001">res\fonts\Indie_Flower\IndieFlower-Regular.ttf</font>
 	</fonts>
 </assets>

@@ -6,6 +6,7 @@ png_bg_path = "..\..\..\../Editor/res/logo/png_bg.jpg"
 
 projects:
 	porj="PeProjTest","C:\dev\__test_env/PeProjTest"
+	porj="SandBox","C:\dev\Pixel-Engine\SandBox"
 end
 
 paths:

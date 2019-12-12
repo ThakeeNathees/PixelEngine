@@ -14,7 +14,7 @@ namespace py = pybind11;
 
 PIXEL_ENGINE_API void pe_mainLoop(const char* project_name, int argc, char** argv)
 {
-	pe_readInitFile();
+	pe_readInitFile(); // TODO: get the project name from here
 	PE_LOG("engine initialized");
 
 	char buf[4096];

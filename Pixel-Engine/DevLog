@@ -4,7 +4,15 @@
 	
 HIGHT PRIORITY
 	
-	.peproj created additionaly
+	application only search for SandBox.peproj -> make get the name from config.init
+	remove configuration from conf.init (projfile.peproj has)
+	
+	create another object type (cpp_dynamic_object) create *.dll to open with dlopen
+	at run time, compile with editor using mingw(g++) -> no need to include .h, .lib files to proj
+	editor have them all, **no need to register the class**
+
+	in another branch : make python objects as class based, inherit python objects from PEObject
+	
 
 	in project generator (proj_init) copy sfml license and other license if any
 	

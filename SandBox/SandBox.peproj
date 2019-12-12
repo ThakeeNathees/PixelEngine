@@ -1,21 +1,31 @@
+<?xml version="1.0" ?>
 <Project title="SandBox">
-    <window_size x="640" y="480"/>
-    <pref frame_rate="30" begin_scene_id="70000" debug_mode="true" no_console="false"/>
-    <logo_texture id="0"/>
-    <bg_color r="80" g="80" b="80" a="255"/>
-    <assets>assets.xml</assets>
-    <objects next_id="60000">
-    	<path>res/scene1/objects/60000.obj.xml</path>
-    	<path>res/scene1/objects/60002.obj.xml</path>
-    </objects>
+	    
+	<window_size x="640" y="480"/>
+	    
+	<pref begin_scene_id="70000" debug_mode="true" frame_rate="30" no_console="false"/>
+	    
+	<logo_texture id="0"/>
+	    
+	<bg_color a="255" b="80" g="80" r="80"/>
+	    
+	<assets>assets.xml</assets>
+	    
+	<objects next_id="60003">
+		    
+		<path>res\scene1\objects\60000.obj.xml</path>
+		<path>res\scene1\objects\60002.obj.xml</path>
+	</objects>
 	<pypaths>
 		<pypath>src</pypath>
 	</pypaths>
-	<areas next_id="20000"/>
-	<sprites next_id="30000"/>
+	<areas next_id="20002"/>
+	<sprites next_id="30002"/>
 	<backgrounds next_id="40000"/>
-	<animations next_id="50000"/>
-    <scenes next_id="70000">
-    	<path>res/scene1/70000.scn.xml</path>
-    </scenes>
+	<animations next_id="50004"/>
+	    
+	<scenes next_id="70001">
+		    
+		<path>res\scene1\70000.scn.xml</path>
+	</scenes>
 </Project>

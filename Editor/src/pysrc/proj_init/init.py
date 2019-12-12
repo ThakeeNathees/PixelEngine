@@ -237,7 +237,7 @@ def init(__proj_name, __dst_path=None, py_proj=False):
     #copyPythonDll(py_dll_path, proj_dir, 'debug', py_proj)
     copyPythonDll(py_dll_path, proj_dir, 'release', py_proj)
     
-    updateProj(proj_name, proj_dir, py_proj=py_proj)
+    updateProj( (proj_name+proj_updater.proj_format), proj_dir, py_proj=py_proj)
     if not py_proj:
         copyLicense(pe_sln_path, proj_dir)
 
@@ -262,7 +262,7 @@ def init(__proj_name, __dst_path=None, py_proj=False):
 
 if __name__ == "__main__" and 1:
     if 1:
-        init("proj11","C:/dev/__test_env/pytest", py_proj=True)
+        init("proj11","C:/dev/__test_env/pytest", py_proj=False)
     else:
         updateProj("PeProjTest","C:/dev/__test_env/PeProjTest")
     

@@ -244,7 +244,7 @@ namespace pe
 		if (*dt >= 1 / m_frame_rate) {
 			m_current_frame_rate = 1 / *dt;
 			// reload
-			if (m_is_debug_mode && sf::Keyboard::isKeyPressed(sf::Keyboard::F4)) {
+			if (m_is_debug_mode && sf::Keyboard::isKeyPressed(sf::Keyboard::F4)) { // TODO: scripts reload key
 				for (auto obj : m_current_scene->getObjects()) obj->scriptReload();
 			}
 

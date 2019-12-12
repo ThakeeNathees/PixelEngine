@@ -227,5 +227,6 @@
     <None Include="src\pysrc\utils\file_util.py" />
     <None Include="src\pysrc\assets_maker\object_reader.py" />
     <None Include="src\pysrc\assets_maker\scene_reader.py" />
+    <None Include="README.md" />
   </ItemGroup>
 </Project>

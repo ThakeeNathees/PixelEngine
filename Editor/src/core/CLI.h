@@ -32,7 +32,7 @@ public:
 			PE_LOG("\nERROR: in mehtod CLI::projInit \n%s\n", e.what());
 		}
 	}
-	int projFileUpdate(bool include_pe = true, const std::string& proj_dir=".") {
+	int projFileUpdate(bool include_pe = true, const std::string& proj_dir=".") { // a python class wrapper
 		int error = 0;
 		try {
 			m_py_proj_init.attr("updateProj")(m_proj_file_name, proj_dir, include_pe);

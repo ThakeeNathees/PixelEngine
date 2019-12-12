@@ -175,6 +175,7 @@
   <ItemGroup>
     <None Include="imgui.ini" />
     <None Include="peconfig.init" />
+    <None Include="README.md" />
     <None Include="src\pysrc\assets_maker\object_reader.py" />
     <None Include="src\pysrc\assets_maker\scene_reader.py" />
     <None Include="src\pysrc\conf_projupdater.py" />

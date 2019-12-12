@@ -8,7 +8,10 @@ proj_format = '.peproj'
 
 def updateProj(proj_file_name = "", working_dir='.'):
     working_dir = working_dir+'/' if working_dir[-1] !='/' else working_dir ## need below
-    proj_file_path = os.path.join(working_dir , proj_file_name) + proj_format
+
+    assert proj_file_name.endswith(proj_format)
+
+    proj_file_path = os.path.join(working_dir , proj_file_name) 
     
     proj_name = proj_file_name
     

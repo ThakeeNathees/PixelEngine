@@ -36,7 +36,7 @@ proper window instance to view the file (image, font, text editor, if binary hex
 
 #### object creator and script creator
 object creator is to serialize and create ```*.obj.xml``` from the given inputs of the creator window, and the script creator is also doing the 
-same to create ```*.py``` or ```*.h```. (TODO: if there is any cpp files add them for compilation) these widows use browse windows (render it) for 
+same to create ```*.py``` or ```*.h```. these widows use browse windows (render it) for 
 capture the browse path.
 
 #### sprite property editor

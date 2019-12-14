@@ -3,10 +3,6 @@
 bin/Debug-x64/
 bin/Release-x64/
 bin-int/
-vender/SFML-2.5.1/examples/
-vender/SFML-2.5.1/doc/
-vender/SFML-2.5.1/lib/cmake/
-#SandBox/src
 
 #pycache
 *__pycache__
@@ -14,4 +10,3 @@ vender/SFML-2.5.1/lib/cmake/
 
 ###files
 *.psd
-#SandBox/test.xml

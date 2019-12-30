@@ -1,7 +1,7 @@
-Thu Dec 12 15:14:40 2019
+Sat Dec 14 16:58:11 2019
 
 engine initialized
-cwd : C:\dev\Pixel-Engine\SandBox
+cwd : C:\dev\Pixel-Engine\SandBox\bin
 python interpriter initialized
 -------------- New Application Creation --------------
 
@@ -16,7 +16,7 @@ Assets read begin
 assets file reading success
 
 
-object read begin : res/scene1/objects/60000.obj.xml
+object read begin : res\scene1\objects\60000.obj.xml
 	object created: type=CPP_OBJECT  id=60000 name=player1
 	sprite created: id=30000
 	area created: id=20000
@@ -27,14 +27,14 @@ object read begin : res/scene1/objects/60000.obj.xml
 object file read success
 
 
-object read begin : res/scene1/objects/60002.obj.xml
+object read begin : res\scene1\objects\60002.obj.xml
 	object created: type=PYTHON_OBJECT  id=60002 name=pyobj1
 	sprite created: id=30001
 	area created: id=20001
 object file read success
 
 
-scene read begin : res/scene1/70000.scn.xml
+scene read begin : res\scene1\70000.scn.xml
 	object added : id=60000
 	object added : id=60002
 scene file read success

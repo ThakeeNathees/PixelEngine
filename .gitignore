@@ -1,7 +1,6 @@
 ###directories
 .vs/
-bin/Debug-x64/
-bin/Release-x64/
+bin/
 bin-int/
 
 #pycache

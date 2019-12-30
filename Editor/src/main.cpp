@@ -113,7 +113,7 @@ int main(int argc, char** argv)
 			if (event.type == sf::Event::Closed) window.close();
 			// gain focus
 			if (event.type == sf::Event::GainedFocus) { 
-				FileTree::getInstance()->reload(); // TODO: this may unwanted
+				FileTree::getInstance()->reload();
 			}
 			
 			// event handle for applicaton

@@ -23,6 +23,7 @@ conf="%s"
 cwd="%s"
 log="%s"
 kill_switch="F9"
+project="%s"
 '''
 
 
@@ -55,9 +56,9 @@ link_cpp = '''\
 #endif
 '''
 
-def makeInit(dst, conf, cwd, log):
+def makeInit(project_name, dst, conf, cwd, log):
     file = open(os.path.join(dst, init_file_name), 'w')
-    file.write( init_format%(conf, cwd, log) )
+    file.write( init_format%(conf, cwd, log, project_name) )
     file.close()
     
 
@@ -247,8 +248,8 @@ def init(__proj_name, __dst_path=None, py_proj=False):
         link_cpp_file.close()
 
     if not py_proj:
-        makeInit( os.path.join( proj_dir, 'bin/x64-debug'), "debug", '../../', 'bin/x64-debug/log.txt' )
-        makeInit( os.path.join( proj_dir, 'bin/x64-release'), "release", '../../', 'bin/x64-release/log.txt' )
+        makeInit( proj_name,  os.path.join( proj_dir, 'bin/x64-debug'), "debug", '../../', 'bin/x64-debug/log.txt' )
+        makeInit( proj_name, os.path.join( proj_dir, 'bin/x64-release'), "release", '../../', 'bin/x64-release/log.txt' )
     else:
         makeInit( os.path.join( proj_dir, 'bin/x64/'), "release", '../../', 'bin/x64/log.txt' )
     print('init file(s) created')

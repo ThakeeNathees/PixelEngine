@@ -1,8 +1,22 @@
 
 
 ## TODO ########################################################################
-	
+
+BUG:
+	in editor createing an object without script/script path -> in register.h classname = "None"
+	in object property editor script path set not working
+	remove object type UNKNOWN and make it py_object
+
+	_____ handle these errors (crashing) _____
+	* project file not found error
+	* .obj.xml, scn.xml read error
+	game should show an error message not crash suddnly
+	__________________________________________
+
 HIGHT PRIORITY
+
+	copy sandbox.exe to porj ini bin folder
+	impl kill switch no more -> normal close
 	
 	application only search for SandBox.peproj -> make get the name from config.init
 	remove configuration from conf.init (projfile.peproj has)
@@ -30,7 +44,9 @@ HIGHT PRIORITY
 
 
 LOW PRIORITY
+
 	proj init for python simplyfied dir template
+	add, remove new fonts, remove projects in open window
 	store window is open in conf.init, new fonts, selected fonts, font scale, 
 	add script reload key to conf.init or some where else
 	*** persistence objects are automatically add to all scene without adding them *** 
@@ -54,9 +70,6 @@ LOW PRIORITY
 	add object m_process_priority
 	remove persistence object from vector
 	nexeScene(), previousScene() => scene stack
-
-CANT IMPL:
-	conf.init at SandBox.exe -> erase conf="degug" or "release"
 
 # Logs ##############################################################################################################################
 

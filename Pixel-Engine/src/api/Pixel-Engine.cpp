@@ -7,14 +7,15 @@ std::string Logger::s_path = "./log.txt"; // default
 std::ofstream Logger::s_outfile;
 bool Logger::s_is_init = false;
 
-void pe_readInitFile();
+void pe_readInitFile(std::string& proj_name);
 
 #include <pybind11/embed.h>
 namespace py = pybind11;
 
-PIXEL_ENGINE_API void pe_mainLoop(const char* project_name, int argc, char** argv)
+PIXEL_ENGINE_API void pe_mainLoop( int argc, char** argv)
 {
-	pe_readInitFile(); // TODO: get the project name from here
+	std::string project_name;
+	pe_readInitFile(project_name);
 	PE_LOG("engine initialized");
 
 	char buf[4096];
@@ -30,7 +31,7 @@ PIXEL_ENGINE_API void pe_mainLoop(const char* project_name, int argc, char** arg
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void pe_readInitFile() {
+void pe_readInitFile(std::string& proj_name) {
 	std::ifstream init_file("conf.init");
 	if (init_file.is_open()) {
 		std::string line;
@@ -45,6 +46,9 @@ void pe_readInitFile() {
 					PE_CONSOLE_LOG("kill_switch = \"%s\"", value.c_str());
 					auto key = pe::__getFunctionKey(value);
 					pe::Application::s_kill_switch = key;
+				}
+				if (key == std::string("project")) {
+					proj_name = value;
 				}
 			}
 		}

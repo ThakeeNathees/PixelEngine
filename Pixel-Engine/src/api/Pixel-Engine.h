@@ -37,13 +37,13 @@
 /************ Entry-Point ************/
 #ifdef PE_PROJECT
 
-void pe_mainLoop(const char* project_name, int argc, char** argv);
+void pe_mainLoop(int argc, char** argv);
 void register_classes();
 
 int main(int argc, char** argv)
 {
 	register_classes();
-	pe_mainLoop( TOSTRING(PE_PROJECT), argc, argv );
+	pe_mainLoop( argc, argv );
 	return 0;
 }
 

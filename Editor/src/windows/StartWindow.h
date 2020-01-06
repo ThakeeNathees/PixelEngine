@@ -119,6 +119,13 @@ public:
 				ImGui::OpenPopup("Explorer");
 			}
 
+			static const char* project_templates[] = { "Python Project", "C++ Project" };
+			static int template_index = 0;
+			//ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * witdh_frac);
+			if (ImGui::Combo("project template", &template_index, project_templates, (int)(sizeof(project_templates) / sizeof(const char*)))) {}
+
+			ImGui::NewLine();
+
 			/* ********************** */
 			if (ImGui::Button("Create")) {
 				if (proj_name[0] == '\0' || proj_path[0] == '\0')
@@ -126,7 +133,7 @@ public:
 				else if (!PyUtils::getInstance()->getStrUtil().attr("isValidName")(std::string(proj_name)).cast<bool>())
 					ImGui::OpenPopup("Invalid Project Name!");
 				else {
-					CLI::getInstance()->projInit(ExplorerPopup::getInstance()->getSelectedPath(), proj_name);
+					CLI::getInstance()->projInit(ExplorerPopup::getInstance()->getSelectedPath(), proj_name, (template_index==0)?true:false );
 					ImGui::End();
 					ImGui::SFML::Render(window);
 					CLI::chDir(std::string(proj_path).append("/").append(proj_name));

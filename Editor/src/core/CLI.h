@@ -23,9 +23,9 @@ public:
 
 	// methods
 	void init();
-	void projInit(const std::string& path, const std::string& name ) {
+	void projInit(const std::string& path, const std::string& name, bool py_proj = true ) {
 		try {
-			m_py_proj_init.attr("init")(name, path);
+			m_py_proj_init.attr("init")(name, path, py_proj);
 			PE_LOG("CLI::projInit success");
 		}
 		catch (const std::exception& e){

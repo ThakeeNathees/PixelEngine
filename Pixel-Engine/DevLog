@@ -3,6 +3,8 @@
 ## TODO ########################################################################
 
 BUG:
+	python project template init -> copy conf.init, sandbox.exe
+
 	in editor createing an object without script/script path -> in register.h classname = "None"
 	in object property editor script path set not working
 	remove object type UNKNOWN and make it py_object
@@ -14,7 +16,8 @@ BUG:
 	__________________________________________
 
 HIGHT PRIORITY
-
+	
+	
 	copy sandbox.exe to porj ini bin folder
 	impl kill switch no more -> normal close
 	
@@ -30,7 +33,6 @@ HIGHT PRIORITY
 
 	in project generator (proj_init) copy sfml license and other license if any
 	
-	add python project creation to gui
 	python projects (non compiled) application -> sandbox.exe (project name registered)
 		--	if cant fild SandBox.peproj read *.peproj defined in conf.ini (handle exception)
 
@@ -44,8 +46,6 @@ HIGHT PRIORITY
 
 
 LOW PRIORITY
-
-	proj init for python simplyfied dir template
 	add, remove new fonts, remove projects in open window
 	store window is open in conf.init, new fonts, selected fonts, font scale, 
 	add script reload key to conf.init or some where else

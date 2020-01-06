@@ -214,7 +214,7 @@ def updateProj(proj_name="", proj_dir='.', include_pe=True, default_tex_smooth =
 
 
 ## if init success return 0
-def init(__proj_name, __dst_path=None, py_proj=False):
+def init(__proj_name, __dst_path=None, py_proj=True):
     if __proj_name[0].isnumeric():
         return 1
     for illegal in [' ','\t','\n']:

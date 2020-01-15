@@ -14,17 +14,19 @@ void ScenePropEditor::handleEvent(sf::Event& event) {
 	if (m_is_focus) {
 
 		// scene move
-		static sf::Vector2f mouse_ini_pos;
+		static sf::Vector2f mouse_ini_pos;  // ini left click drag
+		static sf::Vector2f mmouse_ini_pos; // ini middle mouse pos
 		static sf::Vector2f scene_ini_pos;
+		static sf::Vector2f spr_ini_pos;
 		if (event.type == sf::Event::EventType::MouseButtonPressed) {
 			if (event.mouseButton.button == sf::Mouse::Middle) {
-				mouse_ini_pos = m_mouse_pos;
+				mmouse_ini_pos = m_mouse_pos;
 				scene_ini_pos = m_scene_trans.getPosition();
 			}
 		}
 		if (event.type == sf::Event::EventType::MouseMoved) {
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Middle)) {
-				m_scene_trans.setPosition(-mouse_ini_pos + m_mouse_pos + scene_ini_pos);
+				m_scene_trans.setPosition(-mmouse_ini_pos + m_mouse_pos + scene_ini_pos);
 				m_render_texture.clear( CLI::getInstance()->getPeproj().default_bg_color );
 			}
 		}
@@ -33,15 +35,38 @@ void ScenePropEditor::handleEvent(sf::Event& event) {
 		if (event.type == sf::Event::EventType::MouseWheelMoved) {
 			if (event.mouseWheel.delta > 0) m_scene_trans.scale(1.1f, 1.1f);
 			else if (m_scene_trans.getScale().x > .1) m_scene_trans.scale(.9f, .9f);
+			m_selected_spr = nullptr; // TODO: set it to nullptr somewhere else
+		}
+
+		// move sprite
+		static sf::Vector2f d_pos_ini = d_pos;
+		if (event.type == sf::Event::EventType::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+			if (m_hovered_spr != nullptr) {
+				m_selected_spr = m_hovered_spr;
+				mouse_ini_pos = m_scene_trans.getTransform().transformPoint( m_mouse_pos );
+				spr_ini_pos   = m_selected_spr->getPosition();
+				d_pos_ini = d_pos;
+			}
+		}
+		if (event.type == sf::Event::EventType::MouseMoved) {
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && m_selected_spr != nullptr) {
+
+				d_pos = m_scene_trans.getInverseTransform().transformPoint( -mouse_ini_pos  + m_scene_trans.getTransform().transformPoint( m_mouse_pos ) + spr_ini_pos ); // TODO: set fix d_pos, transform
+
+			}
+		}
+
+		if (event.type == sf::Event::EventType::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
+			//m_selected_spr = nullptr; // this will set to the sprite in render if any spr is hovered.
 		}
 
 		// resize render texture
-		if (event.type == sf::Event::EventType::MouseButtonReleased) {
-			if (event.mouseButton.button == sf::Mouse::Button::Left && m_window_size_changed){
-				m_window_size_changed = false;
-				m_render_texture.create(static_cast<unsigned int>(m_window_size.x), static_cast<unsigned int>(m_window_size.y - s_scene_height_offset));
-			}
-		}
+		// if (event.type == sf::Event::EventType::MouseButtonReleased) {
+		// 	if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && m_window_size_changed){
+		// 		m_window_size_changed = false;
+		// 		m_render_texture.create(static_cast<unsigned int>(m_window_size.x), static_cast<unsigned int>(m_window_size.y - s_scene_height_offset));
+		// 	}
+		// }
 	}
 }
 
@@ -69,6 +94,10 @@ void ScenePropEditor::render() {
 			m_window_size = ImGui::GetWindowSize();
 			m_window_size_changed = true;
 		}
+		if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && m_window_size_changed) {
+			m_window_size_changed = false;
+			m_render_texture.create(static_cast<unsigned int>(m_window_size.x), static_cast<unsigned int>(m_window_size.y - s_scene_height_offset));
+		}
 
 		m_render_texture.clear(CLI::getInstance()->getPeproj().default_bg_color);
 		drawAxisLines();
@@ -80,13 +109,15 @@ void ScenePropEditor::render() {
 		sf::RectangleShape r(sf::Vector2f(rect.width, rect.height));
 
 		// apply trans
-		spr.setPosition( m_scene_trans.getPosition());
-		spr.setScale( m_scene_trans.getScale() );
-		r.setPosition(m_scene_trans.getPosition());
-		r.setScale(m_scene_trans.getScale());
+		auto transform = m_scene_trans.getTransform();
+		spr.setPosition(transform.transformPoint(d_pos));
+		spr.setScale(m_scene_trans.getScale());
+		r.setPosition(spr.getPosition());
+		r.setScale(spr.getScale());
 
 
 		// draw rectangle color
+		m_hovered_spr = nullptr;
 		r.setOutlineThickness(2.f / m_scene_trans.getScale().x);
 		r.setFillColor(sf::Color(0, 0, 0, 0));
 		if (
@@ -96,9 +127,8 @@ void ScenePropEditor::render() {
 			r.getGlobalBounds().height + r.getGlobalBounds().top  > m_mouse_pos.y
 			) {
 			r.setOutlineColor(sf::Color::Yellow);
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-				static sf::Vector2f mouse_ini_pos;
-				static sf::Vector2f image_ini_pos;
+			if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+				m_hovered_spr = &spr;
 			}
 		}
 		else {

@@ -171,8 +171,8 @@ int main(int argc, char** argv)
 
 		
 		/* node editor
-		*/
 		static bool open = true; if (open)ShowExampleAppCustomNodeGraph(&open);
+		*/
 
 		ImGui::ShowTestWindow();
 

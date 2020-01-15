@@ -50,6 +50,10 @@ private:
 	bool m_is_title_bar_hovered = false; // for move window only with title bar
 	ImVec2 m_window_size		= ImVec2(0, 0);
 	sf::Transformable m_scene_trans;
+	sf::Sprite* m_selected_spr = nullptr;
+	sf::Sprite* m_hovered_spr = nullptr;
+
+	sf::Vector2f d_pos; // pos for debug
 
 	sf::Vector2f m_mouse_pos;
 	

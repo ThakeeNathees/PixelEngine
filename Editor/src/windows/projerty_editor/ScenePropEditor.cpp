@@ -43,15 +43,19 @@ void ScenePropEditor::handleEvent(sf::Event& event) {
 		if (event.type == sf::Event::EventType::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
 			if (m_hovered_spr != nullptr) {
 				m_selected_spr = m_hovered_spr;
-				mouse_ini_pos = m_scene_trans.getTransform().transformPoint( m_mouse_pos );
+				mouse_ini_pos = m_mouse_pos;
 				spr_ini_pos   = m_selected_spr->getPosition();
 				d_pos_ini = d_pos;
 			}
 		}
+
+		
 		if (event.type == sf::Event::EventType::MouseMoved) {
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && m_selected_spr != nullptr) {
-
-				d_pos = m_scene_trans.getInverseTransform().transformPoint( -mouse_ini_pos  + m_scene_trans.getTransform().transformPoint( m_mouse_pos ) + spr_ini_pos ); // TODO: set fix d_pos, transform
+				d_pos = -mouse_ini_pos  +  m_mouse_pos;
+				d_pos.x /= m_scene_trans.getScale().x;
+				d_pos.y /= m_scene_trans.getScale().y;
+				d_pos += d_pos_ini;
 
 			}
 		}

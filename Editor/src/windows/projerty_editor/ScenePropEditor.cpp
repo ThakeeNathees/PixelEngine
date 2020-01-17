@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "ScenePropEditor.h"
 
+#include "../file_tree/FileTree.h"
 #include "utils/sfml_utils.h"
 #include "utils/math_utils.h"
 
@@ -17,7 +18,7 @@ void ScenePropEditor::handleEvent(sf::Event& event) {
 		static sf::Vector2f mouse_ini_pos;  // ini left click drag
 		static sf::Vector2f mmouse_ini_pos; // ini middle mouse pos
 		static sf::Vector2f scene_ini_pos;
-		static sf::Vector2f spr_ini_pos;
+		static sf::Vector2f spr_ini_pos, obj_ini_pos;
 		if (event.type == sf::Event::EventType::MouseButtonPressed) {
 			if (event.mouseButton.button == sf::Mouse::Middle) {
 				mmouse_ini_pos = m_mouse_pos;
@@ -35,33 +36,41 @@ void ScenePropEditor::handleEvent(sf::Event& event) {
 		if (event.type == sf::Event::EventType::MouseWheelMoved) {
 			if (event.mouseWheel.delta > 0) m_scene_trans.scale(1.1f, 1.1f);
 			else if (m_scene_trans.getScale().x > .1) m_scene_trans.scale(.9f, .9f);
-			m_selected_spr = nullptr; // TODO: set it to nullptr somewhere else
+			m_selected_obj_id = -1; // TODO: set it to -1 somewhere else
 		}
 
 		// move sprite
-		static sf::Vector2f d_pos_ini = d_pos;
+		//static sf::Vector2f d_pos_ini = d_pos;
 		if (event.type == sf::Event::EventType::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-			if (m_hovered_spr != nullptr) {
-				m_selected_spr = m_hovered_spr;
+			if (m_hovered_obj_id != -1) {
+				m_selected_obj_id = m_hovered_obj_id;
 				mouse_ini_pos = m_mouse_pos;
-				spr_ini_pos   = m_selected_spr->getPosition();
-				d_pos_ini = d_pos;
+				try {
+					auto& objects = FileTree::getInstance()->getObjects();
+					py::object& obj = objects[m_selected_obj_id];
+					obj_ini_pos.x = obj.attr("getPosition")().attr("__getitem__")(0).cast<float>();
+					obj_ini_pos.y = obj.attr("getPosition")().attr("__getitem__")(1).cast<float>();
+				}
+				catch (std::exception err) { std::cout << err.what() << std::endl; }
 			}
 		}
 
 		
 		if (event.type == sf::Event::EventType::MouseMoved) {
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && m_selected_spr != nullptr) {
-				d_pos = -mouse_ini_pos  +  m_mouse_pos;
-				d_pos.x /= m_scene_trans.getScale().x;
-				d_pos.y /= m_scene_trans.getScale().y;
-				d_pos += d_pos_ini;
-
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && m_selected_obj_id != -1) {
+				auto pos = -mouse_ini_pos  +  m_mouse_pos;
+				pos.x /= m_scene_trans.getScale().x;
+				pos.y /= m_scene_trans.getScale().y;
+				pos += obj_ini_pos;
+				auto& objects = FileTree::getInstance()->getObjects();
+				py::object& obj = objects[m_selected_obj_id];
+				obj.attr("setPosition")(pos.x, pos.y);
 			}
+
 		}
 
 		if (event.type == sf::Event::EventType::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
-			//m_selected_spr = nullptr; // this will set to the sprite in render if any spr is hovered.
+			m_selected_obj_id = -1;
 		}
 
 		// resize render texture
@@ -106,49 +115,63 @@ void ScenePropEditor::render() {
 		m_render_texture.clear(CLI::getInstance()->getPeproj().default_bg_color);
 		drawAxisLines();
 
-		// TODO: draw everyting
-
-		static sf::Sprite spr;
-		auto rect = spr.getTextureRect();
-		sf::RectangleShape r(sf::Vector2f(rect.width, rect.height));
-
-		// apply trans
 		auto transform = m_scene_trans.getTransform();
-		spr.setPosition(transform.transformPoint(d_pos));
-		spr.setScale(m_scene_trans.getScale());
-		r.setPosition(spr.getPosition());
-		r.setScale(spr.getScale());
+			m_hovered_obj_id = -1;
+			for (auto& pair : FileTree::getInstance()->getObjectTags()) { // map<long long id, py::object>
+				auto object = pair.second;
+				long long obj_id = pair.first;
+				if (object.attr("hasSpriteTag")().cast<bool>()) {
+
+					pe::Sprite spr;
+					sf::RectangleShape border;
+					int tex_id = object.attr("getSpriteTextureId")().cast<int>();
+					if (tex_id >= 0) {
+						spr.setTexture(*pe::Assets::getAsset<pe::Texture>(tex_id));
+						auto rect = object.attr("getSpriteTextureRect")().cast<std::vector<int>>();
+						spr.setTextureRect(sf::IntRect(rect[0], rect[1], rect[2], rect[3]));
+						auto frames = object.attr("getSpriteFrames")().cast<std::vector<int>>();
+						spr.setFrames(frames[0], frames[1], frames[2], frames[3]);
+						spr.setFrameIndex(frames[4]);
+
+						spr.setOrigin(object.attr("getOrigin")().attr("__getitem__")(0).cast<float>(), object.attr("getOrigin")().attr("__getitem__")(1).cast<float>());
+						spr.setRotation(object.attr("getRotation")().cast<float>());
+						sf::Vector2f pos(object.attr("getPosition")().attr("__getitem__")(0).cast<float>(), object.attr("getPosition")().attr("__getitem__")(1).cast<float>());
+						spr.setPosition(transform.transformPoint(pos));
+						spr.setScale(object.attr("getScale")().attr("__getitem__")(0).cast<float>(), object.attr("getScale")().attr("__getitem__")(1).cast<float>());
+						spr.scale(m_scene_trans.getScale());
 
 
-		// draw rectangle color
-		m_hovered_spr = nullptr;
-		r.setOutlineThickness(2.f / m_scene_trans.getScale().x);
-		r.setFillColor(sf::Color(0, 0, 0, 0));
-		if (
-			r.getGlobalBounds().left   < m_mouse_pos.x &&
-			r.getGlobalBounds().top    < m_mouse_pos.y &&
-			r.getGlobalBounds().width + r.getGlobalBounds().left > m_mouse_pos.x&&
-			r.getGlobalBounds().height + r.getGlobalBounds().top  > m_mouse_pos.y
-			) {
-			r.setOutlineColor(sf::Color::Yellow);
-			if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-				m_hovered_spr = &spr;
+						auto tex_rect = spr.getTextureRect();
+						border.setSize(sf::Vector2f(tex_rect.width, tex_rect.height));
+						border.setPosition(spr.getPosition());
+						border.setScale(spr.getScale());
+						border.setOrigin(spr.getOrigin());
+
+
+						// draw rectangle color
+						border.setOutlineThickness(2.f / m_scene_trans.getScale().x);
+						border.setFillColor(sf::Color(0, 0, 0, 0));
+						if (
+							border.getGlobalBounds().left   < m_mouse_pos.x &&
+							border.getGlobalBounds().top    < m_mouse_pos.y &&
+							border.getGlobalBounds().width + border.getGlobalBounds().left > m_mouse_pos.x&&
+							border.getGlobalBounds().height + border.getGlobalBounds().top  > m_mouse_pos.y
+							) {
+							border.setOutlineColor(sf::Color::Yellow);
+							if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+								m_hovered_obj_id = obj_id;
+							}
+						}
+						else {
+							border.setOutlineColor(sf::Color::Blue);
+						}
+
+					}
+					m_render_texture.draw(spr);
+					m_render_texture.draw(border);
+				}
 			}
-		}
-		else {
-			r.setOutlineColor(sf::Color::Blue);
-		}
-
 		
-
-
-
-		m_render_texture.draw( spr );
-		m_render_texture.draw(r);
-		spr.setTexture(Resources::getFileFormatIcon("file_cpp"));
-
-		// test end
-
 		ImGui::Image(m_render_texture);
 
 		ImGui::Separator();

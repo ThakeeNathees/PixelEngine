@@ -96,7 +96,8 @@ public:
 		return m_py_filetree;
 	}
 
-	py::object& getObjectTag(int id);
+	//py::object& getObjectTag_objId(int id);
+	std::map<long long, py::object>& getObjects();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 private:

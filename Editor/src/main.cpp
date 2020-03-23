@@ -55,20 +55,25 @@ int main(int argc, char** argv)
 	py::exec("import sys, os");
 	py::exec("import pixel_engine as pe");
 	py::exec("import peio");
+	PE_CONSOLE_LOG("python interpriter initialized");
 
 	// create window
 	unsigned int w = sf::VideoMode::getDesktopMode().width - 600;
 	unsigned int h = sf::VideoMode::getDesktopMode().height - 300;
 	sf::RenderWindow window(sf::VideoMode(w, h), "Pixel-Engine");
+	PE_CONSOLE_LOG("main window created");
 
 	// initialize
 	window.setFramerateLimit(60);
 	ImGui::SFML::Init(window);
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	PE_CONSOLE_LOG("main window initialized");
 
 	CLI::getInstance()->init();
+	PE_CONSOLE_LOG("cli initialized");
 	Logger::init(CLI::getExecPath().append("/log.txt") );
+	PE_CONSOLE_LOG("logger initialized");
 	PE_LOG("Pixel-Engine initialized"); CLI::log("Engine Initialized", Console::LOGLEVEL_SUCCESS);
 	window.setIcon( Resources::LOGO.getSize().x, Resources::LOGO.getSize().y, Resources::LOGO.copyToImage().getPixelsPtr());
 

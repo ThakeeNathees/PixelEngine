@@ -19,14 +19,19 @@ void CLI::init()
 	if (bytes >= 0)
 		pBuf[bytes] = '\0';
 #endif
+	PE_CONSOLE_LOG("attempting to import python module os");
 	m_py_os = py::module::import("os");
 	s_exec_path = m_py_os.attr("path").attr("dirname")(pe::__fixPath(pBuf)).cast<std::string>();
 	py::exec(std::string("sys.path.append('").append(s_exec_path).append("')"));
+	PE_CONSOLE_LOG("import os success - python interpriter working");
 
 	readPeConfigFile();
 
+	PE_CONSOLE_LOG("attempting to import python module init (at pysrc)");
 	m_py_proj_init = py::module::import("init");
+	PE_CONSOLE_LOG("import init success\nattempting to import python module assets_updater");
 	m_py_assets_updater = py::module::import("assets_updater");
+	PE_CONSOLE_LOG("import asset_updater success");
 	m_console = new Console();
 }
 
@@ -118,7 +123,7 @@ void CLI::save(const std::string& text_to_save, const std::string& file_path)
 
 
 void CLI::readPeConfigFile() {
-	
+	PE_CONSOLE_LOG("\nconfig file reading started");
 	std::ifstream init_file(CLI::getExecPath().append("/peconfig.init"));
 	if (init_file.is_open()) {
 		std::string line;
@@ -139,6 +144,7 @@ void CLI::readPeConfigFile() {
 					if (pe::__removeWiteSpace(line) == std::string("end")) break; 
 					key_value = CLI::getKeyValue(line);
 					if (key_value.first == std::string("py_path")) {
+						PE_CONSOLE_LOG(std::string("\tattempting to add py_path : ").append(key_value.second[0]).c_str());
 						py::exec(std::string("sys.path.append('").append(
 							m_py_os.attr("path").attr("abspath")(CLI::getExecPath().append(key_value.second[0])).attr("replace")("\\","/").cast<std::string>()
 						).append("')"));
@@ -152,6 +158,7 @@ void CLI::readPeConfigFile() {
 					if (pe::__removeWiteSpace(line) == std::string("end")) break;
 					key_value = CLI::getKeyValue(line);
 					if (key_value.first != std::string("")) {
+						PE_CONSOLE_LOG(std::string("\tattempting to add font : ").append(key_value.second[0]).c_str());
 						auto font = ImGui::GetIO().Fonts->AddFontFromFileTTF(CLI::getExecPath().append(key_value.second[0]).c_str(), std::stof(key_value.second[1]));
 						ImGui::SFML::UpdateFontTexture();
 						Resources::addFont(key_value.first, font, std::stof(key_value.second[2])); continue;
@@ -165,6 +172,7 @@ void CLI::readPeConfigFile() {
 					if (pe::__removeWiteSpace(line)== std::string("end")) break;
 					key_value = CLI::getKeyValue(line);
 					if (key_value.first != std::string("")) {
+						PE_CONSOLE_LOG(std::string("\tattempting to add file_format_icon : ").append(key_value.second[0]).c_str());
 						sf::Texture tex; tex.loadFromFile(CLI::getExecPath().append(key_value.second[0])); Resources::addFileFormatIcon(key_value.first, tex); continue;
 					}
 				}
@@ -176,6 +184,7 @@ void CLI::readPeConfigFile() {
 					if (pe::__removeWiteSpace(line) == std::string("end")) break;
 					key_value = CLI::getKeyValue(line);
 					if (key_value.first != std::string("")) {
+						PE_CONSOLE_LOG(std::string("\tattempting to add menu_icon : ").append(key_value.second[0]).c_str());
 						sf::Texture tex; tex.loadFromFile(CLI::getExecPath().append(key_value.second[0])); Resources::addMenuIcon(key_value.first, tex); continue;
 					}
 				}
@@ -187,6 +196,7 @@ void CLI::readPeConfigFile() {
 					if (pe::__removeWiteSpace(line) == std::string("end")) break;
 					key_value = CLI::getKeyValue(line);
 					if (key_value.first != std::string("")) {
+						PE_CONSOLE_LOG(std::string("\tattempting to add other_icon : ").append(key_value.second[0]).c_str());
 						sf::Texture tex; tex.loadFromFile(CLI::getExecPath().append(key_value.second[0])); Resources::addOtherIcon(key_value.first, tex); continue;
 					}
 				}
@@ -196,4 +206,5 @@ void CLI::readPeConfigFile() {
 
 		}
 	}
+	PE_CONSOLE_LOG("config file reading success\n");
 }

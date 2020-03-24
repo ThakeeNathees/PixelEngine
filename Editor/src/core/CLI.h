@@ -36,7 +36,8 @@ public:
 	int projFileUpdate(bool include_pe = true, const std::string& proj_dir=".") { // a python class wrapper
 		int error = 0;
 		try {
-			m_py_proj_init.attr("updateProj")(m_proj_file_name, proj_dir, include_pe);
+			bool is_pyproj = PyUtils::getInstance()->getFileUtil().attr("isPyProj")().cast<bool>();
+			m_py_proj_init.attr("updateProj")(m_proj_file_name, proj_dir, include_pe, is_pyproj);
 			PE_LOG("CLI::projUpdate success");
 			auto pypaths = PyUtils::getInstance()->getFileUtil().attr("getPyPaths")().cast<std::vector<std::string>>();
 			for (std::string& pypath : pypaths) {

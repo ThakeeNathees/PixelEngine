@@ -113,6 +113,7 @@ void CLI::save(const std::string& text_to_save, const std::string& file_path)
 
 
 void CLI::readPeConfigFile() {
+	std::string rel_editor_path;
 	PE_CONSOLE_LOG("\nconfig file reading started");
 	std::ifstream init_file(CLI::getExecPath().append("/peconfig.init"));
 	if (init_file.is_open()) {
@@ -120,9 +121,9 @@ void CLI::readPeConfigFile() {
 		while (std::getline(init_file, line)) {
 			if (line[0] == '#') continue;
 			auto key_value = CLI::getKeyValue(line);
-
-			if (key_value.first == std::string("logo_path")) { Resources::LOGO.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
-			if (key_value.first == std::string("logo_pe_path")) { Resources::LOGO_PE.loadFromFile(CLI::getExecPath().append(key_value.second[0])); continue; }
+			if (key_value.first == std::string("relative_editor_path")) rel_editor_path = key_value.second[0];
+			if (key_value.first == std::string("logo_path")) { Resources::LOGO.loadFromFile(CLI::getExecPath().append(rel_editor_path).append(key_value.second[0])); continue; }
+			if (key_value.first == std::string("logo_pe_path")) { Resources::LOGO_PE.loadFromFile(CLI::getExecPath().append(rel_editor_path).append(key_value.second[0])); continue; }
 			if (key_value.first == std::string("png_bg_path")) { 
 				Resources::PNG_BG.loadFromFile(CLI::getExecPath().append(key_value.second[0])); 
 				Resources::PNG_BG.setRepeated(true);
@@ -134,9 +135,9 @@ void CLI::readPeConfigFile() {
 					if (pe::__removeWiteSpace(line) == std::string("end")) break; 
 					key_value = CLI::getKeyValue(line);
 					if (key_value.first == std::string("py_path")) {
-						PE_CONSOLE_LOG(std::string("\tattempting to add py_path : ").append(key_value.second[0]).c_str());
+						PE_CONSOLE_LOG(std::string("\tattempting to add py_path : ").append(rel_editor_path).append(key_value.second[0]).c_str());
 						py::exec(std::string("sys.path.append('").append(
-							m_py_os.attr("path").attr("abspath")(CLI::getExecPath().append(key_value.second[0])).attr("replace")("\\","/").cast<std::string>()
+							m_py_os.attr("path").attr("abspath")(CLI::getExecPath().append(rel_editor_path).append(key_value.second[0])).attr("replace")("\\","/").cast<std::string>()
 						).append("')"));
 					}
 				}
@@ -148,8 +149,8 @@ void CLI::readPeConfigFile() {
 					if (pe::__removeWiteSpace(line) == std::string("end")) break;
 					key_value = CLI::getKeyValue(line);
 					if (key_value.first != std::string("")) {
-						PE_CONSOLE_LOG(std::string("\tattempting to add font : ").append(key_value.second[0]).c_str());
-						auto font = ImGui::GetIO().Fonts->AddFontFromFileTTF(CLI::getExecPath().append(key_value.second[0]).c_str(), std::stof(key_value.second[1]));
+						PE_CONSOLE_LOG(std::string("\tattempting to add font : ").append(rel_editor_path).append(key_value.second[0]).c_str());
+						auto font = ImGui::GetIO().Fonts->AddFontFromFileTTF(CLI::getExecPath().append(rel_editor_path).append(key_value.second[0]).c_str(), std::stof(key_value.second[1]));
 						ImGui::SFML::UpdateFontTexture();
 						Resources::addFont(key_value.first, font, std::stof(key_value.second[2])); continue;
 					}
@@ -162,8 +163,8 @@ void CLI::readPeConfigFile() {
 					if (pe::__removeWiteSpace(line)== std::string("end")) break;
 					key_value = CLI::getKeyValue(line);
 					if (key_value.first != std::string("")) {
-						PE_CONSOLE_LOG(std::string("\tattempting to add file_format_icon : ").append(key_value.second[0]).c_str());
-						sf::Texture tex; tex.loadFromFile(CLI::getExecPath().append(key_value.second[0])); Resources::addFileFormatIcon(key_value.first, tex); continue;
+						PE_CONSOLE_LOG(std::string("\tattempting to add file_format_icon : ").append(rel_editor_path).append(key_value.second[0]).c_str());
+						sf::Texture tex; tex.loadFromFile(CLI::getExecPath().append(rel_editor_path).append(key_value.second[0])); Resources::addFileFormatIcon(key_value.first, tex); continue;
 					}
 				}
 				continue;
@@ -174,8 +175,8 @@ void CLI::readPeConfigFile() {
 					if (pe::__removeWiteSpace(line) == std::string("end")) break;
 					key_value = CLI::getKeyValue(line);
 					if (key_value.first != std::string("")) {
-						PE_CONSOLE_LOG(std::string("\tattempting to add menu_icon : ").append(key_value.second[0]).c_str());
-						sf::Texture tex; tex.loadFromFile(CLI::getExecPath().append(key_value.second[0])); Resources::addMenuIcon(key_value.first, tex); continue;
+						PE_CONSOLE_LOG(std::string("\tattempting to add menu_icon : ").append(rel_editor_path).append(key_value.second[0]).c_str());
+						sf::Texture tex; tex.loadFromFile(CLI::getExecPath().append(rel_editor_path).append(key_value.second[0])); Resources::addMenuIcon(key_value.first, tex); continue;
 					}
 				}
 				continue;
@@ -186,8 +187,8 @@ void CLI::readPeConfigFile() {
 					if (pe::__removeWiteSpace(line) == std::string("end")) break;
 					key_value = CLI::getKeyValue(line);
 					if (key_value.first != std::string("")) {
-						PE_CONSOLE_LOG(std::string("\tattempting to add other_icon : ").append(key_value.second[0]).c_str());
-						sf::Texture tex; tex.loadFromFile(CLI::getExecPath().append(key_value.second[0])); Resources::addOtherIcon(key_value.first, tex); continue;
+						PE_CONSOLE_LOG(std::string("\tattempting to add other_icon : ").append(rel_editor_path).append(key_value.second[0]).c_str());
+						sf::Texture tex; tex.loadFromFile(CLI::getExecPath().append(rel_editor_path).append(key_value.second[0])); Resources::addOtherIcon(key_value.first, tex); continue;
 					}
 				}
 				continue;

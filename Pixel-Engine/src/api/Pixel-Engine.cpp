@@ -3,7 +3,7 @@
 
 #include "core.h"
 char Logger::s_buf[4096];
-std::string Logger::s_path = "./log.txt"; // default
+std::string Logger::s_path = "./deflog.txt"; // default
 std::ofstream Logger::s_outfile;
 bool Logger::s_is_init = false;
 
@@ -35,7 +35,7 @@ PIXEL_ENGINE_API void pe_mainLoop( int argc, char** argv)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void pe_readInitFile(std::string& proj_name) {
-	std::ifstream init_file("conf");
+	std::ifstream init_file("conf.init");
 	if (init_file.is_open()) {
 		std::string line;
 		while (std::getline(init_file, line)) {

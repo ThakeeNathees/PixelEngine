@@ -19,11 +19,10 @@ game_exe        = 'C:/dev/Pixel-Engine/bin/Release-x64/SandBox/SandBox.exe'
 
 init_file_name = "conf.init"
 init_format = '''\
-conf="%s"
+project="%s"
 cwd="%s"
 log="%s"
 kill_switch="F9"
-project="%s"
 '''
 
 
@@ -56,9 +55,9 @@ link_cpp = '''\
 #endif
 '''
 
-def makeInit(project_name, dst, conf, cwd, log):
+def makeInit(project_name, dst, cwd, log):
     file = open(os.path.join(dst, init_file_name), 'w')
-    file.write( init_format%(conf, cwd, log, project_name) )
+    file.write( init_format%(project_name, cwd, log) )
     file.close()
     
 
@@ -165,7 +164,7 @@ def copyPythonDll(py_dll_path, proj_dir, spec='debug', py_proj=False):
     else:
         shutil.copy(os.path.join(py_dll_path, dll_name),
                             os.path.join(proj_dir, 'bin/x64/'))
-        print("copied file:",os.path.join(proj_dir, 'bin/x64/'))
+        print("copied file:",os.path.join(proj_dir, 'bin/x64/python3.dll'))
         
 
 def copyPEOut(pe_out, proj_dir, spec='debug', py_proj=False):
@@ -184,6 +183,7 @@ def copyPEOut(pe_out, proj_dir, spec='debug', py_proj=False):
         
 def copyGameExe(proj_dir, proj_name):
     shutil.copy(game_exe, os.path.join(proj_dir, 'bin/x64/%s.exe'%proj_name) )
+    print('copied exe:' + os.path.join(proj_dir, 'bin/x64/%s.exe'%proj_name))
 
 def copyLicense(pe_sln_path, proj_dir):
     ##shutil.copy(os.path.join(pe_sln_path, 'SConstruct'), proj_dir)
@@ -199,7 +199,7 @@ def copyResDir(res_path, dst):
 def updateAssets(working_dir='./', assets_file_name='assets.xml', default_tex_smooth=True, default_tex_repeat=False):
     assets_updater.updateAssets(working_dir, assets_file_name, default_tex_smooth, default_tex_repeat)
 
-def updateProj(proj_name="", proj_dir='.', include_pe=True, default_tex_smooth = True, default_tex_repeat = False, py_proj=False):
+def updateProj(proj_name="", proj_dir='.', include_pe=True, py_proj=False, default_tex_smooth = True, default_tex_repeat = False):
     if include_pe:
         if not py_proj:
             copyInclude(pe_api_path, os.path.join(proj_dir, 'include'))
@@ -210,7 +210,9 @@ def updateProj(proj_name="", proj_dir='.', include_pe=True, default_tex_smooth =
     updateAssets(proj_dir, "assets.xml", default_tex_smooth, default_tex_repeat)
     proj_updater.updateProj(proj_name, proj_dir)
     if not py_proj:
+        print('updating register.h')
         register_updater.updateRegister(proj_dir)
+
 
 
 ## if init success return 0
@@ -246,12 +248,11 @@ def init(__proj_name, __dst_path=None, py_proj=True):
         link_cpp_file = open( os.path.join( proj_dir,link_file_name), 'w')
         link_cpp_file.write(link_cpp%proj_name)
         link_cpp_file.close()
-
     if not py_proj:
-        makeInit( proj_name,  os.path.join( proj_dir, 'bin/x64-debug'), "debug", '../../', 'bin/x64-debug/log.txt' )
-        makeInit( proj_name, os.path.join( proj_dir, 'bin/x64-release'), "release", '../../', 'bin/x64-release/log.txt' )
+        makeInit( proj_name,  os.path.join( proj_dir, 'bin/x64-debug'), '../../', 'bin/x64-debug/log.txt' )
+        makeInit( proj_name, os.path.join( proj_dir, 'bin/x64-release'), '../../', 'bin/x64-release/log.txt' )
     else:
-        makeInit( os.path.join( proj_dir, 'bin/x64/'), "release", '../../', 'bin/x64/log.txt' )
+        makeInit( proj_name, os.path.join( proj_dir, 'bin/x64/'), '../../', 'bin/x64/log.txt' )
     print('init file(s) created')
 
     if py_proj:
@@ -261,7 +262,7 @@ def init(__proj_name, __dst_path=None, py_proj=True):
     return 0
 
 
-if __name__ == "__main__" and 1:
+if __name__ == "__main__" and 0:
     if 1:
         init("proj11","C:/dev/__test_env/pytest", py_proj=False)
     else:

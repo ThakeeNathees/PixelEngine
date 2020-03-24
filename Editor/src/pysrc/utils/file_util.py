@@ -7,6 +7,9 @@ def getProjFileName(path='.'):
             return file
     return ""
 
+def isPyProj(path='.', cpp_idf_file='link.cpp'):
+    return cpp_idf_file not in os.listdir(path)
+
 ## called in object creator
 def getRelDirName(path):
     abs_path = os.path.abspath(path)

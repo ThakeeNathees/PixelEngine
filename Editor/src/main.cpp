@@ -25,9 +25,9 @@ PYBIND11_EMBEDDED_MODULE(peio, m) {
 		.def("print", []() { CLI::getInstance()->getConsole()-> addLog( "" , 0); })
 		.def("print", [](const py::object& msg) { CLI::getInstance()->getConsole()->addLog( py::str(msg).cast<std::string>(), 0); })
 		.def("getMousePosition", []() {
-				return EmbededApplication::getInstance()->getMousePosition();
+				return EmbeddedApplication::getInstance()->getMousePosition();
 			})
-		.def("isWindowFocus", []() { return EmbededApplication::getInstance()->isWindowFocus(); })
+		.def("isWindowFocus", []() { return EmbeddedApplication::getInstance()->isWindowFocus(); })
 		;
 	
 }
@@ -111,8 +111,8 @@ int main(int argc, char** argv)
 		/* ***************** Event Handle ********************** */
 		while (window.pollEvent(event)) {
 			ImGui::SFML::ProcessEvent(event);
-			ImageViwer::getInstance()->handleEvent(event);
-			FontViwer::getInstance()->handleEvent(event);
+			ImageViewer::getInstance()->handleEvent(event);
+			FontViewer::getInstance()->handleEvent(event);
 			ScenePropEditor::getInstance()->handleEvent(event);
 
 			if (event.type == sf::Event::Closed) window.close();
@@ -122,14 +122,14 @@ int main(int argc, char** argv)
 			}
 			
 			// event handle for applicaton
-			if (EmbededApplication::getInstance()->isRunning()) {
+			if (EmbeddedApplication::getInstance()->isRunning()) {
 				try {
-					EmbededApplication::getInstance()->getApplication()->__handleEvent(&event);
+					EmbeddedApplication::getInstance()->getApplication()->__handleEvent(&event);
 				}
 				catch (const std::exception& e){
-					if (!EmbededApplication::getInstance()->hasError()) {
+					if (!EmbeddedApplication::getInstance()->hasError()) {
 						CLI::getInstance()->getConsole()->addLog(e.what(),3);
-						EmbededApplication::getInstance()->setError(true);
+						EmbeddedApplication::getInstance()->setError(true);
 					}
 				}
 			}
@@ -139,13 +139,13 @@ int main(int argc, char** argv)
 		ImGui::SFML::Update(window, clock.restart());
 
 		// process application
-		if (EmbededApplication::getInstance()->isRunning()){
+		if (EmbeddedApplication::getInstance()->isRunning()){
 			try {
-				EmbededApplication::getInstance()->getApplication()->__process(&dt);
+				EmbeddedApplication::getInstance()->getApplication()->__process(&dt);
 			}
 			catch (const std::exception& e){
-				if (!EmbededApplication::getInstance()->hasError()) {
-					EmbededApplication::getInstance()->setError(true);
+				if (!EmbeddedApplication::getInstance()->hasError()) {
+					EmbeddedApplication::getInstance()->setError(true);
 					CLI::getInstance()->getConsole()->addLog(e.what(), 3);
 				}
 			}
@@ -156,11 +156,11 @@ int main(int argc, char** argv)
 		MainMenuBar::getInstance()->render();
 
 		FileTree::getInstance()->render();
-		PyInterpriter::getInstance()->render();
+		PyInterpreter::getInstance()->render();
 		CLI::getInstance()->getConsole()->render();
 
-		ImageViwer::getInstance()->render(); // TOOD: correct the following spellings : viewer, embedded, interpreter
-		FontViwer::getInstance()->render();
+		ImageViewer::getInstance()->render();
+		FontViewer::getInstance()->render();
 		TextEditors::renderEditors();
 		HexEditors::renderEditors();
 
@@ -172,7 +172,7 @@ int main(int argc, char** argv)
 		AreaPropEditor::getInstance()->render();
 		ScenePropEditor::getInstance()->render();
 
-		EmbededApplication::getInstance()->render();
+		EmbeddedApplication::getInstance()->render();
 
 		
 		/* node editor

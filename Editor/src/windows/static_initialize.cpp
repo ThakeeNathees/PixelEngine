@@ -11,15 +11,15 @@
 
 StartWindow* StartWindow::s_instance = nullptr;
 ExplorerPopup* ExplorerPopup::s_instance = nullptr;
-PyInterpriter* PyInterpriter::s_instance = nullptr;
+PyInterpreter* PyInterpreter::s_instance = nullptr;
 
 // TODO: remove text editors
 std::map<long long, TextEditors::TextEditorData*> TextEditors::s_text_editors;
 std::map<long long, HexEditors::HexEditorData*> HexEditors::s_hex_editors;
 
 
-FontViwer* FontViwer::s_instance;
-ImageViwer* ImageViwer::s_instance;
+FontViewer* FontViewer::s_instance;
+ImageViewer* ImageViewer::s_instance;
 float TextEditors::s_font_scale = 150; // TODO: font scale for default font
 std::string TextEditors::s_font = ""; // "" means ImGui default font
 long long TextEditors::s_close_conformation = -1;

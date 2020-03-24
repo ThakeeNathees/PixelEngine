@@ -29,7 +29,7 @@ void FileTree::renderAssetsTree(const std::string& path) {
 
 				// click node
 				if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0)) {
-					ImageViwer::getInstance()->openImageViwer(pe::Assets::getAsset<pe::Texture>(asset.second->getId())->getPath());
+					ImageViewer::getInstance()->openImageViwer(pe::Assets::getAsset<pe::Texture>(asset.second->getId())->getPath());
 				}
 				if (ImGui::IsItemClicked(0)) m_selected_id = id;
 				if (ImGui::IsItemClicked(1)) m_selected_menu_id = id;
@@ -45,7 +45,7 @@ void FileTree::renderAssetsTree(const std::string& path) {
 
 				// click node
 				if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0)) {
-					FontViwer::getInstance()->openFontViwer(pe::Assets::getAsset<pe::Font>(asset.second->getId())->getPath());
+					FontViewer::getInstance()->openFontViwer(pe::Assets::getAsset<pe::Font>(asset.second->getId())->getPath());
 				}
 				if (ImGui::IsItemClicked(0)) m_selected_id = id;
 				if (ImGui::IsItemClicked(1)) m_selected_menu_id = id;
@@ -93,7 +93,7 @@ void FileTree::renderRightMouseMenuTexture(int texture_id) {
 		bool modified = false;
 
 		if (ImGui::MenuItem("Open in Image Viwer")) {
-			ImageViwer::getInstance()->openImageViwer(pe::Assets::getAsset<pe::Texture>(texture_id)->getPath());
+			ImageViewer::getInstance()->openImageViwer(pe::Assets::getAsset<pe::Texture>(texture_id)->getPath());
 		}
 
 		bool smooth = pe::Assets::getAsset<pe::Texture>(texture_id)->isSmooth();
@@ -124,7 +124,7 @@ void FileTree::renderRightMouseMenuFont(int font_id) {
 	if (ImGui::BeginPopupContextItem("right mouse menu")) {
 
 		if (ImGui::MenuItem("Open in Font Viwer")) {
-			FontViwer::getInstance()->openFontViwer(pe::Assets::getAsset<pe::Font>(font_id)->getPath());
+			FontViewer::getInstance()->openFontViwer(pe::Assets::getAsset<pe::Font>(font_id)->getPath());
 		}
 
 		if (ImGui::BeginMenu("See Path")) {

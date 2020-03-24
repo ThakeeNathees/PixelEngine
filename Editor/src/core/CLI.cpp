@@ -8,20 +8,10 @@ std::string CLI::s_exec_path;
 
 void CLI::init()
 {
-	char pBuf[1024];
-#ifdef _WIN32
-	int bytes = GetModuleFileName(NULL, pBuf, sizeof pBuf);
-	// TODO:  assert bytes > 0
-#elif __linux__
-	char szTmp[32];
-	sprintf(szTmp, "/proc/%d/exe", getpid());
-	int bytes = MIN(readlink(szTmp, pBuf, len), len - 1);
-	if (bytes >= 0)
-		pBuf[bytes] = '\0';
-#endif
+	//std::string exec_path = pe::__getExecPath();
 	PE_CONSOLE_LOG("attempting to import python module os");
 	m_py_os = py::module::import("os");
-	s_exec_path = m_py_os.attr("path").attr("dirname")(pe::__fixPath(pBuf)).cast<std::string>();
+	s_exec_path = pe::__getExecDir(); //m_py_os.attr("path").attr("dirname")(exec_path).cast<std::string>();
 	py::exec(std::string("sys.path.append('").append(s_exec_path).append("')"));
 	PE_CONSOLE_LOG("import os success - python interpriter working");
 

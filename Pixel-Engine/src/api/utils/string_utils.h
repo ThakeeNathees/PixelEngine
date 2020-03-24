@@ -1,5 +1,4 @@
 #pragma once
-#include "..//core.h"
 
 namespace pe
 {
@@ -27,12 +26,12 @@ namespace pe
 	}
 
 	// convert C:\dev\engine -> C:/dev/engine
-	inline std::string __fixPath(std::string path) {
+	inline std::string __fixPath(const std::string& path) {
 		std::size_t pos = -1;
 		std::string ret;
 		for (int i = 0; i < path.size(); i++) {
-			if (path[i] == '\\') path[i] = '/';
-			ret += path[i];
+			if (path[i] == '\\') ret += '/';
+			else ret += path[i];
 		}
 		return ret;
 	}

@@ -133,8 +133,8 @@ private:
 		auto text_to_save = data->editor.GetText();
 		CLI::save(text_to_save, data->path);
 		if (!data->saved) CLI::log(std::string("file saved: ").append(data->path));
-		if (!data->saved && data->editor.GetLanguageDefinition().mName == TextEditor::LanguageDefinition::Python().mName && EmbededApplication::getInstance()->isReloadOnSave())
-			EmbededApplication::getInstance()->reloadScripts();
+		if (!data->saved && data->editor.GetLanguageDefinition().mName == TextEditor::LanguageDefinition::Python().mName && EmbeddedApplication::getInstance()->isReloadOnSave())
+			EmbeddedApplication::getInstance()->reloadScripts();
 		data->saved = true;
 	}
 

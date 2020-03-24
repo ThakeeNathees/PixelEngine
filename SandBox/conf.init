@@ -1,5 +1,0 @@
-conf		="debug"
-cwd			="./"
-log			="./log.txt"
-kill_switch = "F9"
-project     = "SandBox"

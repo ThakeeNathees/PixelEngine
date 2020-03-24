@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "core/EmbededApplication.h"
 
-EmbededApplication* EmbededApplication::s_instance = nullptr;
+EmbeddedApplication* EmbeddedApplication::s_instance = nullptr;
 
-void EmbededApplication::reloadApplication() {
+void EmbeddedApplication::reloadApplication() {
 	try {
 		CLI::getInstance()->updatePeproj();
 		
@@ -27,7 +27,7 @@ void EmbededApplication::reloadApplication() {
 
 }
 
-void EmbededApplication::reloadScripts() {
+void EmbeddedApplication::reloadScripts() {
 	if (m_application) {
 		try {
 			m_application->reloadScritps();
@@ -42,7 +42,7 @@ void EmbededApplication::reloadScripts() {
 }
 
 
-void EmbededApplication::render() {
+void EmbeddedApplication::render() {
 	if (m_open) {
 		if (m_is_running) {
 			ImGui::Begin("Applicaton window", &m_open);

@@ -14,11 +14,14 @@ namespace py = pybind11;
 
 PIXEL_ENGINE_API void pe_mainLoop( int argc, char** argv)
 {
+	changeDir(pe::__getExecDir().c_str());
+	char buf[4096];
+	PE_CONSOLE_LOG("cwd : %s", getCurrentDir(buf, sizeof buf));
+
 	std::string project_name;
 	pe_readInitFile(project_name);
-	PE_LOG("engine initialized");
 
-	char buf[4096];
+	PE_LOG("engine initialized");
 	PE_LOG("cwd : %s", getCurrentDir(buf, sizeof buf));
 
 	py::scoped_interpreter intp;
@@ -32,7 +35,7 @@ PIXEL_ENGINE_API void pe_mainLoop( int argc, char** argv)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void pe_readInitFile(std::string& proj_name) {
-	std::ifstream init_file("conf.init");
+	std::ifstream init_file("conf");
 	if (init_file.is_open()) {
 		std::string line;
 		while (std::getline(init_file, line)) {
@@ -40,7 +43,9 @@ void pe_readInitFile(std::string& proj_name) {
 			if (dict.size() >= 2) {
 				std::string key = pe::__removeWiteSpace(dict[0]);
 				std::string value = pe::__getValueString(dict[1]);
-				if (key == std::string("cwd")) { changeDir(value.c_str()); continue; }
+				if (key == std::string("cwd")) { 
+					changeDir(value.c_str()); continue; 
+				}
 				if (key == std::string("log")) { Logger::init(value.c_str()); continue; }
 				if (key == std::string("kill_switch")) {
 					PE_CONSOLE_LOG("kill_switch = \"%s\"", value.c_str());
@@ -52,6 +57,12 @@ void pe_readInitFile(std::string& proj_name) {
 				}
 			}
 		}
+	}
+	else {
+		if (!Logger::s_is_init) Logger::init(Logger::s_path);
+		PE_CONSOLE_LOG("ERROR: conf.init not found.");
+		PE_LOG("ERROR: conf.init not found.");
+		exit(1);
 	}
 	if (!Logger::s_is_init) Logger::init(Logger::s_path);
 

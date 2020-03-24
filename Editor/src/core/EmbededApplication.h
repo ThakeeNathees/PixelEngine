@@ -2,14 +2,14 @@
 #include "pch.h"
 #include "core/CLI.h"
 
-class EmbededApplication
+class EmbeddedApplication
 {
 public:	bool m_open = true; // for main menu bar
 
 private:
-	EmbededApplication() {}
+	EmbeddedApplication() {}
 
-	static EmbededApplication* s_instance;
+	static EmbeddedApplication* s_instance;
 	bool m_reload_on_save = true;
 	pe::_peproj m_peproj;
 
@@ -28,8 +28,8 @@ private:
 public:
 
 	// getters
-	static EmbededApplication* getInstance() {
-		if (s_instance == nullptr) s_instance = new EmbededApplication();
+	static EmbeddedApplication* getInstance() {
+		if (s_instance == nullptr) s_instance = new EmbeddedApplication();
 		return s_instance;
 	}
 	

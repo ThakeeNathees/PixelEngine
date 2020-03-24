@@ -3,11 +3,11 @@
 #include "core/PyUtils.h"
 
 
-class PyInterpriter
+class PyInterpreter
 {
 private:
-	static PyInterpriter* s_instance;
-	PyInterpriter() {
+	static PyInterpreter* s_instance;
+	PyInterpreter() {
 		m_logs.push_back(std::make_pair("Python 3.7.4 interpriter (only single line commands are supports)", 0));
 		m_logs.push_back(std::make_pair("Warning : Don't use print, help, other io related functions", 1));
 	}
@@ -25,8 +25,8 @@ private:
 
 public:
 	bool m_open = true; // for main menu bar check box -> public
-	static PyInterpriter* getInstance() {
-		if (s_instance == nullptr) s_instance = new PyInterpriter();
+	static PyInterpreter* getInstance() {
+		if (s_instance == nullptr) s_instance = new PyInterpreter();
 		return s_instance;
 	}
 	

@@ -116,28 +116,28 @@ private:
 
 	void renderDebugMenu() {
 		if (ImGui::BeginMenu("Debug")) {
-			if (EmbededApplication::getInstance()->isRunning()){
-				if (ImGui::MenuItem("Stop Application")) { EmbededApplication::getInstance()->stop(); }
+			if (EmbeddedApplication::getInstance()->isRunning()){
+				if (ImGui::MenuItem("Stop Application")) { EmbeddedApplication::getInstance()->stop(); }
 			}
-			else { if (ImGui::MenuItem("Start Application")) { EmbededApplication::getInstance()->start(); } }
+			else { if (ImGui::MenuItem("Start Application")) { EmbeddedApplication::getInstance()->start(); } }
 
 			bool is_debug_mode = false;
-			if (EmbededApplication::getInstance()->isRunning()) is_debug_mode = EmbededApplication::getInstance()->getApplication()->isDebugMode();
+			if (EmbeddedApplication::getInstance()->isRunning()) is_debug_mode = EmbeddedApplication::getInstance()->getApplication()->isDebugMode();
 			if (  ImGui::MenuItem("Debug Mode", NULL, &is_debug_mode )) {
-				if (EmbededApplication::getInstance()->getApplication()) EmbededApplication::getInstance()->getApplication()->setDebugMode(is_debug_mode);
+				if (EmbeddedApplication::getInstance()->getApplication()) EmbeddedApplication::getInstance()->getApplication()->setDebugMode(is_debug_mode);
 			}
 			
-			if (ImGui::MenuItem("Reload Scripts")) { EmbededApplication::getInstance()->reloadScripts(); }
+			if (ImGui::MenuItem("Reload Scripts")) { EmbeddedApplication::getInstance()->reloadScripts(); }
 			static bool reload_on_save = true;
 			if (ImGui::MenuItem("Reload On Save",NULL, reload_on_save)){
-				EmbededApplication::getInstance()->setReloadOnSave(reload_on_save);
+				EmbeddedApplication::getInstance()->setReloadOnSave(reload_on_save);
 			}
 
-			if ( EmbededApplication::getInstance()->isOpen() && EmbededApplication::getInstance()->isRunning()) {
+			if ( EmbeddedApplication::getInstance()->isOpen() && EmbeddedApplication::getInstance()->isRunning()) {
 				if (ImGui::MenuItem("Reload Project")) {
 					int error = CLI::getInstance()->projFileUpdate(false);
 					if (error) { CLI::log("Error: in CLI::projFileUpdate(false) -> project file may damaged", Console::LOGLEVEL_ERROR); }
-					EmbededApplication::getInstance()->reloadApplication();
+					EmbeddedApplication::getInstance()->reloadApplication();
 				}
 			}
 
@@ -159,9 +159,9 @@ private:
 			if (ImGui::MenuItem("Sprite Editor", NULL, &SpritePropEditor::getInstance()->m_open)) {}
 			if (ImGui::MenuItem("Area Editor", NULL, &AreaPropEditor::getInstance()->m_open)) {}
 			if (ImGui::MenuItem("Scene Editor", NULL, &ScenePropEditor::getInstance()->m_open)) {}
-			if (ImGui::MenuItem("Application", NULL, &EmbededApplication::getInstance()->m_open )) {}
+			if (ImGui::MenuItem("Application", NULL, &EmbeddedApplication::getInstance()->m_open )) {}
 			if (ImGui::MenuItem("Console", NULL, &CLI::getInstance()->getConsole()->m_open)) {}
-			if (ImGui::MenuItem("Python Interpriter", NULL, &PyInterpriter::getInstance()->m_open)) {}
+			if (ImGui::MenuItem("Python Interpriter", NULL, &PyInterpreter::getInstance()->m_open)) {}
 			ImGui::EndMenu();
 		}
 	}

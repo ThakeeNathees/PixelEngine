@@ -1,7 +1,7 @@
 #pragma once
 
 
-class ImageViwer
+class ImageViewer
 {
 
 public:
@@ -66,8 +66,8 @@ public:
 		m_render_texture.draw(m_image);
 	}
 
-	static ImageViwer* getInstance() {
-		if (!s_instance) s_instance = new ImageViwer();
+	static ImageViewer* getInstance() {
+		if (!s_instance) s_instance = new ImageViewer();
 		return s_instance;
 	}
 
@@ -88,7 +88,7 @@ public:
 
 
 private:
-	ImageViwer() {}
+	ImageViewer() {}
 	std::string m_path;
 	sf::Texture m_texture;
 	sf::Sprite m_image;
@@ -100,7 +100,7 @@ private:
 
 	bool m_open = false;
 	bool m_is_focus = false;
-	static ImageViwer* s_instance;
+	static ImageViewer* s_instance;
 
 	
 };

@@ -1,12 +1,12 @@
 #pragma once
 
-class FontViwer
+class FontViewer
 {
 
 public:
 
-	static FontViwer* getInstance() {
-		if (s_instance == nullptr) s_instance = new FontViwer();
+	static FontViewer* getInstance() {
+		if (s_instance == nullptr) s_instance = new FontViewer();
 		return s_instance;
 	}
 
@@ -48,7 +48,7 @@ public:
 	}
 
 private:
-	FontViwer() {
+	FontViewer() {
 
 		m_text.setString(
 			"Lorem  ipsum  dolor in  sit  amet,  consectetur\n"
@@ -78,7 +78,7 @@ private:
 
 	}
 
-	static FontViwer* s_instance;
+	static FontViewer* s_instance;
 	sf::Text m_text;
 	sf::Font m_font;
 	sf::RenderTexture m_render_texture;

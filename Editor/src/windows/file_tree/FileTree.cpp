@@ -94,10 +94,10 @@ void FileTree::nodeClickedEvent(const std::string& title, const std::string& _pa
 	if (format == std::string("obj")) { HexEditors::openHexEditor(title, path, id);  return; }
 	if (format == std::string("inl")) { HexEditors::openHexEditor(title, path, id);  return; }
 
-	if (format == std::string("ttf")) { FontViwer::getInstance()->openFontViwer(path); return; }
-	if (format == std::string("png")) {  ImageViwer::getInstance()->openImageViwer(path ); return; }
-	if (format == std::string("jpg")) {  ImageViwer::getInstance()->openImageViwer(path ); return; }
-	if (format == std::string("jpeg")) { ImageViwer::getInstance()->openImageViwer(path); return; }
+	if (format == std::string("ttf")) { FontViewer::getInstance()->openFontViwer(path); return; }
+	if (format == std::string("png")) {  ImageViewer::getInstance()->openImageViwer(path ); return; }
+	if (format == std::string("jpg")) {  ImageViewer::getInstance()->openImageViwer(path ); return; }
+	if (format == std::string("jpeg")) { ImageViewer::getInstance()->openImageViwer(path); return; }
 	// binary files
 
 }

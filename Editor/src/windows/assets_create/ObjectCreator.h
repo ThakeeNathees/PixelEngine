@@ -15,7 +15,7 @@ private:
 	py::module m_py_objmaker;
 
 
-	bool m_popen = false;
+	bool m_open = false;
 	char m_obj_name[1024] = {};
 	char m_obj_path[1024] = {};
 	char m_script_path[1024] = {};
@@ -38,8 +38,8 @@ public:
 		return s_instance;
 	}
 
-	void open() { m_popen = true; }
-	bool isOpen() { return m_popen == true; }
+	void open() { m_open = true; }
+	bool isOpen() { return m_open == true; }
 
 	// clear values before appearing again
 	void clearValues(){

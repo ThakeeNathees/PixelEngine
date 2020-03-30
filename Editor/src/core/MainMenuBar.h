@@ -9,6 +9,7 @@
 
 #include "windows/assets_create/ObjectCreator.h"
 #include "windows/assets_create/ScriptsCreator.h"
+#include "windows/assets_create/SceneCreator.h"
 
 #include "windows/projerty_editor/ObjPropEditor.h"
 #include "windows/projerty_editor/SpritePropEditor.h"
@@ -110,6 +111,14 @@ private:
 				if (!ScriptCreator::getInstance()->isOpen()) {
 					ScriptCreator::getInstance()->clearValues();
 					ScriptCreator::getInstance()->open();
+				}
+			}
+
+			ImGui::Image(Resources::getMenuIcon("new_scene")); ImGui::SameLine();
+			if (ImGui::MenuItem("New Scene")) {
+				if (!SceneCreator::getInstance()->isOpen()) {
+					SceneCreator::getInstance()->clearValues();
+					SceneCreator::getInstance()->open();
 				}
 			}
 

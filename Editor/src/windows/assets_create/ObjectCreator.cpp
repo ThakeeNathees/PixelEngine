@@ -8,8 +8,8 @@ ObjectCreater* ObjectCreater::s_instance;
 
 void ObjectCreater::render()
 {
-	if (m_popen) {
-		ImGui::Begin("Create New Object", &m_popen);
+	if (m_open) {
+		ImGui::Begin("Create New Object", &m_open);
 		ImGui::SetWindowSize(ImVec2(400, 320), ImGuiCond_Once);
 
 		static float witdh_frac = .6f;
@@ -91,7 +91,7 @@ void ObjectCreater::render()
 			else if (str_scr_path != std::string("") && !PyUtils::getInstance()->getOs().attr("path").attr("exists")(str_scr_path).cast<bool>())
 				ImGui::OpenPopup("Invalid Script Path!");
 			else {
-				int obj_id = CLI::getInstance()->getPeproj().next_obj_id;
+				int obj_id = CLI::getInstance()->getPeproj().next_obj_id++;
 				std::string obj_file_path = std::string(m_obj_path).append("/").append(std::string(m_obj_name)).append(".obj.xml");
 				
 				if (m_script_path[0]) {
@@ -118,7 +118,7 @@ void ObjectCreater::render()
 				int error = CLI::getInstance()->projFileUpdate(false);
 				if (error) { CLI::log("Error: in CLI::projFileUpdate(false) -> project file may damaged", Console::LOGLEVEL_ERROR); }
 				FileTree::getInstance()->reload();
-				m_popen = false;
+				m_open = false;
 			}
 
 		}

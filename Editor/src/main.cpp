@@ -166,6 +166,7 @@ int main(int argc, char** argv)
 
 		ObjectCreater::getInstance()->render();
 		ScriptCreator::getInstance()->render();
+		SceneCreator::getInstance()->render();
 
 		ObjPropEditor::getInstance()->render();
 		SpritePropEditor::getInstance()->render();

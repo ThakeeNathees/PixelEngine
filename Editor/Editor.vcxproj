@@ -111,6 +111,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\core\PyUtils.cpp" />
+    <ClCompile Include="src\windows\assets_create\SceneCreator.cpp" />
     <ClCompile Include="src\windows\projerty_editor\AreaPropEditor.cpp" />
     <ClCompile Include="src\windows\projerty_editor\ObjPropEditor.cpp" />
     <ClCompile Include="src\windows\projerty_editor\ScenePropEditor.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="src\core\MainMenuBar.h" />
     <ClInclude Include="src\core\PyUtils.h" />
     <ClInclude Include="src\core\Resources.h" />
+    <ClInclude Include="src\windows\assets_create\SceneCreator.h" />
     <ClInclude Include="src\windows\projerty_editor\AreaPropEditor.h" />
     <ClInclude Include="src\windows\projerty_editor\ObjPropEditor.h" />
     <ClInclude Include="src\windows\projerty_editor\ScenePropEditor.h" />

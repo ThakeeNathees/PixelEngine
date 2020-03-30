@@ -125,7 +125,7 @@ void CLI::readPeConfigFile() {
 			if (key_value.first == std::string("logo_path")) { Resources::LOGO.loadFromFile(CLI::getExecPath().append(rel_editor_path).append(key_value.second[0])); continue; }
 			if (key_value.first == std::string("logo_pe_path")) { Resources::LOGO_PE.loadFromFile(CLI::getExecPath().append(rel_editor_path).append(key_value.second[0])); continue; }
 			if (key_value.first == std::string("png_bg_path")) { 
-				Resources::PNG_BG.loadFromFile(CLI::getExecPath().append(key_value.second[0])); 
+				Resources::PNG_BG.loadFromFile(CLI::getExecPath().append(rel_editor_path).append(key_value.second[0]));
 				Resources::PNG_BG.setRepeated(true);
 				continue; 
 			}

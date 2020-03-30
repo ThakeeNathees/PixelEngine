@@ -174,4 +174,12 @@ def createScript(dir_path, file_name, script_type =0, template=0):
     except:
         return os.path.abspath(rel_path);
 
+def createScene(dir_path, file_name):
+    file_path = os.path.join(dir_path, file_name) + ".scn.xml"
+    if os.path.exist(file_path):
+        print(file_path, "already exist")
+        return ""
+    file = open(file_path, 'w')
+    
+
 ## =========================================================================================

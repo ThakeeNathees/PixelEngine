@@ -59,6 +59,7 @@ menu_icons:
 	open_in_explorer="res/icons/menu_icons/open_in_explorer.png"
 	new_object="res/icons/menu_icons/new_obj.png"
 	new_script="res/icons/menu_icons/new_script.png"
+	new_scene="res/icons/menu_icons/new_scene.png"
 end
 
 other_icons:

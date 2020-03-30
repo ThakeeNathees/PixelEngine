@@ -47,7 +47,7 @@ namespace pe
 		setFrameRate(m_peproj.frame_rate );
 		if (m_window) m_window->setFramerateLimit(1/ m_peproj.frame_rate);
 #ifdef _WIN32
-		if ( !m_is_debug_mode ) FreeConsole();
+		if ( !m_peproj.no_console_window ) FreeConsole();
 		else PE_CONSOLE_LOG( "this console window only apear in debug mode" );
 #endif
 		// adding python path
@@ -173,6 +173,10 @@ namespace pe
 			
 			if (m_window) {
 				while (m_window->pollEvent(m_event)) {
+					if (m_event.type == sf::Event::Closed) {
+						// TODO: user decide
+						m_window->close();
+					}
 					if (isEventKillSwitch(m_event)) m_window->close();
 					if (!m_current_scene) { PE_LOG("\nERROR: in pe::Application::update() current scene is NULL"); }
 					if (m_window == nullptr) throw std::exception("ERROR: in pe::Application::update() current scene is NULL" );

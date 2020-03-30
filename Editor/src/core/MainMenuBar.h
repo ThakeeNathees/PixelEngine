@@ -71,6 +71,9 @@ private:
 	void renderFileMenu() {
 		if (ImGui::BeginMenu("File"))
 		{
+			if (ImGui::MenuItem("Run")) {
+				PyUtils::getInstance()->getFileUtil().attr("runApplication")(CLI::getInstance()->getPeproj().title);
+			}
 			if (ImGui::MenuItem("Exit")) {
 				m_is_openpopup_exitconform = true;
 			}

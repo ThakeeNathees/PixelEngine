@@ -10,6 +10,14 @@ def getProjFileName(path='.'):
 def isPyProj(path='.', cpp_idf_file='link.cpp'):
     return cpp_idf_file not in os.listdir(path)
 
+## todo debug or release, cpp or python or anyother
+def runApplication(name, path='.'):
+    for d in os.listdir(path):
+        if os.path.isfile(os.path.join(path, d)) and d == name+'.exe':
+            os.system('start '+os.path.join(path, name+'.exe'))
+        elif os.path.isdir(os.path.join(path, d)):
+            runApplication(name, os.path.join(path, d))
+
 ## called in object creator
 def getRelDirName(path):
     abs_path = os.path.abspath(path)

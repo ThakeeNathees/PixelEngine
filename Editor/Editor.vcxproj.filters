@@ -87,6 +87,9 @@
     <ClCompile Include="src\windows\projerty_editor\ScenePropEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\windows\assets_create\SceneCreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -189,6 +192,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\windows\projerty_editor\ScenePropEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\windows\assets_create\SceneCreator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

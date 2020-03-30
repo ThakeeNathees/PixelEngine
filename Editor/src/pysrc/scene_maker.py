@@ -14,9 +14,10 @@ scene_format = '''<scene name="%s" id="%s"><objects></objects></scene>'''
 file_extension = ".scn.xml"
 
 def writeScene(scn, path):
+    print(scn, path)
     plain_xml = ET.tostring(scn).decode('utf-8').replace('\n', '').replace('\t','')
     pretty_xml = mdom.parseString( plain_xml ).toprettyxml()
-    name = obj.attrib['name']
+    name = scn.attrib['name']
     file = open(path+'/'+name+file_extension, 'w')
     file.write(pretty_xml)
     file.close()

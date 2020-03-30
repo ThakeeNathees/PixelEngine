@@ -37,7 +37,7 @@ namespace pe
 		Object* getObject(const std::string& name);
 		inline int getId() const override { return m_id; }
 		inline Asset::Type getType() const override { return Asset::Type::Scene; }
-		
+
 
 	private:
 		friend class Application;

@@ -44,6 +44,7 @@ class SceneTag:
         bg = self.root.find('background')
         if bg is not None:
             self.root.remove(bg)
+    ## TODO: bg tag speed, scale, ...
             
     def createBg(self, bg_id, bg_name="", tex_id=-1):
         if bg_name == "": bg_name = "bg_" + str(bg_id)
@@ -69,4 +70,10 @@ class SceneTag:
 
             ## no textures when creating
 
-    
+    ## TODO: add object 
+    def getObjectsCount(self):
+        return len(self.root.find('objects'))
+    def getObjectId(self, ind):
+        if ind < 0 or len(self.root.find('objects')) <= ind:
+            raise Exception("invalid index (getObjectId): ", __FILE__)
+        return int(self.root.find('objects')[ind].attrib['id'])

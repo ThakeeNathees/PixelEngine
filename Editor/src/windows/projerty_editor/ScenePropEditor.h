@@ -44,6 +44,7 @@ private:
 
 	sf::RenderTexture m_render_texture;
 	py::object* m_scene_tag = nullptr;
+	std::map<int, py::object*> m_objects_cache;
 
 	bool m_is_focus				= false;
 	bool m_window_size_changed	= false;
@@ -51,8 +52,8 @@ private:
 	ImVec2 m_window_size		= ImVec2(0, 0);
 	sf::Transformable m_scene_trans;
 
-	long long m_selected_obj_id = -1;
-	long long m_hovered_obj_id = -1;
+	int m_selected_obj_id = -1;
+	int m_hovered_obj_id = -1;
 	//sf::Sprite* m_selected_spr = nullptr;
 	//sf::Sprite* m_hovered_spr = nullptr;
 

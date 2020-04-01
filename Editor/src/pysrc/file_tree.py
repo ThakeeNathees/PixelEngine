@@ -7,16 +7,22 @@ class FileTree:
     scene_paths = []
 
     def __init__(self, path):
-        self.path  = path
-        self.dirs  = []
+        self.path  = path   ## abs path 
+        self.dirs  = []     ## rel paths
         self.files = []
         for p in os.listdir(self.path):
             if not os.path.isdir(os.path.join(self.path, p)):
                 if p.endswith('.obj.xml'): 
-                    if p not in FileTree.object_paths: FileTree.object_paths.append(os.path.join(self.path, p))
+                    if p not in FileTree.object_paths: FileTree.object_paths.append(
+                        os.path.relpath(os.path.join(self.path, p))
+                    )
                 if p.endswith('.scn.xml'): 
-                    if p not in FileTree.scene_paths: FileTree.scene_paths.append(os.path.join(self.path, p))
-                self.files.append(os.path.join(self.path, p))
+                    if p not in FileTree.scene_paths: FileTree.scene_paths.append(
+                        os.path.relpath(os.path.join(self.path, p))
+                    )
+                self.files.append(
+                    os.path.relpath(os.path.join(self.path, p))
+                )
             else:
                 self.dirs.append(FileTree( os.path.join(self.path, p) ))
 

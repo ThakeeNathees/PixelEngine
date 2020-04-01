@@ -55,10 +55,13 @@ public:
 		return s_instance;
 	}
 
-	void reload() {
+	void reload(bool reload_tags = true) {
 		auto m = py::module::import("file_tree");
 		m_py_filetree = m.attr("FileTree")(CLI::getCwd());
-		reloadObjectTags();
+		if (reload_tags) {
+			reloadObjectTags();
+			reloadSceneTags();
+		}
 	}
 
 	/*
@@ -73,13 +76,13 @@ public:
 	}
 	*/
 
-	void reloadScenes() {
-		for (auto path : m_py_filetree.attr("scene_paths").cast<std::vector<std::string>>()) {
-			long long id = PyUtils::getInstance()->getMathUtil().attr("md5Hash")(path, "long").cast<long long>();
-			if (m_scenes.find(id) == m_scenes.end()) {
-				// TODO:
+	py::object* getObject(int obj_id) {
+		for (auto& obj : m_objects) {
+			if (obj.second.attr("getId")().cast<int>() == obj_id) {
+				return &obj.second;
 			}
 		}
+		return nullptr;
 	}
 	
 	void render() {
@@ -96,12 +99,17 @@ public:
 		return m_py_filetree;
 	}
 
-	//py::object& getObjectTag_objId(int id);
-	std::map<long long, py::object>& getObjects();
+	std::map<long long, py::object>& getObjects() {
+		return m_objects;
+	}
+	std::map<long long, py::object>& getScenes() {
+		return m_scenes;
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 private:
 	void reloadObjectTags();
+	void reloadSceneTags();
 
 	void renderTreeRecursive(py::object& tree, bool next_item_open = false);
 	void renderAssetsTree(const std::string& path);

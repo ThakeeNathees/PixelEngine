@@ -46,10 +46,9 @@ void ScenePropEditor::handleEvent(sf::Event& event) {
 				m_selected_obj_id = m_hovered_obj_id;
 				mouse_ini_pos = m_mouse_pos;
 				try {
-					auto& objects = FileTree::getInstance()->getObjects();
-					py::object& obj = objects[m_selected_obj_id];
-					obj_ini_pos.x = obj.attr("getPosition")().attr("__getitem__")(0).cast<float>();
-					obj_ini_pos.y = obj.attr("getPosition")().attr("__getitem__")(1).cast<float>();
+					py::object* obj = m_objects_cache[m_selected_obj_id];
+					obj_ini_pos.x = obj->attr("getPosition")().attr("__getitem__")(0).cast<float>();
+					obj_ini_pos.y = obj->attr("getPosition")().attr("__getitem__")(1).cast<float>();
 				}
 				catch (std::exception err) { std::cout << err.what() << std::endl; }
 			}
@@ -62,9 +61,8 @@ void ScenePropEditor::handleEvent(sf::Event& event) {
 				pos.x /= m_scene_trans.getScale().x;
 				pos.y /= m_scene_trans.getScale().y;
 				pos += obj_ini_pos;
-				auto& objects = FileTree::getInstance()->getObjects();
-				py::object& obj = objects[m_selected_obj_id];
-				obj.attr("setPosition")(pos.x, pos.y);
+				py::object* obj = m_objects_cache[m_selected_obj_id];
+				obj->attr("setPosition")(pos.x, pos.y);
 			}
 
 		}
@@ -87,21 +85,27 @@ void ScenePropEditor::handleEvent(sf::Event& event) {
 void ScenePropEditor::reloadScene(bool reload_file) {
 	if (reload_file) m_scene_tag->attr("reload")();
 	//CLI::getInstance()->getPeproj().window_size;
-	// TODO: create scene
+	m_objects_cache.clear();
+	for (int i = 0; i < m_scene_tag->attr("getObjectsCount")().cast<int>(); i++) {
+		int obj_id = m_scene_tag->attr("getObjectId")(i).cast<int>();
+		py::object* obj = FileTree::getInstance()->getObject(obj_id);
+		if (obj) m_objects_cache[obj_id] = obj;
+		else PE_LOG("Error: object (id=%i) not found in file tree", obj_id);
+	}
 }
 
 void ScenePropEditor::render() {
 	m_is_focus = false;
 	if (m_open) {
 		ImGui::SetNextWindowSize(ImVec2(600, 400), ImGuiCond_Once);
-		
+
 		ImGuiWindowFlags_ flag = ImGuiWindowFlags_None; if (!m_is_title_bar_hovered) flag = ImGuiWindowFlags_NoMove;
 
 		ImGui::Begin("Scene Editor", &m_open, flag);
 		m_is_title_bar_hovered = ImGui::IsItemHovered();
 		if (ImGui::IsWindowFocused()) m_is_focus = true;
 		m_mouse_pos = sf::Vector2f(ImGui::GetMousePos().x - ImGui::GetCursorScreenPos().x, ImGui::GetMousePos().y - ImGui::GetCursorScreenPos().y);
-		
+
 		// window size changed
 		if (ImGui::GetWindowSize().x != m_window_size.x || ImGui::GetWindowSize().y != m_window_size.y) {
 			m_window_size = ImGui::GetWindowSize();
@@ -116,70 +120,70 @@ void ScenePropEditor::render() {
 		drawAxisLines();
 
 		auto transform = m_scene_trans.getTransform();
-			m_hovered_obj_id = -1;
-			for (auto& pair : FileTree::getInstance()->getObjectTags()) { // map<long long id, py::object>
-				auto object = pair.second;
-				long long obj_id = pair.first;
-				if (object.attr("hasSpriteTag")().cast<bool>()) {
+		m_hovered_obj_id = -1;
+		for (auto& pair : m_objects_cache) {
+			py::object* object = pair.second;
+			int obj_id = pair.first;
+			if (object->attr("hasSpriteTag")().cast<bool>()) {
 
-					pe::Sprite spr;
-					sf::RectangleShape border;
-					int tex_id = object.attr("getSpriteTextureId")().cast<int>();
-					if (tex_id >= 0) {
-						spr.setTexture(*pe::Assets::getAsset<pe::Texture>(tex_id));
-						auto rect = object.attr("getSpriteTextureRect")().cast<std::vector<int>>();
-						spr.setTextureRect(sf::IntRect(rect[0], rect[1], rect[2], rect[3]));
-						auto frames = object.attr("getSpriteFrames")().cast<std::vector<int>>();
-						spr.setFrames(frames[0], frames[1], frames[2], frames[3]);
-						spr.setFrameIndex(frames[4]);
+				pe::Sprite spr;
+				sf::RectangleShape border;
+				int tex_id = object->attr("getSpriteTextureId")().cast<int>();
+				if (tex_id >= 0) {
+					spr.setTexture(*pe::Assets::getAsset<pe::Texture>(tex_id));
+					auto rect = object->attr("getSpriteTextureRect")().cast<std::vector<int>>();
+					spr.setTextureRect(sf::IntRect(rect[0], rect[1], rect[2], rect[3]));
+					auto frames = object->attr("getSpriteFrames")().cast<std::vector<int>>();
+					spr.setFrames(frames[0], frames[1], frames[2], frames[3]);
+					spr.setFrameIndex(frames[4]);
 
-						spr.setOrigin(object.attr("getOrigin")().attr("__getitem__")(0).cast<float>(), object.attr("getOrigin")().attr("__getitem__")(1).cast<float>());
-						spr.setRotation(object.attr("getRotation")().cast<float>());
-						sf::Vector2f pos(object.attr("getPosition")().attr("__getitem__")(0).cast<float>(), object.attr("getPosition")().attr("__getitem__")(1).cast<float>());
-						spr.setPosition(transform.transformPoint(pos));
-						spr.setScale(object.attr("getScale")().attr("__getitem__")(0).cast<float>(), object.attr("getScale")().attr("__getitem__")(1).cast<float>());
-						spr.scale(m_scene_trans.getScale());
-
-
-						auto tex_rect = spr.getTextureRect();
-						border.setSize(sf::Vector2f(tex_rect.width, tex_rect.height));
-						border.setPosition(spr.getPosition());
-						border.setScale(spr.getScale());
-						border.setOrigin(spr.getOrigin());
+					spr.setOrigin(object->attr("getOrigin")().attr("__getitem__")(0).cast<float>(), object->attr("getOrigin")().attr("__getitem__")(1).cast<float>());
+					spr.setRotation(object->attr("getRotation")().cast<float>());
+					sf::Vector2f pos(object->attr("getPosition")().attr("__getitem__")(0).cast<float>(), object->attr("getPosition")().attr("__getitem__")(1).cast<float>());
+					spr.setPosition(transform.transformPoint(pos));
+					spr.setScale(object->attr("getScale")().attr("__getitem__")(0).cast<float>(), object->attr("getScale")().attr("__getitem__")(1).cast<float>());
+					spr.scale(m_scene_trans.getScale());
 
 
-						// draw rectangle color
-						border.setOutlineThickness(2.f / m_scene_trans.getScale().x);
-						border.setFillColor(sf::Color(0, 0, 0, 0));
-						if (
-							border.getGlobalBounds().left   < m_mouse_pos.x &&
-							border.getGlobalBounds().top    < m_mouse_pos.y &&
-							border.getGlobalBounds().width + border.getGlobalBounds().left > m_mouse_pos.x&&
-							border.getGlobalBounds().height + border.getGlobalBounds().top  > m_mouse_pos.y
-							) {
-							border.setOutlineColor(sf::Color::Yellow);
-							if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-								m_hovered_obj_id = obj_id;
-							}
+					sf::IntRect tex_rect = spr.getTextureRect();
+					border.setSize(sf::Vector2f((float)tex_rect.width, (float)tex_rect.height));
+					border.setPosition(spr.getPosition());
+					border.setScale(spr.getScale());
+					border.setOrigin(spr.getOrigin());
+
+
+					// draw rectangle color
+					border.setOutlineThickness(2.f / m_scene_trans.getScale().x);
+					border.setFillColor(sf::Color(0, 0, 0, 0));
+					if (
+						border.getGlobalBounds().left   < m_mouse_pos.x &&
+						border.getGlobalBounds().top    < m_mouse_pos.y &&
+						border.getGlobalBounds().width + border.getGlobalBounds().left > m_mouse_pos.x&&
+						border.getGlobalBounds().height + border.getGlobalBounds().top  > m_mouse_pos.y
+						) {
+						border.setOutlineColor(sf::Color::Yellow);
+						if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+							m_hovered_obj_id = obj_id;
 						}
-						else {
-							border.setOutlineColor(sf::Color::Blue);
-						}
-
 					}
-					m_render_texture.draw(spr);
-					m_render_texture.draw(border);
+					else {
+						border.setOutlineColor(sf::Color::Blue);
+					}
+
 				}
+				m_render_texture.draw(spr);
+				m_render_texture.draw(border);
 			}
-		
+		}
+
 		ImGui::Image(m_render_texture);
 
 		ImGui::Separator();
-		
+
 		// reset view
 		if (ImGui::Button("reset view")) {
-			m_scene_trans.setScale(1,1);
-			m_scene_trans.setPosition(100,100);
+			m_scene_trans.setScale(1, 1);
+			m_scene_trans.setPosition(100, 100);
 		}
 
 		ImGui::End();

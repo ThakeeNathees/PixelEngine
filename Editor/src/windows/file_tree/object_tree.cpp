@@ -172,9 +172,6 @@ void FileTree::renderRightMouseMenuArea(long long id) {
 // 	throw "Does Not exists the object id";
 // }
 
-std::map<long long, py::object>& FileTree::getObjects() {
-	return m_objects;
-}
 
 void FileTree::reloadObjectTags() {
 
@@ -184,5 +181,14 @@ void FileTree::reloadObjectTags() {
 		//file_name = PyUtils::getInstance()->getStrUtil().attr("getFileName")(file_name).cast<std::string>();
 		auto obj_tag = m_object_reader.attr("ObjectTag")(obj_path);
 		m_objects[id] = obj_tag;
+	}
+}
+
+void FileTree::reloadSceneTags() {
+	for (auto path : m_py_filetree.attr("scene_paths").cast<std::vector<std::string>>()) {
+		long long id = PyUtils::getInstance()->getMathUtil().attr("md5Hash")(path, "long").cast<long long>();
+		if (m_scenes.find(id) == m_scenes.end()) {
+			// TODO:
+		}
 	}
 }

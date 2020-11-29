@@ -1,0 +1,14 @@
+#!python
+import os, subprocess
+Import('env_os')
+
+## project includes
+env_os.Append(LIBS=[
+	## crash_handler
+	'dl',
+])
+
+
+## windows env
+env_os.Append(CPPDEFINES=[])
+env_os.sources += [ Glob('*.cpp') ]

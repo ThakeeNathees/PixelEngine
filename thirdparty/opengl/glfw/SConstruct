@@ -1,0 +1,58 @@
+#!python
+Import('env')
+
+# project includes
+env.Append(CPPPATH=[Dir('include/')])
+
+# glfw env
+glfw_env = env.Clone()
+glfw_env.Append(CPPPATH=['include/', 'src/'])
+
+# source files
+SOURCES = [
+	"src/context.c",
+	"src/init.c",
+	"src/input.c",
+	"src/monitor.c",
+	"src/vulkan.c",
+	"src/window.c",
+]
+
+if glfw_env['platform'] == "osx":
+	raise "TODO: not sure what to include..."
+elif glfw_env['platform'] in ('x11', 'linux'):
+	glfw_env.Append(CPPDEFINES=["_GLFW_X11"])
+	SOURCES += [
+		"src/x11_init.c",
+		"src/x11_monitor.c",
+		"src/x11_window.c",
+		"src/linux_joystick.c",
+		"src/posix_time.c",
+		"src/posix_thread.c",
+		"src/xkb_unicode.c",
+
+		"src/glx_context.c",
+		
+		"src/egl_context.c",
+		"src/osmesa_context.c",
+	]
+elif glfw_env['platform'] == "windows":
+	glfw_env.Append(CPPDEFINES=["_GLFW_WIN32"])
+	SOURCES += [
+		"src/win32_init.c",
+		"src/win32_joystick.c",
+		"src/win32_monitor.c",
+		"src/win32_time.c",
+		"src/win32_thread.c",
+		"src/win32_window.c",
+
+		"src/wgl_context.c",
+		
+		"src/osmesa_context.c",
+		"src/egl_context.c",
+	]
+
+# compile list
+lib = glfw_env.StaticLibrary('bin/glfw', SOURCES)
+
+env.Prepend(LIBS=[lib])

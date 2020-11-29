@@ -1,0 +1,14 @@
+#!python
+import os, subprocess
+Import('env_os')
+
+## project includes
+env_os.Append(LIBS=[
+	## crash_handler
+	'psapi',
+	'dbghelp'
+])
+
+## windows env
+env_os.Append(CPPDEFINES=[])
+env_os.sources += [ Glob('*.cpp') ]

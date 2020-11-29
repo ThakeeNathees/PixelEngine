@@ -1,0 +1,13 @@
+#!python
+Import('env')
+
+# project includes
+env.Append(CPPPATH=[Dir('include/')])
+
+# source files
+SOURCES = [ "src/glad.c" ]
+
+# compile list
+lib = env.StaticLibrary('bin/glad',  SOURCES)
+
+env.Prepend(LIBS=[lib])

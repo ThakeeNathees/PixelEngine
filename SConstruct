@@ -1,29 +1,39 @@
 #!python
 import os, subprocess, sys
 
-class Target:
-	SHARED_LIB = 0
-	LIBRARY    = 1
-	EXECUTABLE = 2
-
 ###### USER DATA #############################################################################
 def USER_DATA(env):
 	env.PROJECT_NAME = "PixelEngine"
-	env.BUILD = Target.EXECUTABLE
-	
-	env.SOURCES  = [ 
-		Glob("./main/*.cpp") 
-	]
+
 	env.SCONSCRIPTS = [
 		'thirdparty/SConstruct',
-		'os/SConstruct',
+		'core/SConstruct',
+		'mainloop/SConstruct',
 	]
 
+	env.LIBS = { "core" : [], "thirdparty" : [] }
+
+	env.TESTS = {
+		"sandbox" : [ Glob("tests/sandbox/*.cpp"), ],
+		"unit_tests" : [ Glob("tests/unit_tests/*.cpp"), ],
+		"opengl" : [ Glob("tests/opengl/*.cpp"), ],
+	}
+	env.RUN_TARGET = 'tests/opengl' ## 'tests/sandbox'
+
+	## opengl test is for learning and gitignored -> removeing it from tests.
+	if not os.path.exists('tests/opengl/'):
+		env.TESTS.pop('opengl')
+
+	env.Append(CPPPATH=['include/'])
+
+	## TODO: add carbon as submodule
+	## sys.path.append('./core/carbon/')
+	## import CbSCons as cb_scons
+	## env.Append(LIBS=[cb_scons.GET_LIB(env)])
+	#env.Append(CPPPATH=['./core/carbon/include/'])
+
 	if env['platform'] == 'windows':
-		env.Append(LIBS=[
-		'opengl32.lib', 
-		'kernel32.lib', 'user32.lib', 'gdi32.lib', 'shell32.lib',
-		])
+		env.Append(LIBS=['gdi32.lib', 'shell32.lib'])
 	elif env['platform'] == 'linux':
 		env.Append(LIBS=['GL'])
 	elif env['platform'] == 'osx':
@@ -37,23 +47,29 @@ env = DefaultEnvironment()
 
 opts = Variables([], ARGUMENTS)
 ## Define our options
-opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'linux', 'osx']))
+opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'x11', 'linux', 'osx']))
 opts.Add(EnumVariable('target', "Compilation target", 'debug', ['debug', 'release']))
 opts.Add(EnumVariable('bits', 'output program bits', '64', ['32', '64']))
 opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", False))
 
 opts.Add(BoolVariable('vsproj', "make a visual studio project", False))
 opts.Add(PathVariable('target_path', 'The path to the output library.', 'bin/', PathVariable.PathAccept))
-opts.Add(BoolVariable('build_verbose', "use verbose build command", False))
+opts.Add(BoolVariable('verbose', "use verbose build command", False))
+
+opts.Add(BoolVariable('libs', "include unit tests in main", False))
 
 ## Updates the environment with the option variables.
 opts.Update(env)
+
+## find platform
+if env['platform'] == 'linux':
+	env['platform'] = 'x11'
 
 if env['platform'] == '':
 	if sys.platform == 'win32':
 		env['platform'] = 'windows'
 	elif sys.platform in ('linux', 'linux2'):
-		env['platform'] = 'linux'
+		env['platform'] = 'x11'
 	elif sys.platform == 'darwin':
 		env['platform'] = 'osx'
 	else:
@@ -75,6 +91,7 @@ if env['use_llvm']:
 
 ## Check our platform specifics
 if env['platform'] == "osx":
+	env.Append(CXXFLAGS=['-std=c++17'])
 	if env['target'] == 'debug':
 		env.Append(CCFLAGS=['-g', '-O2', '-arch', 'x86_64'])
 		env.Append(LINKFLAGS=['-arch', 'x86_64'])
@@ -82,38 +99,34 @@ if env['platform'] == "osx":
 		env.Append(CCFLAGS=['-g', '-O3', '-arch', 'x86_64'])
 		env.Append(LINKFLAGS=['-arch', 'x86_64'])
 
-elif env['platform'] == 'linux':
-	env.Append(LIBS=['GL', 'GLU', 'dl', 'X11', 'pthread']) 
+elif env['platform'] == 'x11':
+	env.Append(LIBS=['dl', 'pthread']) 
+	env.Append(CXXFLAGS=['-std=c++17'])
 	if env['target'] == 'debug':
 		env.Append(CCFLAGS=['-fPIC', '-g3', '-Og'])
-		env.Append(CXXFLAGS=['-std=c++17'])
 	else:
 		env.Append(CCFLAGS=['-fPIC', '-g', '-O3'])
-		env.Append(CXXFLAGS=['-std=c++17'])
 
 elif env['platform'] == "windows":
 	## This makes sure to keep the session environment variables on windows,
 	## that way you can run scons in a vs 2017 prompt and it will find all the required tools
 	env.Append(ENV=os.environ)
 
-	env.Append(CPPDEFINES=['WIN32', '_WIN32', '_WINDOWS', '_CRT_SECURE_NO_WARNINGS'])
+	env.Append(CXXFLAGS=['/std:c++17', '/bigobj'])
+	env.Append(CPPDEFINES=['_CRT_SECURE_NO_WARNINGS'])
+	env.Append(CPPDEFINES=['WIN32', '_WIN32', '_WINDOWS'])
 	env.Append(CCFLAGS=['-W3', '-GR'])
-	env.Append(LINKFLAGS='/SUBSYSTEM:CONSOLE')
+	env.Append(LINKFLAGS='-SUBSYSTEM:CONSOLE')
 	env.Append(LIBS=[])
 
 	if env['target'] == 'debug':
-		env.Append(CPPDEFINES=['_DEBUG'])
-		env.Append(CCFLAGS=['/EHsc', '/MDd', '/ZI'])
-		env.Append(LINKFLAGS=['/DEBUG'])
+		env.Append(CPPDEFINES=['DEBUG'])
+		env.Append(CCFLAGS=['-EHsc', '-MDd', '-ZI'])
+		env.Append(LINKFLAGS=['-DEBUG'])
 	else:
 		env.Append(CPPDEFINES=['NDEBUG'])
-		env.Append(CCFLAGS=['/O2', '/EHsc', '/MD'])
-
-## debug macro for all platforms
-if env['target'] == 'debug':
-    env.Append(CPPDEFINES=['DEBUG_BUILD'])
-else:
-    env.Append(CPPDEFINES=['RELEASE_BUILD'])
+		env.Append(CCFLAGS=['-O2', '-EHsc', '-MD'])
+	env.Append(LIBS=['psapi', 'dbghelp']) ## for crash handler
 
 ## --------------------------------------------------------------------------------
 
@@ -122,22 +135,15 @@ def no_verbose(sys, env):
 	colors = {}
 	# Colors are disabled in non-TTY environments such as pipes. This means
 	# that if output is redirected to a file, it will not contain color codes
-	if sys.stdout.isatty():
-		colors["cyan"] = "\033[96m"
-		colors["purple"] = "\033[95m"
-		colors["blue"] = "\033[94m"
-		colors["green"] = "\033[92m"
-		colors["yellow"] = "\033[93m"
-		colors["red"] = "\033[91m"
-		colors["end"] = "\033[0m"
-	else:
-		colors["cyan"] = ""
-		colors["purple"] = ""
-		colors["blue"] = ""
-		colors["green"] = ""
-		colors["yellow"] = ""
-		colors["red"] = ""
-		colors["end"] = ""
+
+	colors["cyan"] = "\033[96m"   if sys.stdout.isatty() else ""
+	colors["purple"] = "\033[95m" if sys.stdout.isatty() else ""
+	colors["blue"] = "\033[94m"	  if sys.stdout.isatty() else ""
+	colors["green"] = "\033[92m"  if sys.stdout.isatty() else ""
+	colors["yellow"] = "\033[93m" if sys.stdout.isatty() else ""
+	colors["red"] = "\033[91m"	  if sys.stdout.isatty() else ""
+	colors["end"] = "\033[0m"	  if sys.stdout.isatty() else ""
+
 	compile_source_message = "{}Compiling {}==> {}$SOURCE{}".format(
 		colors["blue"], colors["purple"], colors["yellow"], colors["end"]
 	)
@@ -147,19 +153,19 @@ def no_verbose(sys, env):
 	compile_shared_source_message = "{}Compiling shared {}==> {}$SOURCE{}".format(
 		colors["blue"], colors["purple"], colors["yellow"], colors["end"]
 	)
-	link_program_message = "{}Linking Program        {}==> {}$TARGET{}".format(
+	link_program_message = "{}Linking Program {}==> {}$TARGET{}".format(
 		colors["red"], colors["purple"], colors["yellow"], colors["end"]
 	)
 	link_library_message = "{}Linking Static Library {}==> {}$TARGET{}".format(
 		colors["red"], colors["purple"], colors["yellow"], colors["end"]
 	)
-	ranlib_library_message = "{}Ranlib Library         {}==> {}$TARGET{}".format(
+	ranlib_library_message = "{}Ranlib Library {}==> {}$TARGET{}".format(
 		colors["red"], colors["purple"], colors["yellow"], colors["end"]
 	)
 	link_shared_library_message = "{}Linking Shared Library {}==> {}$TARGET{}".format(
 		colors["red"], colors["purple"], colors["yellow"], colors["end"]
 	)
-	java_library_message = "{}Creating Java Archive  {}==> {}$TARGET{}".format(
+	java_library_message = "{}Creating Java Archive {}==> {}$TARGET{}".format(
 		colors["red"], colors["purple"], colors["yellow"], colors["end"]
 	)
 	env.Append(CXXCOMSTR=[compile_source_message])
@@ -172,7 +178,8 @@ def no_verbose(sys, env):
 	env.Append(LINKCOMSTR=[link_program_message])
 	env.Append(JARCOMSTR=[java_library_message])
 	env.Append(JAVACCOMSTR=[java_compile_source_message])
-if not env['build_verbose']:
+
+if not env['verbose']:
 	no_verbose(sys, env)
 
 ## update user data
@@ -182,14 +189,28 @@ Export('env')
 for script in env.SCONSCRIPTS:
 	SConscript(script)
 
-build_command = None
-if   env.BUILD == Target.EXECUTABLE:   build_command = env.Program
-elif env.BUILD == Target.SHARED_LIB: build_command = env.SharedLibrary
-elif env.BUILD == Target.LIBRARY:    build_command = env.Library
+## compiler the libs.
+if env['libs']:
+	for lib_name in env.LIBS:
+		lib = env.Library(
+			target = os.path.join(env['target_path'], lib_name),
+			source = env.LIBS[lib_name])
+		env.Prepend(LIBS=[lib])
+else:
+	LIB_SOURCES = []
+	for sources in env.LIBS.values(): LIB_SOURCES += sources
+	if len(LIB_SOURCES) > 0:
+		lib = env.Library(
+			target = os.path.join(env['target_path'], env.PROJECT_NAME),
+			source = LIB_SOURCES)
+		env.Prepend(LIBS=[lib])
 
-target = build_command(
-	target = os.path.join(env['target_path'], env.PROJECT_NAME),
-	source = env.SOURCES)
+## tests
+for test in env.TESTS:
+	if len(env.TESTS[test]) == 0: continue
+	env.Program(
+	target = os.path.join(env['target_path'], 'tests', test),
+	source = env.TESTS[test])
 
 ## --------------------------------------------------------------------------------
 
@@ -199,10 +220,9 @@ def get_vsproj_context():
 	variants = [] ## ["debug|Win32", "debug|x64", "release|Win32", "release|x64"]
 	for target in 'debug', 'release':
 		for bits in '32', '64':
-			vsproj_targets.append(
-				os.path.join(env['target_path'], env.PROJECT_NAME + '.exe'))
-			variants.append(
-				target+'|'+('Win32' if bits=='32' else 'x64'))
+			run_target = env.RUN_TARGET
+			vsproj_targets.append(os.path.join( env['target_path'], run_target + '.exe'))
+			variants.append(target+'|'+('Win32' if bits=='32' else 'x64'))
 	return vsproj_targets, variants
 
 def msvs_collect_header():
@@ -225,15 +245,21 @@ def msvs_collect_header():
 
 def msvc_collect_sources():
 	ret = []
-	for src in env.SOURCES:
+	all_sources = []
+	for sources in env.TESTS.values(): all_sources += sources
+	for sources in env.LIBS.values(): all_sources += sources
+	for src in all_sources:
 		if (str(src).endswith('.c')  or str(src).endswith('.cpp') or 
 			str(src).endswith('.cc') or str(src).endswith('.cxx')):
 			ret.append(str(src))
 		else: ## Glob
 			for _src in src:
-				assert(str(_src).endswith('.c')  or str(_src).endswith('.cpp') or 
-					   str(_src).endswith('.cc') or str(_src).endswith('.cxx'))
-				ret.append(str(_src))
+				if (str(_src).endswith('.obj')):
+					ret.append(str(_src).replace('.obj', '.cpp'))
+				else:
+					assert(str(_src).endswith('.c')  or str(_src).endswith('.cpp') or 
+						   str(_src).endswith('.cc') or str(_src).endswith('.cxx'))
+					ret.append(str(_src))
 	return ret
 
 def msvc_build_commandline(commands):

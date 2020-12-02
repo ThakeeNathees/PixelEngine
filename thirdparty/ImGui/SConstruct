@@ -4,10 +4,9 @@ Import('env')
 
 ## project includes
 env.Append(CPPPATH=[Dir("./")])
-env.Append(CPPPATH=[Dir("./imgui_impl_gl3_glfw/")])
 
 ## source files
-env.THIRDPARTY_SOURCES += [
+env.LIBS["thirdparty"] += [
 	File('imgui.cpp'),
 	File('imgui_draw.cpp'),
 	File('imgui_demo.cpp'),

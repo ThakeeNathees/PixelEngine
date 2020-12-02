@@ -28,13 +28,9 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                */
 /*************************************************************************/
 
-#include "crash_handler_x11.h"
+#include "crash_handler.h"
 
 #ifdef DEBUG_BUILD
-#define CRASH_HANDLER_ENABLED 1
-#endif
-
-#ifdef CRASH_HANDLER_ENABLED
 #include <cxxabi.h>
 #include <dlfcn.h>
 #include <execinfo.h>
@@ -56,10 +52,10 @@ std::string _get_exec_path() {
 #elif __linux__
 	char szTmp[32];
 	sprintf(szTmp, "/proc/%d/exe", getpid());
-
+	
 	// int bytes = min(readlink(szTmp, pBuf, len), len - 1);
 	int bytes = readlink(szTmp, pBuf, len);
-	if (bytes > len - 1) bytes = len - 1;
+	if (bytes > len -1) bytes = len -1;
 
 	if (bytes >= 0)
 		pBuf[bytes] = '\0';
@@ -67,8 +63,8 @@ std::string _get_exec_path() {
 	return pBuf;
 }
 
-int _execute(const std::string& p_path, const std::vector<std::string>& p_arguments, bool p_blocking,
-	int* r_child_id, std::string* r_pipe, int* r_exitcode, bool read_stderr = true/*,Mutex *p_pipe_mutex*/) {
+int _execute(const std::string &p_path, const std::vector<std::string> &p_arguments, bool p_blocking, 
+	int *r_child_id, std::string *r_pipe, int *r_exitcode, bool read_stderr = true/*,Mutex *p_pipe_mutex*/) {
 
 #ifdef __EMSCRIPTEN__
 	// Don't compile this code at all to avoid undefined references.
@@ -90,9 +86,9 @@ int _execute(const std::string& p_path, const std::vector<std::string>& p_argume
 		} else {
 			argss += " 2>/dev/null"; //silence stderr
 		}
-		FILE* f = popen(argss.c_str(), "r");
+		FILE *f = popen(argss.c_str(), "r");
 
-		if (!f) {
+		if(!f) {
 			printf("ERR_CANT_OPEN, Cannot pipe stream from process running with following arguments\n\t%s.\n", argss.c_str());
 			return -1;
 		}
@@ -110,10 +106,10 @@ int _execute(const std::string& p_path, const std::vector<std::string>& p_argume
 	}
 
 	pid_t pid = fork();
-	if (pid < 0) {
+	if (pid < 0){
 		printf("ERR_CANT_FORK\n");
 		return -1;
-	}
+	} 
 
 	if (pid == 0) {
 		// is child
@@ -123,7 +119,7 @@ int _execute(const std::string& p_path, const std::vector<std::string>& p_argume
 			// This ensures the process won't go zombie at end.
 			setsid();
 		}
-
+		
 		std::vector<std::string> cs;
 
 		cs.push_back(p_path);
@@ -132,7 +128,7 @@ int _execute(const std::string& p_path, const std::vector<std::string>& p_argume
 
 		std::vector<char*> args;
 		for (int i = 0; i < cs.size(); i++)
-			args.push_back((char*)cs[i].c_str());
+			args.push_back((char *)cs[i].c_str());
 		args.push_back(0);
 
 		execvp(p_path.c_str(), &args[0]);
@@ -160,7 +156,7 @@ int _execute(const std::string& p_path, const std::vector<std::string>& p_argume
 
 // FIXME: chage it to string split
 std::string _func_offset(const char* string_symbol) {
-
+	
 	// the backtrace_symbol output:
 	// /home/thakeenathees/dev/carbon/bin/carbon.x11.debug.64(+0x2801) [0x55c5aa0a2801]
 	// from that it'll extract the offset (0x2801) and feed to addr2line
@@ -168,7 +164,7 @@ std::string _func_offset(const char* string_symbol) {
 	size_t i = 0;
 	bool copy = false;
 	std::string offset;
-	while (char c = string_symbol[i++]) {
+	while (char c = string_symbol[i++]){
 		if (c == ')') break;
 		if (copy) offset += c;
 		if (c == '+') copy = true;
@@ -180,7 +176,7 @@ std::string _func_offset(const char* string_symbol) {
 
 static void handle_crash(int sig) {
 
-	void* bt_buffer[256];
+	void *bt_buffer[256];
 	size_t size = backtrace(bt_buffer, 256);
 	std::string _execpath = _get_exec_path();
 
@@ -188,29 +184,29 @@ static void handle_crash(int sig) {
 	fprintf(stderr, "%s: Program crashed with signal %d\n", __FUNCTION__, sig);
 
 	fprintf(stderr, "Dumping the backtrace.\n");
-	char** strings = backtrace_symbols(bt_buffer, size);
+	char **strings = backtrace_symbols(bt_buffer, size);
 	if (strings) {
 		for (size_t i = 1; i < size; i++) {
 
-			/* fname not working like it works in godot!! using backtrace_symbol string instead to get method
-						char fname[1024];
-						Dl_info info;
-						snprintf(fname, 1024, "%s", strings[i]);
-						// Try to demangle the function name to provide a more readable one
-						if (dladdr(bt_buffer[i], &info) && info.dli_sname) {
-							if (info.dli_sname[0] == '_') {
-								int status;
-								char *demangled = abi::__cxa_demangle(info.dli_sname, nullptr, nullptr, &status);
-								if (status == 0 && demangled) {
-									snprintf(fname, 1024, "%s", demangled);
-								}
-								if (demangled)
-									free(demangled);
-							}
-						}
-			*/
+/* fname not working like it works in godot!! using backtrace_symbol string instead to get method
+			char fname[1024];
+			Dl_info info;
+			snprintf(fname, 1024, "%s", strings[i]);
+			// Try to demangle the function name to provide a more readable one
+			if (dladdr(bt_buffer[i], &info) && info.dli_sname) {
+				if (info.dli_sname[0] == '_') {
+					int status;
+					char *demangled = abi::__cxa_demangle(info.dli_sname, nullptr, nullptr, &status);
+					if (status == 0 && demangled) {
+						snprintf(fname, 1024, "%s", demangled);
+					}
+					if (demangled)
+						free(demangled);
+				}
+			}
+*/
 			std::vector<std::string> args;
-
+			
 			//char str[1024];
 			//snprintf(str, 1024, "%p", bt_buffer[i]);
 			// godot using this but It's not working for some reason
@@ -238,7 +234,7 @@ static void handle_crash(int sig) {
 			} else {
 				fprintf(stderr, "[%ld] %s\n", (long int)i, /*fname,*/ output.c_str());
 			}
-
+			
 		}
 
 		free(strings);
@@ -262,7 +258,7 @@ void CrashHandler::disable() {
 	if (disabled)
 		return;
 
-#ifdef CRASH_HANDLER_ENABLED
+#ifdef DEBUG_BUILD
 	signal(SIGSEGV, nullptr);
 	signal(SIGFPE, nullptr);
 	signal(SIGILL, nullptr);
@@ -272,7 +268,7 @@ void CrashHandler::disable() {
 }
 
 void CrashHandler::initialize() {
-#ifdef CRASH_HANDLER_ENABLED
+#ifdef DEBUG_BUILD
 	signal(SIGSEGV, handle_crash);
 	signal(SIGFPE, handle_crash);
 	signal(SIGILL, handle_crash);

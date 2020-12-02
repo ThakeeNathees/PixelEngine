@@ -28,25 +28,12 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                */
 /*************************************************************************/
 
-// ------------------------- USAGE ------------------------
-// #include "crash_handler_x11.h"
-// 
-// //LINK : dl with -ldl
-// 
-// int main(int argc, char** argv)
-// {
-// 	CrashHandler crash_handler;
-// 	crash_handler.initialize();
-// 
-// 	char* c = NULL;
-// 	*c = 'c';
-// 
-// 	return 0;
-// }
-// --------------------------------------------------------
-
 #ifndef CRASH_HANDLER_X11_H
 #define CRASH_HANDLER_X11_H
+
+#include <iostream>
+
+// env.Append(LIBS=['dl'])
 
 class CrashHandler {
 

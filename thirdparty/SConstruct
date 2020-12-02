@@ -3,10 +3,6 @@ Import('env')
 env.THIRDPARTY_SOURCES = []
 
 ## compile libs
-SConscript('opengl/glad/SConstruct')
-SConscript('opengl/glfw/SConstruct')
+SConscript('glad/SConstruct')
+SConscript('glfw/SConstruct')
 SConscript('ImGui/SConstruct')
-
-## make library
-lib = env.StaticLibrary('bin/thirdparty', env.THIRDPARTY_SOURCES)
-env.Prepend(LIBS=[lib])

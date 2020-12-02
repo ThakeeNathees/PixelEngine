@@ -1,4 +1,6 @@
 
+tests/opengl/
+
 # own files
 *.dblite
 bin/

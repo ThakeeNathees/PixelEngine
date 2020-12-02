@@ -28,38 +28,17 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                */
 /*************************************************************************/
 
-// ------------------------- USAGE ------------------------
-// 
-// #include "crash_handler_windows.h"
-// 
-// int _main(int argc, char** argv)
-// {
-//     char* cp = NULL;
-//     *cp = 0xff;
-//     return 0;
-// }
-// 
-// int main(int argc, char** argv)
-// {
-// #ifdef CRASH_HANDLER_EXCEPTION
-//     __try {
-//         return _main(argc, argv);
-//     } __except (CrashHandlerException(GetExceptionInformation())) {
-//         return 1;
-//     }
-// #else
-//     return _main(argc, argv);
-// #endif
-//     return 0;
-// }
-// --------------------------------------------------------
-
 #ifndef CRASH_HANDLER_WINDOWS_H
 #define CRASH_HANDLER_WINDOWS_H
 
 #include <windows.h>
+#include <iostream>
 
-#if defined(DEBUG_BUILD) && defined(_MSC_VER)
+// #pragma comment(lib, "psapi.lib")
+// #pragma comment(lib, "dbghelp.lib")
+
+// Crash handler exception only enabled with MSVC
+#if (defined(_DEBUG) || defined(DEBUG_BUILD)) && defined(_MSC_VER)
 #define CRASH_HANDLER_EXCEPTION 1
 extern DWORD CrashHandlerException(EXCEPTION_POINTERS* ep);
 #endif

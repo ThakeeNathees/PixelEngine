@@ -28,7 +28,7 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                */
 /*************************************************************************/
 
-#include "crash_handler_windows.h"
+#include "crash_handler.h"
 
 #ifdef CRASH_HANDLER_EXCEPTION
 
@@ -38,10 +38,6 @@
 #include <algorithm>
 #include <iterator>
 #include <vector>
-#include <string>
-
-//#pragma comment(lib, "psapi.lib")
-//#pragma comment(lib, "dbghelp.lib")
 
 // Some versions of imagehlp.dll lack the proper packing directives themselves
 // so we need to do it.
@@ -129,9 +125,9 @@ DWORD CrashHandlerException(EXCEPTION_POINTERS* ep) {
 		return EXCEPTION_CONTINUE_SEARCH;
 
 	SymSetOptions(SymGetOptions() | SYMOPT_LOAD_LINES | SYMOPT_UNDNAME);
-	EnumProcessModules(process, &module_handles[0], (DWORD)module_handles.size() * sizeof(HMODULE), &cbNeeded);
+	EnumProcessModules(process, &module_handles[0], (DWORD) module_handles.size() * sizeof(HMODULE), &cbNeeded);
 	module_handles.resize(cbNeeded / sizeof(HMODULE));
-	EnumProcessModules(process, &module_handles[0], (DWORD)module_handles.size() * sizeof(HMODULE), &cbNeeded);
+	EnumProcessModules(process, &module_handles[0], (DWORD) module_handles.size() * sizeof(HMODULE), &cbNeeded);
 	std::transform(module_handles.begin(), module_handles.end(), std::back_inserter(modules), get_mod_info(process));
 	void* base = modules[0].base_address;
 
@@ -167,7 +163,8 @@ DWORD CrashHandlerException(EXCEPTION_POINTERS* ep) {
 	do {
 		if (skip_first) {
 			skip_first = false;
-		} else {
+		}
+		else {
 			if (frame.AddrPC.Offset != 0) {
 				std::string fnName = symbol(process, frame.AddrPC.Offset).undecorated_name();
 
@@ -175,7 +172,8 @@ DWORD CrashHandlerException(EXCEPTION_POINTERS* ep) {
 					fprintf(stderr, "[%d] %s (%s:%d)\n", n, fnName.c_str(), line.FileName, line.LineNumber);
 				else
 					fprintf(stderr, "[%d] %s\n", n, fnName.c_str());
-			} else
+			}
+			else
 				fprintf(stderr, "[%d] ???\n", n);
 
 			n++;

@@ -6,7 +6,7 @@ env.Append(CPPPATH=[Dir('include/')])
 
 # glfw env
 glfw_env = env.Clone()
-glfw_env.Append(CPPPATH=['include/', 'src/'])
+#glfw_env.Append(CPPPATH=['include/', 'src/'])
 
 # source files
 SOURCES = [
@@ -53,6 +53,6 @@ elif glfw_env['platform'] == "windows":
 	]
 
 # compile list
-lib = glfw_env.StaticLibrary('bin/glfw', SOURCES)
-
-env.Prepend(LIBS=[lib])
+env.LIBS["thirdparty"] += [
+    glfw_env.Object(src) for src in SOURCES
+]

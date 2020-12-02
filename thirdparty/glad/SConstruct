@@ -1,0 +1,11 @@
+#!python
+Import('env')
+
+# project includes
+env.Append(CPPPATH=[Dir('include/')])
+
+# source files
+env.LIBS["thirdparty"] += [
+    File('src/glad.c')
+]
+

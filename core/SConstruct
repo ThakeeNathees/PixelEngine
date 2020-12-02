@@ -1,0 +1,11 @@
+#!python
+import os
+Import('env')
+
+SOURCES = [
+	Glob('*.cpp'),
+	Glob('engine/*.cpp'),
+	#Glob('platform/%s/*.cpp' % env['platform'] ),
+]
+
+env.LIBS['core'] += SOURCES

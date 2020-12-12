@@ -5,6 +5,8 @@ import os, subprocess, sys
 def USER_DATA(env):
 	env.PROJECT_NAME = "PixelEngine"
 
+	env.GL_LOADER = 'SDL' ## SDL | GLFW
+
 	env.SCONSCRIPTS = [
 		'thirdparty/SConstruct',
 		'core/SConstruct',
@@ -14,17 +16,41 @@ def USER_DATA(env):
 	env.LIBS = { "core" : [], "thirdparty" : [] }
 
 	env.TESTS = {
-		"sandbox" : [ Glob("tests/sandbox/*.cpp"), ],
-		"unit_tests" : [ Glob("tests/unit_tests/*.cpp"), ],
-		"opengl" : [ Glob("tests/opengl/*.cpp"), ],
+		#"sandbox" : [ Glob("tests/sandbox/*.cpp"), ],
+		#"unit_tests" : [ Glob("tests/unit_tests/*.cpp"), ],
+		#"opengl" : [ Glob("tests/opengl/*.cpp"), ],
+		"main" : [ "tests/main_sdl.cpp" if env.GL_LOADER == 'SDL' else 'tests/main_glfw.cpp' ], ## <-- TODO:
 	}
-	env.RUN_TARGET = 'tests/opengl' ## 'tests/sandbox'
+	env.RUN_TARGET = 'tests/main' ## 'tests/sandbox'
 
 	## opengl test is for learning and gitignored -> removeing it from tests.
-	if not os.path.exists('tests/opengl/'):
-		env.TESTS.pop('opengl')
+	#if not os.path.exists('tests/opengl/'):
+	#	env.TESTS.pop('opengl')
 
-	env.Append(CPPPATH=['include/'])
+	## -----------------------------------------------------
+
+	env.Append(CPPPATH=[Dir(path) for path in [
+		'./thirdparty/glad/include/',
+		'./thirdparty/ImGui/',
+		'./include/',
+	]])
+
+	if env.GL_LOADER == 'SDL':
+		env.Append(CPPDEFINES=['GL_LOADER_SDL'])
+		env.Append(CPPPATH=[Dir(path) for path in [
+			"./thirdparty/SDL2-2.0.12/include/",
+			"./thirdparty/SDL2_image-2.0.5/include/",
+		]])
+		## TODO: bits
+		env.Append(LIBPATH = [
+			'thirdparty/SDL2-2.0.12/lib/x64/',
+			'thirdparty/SDL2_image-2.0.5/lib/x64',
+		])
+		env.Append(LIBS=['SDL2', 'SDL2_image'])
+
+	elif env.GL_LOADER == 'GLFW':
+		env.Append(CPPDEFINES=['GL_LOADER_GLFW'])
+		env.Append(CPPPATH=[Dir("./thirdparty/glfw/include/")])
 
 	## TODO: add carbon as submodule
 	## sys.path.append('./core/carbon/')

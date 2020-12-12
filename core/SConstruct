@@ -3,9 +3,14 @@ import os
 Import('env')
 
 SOURCES = [
-	Glob('*.cpp'),
-	Glob('engine/*.cpp'),
+	#Glob('*.cpp'),
+	#Glob('engine/*.cpp'),
 	#Glob('platform/%s/*.cpp' % env['platform'] ),
 ]
+
+if env.GL_LOADER == 'SDL':
+	SOURCES += [File('./engine/engine_sdl.cpp')]
+elif env.GL_LOADER == 'GLFW':
+	SOURCES += [File('./engine/engine_glfw.cpp')]
 
 env.LIBS['core'] += SOURCES

@@ -2,5 +2,5 @@
 
 
 #include "internal.h"
-#include "gl_api.h"
+#include "gl_loader.h"
 #include "engine.h"

@@ -13,11 +13,20 @@ int Engine::initialize() {
 	glfwSetErrorCallback([](int error, const char* description) {
 		fprintf(stderr, "Glfw Error %d: %s\n", error, description); });
 	if (!glfwInit()) return -1;
-
+#if __APPLE__
+#error Not sure about the versions. this error message is a fail safe
+	// GL 3.2 + GLSL 150
+	const char* glsl_version = "#version 150";
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // Required on Mac.
+#else
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
 
 	window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+OpenGL3 example", NULL, NULL);
 	if (window == NULL) return -1;
@@ -67,7 +76,7 @@ void Engine::new_frame() {
 }
 
 void Engine::clear() {
-	glClearColor(0, 0, 0, 1); glClear(GL_COLOR_BUFFER_BIT);
+	glClearColor(0.45f, 0.55f, 0.60f, 1.00f); glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void Engine::draw_frame() {

@@ -4,5 +4,6 @@ env.THIRDPARTY_SOURCES = []
 
 ## compile libs
 SConscript('glad/SConstruct')
-SConscript('glfw/SConstruct')
+if env.GL_LOADER == 'GLFW':
+	SConscript('glfw/SConstruct')
 SConscript('ImGui/SConstruct')

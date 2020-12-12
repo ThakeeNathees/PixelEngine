@@ -1,12 +1,8 @@
 #!python
 Import('env')
 
-# project includes
-env.Append(CPPPATH=[Dir('include/')])
-
 # glfw env
 glfw_env = env.Clone()
-#glfw_env.Append(CPPPATH=['include/', 'src/'])
 
 # source files
 SOURCES = [

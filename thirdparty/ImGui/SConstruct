@@ -2,9 +2,6 @@
 import os, subprocess
 Import('env')
 
-## project includes
-env.Append(CPPPATH=[Dir("./")])
-
 ## source files
 env.LIBS["thirdparty"] += [
 	File('imgui.cpp'),
@@ -12,8 +9,7 @@ env.LIBS["thirdparty"] += [
 	File('imgui_demo.cpp'),
 	File('imgui_widgets.cpp'),
 
-	File('imgui_impl_gl3_glfw/imgui_impl_glfw.cpp'),
-	File('imgui_impl_gl3_glfw/imgui_impl_opengl3.cpp'),
+	File('imgui_impl_opengl3.cpp'),
 
 	#File('misc/cpp/imgui_stdlib.cpp'),
 	#File('misc/fonts/binary_to_compressed_c.cpp'),
@@ -21,3 +17,7 @@ env.LIBS["thirdparty"] += [
 	#File('misc/freetype/imgui_freetype.cpp'),
 ]
 
+if env.GL_LOADER == 'SDL':
+	env.LIBS['thirdparty'] += [ File('imgui_impl_sdl.cpp') ]
+elif env.GL_LOADER == 'GLFW':
+	env.LIBS['thirdparty'] += [ File('imgui_impl_glfw.cpp') ]

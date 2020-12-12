@@ -5,14 +5,30 @@
 // (GLFW is a cross-platform general purpose library for handling windows, inputs, OpenGL/Vulkan/Metal graphics context creation, etc.)
 
 #include "imgui.h"
-#include "imgui_impl_gl3_glfw/imgui_impl_glfw.h"
-#include "imgui_impl_gl3_glfw/imgui_impl_opengl3.h"
+#include "imgui_impl_sdl.h"
+
+#if defined(GL_LOADER_SDL)
+#include "imgui_impl_opengl3.h"
+#elif defined(GL_LOADER_GLFW)
+#include "imgui_impl_glfw.h"
+#else
+#error "GL_LOADER not defined"
+#endif
 
 // About Desktop OpenGL function loaders:
 //  Modern desktop OpenGL doesn't have a standard portable header file to load OpenGL function pointers.
 
 #include <glad/glad.h>  // Initialize with gladLoadGL()
+
+#if defined(GL_LOADER_SDL)
+#define SDL_MAIN_HANDLED
+#include <SDL.h>
+#elif defined(GL_LOADER_GLFW)
 #include <GLFW/glfw3.h> // Include glfw3.h after our OpenGL definitions
+#else
+#error "GL_LOADER not defined"
+#endif
+
 
 // [Win32] Our example includes a copy of glfw3.lib pre-compiled with VS2010 to maximize ease of testing and compatibility with old VS compilers.
 // To link with VS2010-era libraries, VS2015+ requires linking with legacy_stdio_definitions.lib, which we do using this pragma.
@@ -21,7 +37,7 @@
 #pragma comment(lib, "legacy_stdio_definitions")
 #endif
 
-// ------ glfwPollEvents() -------
+// ------ glfwPollEvents() / SDL_PollEvent() -------
 	// Poll and handle events (inputs, window resize, etc.)
 	// You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
 	// - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.

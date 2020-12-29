@@ -9,8 +9,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![TODOs](https://badgen.net/https/api.tickgit.com/badgen/github.com/ThakeeNathees/Pixel-Engine)](https://www.tickgit.com/browse?repo=github.com/ThakeeNathees/Pixel-Engine)
 
-[![Stars](https://img.shields.io/github/stars/ThakeeNathees/Pixel-Engine?style=social)](https://github.com/ThakeeNathees/Pixel-Engine/stargazers) 
-[![Forks](https://img.shields.io/github/forks/ThakeeNathees/Pixel-Engine?label=Forks&style=social)](https://github.com/ThakeeNathees/pixel-engine/fork)
+### Note: The master branch is currently unstable and is on a heavy refactor.
 
 Pixel engine is a simple interactive application and game engine written in C++ and Python. Currently in early stage and only supports for windows x64. Since the engine supports python scripting it can also be used as a learning tool for python.
 

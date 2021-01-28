@@ -1,0 +1,7 @@
+#!python
+Import('env')
+
+# source files
+env.THIRDPARTY_SOURCES += [
+    File('src/glad.c')
+]

@@ -1,50 +1,6 @@
 #!python
 import os, subprocess, sys
 
-###### USER DATA #############################################################################
-def USER_DATA(env):
-	env.PROJECT_NAME = "PixelEngine"
-
-	env.SCONSCRIPTS = [
-		'thirdparty/SConstruct',
-		'core/SConstruct',
-		'mainloop/SConstruct',
-	]
-
-	env.LIBS = { "core" : [], "thirdparty" : [] }
-
-	env.TESTS = {
-		"sandbox" : [ Glob("tests/sandbox/*.cpp"), ],
-		"unit_tests" : [ Glob("tests/unit_tests/*.cpp"), ],
-		"opengl" : [ Glob("tests/opengl/*.cpp"), ],
-	}
-	env.RUN_TARGET = 'tests/opengl' ## 'tests/sandbox'
-
-	## opengl test is for learning and gitignored -> removeing it from tests.
-	if not os.path.exists('tests/opengl/'):
-		env.TESTS.pop('opengl')
-
-	env.Append(CPPPATH=['include/'])
-
-	## TODO: add carbon as submodule
-	## sys.path.append('./core/carbon/')
-	## import CbSCons as cb_scons
-	## env.Append(LIBS=[cb_scons.GET_LIB(env)])
-	#env.Append(CPPPATH=['./core/carbon/include/'])
-
-	if env['platform'] == 'windows':
-		env.Append(LIBS=['gdi32.lib', 'shell32.lib'])
-	elif env['platform'] == 'linux':
-		env.Append(LIBS=['GL'])
-	elif env['platform'] == 'osx':
-		env.Append(LIBS=['GL'])
-
-
-#################################################################################################
-
-## Gets the standard flags CC, CCX, etc.
-env = DefaultEnvironment()
-
 opts = Variables([], ARGUMENTS)
 ## Define our options
 opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'x11', 'linux', 'osx']))
@@ -58,18 +14,31 @@ opts.Add(BoolVariable('verbose', "use verbose build command", False))
 
 opts.Add(BoolVariable('libs', "include unit tests in main", False))
 
+## Setup the Environment
+_target_arch = 'x86_64'
+if 'bits' in opts.args.keys() and opts.args['bits'] == '32':
+	_target_arch = 'x86'
+env = DefaultEnvironment(TARGET_ARCH = _target_arch)
+
+if 'use_llvm' in opts.args.keys() and opts.args['use_llvm']:
+	env['CC'] = 'clang'
+	env['CXX'] = 'clang++'
+elif 'use_mingw' in opts.args.keys() and opts.args['use_mingw']:
+	env = Environment(
+		TARGET_ARCH = _target_arch,
+		tools = ['mingw'], ENV = {'PATH' : os.environ['PATH']})
+	env['tools'] = ['mingw']
+os.environ['PATH'] = env['ENV']['PATH']
+
 ## Updates the environment with the option variables.
 opts.Update(env)
 
 ## find platform
-if env['platform'] == 'linux':
-	env['platform'] = 'x11'
-
 if env['platform'] == '':
 	if sys.platform == 'win32':
 		env['platform'] = 'windows'
-	elif sys.platform in ('linux', 'linux2'):
-		env['platform'] = 'x11'
+	elif sys.platform in ('x11', 'linux', 'linux2'):
+		env['platform'] = 'linux'
 	elif sys.platform == 'darwin':
 		env['platform'] = 'osx'
 	else:
@@ -181,36 +150,9 @@ def no_verbose(sys, env):
 
 if not env['verbose']:
 	no_verbose(sys, env)
-
-## update user data
-USER_DATA(env)
-
+	
 Export('env')
-for script in env.SCONSCRIPTS:
-	SConscript(script)
-
-## compiler the libs.
-if env['libs']:
-	for lib_name in env.LIBS:
-		lib = env.Library(
-			target = os.path.join(env['target_path'], lib_name),
-			source = env.LIBS[lib_name])
-		env.Prepend(LIBS=[lib])
-else:
-	LIB_SOURCES = []
-	for sources in env.LIBS.values(): LIB_SOURCES += sources
-	if len(LIB_SOURCES) > 0:
-		lib = env.Library(
-			target = os.path.join(env['target_path'], env.PROJECT_NAME),
-			source = LIB_SOURCES)
-		env.Prepend(LIBS=[lib])
-
-## tests
-for test in env.TESTS:
-	if len(env.TESTS[test]) == 0: continue
-	env.Program(
-	target = os.path.join(env['target_path'], 'tests', test),
-	source = env.TESTS[test])
+SConscript('SConscript')
 
 ## --------------------------------------------------------------------------------
 
@@ -245,10 +187,7 @@ def msvs_collect_header():
 
 def msvc_collect_sources():
 	ret = []
-	all_sources = []
-	for sources in env.TESTS.values(): all_sources += sources
-	for sources in env.LIBS.values(): all_sources += sources
-	for src in all_sources:
+	for src in env.ALL_SOURCES:
 		if (str(src).endswith('.c')  or str(src).endswith('.cpp') or 
 			str(src).endswith('.cc') or str(src).endswith('.cxx')):
 			ret.append(str(src))

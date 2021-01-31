@@ -1,37 +1,38 @@
 #!python
 import os, subprocess, sys
 
+def get_variant_dir(env):
+	ret = 'build/' + env['platform'] + '/' + env['target'];
+	if env['platform'] == 'windows':
+		return ret + '/' + env['bits']
+	return ret
+
 opts = Variables([], ARGUMENTS)
 ## Define our options
 opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'x11', 'linux', 'osx']))
 opts.Add(EnumVariable('target', "Compilation target", 'debug', ['debug', 'release']))
 opts.Add(EnumVariable('bits', 'output program bits', '64', ['32', '64']))
 opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", False))
+opts.Add(BoolVariable('use_mingw', "Use Mingw compiler", False))
 
 opts.Add(BoolVariable('vsproj', "make a visual studio project", False))
-opts.Add(PathVariable('target_path', 'The path to the output library.', 'bin/', PathVariable.PathAccept))
+#opts.Add(PathVariable('target_path', 'The path to the output library.', 'bin/', PathVariable.PathAccept))
 opts.Add(BoolVariable('verbose', "use verbose build command", False))
 
 opts.Add(BoolVariable('libs', "include unit tests in main", False))
 
 ## Setup the Environment
-_target_arch = 'x86_64'
-if 'bits' in opts.args.keys() and opts.args['bits'] == '32':
-	_target_arch = 'x86'
-env = DefaultEnvironment(TARGET_ARCH = _target_arch)
-
-if 'use_llvm' in opts.args.keys() and opts.args['use_llvm']:
-	env['CC'] = 'clang'
-	env['CXX'] = 'clang++'
-elif 'use_mingw' in opts.args.keys() and opts.args['use_mingw']:
-	env = Environment(
-		TARGET_ARCH = _target_arch,
-		tools = ['mingw'], ENV = {'PATH' : os.environ['PATH']})
-	env['tools'] = ['mingw']
-os.environ['PATH'] = env['ENV']['PATH']
+DefaultEnvironment(tools=[]) ## not using any tools
+env = Environment()
 
 ## Updates the environment with the option variables.
 opts.Update(env)
+
+if env['use_llvm']:
+	env['CC'] = 'clang'
+	env['CXX'] = 'clang++'
+elif env['use_mingw']:
+	env['tools'] = ['mingw']
 
 ## find platform
 if env['platform'] == '':
@@ -44,11 +45,6 @@ if env['platform'] == '':
 	else:
 		print("platform(%s) not supported." % sys.platform)
 		quit()
-
-## Process some arguments
-if env['use_llvm']:
-	env['CC'] = 'clang'
-	env['CXX'] = 'clang++'
 
 ## For the reference:
 ## - CCFLAGS are compilation flags shared between C and C++
@@ -77,16 +73,15 @@ elif env['platform'] == 'x11':
 		env.Append(CCFLAGS=['-fPIC', '-g', '-O3'])
 
 elif env['platform'] == "windows":
-	## This makes sure to keep the session environment variables on windows,
-	## that way you can run scons in a vs 2017 prompt and it will find all the required tools
-	env.Append(ENV=os.environ)
-
 	env.Append(CXXFLAGS=['/std:c++17', '/bigobj'])
 	env.Append(CPPDEFINES=['_CRT_SECURE_NO_WARNINGS'])
 	env.Append(CPPDEFINES=['WIN32', '_WIN32', '_WINDOWS'])
-	env.Append(CCFLAGS=['-W3', '-GR'])
+	env.Append(CCFLAGS=['-W3', '-GR', '/FS'])
 	env.Append(LINKFLAGS='-SUBSYSTEM:CONSOLE')
 	env.Append(LIBS=[])
+
+	if env['bits'] == '32': env['TARGET_ARCH'] = 'x86'
+	else:                   env['TARGET_ARCH'] = 'x86_64'
 
 	if env['target'] == 'debug':
 		env.Append(CPPDEFINES=['DEBUG'])
@@ -95,7 +90,6 @@ elif env['platform'] == "windows":
 	else:
 		env.Append(CPPDEFINES=['NDEBUG'])
 		env.Append(CCFLAGS=['-O2', '-EHsc', '-MD'])
-	env.Append(LIBS=['psapi', 'dbghelp']) ## for crash handler
 
 ## --------------------------------------------------------------------------------
 
@@ -152,7 +146,7 @@ if not env['verbose']:
 	no_verbose(sys, env)
 	
 Export('env')
-SConscript('SConscript')
+SConscript('SConscript', variant_dir=get_variant_dir(env), duplicate=0)
 
 ## --------------------------------------------------------------------------------
 
@@ -163,7 +157,7 @@ def get_vsproj_context():
 	for target in 'debug', 'release':
 		for bits in '32', '64':
 			run_target = env.RUN_TARGET
-			vsproj_targets.append(os.path.join( env['target_path'], run_target + '.exe'))
+			vsproj_targets.append(os.path.join(get_variant_dir(env), run_target + '.exe'))
 			variants.append(target+'|'+('Win32' if bits=='32' else 'x64'))
 	return vsproj_targets, variants
 

@@ -1,9 +1,6 @@
 Import('env')
 import os
 
-def target_path(name):
-	return os.path.join('bin', env['TARGET_ARCH'], name)
-
 env.THIRDPARTY_SOURCES = []
 
 ## compile libs
@@ -12,7 +9,7 @@ SConscript('glfw/SConscript')
 #SConscript('ImGui/SConscript')
 
 lib_thirdparty = env.Library(
-	target = target_path('thirdparty'),
+	target = 'bin/thirdparty',
 	source = env.THIRDPARTY_SOURCES
 )
 env.Prepend(LIBS=[lib_thirdparty])

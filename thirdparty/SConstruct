@@ -1,8 +1,0 @@
-Import('env')
-
-env.THIRDPARTY_SOURCES = []
-
-## compile libs
-SConscript('glad/SConstruct')
-SConscript('glfw/SConstruct')
-SConscript('ImGui/SConstruct')

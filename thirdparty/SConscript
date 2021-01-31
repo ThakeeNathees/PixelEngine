@@ -1,0 +1,17 @@
+Import('env')
+import os
+
+env.THIRDPARTY_SOURCES = []
+
+## compile libs
+SConscript('glad/SConscript')
+SConscript('glfw/SConscript')
+#SConscript('ImGui/SConscript')
+
+lib_thirdparty = env.Library(
+	target = 'bin/thirdparty',
+	source = env.THIRDPARTY_SOURCES
+)
+env.Prepend(LIBS=[lib_thirdparty])
+
+env.ALL_SOURCES += env.THIRDPARTY_SOURCES

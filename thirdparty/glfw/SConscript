@@ -1,9 +1,6 @@
 #!python
 Import('env')
 
-# project includes
-env.Append(CPPPATH=[Dir('include/')])
-
 # glfw env
 glfw_env = env.Clone()
 #glfw_env.Append(CPPPATH=['include/', 'src/'])
@@ -53,6 +50,6 @@ elif glfw_env['platform'] == "windows":
 	]
 
 # compile list
-env.LIBS["thirdparty"] += [
+env.THIRDPARTY_SOURCES += [
     glfw_env.Object(src) for src in SOURCES
 ]
